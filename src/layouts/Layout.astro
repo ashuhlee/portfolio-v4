@@ -92,7 +92,7 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .doodles-reset, .back-button'
+				'.say-hello, .see-work, .card, .back-button'
 			);
 			if (!target) return;
 			const sound = new Audio('/audio/mouse-click.mp3');
