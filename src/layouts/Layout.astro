@@ -63,24 +63,35 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 
 		gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 
+		// True only for the very first 'astro:page-load' firing
+		let isFirstLoad = true;
+
 		document.addEventListener('astro:page-load', () => {
 			ScrollSmoother.get()?.kill();
 			ScrollSmoother.create({
 				wrapper: '#smooth-wrapper',
 				content: '#smooth-content',
-				smooth: 1.1,
+				smooth: 1.2,
 				effects: true,
 			});
 
+			const isHomeFirstVisit = isFirstLoad && window.location.pathname === '/';
+			isFirstLoad = false;
+
 			const staggerEls = document.querySelectorAll('.stagger-in');
 			if (staggerEls.length) {
-				gsap.from(staggerEls, {
-					opacity: 0,
-					y: 10,
-					duration: 0.3,
-					stagger: 0.05,
-					ease: 'power2.out',
-				});
+				gsap.fromTo(
+					staggerEls,
+					{ opacity: 0, y: 10 },
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.3,
+						stagger: 0.05,
+						delay: isHomeFirstVisit ? 0.2 : 0,
+						ease: 'power2.out',
+					}
+				);
 			}
 		});
 
@@ -90,13 +101,23 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 			}
 		});
 
+		const clickSoundPool = Array.from({ length: 4 }, () => {
+			const audio = new Audio('/audio/mouse-click.mp3');
+			audio.preload = 'auto';
+			audio.volume = 0.4;
+			audio.load();
+			return audio;
+		});
+		let clickSoundIndex = 0;
+
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
 				'.say-hello, .see-work, .card, .back-button'
 			);
 			if (!target) return;
-			const sound = new Audio('/audio/mouse-click.mp3');
-			sound.volume = 0.4;
+			const sound = clickSoundPool[clickSoundIndex];
+			clickSoundIndex = (clickSoundIndex + 1) % clickSoundPool.length;
+			sound.currentTime = 0;
 			sound.play().catch(() => {});
 		});
 
@@ -301,5 +322,10 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 		user-select: none;
 		font-size: 12px;
 		color: #cbcbcb;
+	}
+	
+	.stagger-in {
+		opacity: 0;
+		transform: translateY(10px);
 	}
 </style>

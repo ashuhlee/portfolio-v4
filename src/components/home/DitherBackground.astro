@@ -1,5 +1,5 @@
 ---
-import DitherRandom from './DitherRandom.jsx';
+import DitherRandom from './DitherRandom';
 
 const COLOR_PRESETS = {
 	pink: [1, 0.9372549019607843, 0.9764705882352941],
@@ -25,10 +25,10 @@ interface Props {
 const {
 	color = 'pink',
 	backgroundColor = [0.996, 0.996, 0.996],
-	waveSpeed = 3.04,
+	waveSpeed = 3.05,
 	waveFrequency = 5,
 	waveAmplitude = 0,
-	mouseRadius = 1.5,
+	mouseRadius = 1.25,
 	colorNum = 6.8,
 } = Astro.props;
 

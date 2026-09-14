@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useEffect, forwardRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useRef, useEffect, forwardRef, type ComponentType, type Ref } from 'react';
+import { Canvas, useFrame, useThree, type RootState } from '@react-three/fiber';
 import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
 import { Effect } from 'postprocessing';
 import * as THREE from 'three';
 
 import './Dither.css';
+
+export type RGB = [number, number, number];
 
 const waveVertexShader = `
 precision highp float;
@@ -137,6 +139,8 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 `;
 
 class RetroEffectImpl extends Effect {
+  uniforms: Map<string, THREE.Uniform<number>>;
+
   constructor() {
     const uniforms = new Map([
       ['colorNum', new THREE.Uniform(4.0)],
@@ -145,27 +149,52 @@ class RetroEffectImpl extends Effect {
     super('RetroEffect', ditherFragmentShader, { uniforms });
     this.uniforms = uniforms;
   }
-  set colorNum(v) {
-    this.uniforms.get('colorNum').value = v;
+  set colorNum(v: number) {
+    this.uniforms.get('colorNum')!.value = v;
   }
   get colorNum() {
-    return this.uniforms.get('colorNum').value;
+    return this.uniforms.get('colorNum')!.value;
   }
-  set pixelSize(v) {
-    this.uniforms.get('pixelSize').value = v;
+  set pixelSize(v: number) {
+    this.uniforms.get('pixelSize')!.value = v;
   }
   get pixelSize() {
-    return this.uniforms.get('pixelSize').value;
+    return this.uniforms.get('pixelSize')!.value;
   }
 }
 
-const WrappedRetro = wrapEffect(RetroEffectImpl);
+interface RetroEffectWrapperProps {
+  ref?: Ref<RetroEffectImpl>;
+  colorNum: number;
+  pixelSize: number;
+}
 
-const RetroEffect = forwardRef((props, ref) => {
-  const { colorNum, pixelSize } = props;
-  return <WrappedRetro ref={ref} colorNum={colorNum} pixelSize={pixelSize} />;
-});
+// wrapEffect infers its props from RetroEffectImpl's *constructor* signature,
+// which takes none — colorNum/pixelSize are instance getters/setters R3F
+// applies after construction instead. That's the documented pattern for
+// custom postprocessing effects, but it means the inferred prop type doesn't
+// include them, hence the cast.
+const WrappedRetro = wrapEffect(RetroEffectImpl) as unknown as ComponentType<RetroEffectWrapperProps>;
+
+const RetroEffect = forwardRef<RetroEffectImpl, { colorNum: number; pixelSize: number }>(
+  ({ colorNum, pixelSize }, ref) => {
+    return <WrappedRetro ref={ref} colorNum={colorNum} pixelSize={pixelSize} />;
+  }
+);
 RetroEffect.displayName = 'RetroEffect';
+
+interface DitheredWavesProps {
+  waveSpeed: number;
+  waveFrequency: number;
+  waveAmplitude: number;
+  waveColor: RGB;
+  backgroundColor: RGB;
+  colorNum: number;
+  pixelSize: number;
+  disableAnimation: boolean;
+  enableMouseInteraction: boolean;
+  mouseRadius: number;
+}
 
 function DitheredWaves({
   waveSpeed,
@@ -178,8 +207,8 @@ function DitheredWaves({
   disableAnimation,
   enableMouseInteraction,
   mouseRadius
-}) {
-  const mesh = useRef(null);
+}: DitheredWavesProps) {
+  const mesh = useRef<THREE.Mesh>(null);
   const mouseRef = useRef(new THREE.Vector2());
   const { viewport, size, gl } = useThree();
 
@@ -206,8 +235,8 @@ function DitheredWaves({
     }
   }, [size, gl]);
 
-  const prevColor = useRef([...waveColor]);
-  const prevBackgroundColor = useRef([...backgroundColor]);
+  const prevColor = useRef<RGB>([...waveColor]);
+  const prevBackgroundColor = useRef<RGB>([...backgroundColor]);
   useFrame(({ clock }) => {
     const u = waveUniformsRef.current;
 
@@ -244,7 +273,7 @@ function DitheredWaves({
   // instead, converting to canvas-relative coordinates ourselves.
   useEffect(() => {
     if (!enableMouseInteraction) return;
-    const handlePointerMove = e => {
+    const handlePointerMove = (e: PointerEvent) => {
       const rect = gl.domElement.getBoundingClientRect();
       const dpr = gl.getPixelRatio();
       mouseRef.current.set((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
@@ -271,6 +300,20 @@ function DitheredWaves({
   );
 }
 
+export interface DitherProps {
+  waveSpeed?: number;
+  waveFrequency?: number;
+  waveAmplitude?: number;
+  waveColor?: RGB;
+  backgroundColor?: RGB;
+  colorNum?: number;
+  pixelSize?: number;
+  disableAnimation?: boolean;
+  enableMouseInteraction?: boolean;
+  mouseRadius?: number;
+  onCreated?: (state: RootState) => void;
+}
+
 export default function Dither({
   waveSpeed = 0.05,
   waveFrequency = 3,
@@ -281,14 +324,16 @@ export default function Dither({
   pixelSize = 2,
   disableAnimation = false,
   enableMouseInteraction = true,
-  mouseRadius = 1
-}) {
+  mouseRadius = 1,
+  onCreated
+}: DitherProps) {
   return (
     <Canvas
       className="dither-container"
       camera={{ position: [0, 0, 6] }}
       dpr={1}
       gl={{ antialias: true, preserveDrawingBuffer: true }}
+      onCreated={onCreated}
     >
       <DitheredWaves
         waveSpeed={waveSpeed}
