@@ -6,17 +6,30 @@ interface Props {
 	color: string;
 	blendMode?: string;
 	overlayOpacity?: number;
+	comingSoon?: boolean;
+	url?: string;
 }
 
-const { name, description, tags, color, blendMode = 'color-burn', overlayOpacity = 0.08 } = Astro.props;
+const {
+	name,
+	description,
+	tags,
+	color,
+	blendMode = 'color-burn',
+	overlayOpacity = 0.08,
+	comingSoon = false,
+	url = 'https://github.com/ashuhlee',
+} = Astro.props;
 ---
 
 <a
 	class="card"
-	href="https://github.com/ashuhlee"
-	target="_blank"
-	rel="noopener noreferrer"
-	data-tooltip="View on GitHub"
+	class:list={{ 'coming-soon': comingSoon }}
+	href={comingSoon ? undefined : url}
+	target={comingSoon ? undefined : '_blank'}
+	rel={comingSoon ? undefined : 'noopener noreferrer'}
+	aria-disabled={comingSoon ? 'true' : undefined}
+	data-tooltip={comingSoon ? 'Coming soon' : 'View on GitHub'}
 >
 	<div
 		class="thumb"
@@ -71,6 +84,10 @@ const { name, description, tags, color, blendMode = 'color-burn', overlayOpacity
 	.card:active {
 		scale: 0.95;
 		opacity: 0.8;
+	}
+
+	.card.coming-soon {
+		cursor: default;
 	}
 
 	.thumb {
