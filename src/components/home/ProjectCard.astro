@@ -4,9 +4,11 @@ interface Props {
 	description: string;
 	tags: string[];
 	color: string;
+	blendMode?: string;
+	overlayOpacity?: number;
 }
 
-const { name, description, tags, color } = Astro.props;
+const { name, description, tags, color, blendMode = 'color-burn', overlayOpacity = 0.08 } = Astro.props;
 ---
 
 <a
@@ -16,7 +18,10 @@ const { name, description, tags, color } = Astro.props;
 	rel="noopener noreferrer"
 	data-tooltip="View on GitHub"
 >
-	<div class="thumb" style={{ backgroundColor: color }}></div>
+	<div
+		class="thumb"
+		style={{ backgroundColor: color, '--thumb-blend': blendMode, '--thumb-opacity': overlayOpacity }}
+	></div>
 	<div class="body">
 		<h3>{name}</h3>
 		<p>{description}</p>
@@ -69,11 +74,24 @@ const { name, description, tags, color } = Astro.props;
 	}
 
 	.thumb {
+		position: relative;
 		height: 110px;
 		width: 100%;
+		overflow: hidden;
 		transform-origin: bottom;
 		transition:
 			scale 0.5s cubic-bezier(0, 0, 0.2, 1)
+	}
+
+	.thumb::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('/images/patterns/dither-gradient.jpg');
+		background-size: cover;
+		background-position: top;
+		mix-blend-mode: var(--thumb-blend, color-burn);
+		opacity: var(--thumb-opacity, 0.09);
 	}
 
 	.card:hover .thumb {

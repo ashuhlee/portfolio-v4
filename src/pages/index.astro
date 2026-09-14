@@ -26,6 +26,8 @@ const projects = [
 		description: 'A customizable weather cli package that matches any terminal config',
 		tags: ['Terminal', 'Python'],
 		color: '#f4c9f1',
+		blendMode: 'overlay',
+		overlayOpacity: 0.19,
 	},
 	{
 		name: 'Loggi',
@@ -43,7 +45,7 @@ const projects = [
 ---
 
 <Layout>
-  <DitherBackground slot="background" />
+  <DitherBackground slot="background" color={['pink', 'grey']} />
   <div class="page">
     <div class="stagger-in"><SiteNav/></div>
 
