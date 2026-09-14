@@ -1,11 +1,11 @@
 ---
+import PageFooter from '../components/work/PageFooter.astro';
 import Layout from '../layouts/Layout.astro';
 import SiteNav from '../components/home/SiteNav.astro';
 import ProfileIntro from '../components/home/ProfileIntro.astro';
 import ExperienceSection from '../components/home/ExperienceSection.astro';
 import ProjectsSection from '../components/home/ProjectsSection.astro';
 import DoodleCluster from '../components/home/DoodleCluster.astro';
-import SiteFooter from '../components/home/SiteFooter.astro';
 
 const experiences = [
 	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
@@ -54,7 +54,7 @@ const projects = [
       <DoodleCluster/>
     </main>
 
-    <SiteFooter/>
+    <PageFooter/>
   </div>
 </Layout>
 

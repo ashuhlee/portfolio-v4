@@ -1,11 +1,14 @@
 ---
+import '../styles/bounce.css';
+import Tooltip from '../components/Tooltip.astro';
+
 interface Props {
 	title?: string;
 	description?: string;
 }
 
 const {
-	title = 'Ashley O — Software Engineer',
+	title = "Hi, I'm Ashley",
 	description = 'Portfolio of Ashley O, a software engineer who cares about making software feel intuitive, thoughtful and nice to use.',
 } = Astro.props;
 ---
@@ -21,15 +24,10 @@ const {
 		<meta name="description" content={description} />
 		<title>{title}</title>
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
-			rel="stylesheet"
-		/>
 	</head>
 	<body>
 		<slot />
+		<Tooltip />
 	</body>
 
 	<script>
@@ -86,9 +84,23 @@ const {
 	}
 	@font-face {
 		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-Regular.otf') format('opentype');
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
 		src: url('/fonts/sofia-pro/SofiaPro-RegularItalic.otf') format('opentype');
 		font-weight: 400;
 		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-Medium.otf') format('opentype');
+		font-weight: 500;
+		font-style: normal;
 		font-display: swap;
 	}
 	@font-face {
@@ -100,9 +112,23 @@ const {
 	}
 	@font-face {
 		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-SemiBold.otf') format('opentype');
+		font-weight: 600;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
 		src: url('/fonts/sofia-pro/SofiaPro-SemiBoldItalic.otf') format('opentype');
 		font-weight: 600;
 		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-Bold.otf') format('opentype');
+		font-weight: 700;
+		font-style: normal;
 		font-display: swap;
 	}
 	@font-face {
@@ -140,8 +166,8 @@ const {
 		--color-ink-soft: #606060;
 		--color-ink-muted: #868686;
 		--color-border: #eaeaea;
-		--color-accent: #f6a850;
-		--font-sans: 'Poppins', system-ui, sans-serif;
+		--color-accent: #C2C2C2;
+		--font-sans: 'Sofia Pro', system-ui, sans-serif;
 		--font-sofia: 'Sofia Pro', var(--font-sans);
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;
 		--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -170,8 +196,14 @@ const {
 		user-select: none;
 	}
 
+	::selection {
+		background: #7E96FF;
+		color: #fff;
+	}
+
 	.path-label {
-		font-family: var(--font-mono);
+		font-family: var(--font-mono), monospace;
+		user-select: none;
 		font-size: 12px;
 		color: #cbcbcb;
 	}

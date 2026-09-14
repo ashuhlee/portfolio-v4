@@ -3,12 +3,30 @@
 
 <header class="nav">
 	<nav class="links">
-		<a href="#">About</a>
+		<a href="/"><span>About</span></a>
 		<span class="slash">/</span>
-		<a href="#">Extras</a>
+		<a href="/extras"><span>Extras</span></a>
 	</nav>
-	<a class="say-hello" href="mailto:hello@ashuhlee.ca">say hello</a>
+	<a class="say-hello bounce-3 opacity-60" href="mailto:hello@ashuhlee.ca">
+		<span>say hello</span>
+		<span class="arrow-track">
+			<span class="arrow" aria-hidden="true">!</span>
+		</span>
+	</a>
 </header>
+
+<script>
+	const leading = ['!', ':3', '!?', '!!', ':D'];
+	const sayHello = document.querySelector<HTMLElement>('.say-hello');
+	const arrow = sayHello?.querySelector<HTMLElement>('.arrow');
+	if (sayHello && arrow) {
+		let index = 0;
+		sayHello.addEventListener('mouseenter', () => {
+			index = (index + 1) % leading.length;
+			arrow.textContent = leading[index];
+		});
+	}
+</script>
 
 <style>
 	.nav {
@@ -21,33 +39,117 @@
 	.links {
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		font-size: 14px;
+		gap: 2px;
+		font-size: 15px;
 	}
 
 	.links a {
+		position: relative;
+		display: inline-block;
 		color: var(--color-ink);
 		text-decoration: none;
+		padding: 6px 10px;
 	}
 
-	.links a:hover {
-		text-decoration: underline;
+	.links a::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		background: #f0f0f0;
+		opacity: 0;
+		transform: scale(0.7);
+		transition:
+			opacity 0.15s ease,
+			transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.links a:hover::before {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.links a span {
+		position: relative;
+		z-index: 1;
 	}
 
 	.slash {
 		color: #c8c8c8;
-		opacity: 0.42;
+		opacity: 0.5;
 	}
 
 	.say-hello {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
 		background: #beefff;
 		border-radius: 999px;
 		padding: 6px 12px;
 		font-family: var(--font-sofia), sans-serif;
 		font-style: italic;
 		font-weight: 500;
-		font-size: 14px;
+		font-size: 15px;
 		color: #000;
 		text-decoration: none;
+		cursor: none;
+		transition: padding 0.35s ease;
+	}
+
+	.say-hello::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		background: #202935;
+		opacity: 0;
+		transform: scale(0.7);
+		transition:
+			opacity 0.15s ease,
+			transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.say-hello:hover::before {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.say-hello:hover {
+		padding: 8px 16px;
+		color: #beefff;
+	}
+
+	.say-hello span {
+		position: relative;
+		z-index: 1;
+	}
+
+	.say-hello .arrow-track {
+		display: grid;
+		grid-template-columns: 0fr;
+		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.say-hello:hover .arrow-track {
+		grid-template-columns: 1fr;
+	}
+
+	.say-hello .arrow {
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		min-width: 0;
+		opacity: 0;
+		white-space: nowrap;
+		transform: translateX(-4px);
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.say-hello:hover .arrow {
+		padding-left: 2px;
+		opacity: 1;
+		transform: translateX(0);
 	}
 </style>
