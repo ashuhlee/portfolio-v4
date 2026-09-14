@@ -1,0 +1,41 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Project {
+	name: string;
+	description: string;
+	tags: string[];
+	color: string;
+}
+
+interface Props {
+	projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="section" id="projects">
+	<SectionHeader title="Selected Projects">
+		<span class="path-label">~/stuff</span>
+	</SectionHeader>
+
+	<div class="projects-grid">
+		{projects.map((project) => <ProjectCard {...project} />)}
+	</div>
+</section>
+
+<style>
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	@media (max-width: 600px) {
+		.projects-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

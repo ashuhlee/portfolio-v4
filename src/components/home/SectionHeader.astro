@@ -1,0 +1,31 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="section-header">
+	<h2><img src="/images/home/dot-vector.svg" alt="" width="11" height="11"/> {title}</h2>
+	<slot />
+</div>
+
+<style>
+	.section-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 24px;
+	}
+
+	h2 {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin: 0;
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--color-ink);
+	}
+</style>

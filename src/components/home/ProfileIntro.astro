@@ -1,0 +1,101 @@
+---
+---
+
+<section class="profile">
+	<div class="avatar">
+		<div class="avatar-scale">
+			<img src="/images/home/avatar-star-icon.svg" alt="" width="24" height="24" />
+		</div>
+	</div>
+	<div class="who">
+		<p class="name">Ashley O</p>
+		<p class="title">Software Engineer</p>
+	</div>
+</section>
+
+<p class="bio">
+	A cs student who cares deeply about making software feel intuitive, thoughtful and nice to use.
+	I'm primarily interested in mobile and web app development, and interning at{' '}
+	<a class="accent" href="https://www.sunlife.ca/en/" target="_blank" rel="noreferrer">Sun Life</a> this fall.
+	<br /><br />
+	When I'm not working or studying, I'm usually building some random side project, experimenting with
+	a new idea, or making things for the internet.
+	<br /><br />
+	You can reach me on LinkedIn and via email, see my code on GitHub.
+</p>
+
+<script>
+	document.querySelectorAll('.avatar').forEach((el) => {
+		el.addEventListener('mouseenter', () => {
+			el.classList.toggle('flipped');
+		});
+	});
+</script>
+
+<style>
+	.profile {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 32px;
+	}
+
+	.avatar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		transform: rotate(-8.5deg);
+		flex-shrink: 0;
+	}
+
+	.avatar.flipped {
+		transform: rotate(8.5deg);
+	}
+
+	.avatar-scale {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		background: #f4c9f1;
+		border-radius: 999px;
+		transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.avatar:active .avatar-scale {
+		transform: scale(0.85);
+		transition: transform 0.08s ease-out;
+	}
+
+	.who .name {
+		margin: 0;
+		font-weight: 600;
+		font-size: 15px;
+		color: var(--color-ink);
+	}
+
+	.who .title {
+		margin: 0;
+		font-size: 14px;
+		color: var(--color-ink-soft);
+	}
+
+	.bio {
+		width: 600px;
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--color-ink-soft);
+		margin: 0;
+	}
+
+	.bio .accent {
+		color: var(--color-accent);
+		font-family: var(--font-sofia), sans-serif;
+		font-style: italic;
+		text-decoration: underline;
+		text-decoration-skip-ink: none;
+	}
+</style>

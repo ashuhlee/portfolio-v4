@@ -1,0 +1,82 @@
+---
+interface Props {
+	name: string;
+	description: string;
+	tags: string[];
+	color: string;
+}
+
+const { name, description, tags, color } = Astro.props;
+---
+
+<article class="card">
+	<div class="thumb" style={{ backgroundColor: color }}></div>
+	<div class="body">
+		<h3>{name}</h3>
+		<p>{description}</p>
+		<ul class="tags">
+			{tags.map((tag, i) => <li class:list={{ outline: i === 0 }}>{tag}</li>)}
+		</ul>
+	</div>
+</article>
+
+<style>
+	.card {
+		background: #fff;
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.thumb {
+		height: 100px;
+		width: 100%;
+	}
+
+	.body {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 12px;
+	}
+
+	h3 {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-weight: 600;
+		font-size: 14px;
+		text-transform: capitalize;
+		color: var(--color-ink);
+	}
+
+	p {
+		margin: 0;
+		font-size: 11px;
+		line-height: 1.35;
+		color: var(--color-ink-muted);
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		list-style: none;
+		margin: 4px 0 0;
+		padding: 0;
+	}
+
+	.tags li {
+		user-select: none;
+		background: rgba(134, 134, 134, 0.12);
+		border-radius: 999px;
+		padding: 6px 8px;
+		font-size: 10px;
+		color: #393939;
+		line-height: 1;
+	}
+
+	.tags li.outline {
+		background: transparent;
+		border: 0.75px solid #393939;
+	}
+</style>

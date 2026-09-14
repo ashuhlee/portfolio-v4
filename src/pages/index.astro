@@ -1,11 +1,73 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/home/SiteNav.astro';
+import ProfileIntro from '../components/home/ProfileIntro.astro';
+import ExperienceSection from '../components/home/ExperienceSection.astro';
+import ProjectsSection from '../components/home/ProjectsSection.astro';
+import DoodleCluster from '../components/home/DoodleCluster.astro';
+import SiteFooter from '../components/home/SiteFooter.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const experiences = [
+	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
+	{role: 'Software Engineer Intern at Pesa', when: 'Summer 2026', dot: '#bccaff'},
+	{role: 'Web Development Intern at SCAN', when: 'Summer 2024 - 25', dot: '#f4c9f1'},
+];
+
+const projects = [
+	{
+		name: 'Count O Rama',
+		description: 'A fun arcade game with progressive difficulty, power ups and game modes',
+		tags: ['Game', 'Electron', 'Typescript'],
+		color: '#bccaff',
+	},
+	{
+		name: 'Starlit',
+		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
+		tags: ['Terminal', 'Python'],
+		color: '#f4c9f1',
+	},
+	{
+		name: 'Loggi',
+		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
+		tags: ['Mobile', 'Swift', 'Firebase'],
+		color: '#f7f7f7',
+	},
+	{
+		name: 'Synced',
+		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
+		tags: ['Game', 'Electron', 'Typescript'],
+		color: '#beefff',
+	},
+];
 ---
 
 <Layout>
-	<Welcome />
+  <div class="page">
+    <SiteNav/>
+
+    <main class="content">
+      <ProfileIntro/>
+      <hr/>
+      <ExperienceSection experiences={experiences}/>
+      <hr/>
+      <ProjectsSection projects={projects}/>
+      <DoodleCluster/>
+    </main>
+
+    <SiteFooter/>
+  </div>
 </Layout>
+
+<style>
+    .page {
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 40px 24px 64px;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid var(--color-border);
+        margin: 32px 0;
+    }
+</style>

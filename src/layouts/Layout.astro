@@ -1,23 +1,178 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Ashley O — Software Engineer',
+	description = 'Portfolio of Ashley O, a software engineer who cares about making software feel intuitive, thoughtful and nice to use.',
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		<title>{title}</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
 		<slot />
 	</body>
+
+	<script>
+		document.addEventListener('dragstart', (event) => {
+			if (event.target instanceof HTMLImageElement) {
+				event.preventDefault();
+			}
+		});
+	</script>
 </html>
 
-<style>
+<style is:global>
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-UltraLight.otf') format('opentype');
+		font-weight: 100;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-UltraLightItalic.otf') format('opentype');
+		font-weight: 100;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-ExtraLight.otf') format('opentype');
+		font-weight: 200;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-ExtraLightItalic.otf') format('opentype');
+		font-weight: 200;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-Light.otf') format('opentype');
+		font-weight: 300;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-LightItalic.otf') format('opentype');
+		font-weight: 300;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-RegularItalic.otf') format('opentype');
+		font-weight: 400;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-MediumItalic.otf') format('opentype');
+		font-weight: 500;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-SemiBoldItalic.otf') format('opentype');
+		font-weight: 600;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-BoldItalic.otf') format('opentype');
+		font-weight: 700;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-Black.otf') format('opentype');
+		font-weight: 900;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Sofia Pro';
+		src: url('/fonts/sofia-pro/SofiaPro-BlackItalic.otf') format('opentype');
+		font-weight: 900;
+		font-style: italic;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Druk Wide Bold';
+		src: url('/fonts/DrukWideBold.ttf') format('truetype');
+		font-weight: 700;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	:root {
+		--color-bg: #fefefe;
+		--color-ink: #2a2a2a;
+		--color-ink-soft: #606060;
+		--color-ink-muted: #868686;
+		--color-border: #eaeaea;
+		--color-accent: #f6a850;
+		--font-sans: 'Poppins', system-ui, sans-serif;
+		--font-sofia: 'Sofia Pro', var(--font-sans);
+		--font-display: 'Druk Wide Bold', system-ui, sans-serif;
+		--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+	}
+
 	html,
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	body {
+		background: var(--color-bg);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	img {
+		-webkit-user-drag: none;
+		user-select: none;
+	}
+
+	.path-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: #cbcbcb;
 	}
 </style>

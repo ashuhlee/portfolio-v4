@@ -1,0 +1,53 @@
+---
+---
+
+<header class="nav">
+	<nav class="links">
+		<a href="#">About</a>
+		<span class="slash">/</span>
+		<a href="#">Extras</a>
+	</nav>
+	<a class="say-hello" href="mailto:hello@ashuhlee.ca">say hello</a>
+</header>
+
+<style>
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 64px;
+	}
+
+	.links {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+	}
+
+	.links a {
+		color: var(--color-ink);
+		text-decoration: none;
+	}
+
+	.links a:hover {
+		text-decoration: underline;
+	}
+
+	.slash {
+		color: #c8c8c8;
+		opacity: 0.42;
+	}
+
+	.say-hello {
+		background: #beefff;
+		border-radius: 999px;
+		padding: 6px 12px;
+		font-family: var(--font-sofia), sans-serif;
+		font-style: italic;
+		font-weight: 500;
+		font-size: 14px;
+		color: #000;
+		text-decoration: none;
+	}
+</style>

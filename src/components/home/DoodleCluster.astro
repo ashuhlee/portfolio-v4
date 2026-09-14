@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets';
+import star from '../../assets/home/star-outline.svg';
+import terminal from '../../assets/home/doodle-image.png';
+import folder from '../../assets/home/folder-pink.png';
+import cursor from '../../assets/home/cursor-pointer.svg';
+import squiggle from '../../assets/home/squiggle1.svg';
+import arc from '../../assets/home/squiggle2.svg';
+---
+
+<section class="doodles" aria-hidden="true">
+	<span class="doodle badge dark">currently seeking</span>
+	<span class="doodle badge cyan">summer 2027 positions</span>
+
+	<Image src={star} alt="" class="doodle star" />
+	<Image src={terminal} alt="" class="doodle terminal" />
+	<Image src={folder} alt="" class="doodle folder" />
+	<Image src={cursor} alt="" class="doodle cursor" />
+	<Image src={squiggle} alt="" class="doodle squiggle" />
+	<Image src={arc} alt="" class="doodle arc" />
+</section>
+
+<style>
+	.doodles {
+		position: relative;
+		width: 100%;
+		max-width: 600px;
+		aspect-ratio: 1245 / 543;
+		margin: 56px auto;
+	}
+
+	.doodle {
+		position: absolute;
+	}
+
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		padding: 6px 12px;
+		font-weight: 600;
+		font-size: 13px;
+		white-space: nowrap;
+	}
+
+	.badge.dark {
+		left: 22%;
+		top: 30.4%;
+		background: #393939;
+		color: #edfdad;
+		transform: rotate(-2deg);
+	}
+
+	.badge.cyan {
+		left: 38%;
+		top: 42%;
+		background: #beefff;
+		color: #000;
+		transform: rotate(2deg);
+	}
+
+	.star {
+		left: 49%;
+		top: 22.5%;
+		transform: rotate(10deg);
+		width: 6.5%;
+		height: auto;
+	}
+
+	.terminal {
+		left: 72%;
+		top: 20.8%;
+		transform: rotate(-5deg);
+		width: 9.9%;
+		height: auto;
+		border-radius: 22%;
+	}
+
+	.folder {
+		left: 16%;
+		top: 50%;
+		width: 10.6%;
+		height: auto;
+		transform: rotate(5deg);
+	}
+
+	.cursor {
+		left: 21.5%;
+		top: 64%;
+		width: 6%;
+		height: auto;
+		transform: rotate(-6.5deg);
+	}
+
+	.squiggle {
+		left: 48.5%;
+		top: 47%;
+		width: 12%;
+		height: auto;
+		transform: rotate(45deg);
+	}
+
+	.arc {
+		left: 73%;
+		top: 61%;
+		transform: rotate(7deg);
+		width: 11%;
+		height: auto;
+	}
+
+	@media (max-width: 600px) {
+		.doodles {
+			transform: scale(0.85);
+			transform-origin: top center;
+			margin: 48px auto;
+		}
+	}
+</style>
