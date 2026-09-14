@@ -1,5 +1,5 @@
 ---
-import PageFooter from '../components/work/PageFooter.astro';
+import PageFooter from '../components/PageFooter.astro';
 import Layout from '../layouts/Layout.astro';
 import SiteNav from '../components/home/SiteNav.astro';
 import ProfileIntro from '../components/home/ProfileIntro.astro';
@@ -43,18 +43,18 @@ const projects = [
 
 <Layout>
   <div class="page">
-    <SiteNav/>
+    <div class="stagger-in"><SiteNav/></div>
 
     <main class="content">
       <ProfileIntro/>
-      <hr/>
+      <hr class="stagger-in"/>
       <ExperienceSection experiences={experiences}/>
-      <hr/>
-      <ProjectsSection projects={projects}/>
-      <DoodleCluster/>
+      <hr class="stagger-in"/>
+      <div class="stagger-in"><ProjectsSection projects={projects}/></div>
+      <div class="stagger-in"><DoodleCluster/></div>
     </main>
 
-    <PageFooter/>
+    <div class="stagger-in"><PageFooter/></div>
   </div>
 </Layout>
 

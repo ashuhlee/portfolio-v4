@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PageFooter from '../../components/work/PageFooter.astro';
+import PageFooter from '../../components/PageFooter.astro';
 ---
 
 <Layout
@@ -8,11 +8,11 @@ import PageFooter from '../../components/work/PageFooter.astro';
 	description="Over the summer I worked on Pesa's mobile app, using Flutter and Dart across iOS and Android."
 >
 	<div class="page">
-		<a class="back-button" href="/" aria-label="Back to home">
+		<a class="back-button stagger-in" href="/" aria-label="Back to home">
 			<img src="/images/pesa/back-arrow.svg" alt="" width="24" height="24" />
 		</a>
 
-		<header class="header-row">
+		<header class="header-row stagger-in">
 			<div class="header-left">
 				<div class="title-row">
 					<div class="title-icon">
@@ -47,14 +47,14 @@ import PageFooter from '../../components/work/PageFooter.astro';
 			</div>
 		</header>
 
-		<div class="showcase-header">
+		<div class="showcase-header stagger-in">
 			<div class="icon-button">
 				<img src="/images/home/avatar-star-icon.svg" alt="" width="24" height="24" />
 			</div>
 			<h2>Showcase</h2>
 		</div>
 
-		<div class="showcase-grid">
+		<div class="showcase-grid stagger-in">
 			<div class="placeholder card-e"></div>
 			<div class="placeholder card-b"></div>
 			<div class="placeholder card-a"></div>
@@ -63,12 +63,12 @@ import PageFooter from '../../components/work/PageFooter.astro';
 			<div class="placeholder card-c"></div>
 		</div>
 
-		<div class="badges">
+		<div class="badges stagger-in">
 			<span class="badge blue">+ a bunch of other cool stuff</span>
 			<span class="badge pink">for 10k+ users</span>
 		</div>
 
-		<PageFooter />
+		<div class="stagger-in"><PageFooter /></div>
 	</div>
 </Layout>
 
@@ -122,7 +122,7 @@ import PageFooter from '../../components/work/PageFooter.astro';
 	}
 
 	h1 {
-		font-family: var(--font-display);
+		font-family: var(--font-display), sans-serif;
 		font-size: 20px;
 		margin: 0;
 		color: var(--color-ink);
@@ -280,7 +280,7 @@ import PageFooter from '../../components/work/PageFooter.astro';
 	.badge {
 		border-radius: 999px;
 		padding: 6px 12px;
-		font-family: var(--font-sofia);
+		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
 		font-size: 14px;
 		white-space: nowrap;

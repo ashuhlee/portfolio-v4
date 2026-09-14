@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/bounce.css';
 import Tooltip from '../components/Tooltip.astro';
 
@@ -9,8 +10,27 @@ interface Props {
 
 const {
 	title = "Hi, I'm Ashley",
-	description = 'Portfolio of Ashley O, a software engineer who cares about making software feel intuitive, thoughtful and nice to use.',
+	description = 'Computer science student with a passion for software development and intuitive design.',
 } = Astro.props;
+
+const outDuration = 0.1;
+const inDuration = 0.1;
+const sequentialFade = {
+	old: {
+		name: 'astroFadeOut',
+		duration: `${outDuration}s`,
+		easing: 'ease-out',
+		fillMode: 'forwards',
+	},
+	new: {
+		name: 'astroFadeIn',
+		duration: `${inDuration}s`,
+		delay: `${outDuration}s`,
+		easing: 'ease-in',
+		fillMode: 'backwards',
+	},
+};
+const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 ---
 
 <!doctype html>
@@ -23,14 +43,45 @@ const {
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{title}</title>
-
+		<ClientRouter />
 	</head>
 	<body>
-		<slot />
+		<div id="smooth-wrapper" transition:animate={pageTransition}>
+			<div id="smooth-content">
+				<slot />
+			</div>
+		</div>
 		<Tooltip />
 	</body>
 
 	<script>
+		import { gsap } from 'gsap';
+		import { ScrollSmoother } from 'gsap/ScrollSmoother';
+		import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+		gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+
+		document.addEventListener('astro:page-load', () => {
+			ScrollSmoother.get()?.kill();
+			ScrollSmoother.create({
+				wrapper: '#smooth-wrapper',
+				content: '#smooth-content',
+				smooth: 1.1,
+				effects: true,
+			});
+
+			const staggerEls = document.querySelectorAll('.stagger-in');
+			if (staggerEls.length) {
+				gsap.from(staggerEls, {
+					opacity: 0,
+					y: 10,
+					duration: 0.3,
+					stagger: 0.05,
+					ease: 'power2.out',
+				});
+			}
+		});
+
 		document.addEventListener('dragstart', (event) => {
 			if (event.target instanceof HTMLImageElement) {
 				event.preventDefault();
@@ -183,7 +234,7 @@ const {
 	body {
 		background: var(--color-bg);
 		color: var(--color-ink);
-		font-family: var(--font-sans);
+		font-family: var(--font-sans), sans-serif;
 		-webkit-font-smoothing: antialiased;
 	}
 
@@ -194,6 +245,18 @@ const {
 	img {
 		-webkit-user-drag: none;
 		user-select: none;
+	}
+
+	#smooth-wrapper {
+		overflow: hidden;
+		position: fixed;
+		height: 100%;
+		width: 100%;
+	}
+
+	#smooth-content {
+		overflow: visible;
+		width: 100%;
 	}
 
 	::selection {

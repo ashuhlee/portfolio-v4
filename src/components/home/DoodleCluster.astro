@@ -8,6 +8,10 @@ import squiggle from '../../assets/home/squiggle1.svg';
 import arc from '../../assets/home/squiggle2.svg';
 ---
 
+<div class="doodles-top">
+	<button class="doodles-reset" type="button" aria-label="Reset sticker positions">↺</button>
+</div>
+
 <section class="doodles" aria-hidden="true">
 	<span class="doodle badge dark">currently seeking</span>
 	<span class="doodle badge cyan">summer 2027 positions</span>
@@ -20,7 +24,83 @@ import arc from '../../assets/home/squiggle2.svg';
 	<Image src={arc} alt="" class="doodle arc" />
 </section>
 
+<script>
+	import { gsap } from 'gsap';
+	import { Draggable } from 'gsap/Draggable';
+	import { InertiaPlugin } from 'gsap/InertiaPlugin';
+
+	gsap.registerPlugin(Draggable, InertiaPlugin);
+
+	document.addEventListener('astro:page-load', () => {
+		const doodles = document.querySelectorAll<HTMLElement>('.doodle');
+		doodles.forEach((el) => Draggable.get(el)?.kill());
+
+		const resetButton = document.querySelector<HTMLButtonElement>('.doodles-reset');
+		resetButton?.classList.remove('visible');
+
+		if (doodles.length) {
+			Draggable.create(doodles, {
+				type: 'x,y',
+				bounds: '.doodles',
+				inertia: true,
+				cursor: 'grab',
+				activeCursor: 'grabbing',
+				onPress() {
+					gsap.to(this.target, { scale: 0.9, duration: 0.2, ease: 'power2.out' });
+				},
+				onRelease() {
+					gsap.to(this.target, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.5)' });
+				},
+				onDragEnd() {
+					// Only reveal the reset control once something has
+					// actually been moved, not just clicked.
+					resetButton?.classList.add('visible');
+				},
+			});
+		}
+
+		resetButton?.addEventListener('click', () => {
+			gsap.to(doodles, {
+				x: 0,
+				y: 0,
+				scale: 1,
+				duration: 0.8,
+				ease: 'elastic.out(1, 0.6)',
+				stagger: 0.03,
+			});
+			resetButton.classList.remove('visible');
+		});
+	});
+</script>
+
 <style>
+	.doodles-top {
+		max-width: 600px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.doodles-reset {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		background: #f3f3f3;
+		border: none;
+		border-radius: 999px;
+		font-family: inherit;
+		font-size: 18px;
+		line-height: 1;
+		color: var(--color-ink);
+		cursor: pointer;
+	}
+
+	.doodles-reset.visible {
+		display: flex;
+	}
+
 	.doodles {
 		position: relative;
 		width: 100%;
@@ -38,7 +118,7 @@ import arc from '../../assets/home/squiggle2.svg';
 		align-items: center;
 		justify-content: center;
 		border-radius: 999px;
-		padding: 6px 12px;
+		padding: 6px 12px 8px 12px;
 		font-weight: 600;
 		font-size: 14px;
 		line-height: 1.1;
@@ -62,15 +142,15 @@ import arc from '../../assets/home/squiggle2.svg';
 	}
 
 	.star {
-		left: 49%;
-		top: 22.5%;
+		left: 47%;
+		top: 20%;
 		transform: rotate(10deg);
 		width: 6.5%;
 		height: auto;
 	}
 
 	.terminal {
-		left: 72%;
+		left: 69%;
 		top: 20.8%;
 		transform: rotate(-5deg);
 		width: 9.9%;
@@ -95,7 +175,7 @@ import arc from '../../assets/home/squiggle2.svg';
 	}
 
 	.squiggle {
-		left: 48.5%;
+		left: 47%;
 		top: 47%;
 		width: 12%;
 		height: auto;
@@ -103,7 +183,7 @@ import arc from '../../assets/home/squiggle2.svg';
 	}
 
 	.arc {
-		left: 73%;
+		left: 71%;
 		top: 61%;
 		transform: rotate(7deg);
 		width: 11%;

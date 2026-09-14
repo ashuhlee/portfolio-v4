@@ -1,7 +1,7 @@
 ---
 ---
 
-<section class="profile">
+<section class="profile stagger-in">
 	<div class="avatar">
 		<div class="avatar-scale">
 			<img src="/images/home/avatar-star-icon.svg" alt="" width="24" height="24" />
@@ -13,9 +13,9 @@
 	</div>
 </section>
 
-<p class="bio">
-	A cs student who cares deeply about making software feel intuitive, thoughtful and nice to use.
-	I'm primarily interested in mobile and web app development, and currently interning at{' '}
+<p class="bio stagger-in">
+	I'm a computer science student who cares deeply about making software feel intuitive, thoughtful and nice to use.
+	I'm interested in mobile and web app development, and currently interning at{' '}
 	<a class="accent" href="https://www.sunlife.ca/en/" target="_blank" rel="noreferrer">Sun Life</a> for the fall.
 	<br /><br />
 	When I'm not working or studying, I'm usually building some random side project, experimenting with
@@ -25,9 +25,16 @@
 </p>
 
 <script>
-	document.querySelectorAll('.avatar').forEach((el) => {
-		el.addEventListener('mouseenter', () => {
-			el.classList.toggle('flipped');
+	// astro:page-load fires on every navigation (including the first). This
+	// script tag only ever executes once (module scripts are cached by the
+	// browser), so without rebinding here, hovering after a view-transition
+	// navigation back to this page would find a fresh .avatar element with
+	// no listener attached.
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll('.avatar').forEach((el) => {
+			el.addEventListener('mouseenter', () => {
+				el.classList.toggle('flipped');
+			});
 		});
 	});
 </script>
@@ -62,12 +69,6 @@
 		height: 100%;
 		background: #f4c9f1;
 		border-radius: 999px;
-		transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	}
-
-	.avatar:active .avatar-scale {
-		transform: scale(1);
-		transition: transform 0.08s ease-out;
 	}
 
 	.who .name {

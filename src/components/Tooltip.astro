@@ -1,7 +1,7 @@
 ---
 ---
 
-<div class="hover-tooltip" id="hover-tooltip"></div>
+<div class="hover-tooltip" id="hover-tooltip" transition:persist></div>
 
 <script>
 	import { gsap } from 'gsap';
@@ -68,11 +68,13 @@
 		padding: 6px 10px;
 		border-radius: 999px;
 		white-space: nowrap;
-		transition: opacity 0.2s ease;
+		transform: scale(0);
+		transition: opacity 0.2s ease, scale 0.2s ease;
 		z-index: 9999;
 	}
 
 	.hover-tooltip.visible {
 		opacity: 1;
+		transform: scale(1);
 	}
 </style>

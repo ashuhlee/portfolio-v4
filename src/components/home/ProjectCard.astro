@@ -28,6 +28,7 @@ const { name, description, tags, color } = Astro.props;
 
 <style>
 	.card {
+		-webkit-user-drag: none;
 		display: block;
 		text-decoration: none;
 		color: inherit;
@@ -70,7 +71,9 @@ const { name, description, tags, color } = Astro.props;
 	.thumb {
 		height: 110px;
 		width: 100%;
-		transition: scale 0.5s cubic-bezier(0, 0, 0.2, 1);
+		transform-origin: bottom;
+		transition:
+			scale 0.5s cubic-bezier(0, 0, 0.2, 1)
 	}
 
 	.card:hover .thumb {
@@ -86,7 +89,7 @@ const { name, description, tags, color } = Astro.props;
 
 	h3 {
 		margin: 0;
-		font-family: var(--font-sans);
+		font-family: var(--font-sans), sans-serif;
 		font-weight: 600;
 		font-size: 15px;
 		text-transform: capitalize;
