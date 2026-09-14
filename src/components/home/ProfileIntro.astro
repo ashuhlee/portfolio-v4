@@ -14,7 +14,7 @@
 </section>
 
 <p class="bio stagger-in">
-	I'm a computer science student who cares deeply about making software feel intuitive, thoughtful and nice to use.
+	I'm a computer science student who cares deeply about making software feel intuitive, thoughtful and easy to use.
 	I'm interested in mobile and web app development, and currently interning at{' '}
 	<a class="accent" href="https://www.sunlife.ca/en/" target="_blank" rel="noreferrer">Sun Life</a> for the fall.
 	<br /><br />
@@ -25,11 +25,6 @@
 </p>
 
 <script>
-	// astro:page-load fires on every navigation (including the first). This
-	// script tag only ever executes once (module scripts are cached by the
-	// browser), so without rebinding here, hovering after a view-transition
-	// navigation back to this page would find a fresh .avatar element with
-	// no listener attached.
 	document.addEventListener('astro:page-load', () => {
 		document.querySelectorAll('.avatar').forEach((el) => {
 			el.addEventListener('mouseenter', () => {
@@ -67,7 +62,7 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		background: #f4c9f1;
+		background: #FFCAF3;
 		border-radius: 999px;
 	}
 
@@ -88,7 +83,7 @@
 		width: 600px;
 		font-size: 16px;
 		line-height: 1.25;
-		color: var(--color-ink-soft);
+		color: var(--color-ink-medium);
 		margin: 0;
 	}
 

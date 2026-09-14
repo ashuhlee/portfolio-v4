@@ -1,0 +1,59 @@
+---
+import Dither from './Dither.jsx';
+
+const COLOR_PRESETS = {
+	pink: [1, 0.9372549019607843, 0.9764705882352941],
+	grey: [0.88, 0.88, 0.88],
+	purple: [0.8, 0.7, 0.95],
+	blue: [0.667, 0.776, 1],
+	green: [0.875, 0.949, 0.561],
+	yellow: [1, 0.933, 0.71],
+} as const;
+
+type DitherColor = keyof typeof COLOR_PRESETS;
+
+interface Props {
+	color?: DitherColor;
+	backgroundColor?: [number, number, number];
+	waveSpeed?: number;
+	waveFrequency?: number;
+	waveAmplitude?: number;
+	mouseRadius?: number;
+	colorNum?: number;
+}
+
+const {
+	color = 'pink',
+	backgroundColor = [0.996, 0.996, 0.996],
+	waveSpeed = 3.04,
+	waveFrequency = 5,
+	waveAmplitude = 0,
+	mouseRadius = 0.5,
+	colorNum = 6.8,
+} = Astro.props;
+
+const waveColor = COLOR_PRESETS[color] ?? COLOR_PRESETS.pink;
+---
+
+<div class="dither-bg">
+	<Dither
+		client:load
+		backgroundColor={backgroundColor}
+		waveColor={waveColor}
+		disableAnimation={false}
+		enableMouseInteraction={true}
+		mouseRadius={mouseRadius}
+		colorNum={colorNum}
+		waveAmplitude={waveAmplitude}
+		waveFrequency={waveFrequency}
+		waveSpeed={waveSpeed}
+	/>
+</div>
+
+<style>
+	.dither-bg {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+	}
+</style>

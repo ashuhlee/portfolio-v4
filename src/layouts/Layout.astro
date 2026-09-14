@@ -38,14 +38,16 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{title}</title>
 		<ClientRouter />
 	</head>
 	<body>
+		<slot name="background" />
 		<div id="smooth-wrapper" transition:animate={pageTransition}>
 			<div id="smooth-content">
 				<slot />
@@ -86,6 +88,35 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 			if (event.target instanceof HTMLImageElement) {
 				event.preventDefault();
 			}
+		});
+
+		document.addEventListener('mouseup', (event) => {
+			const target = (event.target as HTMLElement)?.closest(
+				'.say-hello, .see-work, .card, .doodles-reset, .back-button'
+			);
+			if (!target) return;
+			const sound = new Audio('/audio/mouse-click.mp3');
+			sound.volume = 0.4;
+			sound.play().catch(() => {});
+		});
+
+		let pressedBounceEl: HTMLElement | null = null;
+
+		document.addEventListener('mousedown', (event) => {
+			const target = (event.target as HTMLElement)?.closest<HTMLElement>('[data-bounce]');
+			if (!target) return;
+			pressedBounceEl = target;
+			gsap.to(target, {
+				scale: parseFloat(target.dataset.bounce || '0.9'),
+				duration: 0.15,
+				ease: 'power2.out',
+			});
+		});
+
+		document.addEventListener('mouseup', () => {
+			if (!pressedBounceEl) return;
+			gsap.to(pressedBounceEl, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+			pressedBounceEl = null;
 		});
 	</script>
 </html>
@@ -214,10 +245,11 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 	:root {
 		--color-bg: #fefefe;
 		--color-ink: #2a2a2a;
+		--color-ink-medium: #444444;
 		--color-ink-soft: #606060;
 		--color-ink-muted: #868686;
 		--color-border: #eaeaea;
-		--color-accent: #C2C2C2;
+		--color-accent: #9093E8;
 		--font-sans: 'Sofia Pro', system-ui, sans-serif;
 		--font-sofia: 'Sofia Pro', var(--font-sans);
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;

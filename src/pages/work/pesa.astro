@@ -1,46 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageFooter from '../../components/PageFooter.astro';
+import DitherBackground from '../../components/home/DitherBackground.astro';
 ---
 
 <Layout
 	title="Software Engineer Intern at Pesa — Ashley O"
 	description="Over the summer I worked on Pesa's mobile app, using Flutter and Dart across iOS and Android."
 >
+	<DitherBackground slot="background" color="grey" />
 	<div class="page">
-		<a class="back-button stagger-in" href="/" aria-label="Back to home">
+		<a class="back-button stagger-in" data-bounce="0.85" href="/" aria-label="Back to home">
 			<img src="/images/pesa/back-arrow.svg" alt="" width="24" height="24" />
 		</a>
 
-		<header class="header-row stagger-in">
+		<header class="header-row">
 			<div class="header-left">
-				<div class="title-row">
-					<div class="title-icon">
-						<img src="/images/home/avatar-star-icon.svg" alt="" width="24" height="24" />
-					</div>
-					<h1>My experience</h1>
+				<div class="title-row stagger-in">
+					<h1>Pesa</h1>
 				</div>
-				<p class="description">
-					Over the summer I worked on Pesa's mobile app, using Flutter and Dart. I worked across
-					iOS and Android to build and ship new features and improve existing user experiences. I also rotated across the product and
+				<p class="description stagger-in">
+					Over the summer I worked on Pesa's mobile app, using Flutter. I worked across
+					iOS and Android to build and ship new features and improve existing user experiences, rotating across product and
 					engineering teams.
 				</p>
-				<p class="description">
+				<p class="description stagger-in">
 					I had the opportunity to ship multiple user-facing features to the app, being used by
-					over 10,000 users all over the world.
+					thousands of users all over the world.
 				</p>
 			</div>
 
 			<div class="chips">
-				<div class="chip-group">
+				<div class="chip-group stagger-in">
 					<span class="chip role">Role <img src="/images/pesa/chip-caret-role.svg" alt="" width="9" height="9" /></span>
 					<p>Software Engineer Intern</p>
 				</div>
-				<div class="chip-group">
+				<div class="chip-group stagger-in">
 					<span class="chip focus">Focus <img src="/images/pesa/chip-caret-focus.svg" alt="" width="9" height="9" /></span>
 					<p>Mobile (iOS &amp; Android)</p>
 				</div>
-				<div class="chip-group">
+				<div class="chip-group stagger-in">
 					<span class="chip timeline">Timeline <img src="/images/pesa/chip-caret-timeline.svg" alt="" width="9" height="9" /></span>
 					<p>Summer 2026</p>
 				</div>
@@ -48,24 +47,78 @@ import PageFooter from '../../components/PageFooter.astro';
 		</header>
 
 		<div class="showcase-header stagger-in">
-			<div class="icon-button">
-				<img src="/images/home/avatar-star-icon.svg" alt="" width="24" height="24" />
-			</div>
 			<h2>Showcase</h2>
 		</div>
 
-		<div class="showcase-grid stagger-in">
-			<div class="placeholder card-e"></div>
-			<div class="placeholder card-b"></div>
-			<div class="placeholder card-a"></div>
-			<div class="placeholder card-d"></div>
-			<div class="placeholder card-f"></div>
-			<div class="placeholder card-c"></div>
+		<div class="showcase-grid">
+			<div
+				class="placeholder card-e showcase-preview stagger-in"
+				data-tooltip="Deposit and withdraw from savings"
+				data-tooltip-color="#f4c9f1"
+			>
+				<img
+					class="preview-phone preview-phone-left"
+					src="/images/pesa/withdraw-1.png"
+					alt="Withdraw from stash screen"
+				/>
+				<img
+					class="preview-phone preview-phone-center"
+					src="/images/pesa/withdraw-2.png"
+					alt="Request for withdrawal modal"
+				/>
+				<img
+					class="preview-phone preview-phone-right"
+					src="/images/pesa/withdraw-3.png"
+					alt="Decline withdrawal request modal"
+				/>
+			</div>
+			<div
+				class="placeholder card-b showcase-preview stagger-in"
+				data-tooltip="Create and new wallet"
+				data-tooltip-color="#edfdad"
+			>
+				<img
+					class="wallet-phone wallet-phone-1"
+					src="/images/pesa/wallet-1.png"
+					alt="Your new GBP wallet is waiting screen"
+				/>
+				<img
+					class="wallet-phone wallet-phone-2"
+					src="/images/pesa/wallet-2.png"
+					alt="Activate your USD wallet screen"
+				/>
+			</div>
+			<video
+				class="placeholder card-a stagger-in"
+				src="/videos/pesa/notifications.mp4"
+				autoplay
+				loop
+				muted
+				playsinline
+				controls={false}
+				data-tooltip="Toast feedback"
+				data-tooltip-color="#ffeeb5"
+			></video>
+			<div
+				class="placeholder card-d stagger-in"
+				data-tooltip="More savings related stuff"
+				data-tooltip-color="#BEEFFF"
+			></div>
+			<div
+				class="placeholder card-f stagger-in"
+				data-tooltip="Savings creation and deletion"
+				data-tooltip-color="#FFCCCA"
+			></div>
+			<div
+				class="placeholder card-c stagger-in"
+				data-tooltip="Bank-level security, always on"
+				data-tooltip-color="#edfdad"
+			></div>
 		</div>
 
-		<div class="badges stagger-in">
-			<span class="badge blue">+ a bunch of other cool stuff</span>
-			<span class="badge pink">for 10k+ users</span>
+		<div class="badges">
+			<span class="badge blue stagger-in">+ a bunch of other cool stuff</span>
+			<span class="badge pink stagger-in">for 10k+ users</span>
 		</div>
 
 		<div class="stagger-in"><PageFooter /></div>
@@ -95,7 +148,7 @@ import PageFooter from '../../components/PageFooter.astro';
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 32px;
-		margin-bottom: 56px;
+		margin-bottom: 32px;
 	}
 
 	.header-left {
@@ -110,17 +163,6 @@ import PageFooter from '../../components/PageFooter.astro';
 		margin-bottom: 12px;
 	}
 
-	.title-icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 44px;
-		height: 44px;
-		background: #aac6ff;
-		border-radius: 999px;
-		flex-shrink: 0;
-	}
-
 	h1 {
 		font-family: var(--font-display), sans-serif;
 		font-size: 20px;
@@ -133,7 +175,7 @@ import PageFooter from '../../components/PageFooter.astro';
 		line-height: 1.5;
 		color: var(--color-ink-soft);
 		margin: 0 0 12px;
-		max-width: 520px;
+		max-width: 510px;
 	}
 
 	.description:last-child {
@@ -145,7 +187,7 @@ import PageFooter from '../../components/PageFooter.astro';
 		flex-direction: column;
 		gap: 16px;
 		flex-shrink: 0;
-		width: 170px;
+		width: 180px;
 	}
 
 	.chip-group {
@@ -156,16 +198,22 @@ import PageFooter from '../../components/PageFooter.astro';
 	}
 
 	.chip {
+		user-select: none;
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
 		background: #2b2b2b;
 		border-radius: 24px;
-		padding: 6px 12px;
+		padding: 6px 12px 8px 12px;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
 		font-size: 14px;
+		line-height: 1;
 		white-space: nowrap;
+	}
+
+	.chip img {
+		margin-top: 3px;
 	}
 
 	.chip.role {
@@ -194,21 +242,9 @@ import PageFooter from '../../components/PageFooter.astro';
 		margin-bottom: 24px;
 	}
 
-	.icon-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 44px;
-		height: 44px;
-		background: #f4c9f1;
-		border-radius: 999px;
-		flex-shrink: 0;
-		transform: rotate(-8.57deg);
-	}
-
 	h2 {
 		font-family: var(--font-display), sans-serif;
-		font-size: 20px;
+		font-size: 18px;
 		margin: 0;
 		color: var(--color-ink);
 	}
@@ -225,6 +261,52 @@ import PageFooter from '../../components/PageFooter.astro';
 		background: #f8f8f8;
 		border: 1px solid #ebebeb;
 		border-radius: 24px;
+	}
+
+	video.placeholder {
+		object-fit: cover;
+	}
+
+	.showcase-preview {
+		overflow: hidden;
+	}
+
+	.preview-phone {
+		position: absolute;
+		top: 50%;
+		width: 22.9%;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.preview-phone-left {
+		left: 21.25%;
+	}
+
+	.preview-phone-center {
+		left: 50%;
+	}
+
+	.preview-phone-right {
+		left: 78.75%;
+	}
+
+	.wallet-phone {
+		position: absolute;
+		width: 41.04%;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.wallet-phone-1 {
+		left: 6.67%;
+		top: 9.19%;
+	}
+
+	.wallet-phone-2 {
+		left: 51.25%;
+		top: -36.26%;
 	}
 
 

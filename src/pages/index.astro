@@ -6,6 +6,7 @@ import ProfileIntro from '../components/home/ProfileIntro.astro';
 import ExperienceSection from '../components/home/ExperienceSection.astro';
 import ProjectsSection from '../components/home/ProjectsSection.astro';
 import DoodleCluster from '../components/home/DoodleCluster.astro';
+import DitherBackground from '../components/home/DitherBackground.astro';
 
 const experiences = [
 	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
@@ -22,26 +23,27 @@ const projects = [
 	},
 	{
 		name: 'Starlit',
-		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
+		description: 'A customizable weather cli package that matches any terminal config',
 		tags: ['Terminal', 'Python'],
 		color: '#f4c9f1',
 	},
 	{
 		name: 'Loggi',
-		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
+		description: 'Track your daily meals, weight and steps, synced with the health app',
 		tags: ['Mobile', 'Swift', 'Firebase'],
 		color: '#f7f7f7',
 	},
 	{
 		name: 'Synced',
-		description: 'A fun arcade style clicker game with addictive fast-paced gameplay',
-		tags: ['Game', 'Electron', 'Typescript'],
+		description: 'Plan and manage your Twitch stream schedule, directly from your phone',
+		tags: ['Mobile', 'Flutter', 'Dart'],
 		color: '#beefff',
 	},
 ];
 ---
 
 <Layout>
+  <DitherBackground slot="background" />
   <div class="page">
     <div class="stagger-in"><SiteNav/></div>
 
