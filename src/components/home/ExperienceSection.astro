@@ -73,10 +73,10 @@ const { experiences } = Astro.props;
 
 	const STICKER_COLORS = [
 		{ bg: '#edfdad', fg: '#000000' },
-		{ bg: '#96adff', fg: '#3C2C91' },
+		{ bg: '#93A0FF', fg: '#3C2C91' },
 		{ bg: '#fe6fc1', fg: '#ffffff' },
 		{ bg: '#252D38', fg: '#AEEBFF' },
-		{ bg: '#FF938D', fg: '#ffffff' },
+		{ bg: '#6D99FF', fg: '#ffffff' },
 	];
 
 	const FLIP_AXES = [
@@ -110,7 +110,7 @@ const { experiences } = Astro.props;
 				gsap
 					.timeline({ onComplete: () => (flipping = false) })
 					.to(scale, { rotateX: axis.rotateX, rotateY: axis.rotateY, duration: 0.18, ease: 'power1.in' })
-					.to(el, { rotate: tilted ? -8.5 : 8.5, duration: 0.36, ease: 'power1.inOut' }, 0)
+					.to(el, { rotate: tilted ? -8.5 : 8.5, duration: 0.25, ease: 'power1.inOut' }, 0)
 					.set(scale, {
 						onComplete: () => {
 							scale.style.background = STICKER_COLORS[index].bg;
