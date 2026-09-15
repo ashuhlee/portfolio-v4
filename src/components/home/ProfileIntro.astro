@@ -21,7 +21,7 @@
 	When I'm not working or studying, I'm usually building some random side project, experimenting with
 	a new idea, or making things for the internet.
 	<br /><br />
-	You can reach me via LinkedIn or email, and see my code on GitHub.
+	You can reach me via <a class="accent contact" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noreferrer"><span class="scribble-wrap" aria-hidden="true"><svg viewBox="0 0 61 23" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.51228 6.86806C7.33524 7.37598 6.4656 9.54622 5.72332 11.329C4.74692 13.6742 4.05842 15.9853 3.99957 16.8125C3.97185 17.2021 4.10947 17.5334 4.43102 17.6385C5.25263 17.907 8.34035 15.3134 12.922 11.2357C19.2765 5.58015 21.1745 4.02924 21.6097 4.00221C25.5107 3.76001 16.2727 14.1504 15.9453 15.6411C15.8806 15.9358 16.2938 16.1655 16.6087 16.2447C20.6746 17.2674 26.8129 8.61603 29.3733 7.01979C31.7813 5.51856 24.8376 15.9199 24.2297 18.1477C24.0597 18.7704 29.0803 14.0994 34.9694 8.17222C37.0971 6.03078 37.5911 5.76319 37.9038 5.772C38.2166 5.78082 38.3622 6.1035 38.3138 6.59285C37.9235 10.5417 34.7977 15.0105 34.4957 16.1392C33.1583 21.1369 45.1716 7.22995 45.6789 7.21252C48.1 7.12929 45.3691 12.9342 45.7041 14.5595C45.8257 15.1498 46.7615 14.868 47.2842 14.6258C48.1868 14.2076 49.9322 12.4887 52.0783 10.7765C52.4329 10.4937 52.2959 11.8359 52.4854 12.5324C52.5668 12.8313 53.0858 12.7768 53.5968 12.4895C54.1079 12.2022 54.7149 11.6218 55.1628 11.1766C55.6106 10.7313 55.881 10.4387 56.8176 9.50557" stroke="#BEEFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="label">LinkedIn</span></a> or <a class="accent contact" href="mailto:hello@ashuhlee.ca">email<span class="circle-wrap" aria-hidden="true"><svg viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.3993 3.55331C19.1469 3.49497 15.505 3.71142 11.8957 5.0889C10.4195 5.65229 9.16118 6.88586 7.65837 8.51484C4.75021 11.6671 4.31987 14.0285 4.10922 18.0273C4.03035 19.5244 4.90726 20.3954 6.35235 21.9264C6.9823 22.5938 8.64192 23.5423 10.9818 24.8123C12.7021 25.746 15.8549 26.2457 20.2084 26.7318C23.8442 27.1378 26.7205 26.7116 29.0334 26.1649C31.2997 25.6292 33.5305 24.2723 35.8322 22.7419C39.79 20.1103 40.4764 18.0314 41.4928 15.7484C42.8792 12.6342 41.8984 7.85312 40.2963 5.59102C39.5711 4.5669 38.2401 4.02133 36.6498 3.27206C34.539 2.27756 31.0311 1.7285 26.8131 1.22984C22.8319 0.75917 20.2486 1.10477 18.5992 1.43597C15.9007 1.97783 13.0252 3.21521 10.4393 4.5319C7.77796 5.88703 5.75168 7.70822 4.05845 9.33855C3.21374 10.2131 2.39852 11.1835 1.88639 11.9288C1.37426 12.6741 1.18992 13.1649 1 13.6707" stroke="#FE74C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>, and see my code on <a class="accent contact" href="https://github.com/ashuhlee" target="_blank" rel="noreferrer">GitHub<span class="squiggle-wrap" aria-hidden="true"><svg viewBox="0 0 46 3" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.930426 1.39631C0.921394 1.39631 0.912362 1.39631 6.30309 1.31953C11.6938 1.24276 22.4846 1.08921 29.515 1.03021C36.5455 0.971214 39.4886 1.01142 41.2783 1.04292C43.068 1.07441 43.6152 1.09597 44.179 1.11819" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>.
 </p>
 
 <script>
@@ -51,19 +51,28 @@
 		});
 
 		document.querySelectorAll<HTMLElement>('.accent').forEach((link) => {
-			const wrap = link.querySelector<HTMLElement>('.squiggle-wrap');
+			const wrap = link.querySelector<HTMLElement>('.squiggle-wrap, .circle-wrap, .scribble-wrap');
 			if (!wrap) return;
 
+			const isCycling = wrap.classList.contains('squiggle-wrap') && wrap.children.length === 0;
+
+			const initialPath = wrap.querySelector('path');
+			if (initialPath) gsap.set(initialPath, { drawSVG: '0%' });
+
 			let index = 0;
-			let leaveTween: gsap.core.Tween | null = null;
+			let leaveTween: gsap.core.Timeline | null = null;
 
 			link.addEventListener('mouseenter', () => {
-				index = (index + 1) % SQUIGGLES.length;
-				wrap.innerHTML = SQUIGGLES[index];
+				if (isCycling) {
+					index = (index + 1) % SQUIGGLES.length;
+					wrap.innerHTML = SQUIGGLES[index];
+				}
+
 				const path = wrap.querySelector('path');
 				if (!path) return;
 
 				leaveTween?.kill();
+				gsap.set(wrap, { clearProps: 'opacity' });
 				gsap.fromTo(path, { drawSVG: '0%' }, { drawSVG: '100%', duration: 0.4, ease: 'power2.inOut' });
 			});
 
@@ -71,7 +80,10 @@
 				const path = wrap.querySelector('path');
 				if (!path) return;
 
-				leaveTween = gsap.to(path, { drawSVG: '100% 100%', duration: 0.3, ease: 'power2.in' });
+				leaveTween = gsap
+					.timeline()
+					.to(path, { drawSVG: '100% 100%', duration: 0.3, ease: 'power2.in' }, 0)
+					.to(wrap, { opacity: 0, duration: 0.1, ease: 'power1.in' }, 0.2);
 			});
 		});
 	});
@@ -122,6 +134,8 @@
 	}
 
 	.bio {
+		position: relative;
+		z-index: 0;
 		width: 100%;
 		max-width: 600px;
 		font-size: 15px;
@@ -139,16 +153,84 @@
 		text-decoration: none;
 	}
 
-	.bio .accent .squiggle-wrap {
+	.bio .accent.contact {
+		font-style: normal;
+		color: #4D4D4D;
+	}
+
+	.bio .accent.contact::after {
+		content: '';
 		position: absolute;
 		left: 0;
-		bottom: -4px;
+		right: 0;
+		bottom: 3px;
+		height: 1px;
+		background: currentColor;
+		opacity: 0.4;
+		transition: opacity 0.1s ease;
+	}
+
+	.bio .accent.contact:hover::after {
+		opacity: 0;
+	}
+
+	.bio .accent .squiggle-wrap {
+		position: absolute;
+		z-index: -1;
+		left: 0;
+		bottom: -1px;
 		width: 100%;
 		height: 8px;
 		pointer-events: none;
 	}
 
 	.bio .accent .squiggle-wrap :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+
+	.bio .accent .circle-wrap {
+		position: absolute;
+		z-index: -1;
+		left: 50%;
+		top: 50%;
+		width: calc(100% + 20px);
+		height: 34px;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	}
+
+	.bio .accent .circle-wrap :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+
+	.bio .accent .label {
+		position: relative;
+		z-index: 1;
+	}
+
+	.bio .accent .scribble-wrap {
+		position: absolute;
+		z-index: -1;
+		left: 50%;
+		top: 50%;
+		width: calc(100% + 16px);
+		height: 28px;
+		opacity: 0.7;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	}
+
+	.bio .accent.contact:hover .label {
+		color: #000;
+	}
+
+	.bio .accent .scribble-wrap :global(svg) {
 		display: block;
 		width: 100%;
 		height: 100%;

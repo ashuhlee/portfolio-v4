@@ -1,0 +1,52 @@
+---
+---
+
+<div class="scroll-progress" aria-hidden="true">
+	<div class="scroll-progress-bar"></div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollSmoother } from 'gsap/ScrollSmoother';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+
+	document.addEventListener('astro:page-load', () => {
+		const bar = document.querySelector<HTMLElement>('.scroll-progress-bar');
+		if (!bar) return;
+
+		gsap.set(bar, { scaleX: 0 });
+		const setScale = gsap.quickTo(bar, 'scaleX', { duration: 0.3, ease: 'power2.out' });
+
+		let rafId: number;
+		function update() {
+			const smoother = ScrollSmoother.get();
+			if (smoother?.scrollTrigger) setScale(smoother.scrollTrigger.progress);
+			rafId = requestAnimationFrame(update);
+		}
+		update();
+
+		document.addEventListener('astro:before-swap', () => cancelAnimationFrame(rafId), { once: true });
+	});
+</script>
+
+<style>
+	.scroll-progress {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 1.5px;
+		z-index: 10;
+		pointer-events: none;
+	}
+
+	.scroll-progress-bar {
+		height: 100%;
+		width: 100%;
+		background: var(--color-main);
+		transform-origin: left center;
+		transform: scaleX(0);
+	}
+</style>
