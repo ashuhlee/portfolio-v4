@@ -2,13 +2,29 @@
 interface Props {
 	href: string;
 	label: string;
+	hoverSound?: string;
 }
 
-const { href, label } = Astro.props;
+const { href, label, hoverSound } = Astro.props;
 ---
 
-<a class="cursor-fill-btn" data-bounce="0.95" href={href} target="_blank" rel="noopener noreferrer">
-	<span class="fill" aria-hidden="true"></span>
+<a
+	class="cursor-fill-btn opacity-80"
+	data-bounce="0.9"
+	data-hover-sound={hoverSound}
+	href={href}
+	target="_blank"
+	rel="noopener noreferrer">
+	<span class="fill-old" aria-hidden="true"></span>
+	<svg class="fill-scribble" aria-hidden="true" viewBox="0 0 172.072 62.3464" preserveAspectRatio="none">
+		<path
+			class="fill-scribble-path"
+			d="M9.25778 36.4788C9.25778 37.1018 8.87503 39.6657 9.04229 43.152C9.06673 43.6613 10.1356 43.0083 16.0222 37.4934C21.9089 31.9785 32.9312 21.4641 38.4894 16.4685C44.0477 11.4729 43.8079 12.3146 41.9791 16.7085C40.1504 21.1025 36.7399 29.0233 34.7502 33.948C32.7606 38.8727 32.2952 40.5614 32.3631 41.3567C32.4311 42.1519 33.0466 42.0024 36.7171 38.6201C40.3876 35.2378 47.0946 28.6271 50.9451 24.9358C54.7957 21.2444 55.5866 20.6726 55.7205 21.2602C55.8545 21.8478 55.3075 23.6121 52.9862 27.9519C50.6649 32.2916 46.5858 39.1533 44.2219 43.3393C41.172 48.74 40.5987 51.0721 40.5627 52.385C40.5507 52.8242 41.2332 52.686 47.5427 46.0988C53.8522 39.5116 65.9424 26.4497 72.7375 19.3077C79.5325 12.1657 80.666 11.3394 81.2883 11.1553C81.9106 10.9711 81.9874 11.4543 81.8938 12.026C81.8001 12.5977 81.5337 13.2433 78.7125 18.6954C75.8913 24.1475 70.5234 34.3866 67.4383 40.6371C64.3532 46.8876 63.7135 48.8391 63.6075 49.7166C63.5015 50.594 63.9487 50.3383 68.0475 46.2142C72.1464 42.0902 79.8835 34.1057 85.332 28.8663C93.431 21.0782 97.3316 18.6976 98.2017 18.4098C98.4561 18.3258 98.3483 18.9845 95.6219 23.0656C92.8955 27.1468 87.5583 34.7881 84.0587 40.1599C80.5591 45.5317 79.0588 48.4023 78.7401 49.7139C78.4215 51.0256 79.3299 50.6913 87.317 43.7474C95.3041 36.8036 110.342 23.2603 118.314 16.1408C126.285 9.02137 126.734 8.73609 126.653 9.09797C126.573 9.45986 125.949 10.4776 122.803 15.0092C119.656 19.5408 114.006 27.5555 109.872 33.9305C105.738 40.3056 103.291 44.7981 102.487 46.8402C101.682 48.8822 102.594 48.3376 109.098 43.1328C115.601 37.9279 127.67 28.0792 133.543 23.8069C139.416 19.5346 138.727 21.137 135.877 26.0251C133.028 30.9132 128.04 39.0383 125.021 44.2015C122.002 49.3647 121.104 51.3198 120.565 52.5623C120.026 53.8049 119.874 54.2756 125.179 48.6615C130.484 43.0473 141.251 31.3339 146.671 25.5649C152.091 19.796 151.838 20.3264 149.519 23.7546C147.2 27.1829 142.823 33.4929 140.16 37.5625C137.498 41.6321 136.682 43.27 136.433 44.2821C136.184 45.2942 136.526 45.6308 138.528 44.3058C144.465 40.378 149.062 35.7653 151.404 33.4934C153.84 31.1291 155.838 29.7339 156.692 29.5308C160.634 28.5929 152.389 40.236 151.266 45.1929C151.009 46.3291 151.053 47.1511 151.351 47.7055C154.319 48.826 157.982 48.6784 159.715 48.3034C160.593 48.0808 161.465 47.7925 163.069 47.3488"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
 	<span class="label">{label}</span>
 	<span class="arrow-track">
 		<span class="arrow" aria-hidden="true">→</span>
@@ -17,41 +33,72 @@ const { href, label } = Astro.props;
 
 <script>
 	import { gsap } from 'gsap';
+	import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+
+	gsap.registerPlugin(DrawSVGPlugin);
 
 	function relativePoint(el: HTMLElement, event: MouseEvent) {
 		const rect = el.getBoundingClientRect();
 		return { x: event.clientX - rect.left, y: event.clientY - rect.top };
 	}
 
+	function triggerFillCircleOld(fillOld: HTMLElement, btn: HTMLElement, event: MouseEvent) {
+		const { x, y } = relativePoint(btn, event);
+		const rect = btn.getBoundingClientRect();
+		const diagonal = Math.hypot(rect.width, rect.height);
+		const scale = ((2 * diagonal) / fillOld.offsetWidth) * 1.1;
+
+		gsap.set(fillOld, { x, y, scale: 0 });
+		gsap.to(fillOld, { scale, duration: 0.4, ease: 'power2.in' });
+	}
+
+	function releaseFillCircleOld(fillOld: HTMLElement, btn: HTMLElement, event: MouseEvent) {
+		const { x, y } = relativePoint(btn, event);
+		gsap.to(fillOld, { x, y, scale: 0, duration: 0.4, ease: 'power2.out' });
+	}
+
 	const HOVER_COLORS = [
 		{
-			fill: '#222C25',
-			fg: '#EDFDAD'
+			fill: '#FFBAEA',
+			fg: '#232323',
 		},
 		{
-			fill: '#FE6FC1',
-			fg: '#ffffff'
+			fill: '#EDFDAD',
+			fg: '#25262E'
 		},
 		{
-			fill: '#202935',
-			fg: '#beefff'
-		},
-		{
-			fill: '#FF8276',
-			fg: '#fff'
+			fill: '#beefff',
+			fg: '#202935'
 		},
 	];
 
 	document.addEventListener('astro:page-load', () => {
 		document.querySelectorAll<HTMLElement>('.cursor-fill-btn').forEach((btn) => {
-			const fill = btn.querySelector<HTMLElement>('.fill');
-			if (!fill) return;
+			const fillOld = btn.querySelector<HTMLElement>('.fill-old');
+			const scribblePath = btn.querySelector<SVGPathElement>('.fill-scribble-path');
+			if (!fillOld || !scribblePath) return;
+
+			const FILL_DELAY = 0.1; // seconds after hover starts before the bg fill kicks in
 
 			let colorIndex = 0;
+			let fillTimer: gsap.core.Tween | null = null;
 			btn.style.setProperty('--btn-fill', HOVER_COLORS[colorIndex].fill);
 			btn.style.setProperty('--btn-fg', HOVER_COLORS[colorIndex].fg);
 
-			gsap.set(fill, { xPercent: -50, yPercent: -50, scale: 0 });
+			gsap.set(fillOld, { xPercent: -50, yPercent: -50, scale: 0 });
+			gsap.set(scribblePath, { drawSVG: '0%' });
+
+			const hoverSoundSrc = btn.dataset.hoverSound;
+			const hoverSoundPool = hoverSoundSrc
+				? Array.from({ length: 2 }, () => {
+						const audio = new Audio(hoverSoundSrc);
+						audio.preload = 'auto';
+						audio.volume = 0.5;
+						audio.load();
+						return audio;
+					})
+				: [];
+			let hoverSoundIndex = 0;
 
 			btn.addEventListener('mouseenter', (event) => {
 				colorIndex = (colorIndex + 1) % HOVER_COLORS.length;
@@ -59,18 +106,25 @@ const { href, label } = Astro.props;
 				btn.style.setProperty('--btn-fill', HOVER_COLORS[colorIndex].fill);
 				btn.style.setProperty('--btn-fg', HOVER_COLORS[colorIndex].fg);
 
-				const { x, y } = relativePoint(btn, event);
-				const rect = btn.getBoundingClientRect();
-				const diagonal = Math.hypot(rect.width, rect.height);
-				const scale = ((2 * diagonal) / fill.offsetWidth) * 1.1;
+				fillTimer?.kill();
+				gsap.killTweensOf(scribblePath);
+				gsap.fromTo(scribblePath, { drawSVG: '0%' }, { drawSVG: '100%', duration: 0.4, ease: 'power2.inOut' });
+				fillTimer = gsap.delayedCall(FILL_DELAY, () => triggerFillCircleOld(fillOld, btn, event));
 
-				gsap.set(fill, { x, y, scale: 0 });
-				gsap.to(fill, { scale, duration: 0.3, ease: 'back.out(1.7)' });
+				if (hoverSoundPool.length) {
+					const sound = hoverSoundPool[hoverSoundIndex];
+					hoverSoundIndex = (hoverSoundIndex + 1) % hoverSoundPool.length;
+					sound.currentTime = 0;
+					sound.play().catch(() => {});
+				}
 			});
 
-			btn.addEventListener('mouseleave', (event) => {
-				const { x, y } = relativePoint(btn, event);
-				gsap.to(fill, { x, y, scale: 0, duration: 0.4, ease: 'power2.out' });
+			btn.addEventListener('mouseleave', () => {
+				fillTimer?.kill();
+				gsap.killTweensOf(scribblePath);
+				gsap.killTweensOf(fillOld);
+				gsap.to(scribblePath, { drawSVG: '100% 100%', duration: 0.4, ease: 'power1.in' });
+				gsap.set(fillOld, { scale: 0 });
 			});
 		});
 	});
@@ -83,27 +137,44 @@ const { href, label } = Astro.props;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		background: var(--color-gray-light);
+		border: 1.75px solid var(--color-text-primary);
 		border-radius: 999px;
-		padding: 0.75rem 1rem;
+		padding: 10px 14px;
 		cursor: pointer;
 		text-decoration: none;
 		transition: padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 
 	.cursor-fill-btn:hover {
-		padding: 1rem 1.25rem;
+		padding: 0.85rem 2rem;
 	}
 
-	.fill {
+	.fill-old {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 1.5rem;
 		height: 1.5rem;
 		border-radius: 50%;
-		background: var(--btn-fill, var(--color-forest-deep));
+		background: var(--btn-fill, var(--color-text-primary));
 		pointer-events: none;
+	}
+
+	.fill-scribble {
+		--scribble-height: 140%;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: var(--scribble-height);
+		transform: translateY(-50%);
+		pointer-events: none;
+		overflow: visible;
+	}
+
+	.fill-scribble-path {
+		stroke: var(--btn-fill, var(--color-text-primary));
+		stroke-width: 13;
 	}
 
 	.label {
