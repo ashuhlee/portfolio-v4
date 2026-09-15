@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
+import avatarIcon from '../../assets/home/icon-white.png';
 ---
 
 <section class="profile stagger-in">
 	<div class="avatar">
 		<div class="avatar-scale">
-			<img class="avatar-icon" src="/images/home/icon-white.png" alt="" width="24" height="24" draggable="false" />
+			<Image class="avatar-icon" src={avatarIcon} width={24} height={24} densities={[1, 2, 3]} alt="" draggable="false" />
 		</div>
 	</div>
 	<div class="who">

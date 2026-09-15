@@ -5,7 +5,7 @@ import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
 import { Effect } from 'postprocessing';
 import * as THREE from 'three';
 
-import './Dither.css';
+import './DitherCanvas.css';
 
 export type RGB = [number, number, number];
 
@@ -314,7 +314,7 @@ export interface DitherProps {
   onCreated?: (state: RootState) => void;
 }
 
-export default function Dither({
+export default function DitherCanvas({
   waveSpeed = 0.05,
   waveFrequency = 3,
   waveAmplitude = 0.3,

@@ -1,13 +1,15 @@
 ---
-import PageFooter from '../components/PageFooter.astro';
+import { Image } from 'astro:assets';
+import PageFooter from '../components/common/PageFooter.astro';
 import Layout from '../layouts/Layout.astro';
 import SiteNav from '../components/home/SiteNav.astro';
 import ProfileIntro from '../components/home/ProfileIntro.astro';
 import ExperienceSection from '../components/home/ExperienceSection.astro';
 import ProjectsSection from '../components/home/ProjectsSection.astro';
 import DoodleCluster from '../components/home/DoodleCluster.astro';
-import DitherBackground from '../components/home/DitherBackground.astro';
-import CursorFillButton from '../components/home/CursorFillButton.astro';
+import DitherBackground from '../components/dither/DitherBackground.astro';
+import CursorFillButton from '../components/common/CursorFillButton.astro';
+import lineDivider from '../assets/home/line1.svg';
 
 const experiences = [
 	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
@@ -56,16 +58,16 @@ const projects = [
 
     <main class="content">
       <ProfileIntro/>
-      <img class="divider stagger-in" src="/images/home/line1.svg" alt="" draggable="false" />
+      <Image class="divider stagger-in" src={lineDivider} inferSize alt="" draggable="false" />
       <ExperienceSection experiences={experiences}/>
-      <img class="divider stagger-in" src="/images/home/line1.svg" alt="" draggable="false" />
+      <Image class="divider stagger-in" src={lineDivider} inferSize alt="" draggable="false" />
       <div class="stagger-in"><ProjectsSection projects={projects}/></div>
       <div>
         <div class="cursor-fill-wrap stagger-in">
           <CursorFillButton href="https://github.com/ashuhlee" label="See more on GitHub" />
         </div>
       </div>
-      <img class="divider divider--doodle stagger-in" src="/images/home/line1.svg" alt="" draggable="false" />
+      <Image class="divider divider--doodle stagger-in" src={lineDivider} inferSize alt="" draggable="false" />
       <div class="stagger-in"><DoodleCluster/></div>
     </main>
 

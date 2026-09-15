@@ -1,8 +1,28 @@
 ---
+import { Image } from 'astro:assets';
+
 import Layout from '../../layouts/Layout.astro';
-import PageFooter from '../../components/PageFooter.astro';
-import DitherBackground from '../../components/home/DitherBackground.astro';
-import BackButton from '../../components/BackButton.astro';
+import PageFooter from '../../components/common/PageFooter.astro';
+import DitherBackground from '../../components/dither/DitherBackground.astro';
+import BackButton from '../../components/common/BackButton.astro';
+
+import withdraw1 from '../../assets/pesa/withdraw-1.webp';
+import withdraw2 from '../../assets/pesa/withdraw-2.webp';
+import withdraw3 from '../../assets/pesa/withdraw-3.webp';
+
+import wallet1 from '../../assets/pesa/wallet-1.webp';
+import wallet2 from '../../assets/pesa/wallet-2.webp';
+
+import savings1 from '../../assets/pesa/savings-1.webp';
+import savings2 from '../../assets/pesa/savings-2.webp';
+
+import settings1 from '../../assets/pesa/settings-1.webp';
+import settings2 from '../../assets/pesa/settings-2.webp';
+
+import reviewPlaceholder from '../../assets/pesa/placeholder.webp';
+import chipCaretRole from '../../assets/pesa/chip-caret-role.svg';
+import chipCaretFocus from '../../assets/pesa/chip-caret-focus.svg';
+import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 ---
 
 <Layout
@@ -30,15 +50,15 @@ import BackButton from '../../components/BackButton.astro';
 
 			<div class="chips">
 				<div class="chip-group stagger-in">
-					<span class="chip role">Role <img src="/images/pesa/chip-caret-role.svg" alt="" width="9.5" height="9.5" /></span>
+					<span class="chip role">Role <Image src={chipCaretRole} width={9.5} height={9.5} alt="" /></span>
 					<p>Software Engineer Intern</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip focus">Focus <img src="/images/pesa/chip-caret-focus.svg" alt="" width="9.5" height="9.5" /></span>
+					<span class="chip focus">Focus <Image src={chipCaretFocus} width={9.5} height={9.5} alt="" /></span>
 					<p>Mobile (iOS + Android)</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip timeline">Timeline <img src="/images/pesa/chip-caret-timeline.svg" alt="" width="9.5" height="9.5" /></span>
+					<span class="chip timeline">Timeline <Image src={chipCaretTimeline} width={9.5} height={9.5} alt="" /></span>
 					<p>Summer 2026</p>
 				</div>
 			</div>
@@ -69,19 +89,22 @@ import BackButton from '../../components/BackButton.astro';
 				data-tooltip="Deposit and withdraw from savings"
 				data-tooltip-color="#FEC0F2"
 			>
-				<img
+				<Image
 					class="preview-phone preview-phone-left"
-					src="/images/pesa/withdraw-1.webp"
+					src={withdraw1}
+					inferSize
 					alt="Withdraw from stash screen"
 				/>
-				<img
+				<Image
 					class="preview-phone preview-phone-center"
-					src="/images/pesa/withdraw-2.webp"
+					src={withdraw2}
+					inferSize
 					alt="Request for withdrawal modal"
 				/>
-				<img
+				<Image
 					class="preview-phone preview-phone-right"
-					src="/images/pesa/withdraw-3.webp"
+					src={withdraw3}
+					inferSize
 					alt="Decline withdrawal request modal"
 				/>
 			</div>
@@ -90,14 +113,16 @@ import BackButton from '../../components/BackButton.astro';
 				data-tooltip="Create a new wallet"
 				data-tooltip-color="#E4F894"
 			>
-				<img
+				<Image
 					class="wallet-phone wallet-phone-1"
-					src="/images/pesa/wallet-1.webp"
+					src={wallet1}
+					inferSize
 					alt="Your new GBP wallet is waiting screen"
 				/>
-				<img
+				<Image
 					class="wallet-phone wallet-phone-2"
-					src="/images/pesa/wallet-2.webp"
+					src={wallet2}
+					inferSize
 					alt="Activate your USD wallet screen"
 				/>
 			</div>
@@ -117,14 +142,16 @@ import BackButton from '../../components/BackButton.astro';
 				data-tooltip="Create a savings account"
 				data-tooltip-color="#BEEFFF"
 			>
-				<img
+				<Image
 					class="savings-phone savings-phone-1"
-					src="/images/pesa/savings-1.webp"
+					src={savings1}
+					inferSize
 					alt="Empty personal stash screen"
 				/>
-				<img
+				<Image
 					class="savings-phone savings-phone-2"
-					src="/images/pesa/savings-2.webp"
+					src={savings2}
+					inferSize
 					alt="Stash created successfully modal"
 				/>
 			</div>
@@ -133,14 +160,16 @@ import BackButton from '../../components/BackButton.astro';
 				data-tooltip="Savings creation and deletion"
 				data-tooltip-color="#FFB8AA"
 			>
-				<img
+				<Image
 					class="settings-phone settings-phone-1"
-					src="/images/pesa/settings-1.webp"
+					src={settings1}
+					inferSize
 					alt="Stash settings screen"
 				/>
-				<img
+				<Image
 					class="settings-phone settings-phone-2"
-					src="/images/pesa/settings-2.webp"
+					src={settings2}
+					inferSize
 					alt="Stash closed confirmation modal"
 				/>
 			</div>
@@ -149,9 +178,10 @@ import BackButton from '../../components/BackButton.astro';
 				data-tooltip="Action-prompted dialogs"
 				data-tooltip-color="#FFAFDD"
 			>
-				<img
+				<Image
 					class="review-phone"
-					src="/images/pesa/placeholder.webp"
+					src={reviewPlaceholder}
+					inferSize
 					alt="App Store review prompt dialog"
 				/>
 			</div>
@@ -306,7 +336,7 @@ import BackButton from '../../components/BackButton.astro';
 		gap: 8px;
 		background: #25262D;
 		border-radius: 24px;
-		padding: 6px 12px 9px 12px;
+		padding: 6px 12px 8px 12px;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
 		font-size: 14px;
@@ -419,6 +449,7 @@ import BackButton from '../../components/BackButton.astro';
 		position: absolute;
 		top: 50%;
 		width: 22.9%;
+		height: auto;
 		transform: translate(-50%, -50%);
 		pointer-events: none;
 		user-select: none;
@@ -439,6 +470,7 @@ import BackButton from '../../components/BackButton.astro';
 	.wallet-phone {
 		position: absolute;
 		width: 41.04%;
+		height: auto;
 		pointer-events: none;
 		user-select: none;
 	}
@@ -490,6 +522,7 @@ import BackButton from '../../components/BackButton.astro';
 	.review-phone {
 		position: absolute;
 		width: 66%;
+		height: auto;
 		left: 18%;
 		top: -124%;
 		pointer-events: none;

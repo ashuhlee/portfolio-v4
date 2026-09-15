@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import Dither, { type DitherProps, type RGB } from './Dither';
+import DitherCanvas, { type DitherProps, type RGB } from './DitherCanvas';
 
 function isMultiple(waveColor: RGB | RGB[]): waveColor is RGB[] {
 	return Array.isArray(waveColor[0]);
 }
 
-interface DitherRandomProps extends Omit<DitherProps, 'waveColor'> {
+interface DitherRandomColorProps extends Omit<DitherProps, 'waveColor'> {
 	waveColor: RGB | RGB[];
 }
 
-export default function DitherRandom({ waveColor, ...rest }: DitherRandomProps) {
+export default function DitherRandomColor({ waveColor, ...rest }: DitherRandomColorProps) {
 	const [resolvedColor] = useState<RGB>(() =>
 		isMultiple(waveColor) ? waveColor[Math.floor(Math.random() * waveColor.length)] : waveColor
 	);
@@ -20,7 +20,7 @@ export default function DitherRandom({ waveColor, ...rest }: DitherRandomProps) 
 
 	return (
 		<div style={{ width: '100%', height: '100%', opacity: ready ? 1 : 0, transition: 'opacity 0.5s ease' }}>
-			<Dither waveColor={resolvedColor} onCreated={() => setReady(true)} {...rest} />
+			<DitherCanvas waveColor={resolvedColor} onCreated={() => setReady(true)} {...rest} />
 		</div>
 	);
 }

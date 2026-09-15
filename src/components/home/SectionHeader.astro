@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import dotVector from '../../assets/home/dot-vector.svg';
+
 interface Props {
 	title: string;
 }
@@ -7,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <div class="section-header">
-	<h2><img src="/images/home/dot-vector.svg" alt="" width="11" height="11"/> {title}</h2>
+	<h2><Image src={dotVector} width={11} height={11} alt="" /> {title}</h2>
 	<slot />
 </div>
 
