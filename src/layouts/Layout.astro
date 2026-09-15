@@ -49,6 +49,13 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<meta name="description" content={description} />
 		<title>{title}</title>
 
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={Astro.url} />
 		<meta property="og:title" content={title} />
@@ -285,7 +292,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 	:root {
 		--color-bg: #fefefe;
-		--color-ink: #2a2a2a;
+		--color-ink: #232323;
 		--color-ink-medium: #444444;
 		--color-ink-soft: #606060;
 		--color-ink-muted: #868686;
@@ -295,7 +302,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--font-sans: 'Sofia Pro', system-ui, sans-serif;
 		--font-sofia: 'Sofia Pro', var(--font-sans);
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;
-		--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+		--font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 	}
 
 	html,

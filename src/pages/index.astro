@@ -12,7 +12,7 @@ import CursorFillButton from '../components/home/CursorFillButton.astro';
 const experiences = [
 	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
 	{role: 'Software Engineer Intern at Pesa', when: 'Summer 2026', dot: '#A6B9FF'},
-	{role: 'Web Development Intern at SCAN', when: 'Summer 2024 - 25', dot: '#FBB6E8'},
+	{role: 'Web Development Intern at SCAN', when: 'Summer 2024 - 25', dot: '#FFAAE5'},
 ];
 
 const projects = [
@@ -85,7 +85,8 @@ const projects = [
     .page {
         max-width: 650px;
         margin: 0 auto;
-        padding: 40px 24px 64px;
+        padding: 40px 24px 0;
+        --page-max-width: 650px;
     }
 
     .cursor-fill-wrap {
