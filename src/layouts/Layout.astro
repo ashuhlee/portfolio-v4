@@ -291,18 +291,69 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	:root {
-		--color-bg: #fefefe;
-		--color-ink: #232323;
-		--color-ink-medium: #444444;
-		--color-ink-soft: #606060;
-		--color-ink-muted: #868686;
+		/* brand */
+		--color-brand-pink: #FE6FC1;
+		--color-brand-lime: #EDFDAD;
+		--color-brand-cyan: #beefff;
+		--color-accent-purple: #9093E8;
+
+		/* text */
+		--color-text-primary: #232323;
+		--color-text-primary-alt: #212121;
+		--color-text-secondary: #444444;
+		--color-text-medium: #4D4D4D;
+		--color-text-muted: #606060;
+		--color-text-faint: #868686;
+		--color-charcoal: #393939;
+		--color-charcoal-alt: #222222;
+		--color-gray-dark: #383838;
+		--color-gray-warm: #303030;
+		--color-slate: #595d62;
+
+		--color-white: #ffffff;
+		--color-black: #000000;
+
+		/* dark fills (hover/press states) */
+		--color-navy-deep: #202935;
+		--color-forest-deep: #222C25;
+		--color-ink-deep: #1D2726;
+		--color-charcoal-navy: #25262D;
+
+		/* backgrounds / borders */
+		--color-bg-page: #fefefe;
+
 		--color-border: #eaeaea;
-		--color-accent: #9093E8;
-		--color-main: #FE6FC1;
+		--color-border-soft: #ebebeb;
+
+		--color-gray-faint: #f8f8f8;
+		--color-gray-faint-hover: #FAFAFA;
+
+		--color-gray-light: #f4f4f4;
+		--color-gray-lighter: #f3f3f3;
+
+		--color-gray-hover: #f0f0f0;
+		--color-gray-mid: #c8c8c8;
+		--color-gray-mid-light: #cbcbcb;
+
+		/* one-offs */
+		--color-selection-blue: #7E96FF;
+		--color-chip-pink: #FEC0F2;
+		--color-chip-yellow: #ffeeb5;
+
 		--font-sans: 'Sofia Pro', system-ui, sans-serif;
 		--font-sofia: 'Sofia Pro', var(--font-sans);
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;
 		--font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+		--font-size-12: 0.75rem;   /* 12px */
+		--font-size-13: 0.8125rem; /* 13px */
+		--font-size-14: 0.875rem;  /* 14px */
+		--font-size-15: 0.9375rem; /* 15px */
+		--font-size-16: 1rem;      /* 16px */
+		--font-size-18: 1.125rem;  /* 18px */
+		--font-size-20: 1.25rem;   /* 20px */
+		--font-size-22: 1.375rem;  /* 22px */
+		--font-size-24: 1.5rem; 	 /* 24px */
 	}
 
 	html,
@@ -313,8 +364,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	body {
-		background: var(--color-bg);
-		color: var(--color-ink);
+		background: var(--color-bg-page);
+		color: var(--color-text-primary);
 		font-family: var(--font-sans), sans-serif;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -341,15 +392,15 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	::selection {
-		background: #7E96FF;
-		color: #fff;
+		background: var(--color-selection-blue);
+		color: var(--color-white);
 	}
 
 	.path-label {
 		font-family: var(--font-mono), monospace;
 		user-select: none;
-		font-size: 0.75rem;
-		color: #cbcbcb;
+		font-size: var(--font-size-12);
+		color: var(--color-gray-mid-light);
 	}
 
 	.stagger-in {

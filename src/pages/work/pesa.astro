@@ -297,15 +297,15 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 
 	h1 {
 		font-family: var(--font-display), sans-serif;
-		font-size: 1.25rem;
+		font-size: var(--font-size-20);
 		margin: 0;
-		color: var(--color-ink);
+		color: var(--color-text-primary);
 	}
 
 	.description {
-		font-size: 0.9375rem;
+		font-size: var(--font-size-15);
 		line-height: 1.5;
-		color: var(--color-ink-soft);
+		color: var(--color-text-muted);
 		margin: 0 0 0.75rem;
 		max-width: 31.5625rem;
 	}
@@ -334,12 +334,12 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		background: #25262D;
+		background: var(--color-charcoal-navy);
 		border-radius: 1.5rem;
 		padding: 0.375rem 0.75rem 0.5rem 0.75rem;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
-		font-size: 0.875rem;
+		font-size: var(--font-size-14);
 		line-height: 0.5;
 		white-space: nowrap;
 	}
@@ -349,21 +349,21 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	}
 
 	.chip.role {
-		color: #FEC0F2;
+		color: var(--color-chip-pink);
 	}
 
 	.chip.focus {
-		color: #ffeeb5;
+		color: var(--color-chip-yellow);
 	}
 
 	.chip.timeline {
-		color: #beefff;
+		color: var(--color-brand-cyan);
 	}
 
 	.chip-group p {
 		margin: 0;
-		font-size: 0.9375rem;
-		color: #303030;
+		font-size: var(--font-size-15);
+		color: var(--color-gray-warm);
 		text-align: right;
 	}
 
@@ -381,10 +381,10 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		justify-content: center;
 		width: 2rem;
 		height: 2rem;
-		background: #F8F8F8;
+		background: var(--color-gray-faint);
 		border: none;
 		border-radius: 999px;
-		color: #000;
+		color: var(--color-black);
 		cursor: pointer;
 		transition:
 			color 0.2s ease,
@@ -392,15 +392,15 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	}
 
 	.expand-toggle:hover {
-		background: #FAFAFA;
-		color: var(--color-main);
+		background: var(--color-gray-faint-hover);
+		color: var(--color-brand-pink);
 	}
 
 	h2 {
 		font-family: var(--font-display), sans-serif;
-		font-size: 1.125rem;
+		font-size: var(--font-size-18);
 		margin: 0;
-		color: var(--color-ink);
+		color: var(--color-text-primary);
 	}
 
 	.showcase-grid {
@@ -419,9 +419,9 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		font-family: var(--font-sofia), sans-serif;
 		font-style: italic;
 		font-weight: 500;
-		font-size: 0.9375rem;
+		font-size: var(--font-size-15);
 		text-align: center;
-		color: var(--color-main);
+		color: var(--color-brand-pink);
 	}
 
 	.showcase-exclaim {
@@ -432,8 +432,8 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 
 	.placeholder {
 		position: absolute;
-		background: #f8f8f8;
-		border: 1px solid #ebebeb;
+		background: var(--color-gray-faint);
+		border: 1px solid var(--color-border-soft);
 		border-radius: 1.125rem;
 	}
 

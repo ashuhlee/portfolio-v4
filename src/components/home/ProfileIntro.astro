@@ -122,7 +122,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		background: var(--color-main);
+		background: var(--color-brand-pink);
 		border-radius: 999px;
 	}
 
@@ -133,14 +133,14 @@ import avatarIcon from '../../assets/home/icon-white.png';
 	.who .name {
 		margin: 0;
 		font-weight: 600;
-		font-size: 1rem;
-		color: var(--color-ink);
+		font-size: var(--font-size-16);
+		color: var(--color-text-primary);
 	}
 
 	.who .title {
 		margin: 0;
-		font-size: 0.9375rem;
-		color: var(--color-ink-soft);
+		font-size: var(--font-size-15);
+		color: var(--color-text-muted);
 	}
 
 	.bio {
@@ -148,16 +148,16 @@ import avatarIcon from '../../assets/home/icon-white.png';
 		z-index: 0;
 		width: 100%;
 		max-width: 37.5rem;
-		font-size: 0.9375rem;
+		font-size: var(--font-size-15);
 		line-height: 1.5;
-		color: var(--color-ink-medium);
+		color: var(--color-text-secondary);
 		margin: 0;
 	}
 
 	.bio .accent {
 		position: relative;
 		display: inline-block;
-		color: var(--color-accent);
+		color: var(--color-accent-purple);
 		font-family: var(--font-sofia), sans-serif;
 		font-style: italic;
 		text-decoration: none;
@@ -165,7 +165,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 
 	.bio .accent.contact {
 		font-style: normal;
-		color: #4D4D4D;
+		color: var(--color-text-medium);
 	}
 
 	.bio .accent.contact::after {
@@ -237,7 +237,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 	}
 
 	.bio .accent.contact:hover .label {
-		color: #000;
+		color: var(--color-black);
 	}
 
 	.bio .accent .scribble-wrap :global(svg) {
