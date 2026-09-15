@@ -91,6 +91,8 @@ const {
 	}
 
 	.thumb {
+		--thumb-blend: color-burn;
+		--thumb-opacity: 0.08;
 		position: relative;
 		height: 110px;
 		width: 100%;
@@ -107,9 +109,8 @@ const {
 		background-image: url('/images/patterns/dither-gradient.jpg');
 		background-size: cover;
 		background-position: top;
-		mix-blend-mode: var(--thumb-blend, color-burn);
-		-webkit-mix-blend-mode: var(--thumb-blend, color-burn);
-		opacity: var(--thumb-opacity, 0.09);
+		mix-blend-mode: var(--thumb-blend);
+		opacity: var(--thumb-opacity);
 	}
 
 	.card:hover .thumb {
