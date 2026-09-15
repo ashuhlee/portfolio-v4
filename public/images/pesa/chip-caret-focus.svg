@@ -1,13 +1,14 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1000002886">
 <g id="Vector">
-<path d="M0 0H1.8V1.8H0V0Z" fill="#FFEEB5"/>
+<path d="M0 3.6H1.8V5.4H0V3.6Z" fill="#FFEEB5"/>
 <path d="M1.8 1.8H3.6V3.6H1.8V1.8Z" fill="#FFEEB5"/>
-<path d="M3.6 3.6H5.4V5.4H3.6V3.6Z" fill="#FFEEB5"/>
+<path d="M3.6 0H5.4V1.8H3.6V0Z" fill="#FFEEB5"/>
+<path d="M5.4 1.8H7.2V3.6H5.4V1.8Z" fill="#FFEEB5"/>
+<path d="M7.2 3.6H9V5.4H7.2V3.6Z" fill="#FFEEB5"/>
 <path d="M5.4 5.4H7.2V7.2H5.4V5.4Z" fill="#FFEEB5"/>
-<path d="M7.2 7.2H9V9H7.2V7.2Z" fill="#FFEEB5"/>
-<path d="M9 0H7.2V1.8H9V0Z" fill="#FFEEB5"/>
-<path d="M7.2 1.8H5.4V3.6H7.2V1.8Z" fill="#FFEEB5"/>
-<path d="M3.6 5.4H1.8V7.2H3.6V5.4Z" fill="#FFEEB5"/>
-<path d="M1.8 7.2H0V9H1.8V7.2Z" fill="#FFEEB5"/>
+<path d="M3.6 7.2H5.4V9H3.6V7.2Z" fill="#FFEEB5"/>
+<path d="M1.8 5.4H3.6V7.2H1.8V5.4Z" fill="#FFEEB5"/>
+</g>
 </g>
 </svg>

@@ -17,11 +17,30 @@ const { experiences } = Astro.props;
 <section class="section" id="experience">
 	<div class="stagger-in">
 		<SectionHeader title="Experience">
-			<div class="icon-button" aria-hidden="true">
-				<div class="icon-button-scale lime">
-					<img src="/images/home/see-work-arrow-icon.svg" alt="" width="28" height="28" />
+			<button class="icon-button" type="button" aria-label="Change sticker color">
+				<div class="icon-button-scale">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-bounce="0.95">
+						<path
+							d="M20.2217 16.7115C18.926 18.7855 16.6252 20.1675 14 20.1677C11.3863 20.1675 9.09354 18.7981 7.79499 16.7393L9.36713 15.7952C10.3444 17.321 12.0536 18.3336 14 18.3337C16.0465 18.3336 17.8305 17.2142 18.7777 15.5557L20.2217 16.7115Z"
+							fill="currentColor"
+						/>
+						<path
+							d="M10.3335 8.4996C11.346 8.49971 12.1661 9.32108 12.1661 10.3335C12.166 11.3459 11.3459 12.166 10.3335 12.1661C9.32108 12.1661 8.49971 11.346 8.4996 10.3335C8.4996 9.32101 9.32101 8.4996 10.3335 8.4996Z"
+							fill="currentColor"
+						/>
+						<path
+							d="M17.6665 8.4996C18.679 8.4996 19.5004 9.32101 19.5004 10.3335C19.5003 11.346 18.6789 12.1661 17.6665 12.1661C16.6541 12.166 15.834 11.3459 15.8339 10.3335C15.8339 9.32108 16.654 8.49971 17.6665 8.4996Z"
+							fill="currentColor"
+						/>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M14 1.16667C21.0877 1.16667 26.8333 6.91235 26.8333 14C26.8333 21.0877 21.0877 26.8333 14 26.8333C6.91234 26.8333 1.16667 21.0877 1.16667 14C1.16667 6.91235 6.91234 1.16667 14 1.16667ZM14 3.0006C7.92487 3.0006 3.0006 7.92487 3.0006 14C3.0006 20.0751 7.92487 24.9994 14 24.9994C20.0751 24.9994 24.9994 20.0751 24.9994 14C24.9994 7.92487 20.0751 3.0006 14 3.0006Z"
+							fill="currentColor"
+						/>
+					</svg>
 				</div>
-			</div>
+			</button>
 		</SectionHeader>
 	</div>
 
@@ -50,10 +69,55 @@ const { experiences } = Astro.props;
 </section>
 
 <script>
+	import { gsap } from 'gsap';
+
+	const STICKER_COLORS = [
+		{ bg: '#edfdad', fg: '#000000' },
+		{ bg: '#96adff', fg: '#3C2C91' },
+		{ bg: '#fe6fc1', fg: '#ffffff' },
+		{ bg: '#252D38', fg: '#AEEBFF' },
+		{ bg: '#FF938D', fg: '#ffffff' },
+	];
+
+	const FLIP_AXES = [
+		{ rotateX: -90, rotateY: -90 },
+		{ rotateX: 90, rotateY: 0 },
+		{ rotateX: 0, rotateY: -90 },
+		{ rotateX: -90, rotateY: 0 },
+		{ rotateX: 90, rotateY: 90 },
+		{ rotateX: 0, rotateY: 90 },
+	];
+
 	document.addEventListener('astro:page-load', () => {
-		document.querySelectorAll('.icon-button').forEach((el) => {
-			el.addEventListener('mouseenter', () => {
-				el.classList.toggle('flipped');
+		document.querySelectorAll<HTMLElement>('.icon-button').forEach((el) => {
+			const scale = el.querySelector<HTMLElement>('.icon-button-scale');
+			if (!scale) return;
+
+			let index = 0;
+			scale.style.background = STICKER_COLORS[index].bg;
+			scale.style.color = STICKER_COLORS[index].fg;
+
+			let flipping = false;
+			let tilted = false;
+
+			el.addEventListener('click', () => {
+				if (flipping) return;
+				flipping = true;
+				index = (index + 1) % STICKER_COLORS.length;
+				tilted = !tilted;
+				const axis = FLIP_AXES[Math.floor(Math.random() * FLIP_AXES.length)];
+
+				gsap
+					.timeline({ onComplete: () => (flipping = false) })
+					.to(scale, { rotateX: axis.rotateX, rotateY: axis.rotateY, duration: 0.18, ease: 'power1.in' })
+					.to(el, { rotate: tilted ? -8.5 : 8.5, duration: 0.36, ease: 'power1.inOut' }, 0)
+					.set(scale, {
+						onComplete: () => {
+							scale.style.background = STICKER_COLORS[index].bg;
+							scale.style.color = STICKER_COLORS[index].fg;
+						},
+					})
+					.to(scale, { rotateX: 0, rotateY: 0, duration: 0.18, ease: 'power1.out' });
 			});
 		});
 	});
@@ -66,11 +130,12 @@ const { experiences } = Astro.props;
 		justify-content: center;
 		width: 44px;
 		height: 44px;
+		padding: 0;
+		background: none;
+		border: none;
+		cursor: pointer;
+		perspective: 300px;
 		transform: rotate(8.5deg);
-	}
-
-	.icon-button.flipped {
-		transform: rotate(-8.5deg);
 	}
 
 	.icon-button-scale {
@@ -80,10 +145,6 @@ const { experiences } = Astro.props;
 		width: 100%;
 		height: 100%;
 		border-radius: 999px;
-	}
-
-	.icon-button-scale.lime {
-		background: #edfdad;
 	}
 
 	.timeline-wrap {
@@ -152,7 +213,7 @@ const { experiences } = Astro.props;
 		position: absolute;
 		inset: 0;
 		border-radius: 999px;
-		background: #222C25;
+		background: #1D2726;
 		opacity: 0;
 		transform: scale(0.7);
 		transition:

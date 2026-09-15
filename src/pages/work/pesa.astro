@@ -30,15 +30,15 @@ import BackButton from '../../components/BackButton.astro';
 
 			<div class="chips">
 				<div class="chip-group stagger-in">
-					<span class="chip role">Role <img src="/images/pesa/chip-caret-role.svg" alt="" width="9" height="9" /></span>
+					<span class="chip role">Role <img src="/images/pesa/chip-caret-role.svg" alt="" width="9.5" height="9.5" /></span>
 					<p>Software Engineer Intern</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip focus">Focus <img src="/images/pesa/chip-caret-focus.svg" alt="" width="9" height="9" /></span>
-					<p>Mobile (iOS &amp; Android)</p>
+					<span class="chip focus">Focus <img src="/images/pesa/chip-caret-focus.svg" alt="" width="9.5" height="9.5" /></span>
+					<p>Mobile (iOS + Android)</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip timeline">Timeline <img src="/images/pesa/chip-caret-timeline.svg" alt="" width="9" height="9" /></span>
+					<span class="chip timeline">Timeline <img src="/images/pesa/chip-caret-timeline.svg" alt="" width="9.5" height="9.5" /></span>
 					<p>Summer 2026</p>
 				</div>
 			</div>
@@ -49,8 +49,15 @@ import BackButton from '../../components/BackButton.astro';
 			<button class="expand-toggle" type="button" data-bounce="0.9" aria-label="Expand showcase width">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
+						class="icon-expand"
 						d="M4 3H9.33333V4.77778H5.77778V8.33333H4V3ZM4 19H9.33333V17.2222H5.77778V13.6667H4L4 19ZM14.6667 19H20V13.6667H18.2222V17.2222H14.6667V19ZM20 3H14.6667V4.77778H18.2222V8.33333H20V3Z"
 						fill="currentColor"
+					/>
+					<path
+						class="icon-collapse"
+						d="M9.33333 8.33333H4V6.55556H7.55556V3H9.33333V8.33333ZM9.33333 13.6667H4V15.4444H7.55556V19H9.33333V13.6667ZM20 13.6667H14.6667V19H16.4444V15.4444H20V13.6667ZM14.6667 8.33333H20V6.55556H16.4444V3H14.6667V8.33333Z"
+						fill="currentColor"
+						opacity="0"
 					/>
 				</svg>
 			</button>
@@ -80,7 +87,7 @@ import BackButton from '../../components/BackButton.astro';
 			</div>
 			<div
 				class="placeholder card-wallet showcase-preview stagger-in"
-				data-tooltip="Create and new wallet"
+				data-tooltip="Create a new wallet"
 				data-tooltip-color="#E4F894"
 			>
 				<img
@@ -107,7 +114,7 @@ import BackButton from '../../components/BackButton.astro';
 			></video>
 			<div
 				class="placeholder card-savings showcase-preview stagger-in"
-				data-tooltip="More savings related stuff"
+				data-tooltip="Create a savings account"
 				data-tooltip-color="#BEEFFF"
 			>
 				<img
@@ -148,36 +155,81 @@ import BackButton from '../../components/BackButton.astro';
 					alt="App Store review prompt dialog"
 				/>
 			</div>
-		</div>
 
-		<!--<div class="badges">-->
-		<!--	<div class="badge-group stagger-in">-->
-		<!--		<span class="badge blue">+ a bunch of other cool stuff</span>-->
-		<!--		<span class="badge pink">for 10k+ users</span>-->
-		<!--	</div>-->
-		<!--</div>-->
+			<p class="showcase-note stagger-in">
+				<span class="showcase-note-text">+ a bunch of other cool stuff</span><span class="showcase-exclaim">!</span>
+			</p>
+		</div>
 
 		<div class="stagger-in"><PageFooter /></div>
 	</div>
 </Layout>
 
 <script>
-	const EXPAND_PATH =
-		'M4 3H9.33333V4.77778H5.77778V8.33333H4V3ZM4 19H9.33333V17.2222H5.77778V13.6667H4L4 19ZM14.6667 19H20V13.6667H18.2222V17.2222H14.6667V19ZM20 3H14.6667V4.77778H18.2222V8.33333H20V3Z';
-	const COLLAPSE_PATH =
-		'M9.33333 8.33333H4V6.55556H7.55556V3H9.33333V8.33333ZM9.33333 13.6667H4V15.4444H7.55556V19H9.33333V13.6667ZM20 13.6667H14.6667V19H16.4444V15.4444H20V13.6667ZM14.6667 8.33333H20V6.55556H16.4444V3H14.6667V8.33333Z';
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import SplitType from 'split-type';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	document.addEventListener('astro:page-load', () => {
 		const page = document.querySelector<HTMLElement>('.page');
+
 		const toggle = document.querySelector<HTMLButtonElement>('.expand-toggle');
-		const path = toggle?.querySelector('path');
-		if (!page || !toggle || !path) return;
+		const svg = toggle?.querySelector('svg');
+
+		const expandIcon = toggle?.querySelector<SVGPathElement>('.icon-expand');
+		const collapseIcon = toggle?.querySelector<SVGPathElement>('.icon-collapse');
+
+		if (!page || !toggle || !svg || !expandIcon || !collapseIcon) return;
+
+		let rotation = 0;
 
 		toggle.addEventListener('click', () => {
 			const expanded = page.classList.toggle('expanded');
-			path.setAttribute('d', expanded ? COLLAPSE_PATH : EXPAND_PATH);
+			rotation += 90;
+
+			gsap.to(svg, { rotate: rotation, duration: 0.4, ease: 'power2.inOut' });
+			gsap.to(expandIcon, { opacity: expanded ? 0 : 1, duration: 0.3, ease: 'power2.inOut' });
+			gsap.to(collapseIcon, { opacity: expanded ? 1 : 0, duration: 0.3, ease: 'power2.inOut' });
+
 			toggle.setAttribute('aria-label', expanded ? 'Collapse showcase width' : 'Expand showcase width');
 		});
+
+		const note = document.querySelector<HTMLElement>('.showcase-note');
+		const noteText = note?.querySelector<HTMLElement>('.showcase-note-text');
+		const exclaim = note?.querySelector<HTMLElement>('.showcase-exclaim');
+		if (note && noteText && exclaim) {
+			const split = new SplitType(noteText, { types: 'words', tagName: 'span' });
+			gsap.set(split.words, { opacity: 0 });
+			gsap.set(exclaim, { opacity: 0, rotate: 25 });
+
+			const noteTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: note,
+					start: 'top 90%',
+					once: true,
+				},
+			});
+
+			noteTimeline
+				.to(split.words, {
+					opacity: 1,
+					duration: 0.4,
+					ease: 'power1.out',
+					stagger: 0.08,
+				})
+				.to(
+					exclaim,
+					{
+						opacity: 1,
+						rotate: 8,
+						duration: 1,
+						ease: 'elastic.out(1, 0.3)',
+					},
+					'+=0.5'
+				);
+		}
 	});
 </script>
 
@@ -186,7 +238,7 @@ import BackButton from '../../components/BackButton.astro';
 		max-width: 800px;
 		margin: 0 auto;
 		padding: 40px 24px 0;
-		transition: max-width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.0);
+		transition: max-width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.0);
 	}
 
 	.page.expanded {
@@ -252,13 +304,13 @@ import BackButton from '../../components/BackButton.astro';
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		background: #2b2b2b;
+		background: #25262D;
 		border-radius: 24px;
-		padding: 6px 12px 8px 12px;
+		padding: 6px 12px 9px 12px;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
 		font-size: 14px;
-		line-height: 1;
+		line-height: 0.5;
 		white-space: nowrap;
 	}
 
@@ -328,11 +380,31 @@ import BackButton from '../../components/BackButton.astro';
 		margin-bottom: 56px;
 	}
 
+	.showcase-note {
+		position: absolute;
+		left: 0;
+		top: calc(95.1% + 24px);
+		width: 55.2%;
+		margin: 0;
+		font-family: var(--font-sofia), sans-serif;
+		font-style: italic;
+		font-weight: 500;
+		font-size: 15px;
+		text-align: center;
+		color: var(--color-main);
+	}
+
+	.showcase-exclaim {
+		display: inline-block;
+		margin-left: 2px;
+		transform-origin: 50% 100%;
+	}
+
 	.placeholder {
 		position: absolute;
 		background: #f8f8f8;
 		border: 1px solid #ebebeb;
-		border-radius: 20px;
+		border-radius: 1.125rem;
 	}
 
 	video.placeholder {
@@ -467,62 +539,18 @@ import BackButton from '../../components/BackButton.astro';
 		height: 17.5%;
 	}
 
-	.badges {
-		display: flex;
-		justify-content: center;
-		margin-bottom: 56px;
-	}
-
-	.badge-group {
-		position: relative;
-		display: inline-block;
-		transform: translateX(-40px);
-	}
-
-	.badge {
-		border-radius: 999px;
-		padding: 5px 12px;
-		font-family: var(--font-sofia), sans-serif;
-		font-weight: 600;
-		font-size: 14px;
-		white-space: nowrap;
-	}
-
-	.badge.blue {
-		display: inline-block;
-		background: #7e96ff;
-		color: #fff;
-		transform: rotate(-2deg);
-	}
-
-	.badge.pink {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		background: #FEC0F2;
-		color: #000;
-		transform: translate(calc(-50% + 126px), calc(-50% + 20px)) rotate(2deg);
-	}
-
 	@media (max-width: 720px) {
 		.header-row {
 			flex-direction: column;
 		}
-
 		.chips {
 			width: 100%;
 		}
-
 		.chip-group {
 			align-items: flex-start;
 		}
-
 		.chip-group p {
 			text-align: left;
-		}
-
-		.badges {
-			flex-wrap: wrap;
 		}
 	}
 </style>
