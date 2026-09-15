@@ -4,9 +4,11 @@
 <div class="cursor-star" id="cursor-star" aria-hidden="true" transition:persist>
 	<svg width="16" height="16" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
+			id="cursor-star-path"
 			d="M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z"
 			stroke="currentColor"
 			stroke-width="2"
+			stroke-linecap="round"
 		/>
 	</svg>
 </div>
@@ -14,7 +16,14 @@
 <script>
 	import { gsap } from 'gsap';
 
+	const STAR_PATH =
+		'M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z';
+	const PLUS_PATH = 'M15.5 4.5V24.5M5.5 14.5H25.5';
+
+	const CURSOR_SHAPES: { path: string; d: string }[] = [{ path: '/work/pesa', d: PLUS_PATH }];
+
 	const star = document.getElementById('cursor-star');
+	const starPath = document.getElementById('cursor-star-path');
 	if (star) {
 		gsap.set(star, { transformOrigin: '0% 0%' });
 
@@ -32,7 +41,7 @@
 		});
 
 		const scaleTo = (value: number) =>
-			gsap.to(star, { scale: value, duration: 0.15, ease: 'power2.out' });
+			gsap.to(star, { scale: value, duration: 0.14, ease: 'power2.out' });
 
 		const HIDE_ON = 'a, .config-toggle, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
 
@@ -57,6 +66,9 @@
 		document.addEventListener('astro:page-load', () => {
 			star.classList.remove('link-hover');
 			gsap.set(star, { scale: 1 });
+
+			const shape = CURSOR_SHAPES.find((s) => s.path === window.location.pathname);
+			starPath?.setAttribute('d', shape ? shape.d : STAR_PATH);
 		});
 
 		const tooltipEl = document.getElementById('hover-tooltip');
