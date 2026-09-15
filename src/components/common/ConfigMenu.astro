@@ -1,0 +1,41 @@
+---
+---
+
+<button class="config-toggle" type="button" data-bounce="0.85" aria-label="Site settings" disabled>
+	<svg width="14" height="14" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z"
+			stroke="currentColor"
+			stroke-width="2"
+		/>
+	</svg>
+</button>
+
+<style>
+	.config-toggle {
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: none;
+		border: none;
+		padding: 0;
+		color: var(--color-text-primary);
+		cursor: pointer;
+		transition: color 0.2s ease;
+	}
+
+	.config-toggle:hover {
+		color: var(--color-brand-pink);
+	}
+
+	@media (max-width: 37.5rem) {
+		.config-toggle {
+			top: 1rem;
+			left: 1rem;
+		}
+	}
+</style>
