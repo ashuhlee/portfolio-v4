@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import '../styles/bounce.css';
 import Tooltip from '../components/Tooltip.astro';
+import ClockWidget from '../components/ClockWidget.astro';
 
 interface Props {
 	title?: string;
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const {
-	title = "Hi, I'm Ashley",
+	title = "Hi, I'm Ashley - wip!",
 	description = 'Computer science student with a passion for software development and intuitive design.',
 } = Astro.props;
 
@@ -54,6 +55,7 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 			</div>
 		</div>
 		<Tooltip />
+		<ClockWidget />
 	</body>
 
 	<script>
@@ -88,7 +90,7 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 						y: 0,
 						duration: 0.3,
 						stagger: 0.05,
-						delay: isHomeFirstVisit ? 0.2 : 0,
+						delay: isHomeFirstVisit ? 0.05 : 0,
 						ease: 'power2.out',
 					}
 				);
@@ -112,7 +114,7 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .back-button'
+				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn'
 			);
 			if (!target) return;
 			const sound = clickSoundPool[clickSoundIndex];
@@ -271,6 +273,7 @@ const pageTransition = { forwards: sequentialFade, backwards: sequentialFade };
 		--color-ink-muted: #868686;
 		--color-border: #eaeaea;
 		--color-accent: #9093E8;
+		--color-main: #FE6FC1;
 		--font-sans: 'Sofia Pro', system-ui, sans-serif;
 		--font-sofia: 'Sofia Pro', var(--font-sans);
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;

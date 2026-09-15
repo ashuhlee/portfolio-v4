@@ -1,3 +1,50 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import DitherBackground from '../components/home/DitherBackground.astro';
 ---
+
+<Layout title="Extras - Ashley O">
+	<DitherBackground slot="background" color={['grey']} />
+	<div class="page">
+		<a class="back-button stagger-in" data-bounce="0.85" href="/" aria-label="Back to home">
+			<img src="/images/pesa/back-arrow.svg" alt="" width="24" height="24" />
+		</a>
+
+		<h1 class="stagger-in">Under construction</h1>
+		<p class="description stagger-in">Come back in the future!</p>
+	</div>
+</Layout>
+
+<style>
+	.page {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 40px 24px 64px;
+	}
+
+	.back-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		background: #f3f3f3;
+		border-radius: 999px;
+		margin-bottom: 64px;
+	}
+
+	h1 {
+		font-family: var(--font-display), sans-serif;
+		font-size: 20px;
+		margin: 0;
+		color: var(--color-ink);
+	}
+
+	.description {
+		font-size: 15px;
+		line-height: 1.5;
+		color: var(--color-ink-soft);
+		margin: 12px 0 0;
+		max-width: 510px;
+	}
+</style>

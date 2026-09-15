@@ -1,0 +1,75 @@
+---
+---
+
+<div class="clock-widget" aria-hidden="true">
+	<span class="time">--:--</span>
+	<span class="zone">pm</span>
+</div>
+
+<script>
+	function formatTime() {
+		const parts = new Intl.DateTimeFormat('en-US', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+			timeZone: 'America/Toronto',
+		}).formatToParts(new Date());
+
+		const hour = parts.find((p) => p.type === 'hour')?.value ?? '--';
+		const minute = parts.find((p) => p.type === 'minute')?.value ?? '--';
+		const period = parts.find((p) => p.type === 'dayPeriod')?.value.toLowerCase() ?? '';
+
+		return { time: `${hour}:${minute}`, period };
+	}
+
+	function tick() {
+		const timeEl = document.querySelector<HTMLElement>('.clock-widget .time');
+		const zoneEl = document.querySelector<HTMLElement>('.clock-widget .zone');
+		const { time, period } = formatTime();
+		if (timeEl) timeEl.textContent = time;
+		if (zoneEl) zoneEl.textContent = period;
+	}
+
+	document.addEventListener('astro:page-load', () => {
+		tick();
+		const interval = setInterval(tick, 1000);
+		document.addEventListener('astro:before-swap', () => clearInterval(interval), { once: true });
+	});
+</script>
+
+<style>
+	.clock-widget {
+		position: fixed;
+		right: 16px;
+		bottom: 16px;
+		z-index: 5;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 2px;
+		padding: 6px 12px;
+		border-radius: 999px;
+		font-family: var(--font-mono), monospace;
+		user-select: none;
+		pointer-events: none;
+	}
+
+	.time {
+		font-size: 12px;
+		color: var(--color-ink);
+	}
+
+	.zone {
+		font-family: var(--font-sofia), sans-serif;
+		font-weight: 400;
+		font-style: italic;
+		font-size: 12px;
+		color: var(--color-main);
+	}
+
+	@media (max-width: 600px) {
+		.clock-widget {
+			right: 16px;
+			bottom: 16px;
+		}
+	}
+</style>
