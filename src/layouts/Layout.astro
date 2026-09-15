@@ -5,15 +5,18 @@ import Tooltip from '../components/common/Tooltip.astro';
 import ClockWidget from '../components/common/ClockWidget.astro';
 import ScrollProgress from '../components/common/ScrollProgress.astro';
 import ConfigMenu from '../components/common/ConfigMenu.astro';
+import CursorStar from '../components/common/CursorStar.astro';
 
 interface Props {
 	title?: string;
 	description?: string;
+	starColor?: string;
 }
 
 const {
 	title = "Hi, I'm Ashley",
 	description = 'CS Student at UWestern building intentionally crafted products.',
+	starColor,
 } = Astro.props;
 
 const outDuration = 0.1;
@@ -72,7 +75,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		<ClientRouter />
 	</head>
-	<body>
+	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
 		<slot name="background" />
 		<div id="smooth-wrapper" transition:animate={pageTransition}>
 			<div id="smooth-content">
@@ -80,6 +83,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			</div>
 		</div>
 		<Tooltip />
+		<CursorStar />
 		<ClockWidget />
 		<ScrollProgress />
 		<ConfigMenu />

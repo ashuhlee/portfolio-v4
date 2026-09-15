@@ -1,0 +1,112 @@
+---
+---
+
+<div class="cursor-star" id="cursor-star" aria-hidden="true" transition:persist>
+	<svg width="16" height="16" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z"
+			stroke="currentColor"
+			stroke-width="2"
+		/>
+	</svg>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const star = document.getElementById('cursor-star');
+	if (star) {
+		gsap.set(star, { transformOrigin: '0% 0%' });
+
+		const xTo = gsap.quickTo(star, 'x', { duration: 0.35, ease: 'power3' });
+		const yTo = gsap.quickTo(star, 'y', { duration: 0.35, ease: 'power3' });
+
+		document.addEventListener('mousemove', (event) => {
+			xTo(event.clientX + 13);
+			yTo(event.clientY + 13);
+			star.classList.add('visible');
+		});
+
+		document.addEventListener('mouseleave', () => {
+			star.classList.remove('visible');
+		});
+
+		const scaleTo = (value: number) =>
+			gsap.to(star, { scale: value, duration: 0.15, ease: 'power2.out' });
+
+		const HIDE_ON = 'a, .config-toggle, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
+
+		document.addEventListener('mouseover', (event) => {
+			const target = event.target as HTMLElement;
+			if (target?.closest(HIDE_ON)) {
+				star.classList.add('link-hover');
+				scaleTo(0);
+			}
+		});
+
+		document.addEventListener('mouseout', (event) => {
+			const target = event.target as HTMLElement;
+			const related = event.relatedTarget as HTMLElement | null;
+
+			const hoverTarget = target?.closest(HIDE_ON);
+			if (hoverTarget && !(related && hoverTarget.contains(related))) {
+				star.classList.remove('link-hover');
+				scaleTo(1);
+			}
+		});
+		document.addEventListener('astro:page-load', () => {
+			star.classList.remove('link-hover');
+			gsap.set(star, { scale: 1 });
+		});
+
+		const tooltipEl = document.getElementById('hover-tooltip');
+
+		const tooltipObserver = new MutationObserver(() => {
+			const tooltipActive = document.documentElement.classList.contains('tooltip-active');
+			if (tooltipActive && tooltipEl) {
+				const starRect = star.getBoundingClientRect();
+				const tooltipRect = tooltipEl.getBoundingClientRect();
+
+				const tooltipAnchorX = tooltipRect.left;
+				const tooltipAnchorY = tooltipRect.top + tooltipRect.height / 2;
+
+				const originX = ((tooltipAnchorX - starRect.left) / starRect.width) * 100;
+				const originY = ((tooltipAnchorY - starRect.top) / starRect.height) * 100;
+
+				gsap.to(star, {
+					scale: 0,
+					transformOrigin: `${originX}% ${originY}%`,
+					duration: 0.2,
+					ease: 'power2.out',
+				});
+			} else {
+				gsap.to(star, { scale: 1, transformOrigin: '0% 0%', duration: 0.2, ease: 'power2.out' });
+			}
+		});
+		tooltipObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+</script>
+
+<style>
+	.cursor-star {
+		opacity: 0;
+		pointer-events: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		transform-origin: 0 0;
+		color: var(--star-color, var(--color-text-primary));
+		z-index: 9997;
+		transition: opacity 0.25s ease;
+	}
+
+	.cursor-star.visible {
+		opacity: 1.0;
+	}
+
+	@media (max-width: 45rem) {
+		.cursor-star {
+			display: none;
+		}
+	}
+</style>

@@ -23,6 +23,7 @@
 			if (!target || target === activeTarget) return;
 
 			activeTarget = target;
+			document.documentElement.classList.add('tooltip-active');
 
 			const oldWidth = tooltip.getBoundingClientRect().width;
 
@@ -58,6 +59,7 @@
 
 			activeTarget = null;
 			tooltip.classList.remove('visible');
+			document.documentElement.classList.remove('tooltip-active');
 		});
 	}
 </script>
