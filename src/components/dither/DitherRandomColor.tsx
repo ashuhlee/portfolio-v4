@@ -13,9 +13,6 @@ export default function DitherRandomColor({ waveColor, ...rest }: DitherRandomCo
 	const [resolvedColor] = useState<RGB>(() =>
 		isMultiple(waveColor) ? waveColor[Math.floor(Math.random() * waveColor.length)] : waveColor
 	);
-	// The canvas has to mount, spin up a WebGL context, and compile its
-	// shaders before it can paint anything — fade it in once that's done
-	// (onCreated) instead of letting the pattern pop in abruptly.
 	const [ready, setReady] = useState(false);
 
 	return (

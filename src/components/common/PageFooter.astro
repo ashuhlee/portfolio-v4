@@ -29,50 +29,50 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		max-width: calc(var(--page-max-width, 800px) * 1.4);
+		max-width: calc(var(--page-max-width, 50rem) * 1.4);
 		margin: 0 auto;
-		padding: 32px 24px 40px;
+		padding: 2rem 1.5rem 2.5rem;
 	}
 
 	.brand {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.wordmark {
 		margin: 0;
 		font-family: var(--font-display), sans-serif;
-		font-size: 18px;
+		font-size: 1.125rem;
 		color: #212121;
 		user-select: none;
 	}
 
 	.copyright {
 		margin: 0;
-		font-size: 14px;
+		font-size: 0.875rem;
 		color: #606060;
 	}
 
 	.copyright-icon {
 		color: var(--color-main);
-		font-size: 15px;
+		font-size: 0.9375rem;
 	}
 
 	.footer-links {
 		display: flex;
 		align-self: flex-end;
-		gap: 2px;
+		gap: 0.125rem;
 	}
 
 	.footer-links a {
 		position: relative;
 		display: inline-flex;
 		align-items: center;
-		padding: 6px 10px;
+		padding: 0.375rem 0.625rem;
 		font-family: var(--font-mono), monospace;
 		text-transform: uppercase;
-		font-size: 12px;
+		font-size: 0.75rem;
 		color: var(--color-ink-medium);
 		text-decoration: none;
 		transition: color 0.2s ease;
@@ -122,9 +122,9 @@
 	.footer-links a::after {
 		content: '';
 		position: absolute;
-		left: 10px;
-		right: 10px;
-		bottom: 6px;
+		left: 0.625rem;
+		right: 0.625rem;
+		bottom: 0.375rem;
 		height: 1px;
 		background: currentColor;
 		opacity: 0.4;
@@ -141,12 +141,12 @@
 		z-index: 1;
 	}
 
-	@media (max-width: 720px) {
+	@media (max-width: 45rem) {
 		.page-footer-inner {
 			flex-direction: column;
 			align-items: center;
 			text-align: center;
-			gap: 12px;
+			gap: 0.75rem;
 		}
 
 		.brand {

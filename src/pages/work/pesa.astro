@@ -169,7 +169,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				<Image
 					class="settings-phone settings-phone-2"
 					src={settings2}
-					inferSize
+          inferSize
 					alt="Stash closed confirmation modal"
 				/>
 			</div>
@@ -265,9 +265,9 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 
 <style>
 	.page {
-		max-width: 800px;
+		max-width: 50rem;
 		margin: 0 auto;
-		padding: 40px 24px 0;
+		padding: 2.5rem 1.5rem 0;
 		transition: max-width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.0);
 	}
 
@@ -279,8 +279,8 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 32px;
-		margin-bottom: 32px;
+		gap: 2rem;
+		margin-bottom: 2rem;
 	}
 
 	.header-left {
@@ -291,23 +291,23 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	.title-row {
 		display: flex;
 		align-items: center;
-		gap: 16px;
-		margin-bottom: 12px;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
 	}
 
 	h1 {
 		font-family: var(--font-display), sans-serif;
-		font-size: 20px;
+		font-size: 1.25rem;
 		margin: 0;
 		color: var(--color-ink);
 	}
 
 	.description {
-		font-size: 15px;
+		font-size: 0.9375rem;
 		line-height: 1.5;
 		color: var(--color-ink-soft);
-		margin: 0 0 12px;
-		max-width: 505px;
+		margin: 0 0 0.75rem;
+		max-width: 31.5625rem;
 	}
 
 	.description:last-child {
@@ -317,35 +317,35 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	.chips {
 		display: flex;
 		flex-direction: column;
-		gap: 16px;
+		gap: 1rem;
 		flex-shrink: 0;
-		width: 180px;
+		width: 11.25rem;
 	}
 
 	.chip-group {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		gap: 8px;
+		gap: 0.5rem;
 	}
 
 	.chip {
 		user-select: none;
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
+		gap: 0.5rem;
 		background: #25262D;
-		border-radius: 24px;
-		padding: 6px 12px 8px 12px;
+		border-radius: 1.5rem;
+		padding: 0.375rem 0.75rem 0.5rem 0.75rem;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
-		font-size: 14px;
+		font-size: 0.875rem;
 		line-height: 0.5;
 		white-space: nowrap;
 	}
 
 	.chip img {
-		margin-top: 3px;
+		margin-top: 0.1875rem;
 	}
 
 	.chip.role {
@@ -362,7 +362,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 
 	.chip-group p {
 		margin: 0;
-		font-size: 15px;
+		font-size: 0.9375rem;
 		color: #303030;
 		text-align: right;
 	}
@@ -371,16 +371,16 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 16px;
-		margin-bottom: 24px;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.expand-toggle {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 32px;
-		height: 32px;
+		width: 2rem;
+		height: 2rem;
 		background: #F8F8F8;
 		border: none;
 		border-radius: 999px;
@@ -398,7 +398,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 
 	h2 {
 		font-family: var(--font-display), sans-serif;
-		font-size: 18px;
+		font-size: 1.125rem;
 		margin: 0;
 		color: var(--color-ink);
 	}
@@ -407,26 +407,26 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		position: relative;
 		width: 100%;
 		aspect-ratio: 919 / 1396;
-		margin-bottom: 56px;
+		margin-bottom: 3.5rem;
 	}
 
 	.showcase-note {
 		position: absolute;
 		left: 0;
-		top: calc(95.1% + 24px);
+		top: calc(95.1% + 1.5rem);
 		width: 55.2%;
 		margin: 0;
 		font-family: var(--font-sofia), sans-serif;
 		font-style: italic;
 		font-weight: 500;
-		font-size: 15px;
+		font-size: 0.9375rem;
 		text-align: center;
 		color: var(--color-main);
 	}
 
 	.showcase-exclaim {
 		display: inline-block;
-		margin-left: 2px;
+		margin-left: 0.125rem;
 		transform-origin: 50% 100%;
 	}
 
@@ -490,7 +490,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		align-items: center;
 		justify-content: center;
 		gap: 7%;
-		padding: 24px;
+		padding: 1.5rem;
 	}
 
 	.savings-phone {
@@ -507,7 +507,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		align-items: center;
 		justify-content: center;
 		gap: 10%;
-		padding: 28px;
+		padding: 1.75rem;
 	}
 
 	.settings-phone {
@@ -572,7 +572,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		height: 17.5%;
 	}
 
-	@media (max-width: 720px) {
+	@media (max-width: 45rem) {
 		.header-row {
 			flex-direction: column;
 		}

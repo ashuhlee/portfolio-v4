@@ -40,13 +40,13 @@
 <style>
 	.clock-widget {
 		position: fixed;
-		right: 16px;
-		bottom: 16px;
+		right: 1rem;
+		bottom: 1rem;
 		z-index: 5;
 		display: inline-flex;
 		align-items: baseline;
-		gap: 2px;
-		padding: 6px 12px;
+		gap: 0.125rem;
+		padding: 0.375rem 0.75rem;
 		border-radius: 999px;
 		font-family: var(--font-mono), monospace;
 		user-select: none;
@@ -54,7 +54,7 @@
 	}
 
 	.time {
-		font-size: 12px;
+		font-size: 0.75rem;
 		color: var(--color-ink);
 	}
 
@@ -62,14 +62,14 @@
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 400;
 		font-style: italic;
-		font-size: 12px;
+		font-size: 0.75rem;
 		color: var(--color-main);
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 37.5rem) {
 		.clock-widget {
-			right: 16px;
-			bottom: 16px;
+			right: 1rem;
+			bottom: 1rem;
 		}
 	}
 </style>
