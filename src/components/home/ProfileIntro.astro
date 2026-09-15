@@ -55,11 +55,14 @@
 			if (!wrap) return;
 
 			const isCycling = wrap.classList.contains('squiggle-wrap') && wrap.children.length === 0;
+			const isScribble = wrap.classList.contains('scribble-wrap');
+			const SCRIBBLE_COLORS = ['#BEEFFF', '#EDFDAD'];
 
 			const initialPath = wrap.querySelector('path');
 			if (initialPath) gsap.set(initialPath, { drawSVG: '0%' });
 
 			let index = 0;
+			let scribbleIndex = 0;
 			let leaveTween: gsap.core.Timeline | null = null;
 
 			link.addEventListener('mouseenter', () => {
@@ -70,6 +73,11 @@
 
 				const path = wrap.querySelector('path');
 				if (!path) return;
+
+				if (isScribble) {
+					scribbleIndex = (scribbleIndex + 1) % SCRIBBLE_COLORS.length;
+					path.setAttribute('stroke', SCRIBBLE_COLORS[scribbleIndex]);
+				}
 
 				leaveTween?.kill();
 				gsap.set(wrap, { clearProps: 'opacity' });

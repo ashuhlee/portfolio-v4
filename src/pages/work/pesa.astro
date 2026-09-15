@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import PageFooter from '../../components/PageFooter.astro';
 import DitherBackground from '../../components/home/DitherBackground.astro';
+import BackButton from '../../components/BackButton.astro';
 ---
 
 <Layout
@@ -10,9 +11,7 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 >
 	<DitherBackground slot="background" color="grey" />
 	<div class="page">
-		<a class="back-button stagger-in" data-bounce="0.85" href="/" aria-label="Back to home">
-			<img src="/images/pesa/back-arrow.svg" alt="" width="24" height="24" />
-		</a>
+		<BackButton />
 
 		<header class="header-row">
 			<div class="header-left">
@@ -100,25 +99,55 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 				data-tooltip-color="#FFE9A0"
 			></video>
 			<div
-				class="placeholder card-d stagger-in"
+				class="placeholder card-d showcase-preview stagger-in"
 				data-tooltip="More savings related stuff"
 				data-tooltip-color="#BEEFFF"
-			></div>
+			>
+				<img
+					class="savings-phone savings-phone-1"
+					src="/images/pesa/savings-1.png"
+					alt="Empty personal stash screen"
+				/>
+				<img
+					class="savings-phone savings-phone-2"
+					src="/images/pesa/savings-2.png"
+					alt="Stash created successfully modal"
+				/>
+			</div>
 			<div
-				class="placeholder card-f stagger-in"
+				class="placeholder card-f showcase-preview stagger-in"
 				data-tooltip="Savings creation and deletion"
 				data-tooltip-color="#FFCCCA"
-			></div>
+			>
+				<img
+					class="settings-phone settings-phone-1"
+					src="/images/pesa/settings-1.png"
+					alt="Stash settings screen"
+				/>
+				<img
+					class="settings-phone settings-phone-2"
+					src="/images/pesa/settings-2.png"
+					alt="Stash closed confirmation modal"
+				/>
+			</div>
 			<div
-				class="placeholder card-c stagger-in"
-				data-tooltip="Bank-level security, always on"
+				class="placeholder card-c showcase-preview stagger-in"
+				data-tooltip="Action-prompted dialogs"
 				data-tooltip-color="#edfdad"
-			></div>
+			>
+				<img
+					class="review-phone"
+					src="/images/pesa/placeholder.png"
+					alt="App Store review prompt dialog"
+				/>
+			</div>
 		</div>
 
 		<div class="badges">
-			<span class="badge blue stagger-in">+ a bunch of other cool stuff</span>
-			<span class="badge pink stagger-in">for 10k+ users</span>
+			<div class="badge-group stagger-in">
+				<span class="badge blue">+ a bunch of other cool stuff</span>
+				<span class="badge pink">for 10k+ users</span>
+			</div>
 		</div>
 
 		<div class="stagger-in"><PageFooter /></div>
@@ -130,17 +159,6 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 		max-width: 800px;
 		margin: 0 auto;
 		padding: 40px 24px 64px;
-	}
-
-	.back-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 44px;
-		height: 44px;
-		background: #f3f3f3;
-		border-radius: 999px;
-		margin-bottom: 64px;
 	}
 
 	.header-row {
@@ -217,7 +235,7 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 	}
 
 	.chip.role {
-		color: #f4c9f1;
+		color: #FEC0F2;
 	}
 
 	.chip.focus {
@@ -309,6 +327,49 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 		top: -36.26%;
 	}
 
+	.card-d.showcase-preview {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10%;
+		padding: 20px;
+	}
+
+	.savings-phone {
+		height: 100%;
+		width: auto;
+		max-width: 45%;
+		object-fit: contain;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.card-f.showcase-preview {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8%;
+		padding: 20px;
+	}
+
+	.settings-phone {
+		height: 100%;
+		width: auto;
+		max-width: 45%;
+		object-fit: contain;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.review-phone {
+		position: absolute;
+		width: 66%;
+		left: 18%;
+		top: -124%;
+		pointer-events: none;
+		user-select: none;
+	}
+
 
 	.card-e {
 		left: 0;
@@ -355,13 +416,18 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 	.badges {
 		display: flex;
 		justify-content: center;
-		gap: 16px;
 		margin-bottom: 56px;
+	}
+
+	.badge-group {
+		position: relative;
+		display: inline-block;
+		transform: translateX(-40px);
 	}
 
 	.badge {
 		border-radius: 999px;
-		padding: 6px 12px;
+		padding: 5px 12px;
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 600;
 		font-size: 14px;
@@ -369,15 +435,19 @@ import DitherBackground from '../../components/home/DitherBackground.astro';
 	}
 
 	.badge.blue {
+		display: inline-block;
 		background: #7e96ff;
 		color: #fff;
 		transform: rotate(-2deg);
 	}
 
 	.badge.pink {
-		background: #f4c9f1;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		background: #FEC0F2;
 		color: #000;
-		transform: rotate(2deg);
+		transform: translate(calc(-50% + 126px), calc(-50% + 20px)) rotate(2deg);
 	}
 
 	@media (max-width: 720px) {
