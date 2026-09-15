@@ -336,7 +336,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-mid-light: #cbcbcb;
 
 		/* one-offs */
-		--color-selection-blue: #7E96FF;
+		--color-selection: #7E96FF;
 		--color-chip-pink: #FEC0F2;
 		--color-chip-yellow: #ffeeb5;
 
@@ -392,8 +392,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	::selection {
-		background: var(--color-selection-blue);
-		color: var(--color-white);
+		background: var(--color-brand-lime);
+		color: var(--color-text-primary);
 	}
 
 	.path-label {

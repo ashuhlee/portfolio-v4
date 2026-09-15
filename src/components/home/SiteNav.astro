@@ -16,16 +16,19 @@
 </header>
 
 <script>
-	const leading = ['!', ':3', '!?', '!!', ':D'];
-	const sayHello = document.querySelector<HTMLElement>('.say-hello');
-	const arrow = sayHello?.querySelector<HTMLElement>('.arrow');
-	if (sayHello && arrow) {
+	const leading = ['!', '!!', ':3', '!?', ':D'];
+
+	document.addEventListener('astro:page-load', () => {
+		const sayHello = document.querySelector<HTMLElement>('.say-hello');
+		const arrow = sayHello?.querySelector<HTMLElement>('.arrow');
+		if (!sayHello || !arrow) return;
+
 		let index = 0;
 		sayHello.addEventListener('mouseenter', () => {
-			index = (index + 1) % leading.length;
 			arrow.textContent = leading[index];
+			index = (index + 1) % leading.length;
 		});
-	}
+	});
 </script>
 
 <style>
