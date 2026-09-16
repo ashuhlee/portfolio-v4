@@ -2,7 +2,7 @@
 ---
 
 <div class="clock-widget" aria-hidden="true">
-	<span class="time">--:--</span>
+	<span class="time"><span class="hour">--</span><span class="colon">:</span><span class="minute">--</span></span>
 	<span class="zone">pm</span>
 </div>
 
@@ -19,14 +19,16 @@
 		const minute = parts.find((p) => p.type === 'minute')?.value ?? '--';
 		const period = parts.find((p) => p.type === 'dayPeriod')?.value.toLowerCase() ?? '';
 
-		return { time: `${hour}:${minute}`, period };
+		return { hour, minute, period };
 	}
 
 	function tick() {
-		const timeEl = document.querySelector<HTMLElement>('.clock-widget .time');
+		const hourEl = document.querySelector<HTMLElement>('.clock-widget .hour');
+		const minuteEl = document.querySelector<HTMLElement>('.clock-widget .minute');
 		const zoneEl = document.querySelector<HTMLElement>('.clock-widget .zone');
-		const { time, period } = formatTime();
-		if (timeEl) timeEl.textContent = time;
+		const { hour, minute, period } = formatTime();
+		if (hourEl) hourEl.textContent = hour;
+		if (minuteEl) minuteEl.textContent = minute;
 		if (zoneEl) zoneEl.textContent = period;
 	}
 
@@ -58,12 +60,17 @@
 		color: var(--color-text-primary);
 	}
 
+	.colon {
+		color: var(--color-brand-pink);
+		font-weight: 600;
+	}
+
 	.zone {
 		font-family: var(--font-sofia), sans-serif;
 		font-weight: 400;
 		font-style: italic;
 		font-size: var(--font-size-12);
-		color: var(--color-brand-pink);
+		color: var(--color-text-primary);
 	}
 
 	@media (max-width: 37.5rem) {
