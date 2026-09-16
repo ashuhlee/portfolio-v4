@@ -10,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <div class="section-header">
-	<h2><Image src={dotVector} width={11} height={11} alt="" /> {title}</h2>
+	<h2><Image src={dotVector} width={11} height={11} alt="" loading="eager" /> {title}</h2>
 	<slot />
 </div>
 

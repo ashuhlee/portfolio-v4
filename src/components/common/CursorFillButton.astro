@@ -118,9 +118,15 @@ const { href, label, hoverSound } = Astro.props;
 			let hoverSoundIndex = 0;
 
 			btn.addEventListener('mouseenter', (event) => {
+				btn.classList.add('hovering');
 				btn.style.setProperty('--btn-fill', HOVER_COLORS[colorIndex].fill);
 				btn.style.setProperty('--btn-fg', HOVER_COLORS[colorIndex].fg);
-				colorIndex = (colorIndex + 1) % HOVER_COLORS.length;
+
+				let nextIndex = Math.floor(Math.random() * HOVER_COLORS.length);
+				if (HOVER_COLORS.length > 1 && nextIndex === colorIndex) {
+					nextIndex = (nextIndex + 1) % HOVER_COLORS.length;
+				}
+				colorIndex = nextIndex;
 
 				fillTimer?.kill();
 				gsap.killTweensOf(scribblePath);
@@ -135,13 +141,17 @@ const { href, label, hoverSound } = Astro.props;
 				}
 			});
 
-			btn.addEventListener('mouseleave', () => {
+			const resetVisualState = () => {
+				btn.classList.remove('hovering');
 				fillTimer?.kill();
 				gsap.killTweensOf(scribblePath);
 				gsap.killTweensOf(fillOld);
 				gsap.to(scribblePath, { drawSVG: '100% 100%', duration: 0.4, ease: 'power1.in' });
 				gsap.set(fillOld, { scale: 0 });
-			});
+			};
+
+			btn.addEventListener('mouseleave', resetVisualState);
+			btn.addEventListener('click', resetVisualState);
 		});
 	});
 </script>
@@ -162,7 +172,7 @@ const { href, label, hoverSound } = Astro.props;
 		transition: padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 
-	.cursor-fill-btn:hover {
+	.cursor-fill-btn.hovering {
 		padding: 0.85rem 2rem;
 	}
 
@@ -208,9 +218,9 @@ const { href, label, hoverSound } = Astro.props;
 		transition: opacity 0.05s ease; /* fade-out, no delay */
 	}
 
-	.cursor-fill-btn:hover .inner-shadow {
+	.cursor-fill-btn.hovering .inner-shadow {
 		opacity: 1;
-		transition: opacity 0.75s ease 0.15s; /* fade-in, delayed until the fill has caught up */
+		transition: opacity 0.75s ease 0.12s; /* fade-in, delayed until the fill has caught up */
 	}
 
 	.label {
@@ -225,7 +235,7 @@ const { href, label, hoverSound } = Astro.props;
 		transition: color 0.2s ease;
 	}
 
-	.cursor-fill-btn:hover .label {
+	.cursor-fill-btn.hovering .label {
 		color: var(--btn-fg, var(--color-brand-lime));
 	}
 
@@ -241,7 +251,7 @@ const { href, label, hoverSound } = Astro.props;
 		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 
-	.cursor-fill-btn:hover .arrow-track {
+	.cursor-fill-btn.hovering .arrow-track {
 		grid-template-columns: 1fr;
 	}
 
@@ -257,7 +267,7 @@ const { href, label, hoverSound } = Astro.props;
 			transform 0.15s ease;
 	}
 
-	.cursor-fill-btn:hover .arrow {
+	.cursor-fill-btn.hovering .arrow {
 		padding-left: 0.125rem;
 		opacity: 1;
 		transform: translateX(0.25rem);

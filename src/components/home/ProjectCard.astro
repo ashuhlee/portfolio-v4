@@ -22,15 +22,18 @@ const {
 	url = 'https://github.com/ashuhlee',
 	labelColor = 'white',
 } = Astro.props;
+
+// A <a> with no href isn't a valid link, so coming-soon cards render as a
+// plain <div> instead of an anchor missing its required attribute.
+const Tag = comingSoon ? 'div' : 'a';
 ---
 
-<a
+<Tag
 	class="card"
 	class:list={{ 'coming-soon': comingSoon }}
 	href={comingSoon ? undefined : url}
 	target={comingSoon ? undefined : '_blank'}
 	rel={comingSoon ? undefined : 'noopener noreferrer'}
-	aria-disabled={comingSoon ? 'true' : undefined}
 	data-tooltip={comingSoon ? 'Coming soon..' : ' View on GitHub'}
 >
 	<div
@@ -52,7 +55,20 @@ const {
 			{tags.map((tag, i) => <li class:list={{ outline: i === 0 }}>{tag}</li>)}
 		</ul>
 	</div>
-</a>
+</Tag>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+			const resetHover = () => card.classList.remove('hovering');
+
+			card.addEventListener('mouseenter', () => card.classList.add('hovering'));
+			card.addEventListener('mouseleave', resetHover);
+
+			card.addEventListener('click', resetHover);
+		});
+	});
+</script>
 
 <style>
 	.card {
@@ -74,17 +90,17 @@ const {
 			box-shadow 0.3s cubic-bezier(0, 0, 0.2, 1);
 	}
 
-	.card:nth-child(4n + 1):hover,
-	.card:nth-child(4n):hover {
+	.card:nth-child(4n + 1).hovering,
+	.card:nth-child(4n).hovering {
 		rotate: -1.5deg;
 	}
 
-	.card:nth-child(4n + 2):hover,
-	.card:nth-child(4n + 3):hover {
+	.card:nth-child(4n + 2).hovering,
+	.card:nth-child(4n + 3).hovering {
 		rotate: 1.5deg;
 	}
 
-	.card:hover {
+	.card.hovering {
 		scale: 1.02;
 		box-shadow:
 			0 0.0625rem 0.125rem -0.0625rem rgba(0, 0, 0, 0.04),
@@ -151,7 +167,7 @@ const {
 		pointer-events: none;
 	}
 
-	.card:hover .thumb {
+	.card.hovering .thumb {
 		scale: 1.03;
 	}
 

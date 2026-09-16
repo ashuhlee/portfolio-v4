@@ -6,7 +6,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 <section class="profile stagger-in">
 	<div class="avatar">
 		<div class="avatar-scale">
-			<Image class="avatar-icon" src={avatarIcon} width={24} height={24} densities={[1, 2, 3]} alt="" draggable="false" />
+			<Image class="avatar-icon" src={avatarIcon} width={24} height={24} densities={[1, 2, 3]} alt="" draggable="false" loading="eager" />
 		</div>
 	</div>
 	<div class="who">
@@ -68,6 +68,8 @@ import avatarIcon from '../../assets/home/icon-white.png';
 			let leaveTween: gsap.core.Timeline | null = null;
 
 			link.addEventListener('mouseenter', () => {
+				link.classList.add('hovering');
+
 				if (isCycling) {
 					index = (index + 1) % SQUIGGLES.length;
 					wrap.innerHTML = SQUIGGLES[index];
@@ -86,7 +88,9 @@ import avatarIcon from '../../assets/home/icon-white.png';
 				gsap.fromTo(path, { drawSVG: '0%' }, { drawSVG: '100%', duration: 0.4, ease: 'power2.inOut' });
 			});
 
-			link.addEventListener('mouseleave', () => {
+			const resetLink = () => {
+				link.classList.remove('hovering');
+
 				const path = wrap.querySelector('path');
 				if (!path) return;
 
@@ -94,7 +98,11 @@ import avatarIcon from '../../assets/home/icon-white.png';
 					.timeline()
 					.to(path, { drawSVG: '100% 100%', duration: 0.3, ease: 'power2.in' }, 0)
 					.to(wrap, { opacity: 0, duration: 0.1, ease: 'power1.in' }, 0.2);
-			});
+			};
+
+			link.addEventListener('mouseleave', resetLink);
+
+			link.addEventListener('click', resetLink);
 		});
 	});
 </script>
@@ -180,7 +188,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 		transition: opacity 0.1s ease;
 	}
 
-	.bio .accent.contact:hover::after {
+	.bio .accent.contact.hovering::after {
 		opacity: 0;
 	}
 
@@ -237,7 +245,7 @@ import avatarIcon from '../../assets/home/icon-white.png';
 		pointer-events: none;
 	}
 
-	.bio .accent.contact:hover .label {
+	.bio .accent.contact.hovering .label {
 		color: var(--color-black);
 	}
 

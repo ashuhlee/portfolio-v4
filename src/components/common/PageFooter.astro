@@ -15,6 +15,19 @@
 	</div>
 </footer>
 
+<script>
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLElement>('.footer-links a').forEach((link) => {
+			const resetHover = () => link.classList.remove('hovering');
+
+			link.addEventListener('mouseenter', () => link.classList.add('hovering'));
+			link.addEventListener('mouseleave', resetHover);
+
+			link.addEventListener('click', resetHover);
+		});
+	});
+</script>
+
 <style>
 	.page-footer {
 		width: 100vw;
@@ -103,17 +116,17 @@
 		opacity: 0;
 	}
 
-	.footer-links a:hover {
+	.footer-links a.hovering {
 		color: var(--color-brand-pink);
 	}
 
-	.footer-links a:hover::before {
+	.footer-links a.hovering::before {
 		width: auto;
 		margin-right: 0;
 		opacity: 1;
 	}
 
-	.footer-links a:hover .bracket-right {
+	.footer-links a.hovering .bracket-right {
 		width: auto;
 		margin-left: 0;
 		opacity: 1;
@@ -131,7 +144,7 @@
 		transition: opacity 0.2s ease, transform 0.4s ease;
 	}
 
-	.footer-links a:hover::after {
+	.footer-links a.hovering::after {
 		opacity: 0;
 		height: 0;
 	}
