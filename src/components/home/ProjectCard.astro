@@ -8,6 +8,7 @@ interface Props {
 	overlayOpacity?: number;
 	comingSoon?: boolean;
 	url?: string;
+	labelColor?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
 	overlayOpacity = 0.08,
 	comingSoon = false,
 	url = 'https://github.com/ashuhlee',
+	labelColor = 'white',
 } = Astro.props;
 ---
 
@@ -33,8 +35,16 @@ const {
 >
 	<div
 		class="thumb"
-		style={{ backgroundColor: color, '--thumb-blend': blendMode, '--thumb-opacity': overlayOpacity }}
-	></div>
+		style={{
+			backgroundColor: color,
+			'--thumb-blend': blendMode,
+			'--thumb-opacity': overlayOpacity,
+			'--thumb-color': color,
+			'--thumb-label-color': labelColor,
+		}}
+	>
+		<span class="thumb-label" aria-hidden="true">tbd</span>
+	</div>
 	<div class="body">
 		<h3>{name}</h3>
 		<p>{description}</p>
@@ -111,6 +121,34 @@ const {
 		background-position: top;
 		mix-blend-mode: var(--thumb-blend);
 		opacity: var(--thumb-opacity);
+	}
+
+	.thumb-label {
+		position: absolute;
+		left: 1rem;
+		bottom: 0.75rem;
+		z-index: 1;
+		font-family: var(--font-sofia), sans-serif;
+		font-style: italic;
+		font-weight: 600;
+		font-size: var(--font-size-16);
+		letter-spacing: 0.05em;
+		color: var(--thumb-label-color, white);
+		user-select: none;
+		pointer-events: none;
+	}
+
+	.thumb-asterisk {
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		z-index: 1;
+		font-size: var(--font-size-20);
+		font-style: italic;
+		line-height: 1;
+		color: var(--thumb-label-color, white);
+		user-select: none;
+		pointer-events: none;
 	}
 
 	.card:hover .thumb {
