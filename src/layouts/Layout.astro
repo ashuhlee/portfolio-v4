@@ -144,6 +144,21 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 					}
 				);
 			}
+
+			const FADE_DURATION = 0.15;
+			document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('img, video').forEach((el) => {
+				if (el.closest('.crossfade-video')) return;
+
+				const isImg = el.tagName === 'IMG';
+				const isLoaded = isImg ? (el as HTMLImageElement).complete : (el as HTMLVideoElement).readyState >= 2;
+				if (isLoaded) return;
+
+				gsap.set(el, { opacity: 0 });
+				const reveal = () => gsap.to(el, { opacity: 1, duration: FADE_DURATION, ease: 'power1.out' });
+
+				el.addEventListener(isImg ? 'load' : 'loadeddata', reveal, { once: true });
+				el.addEventListener('error', reveal, { once: true });
+			});
 		});
 
 		document.addEventListener('dragstart', (event) => {

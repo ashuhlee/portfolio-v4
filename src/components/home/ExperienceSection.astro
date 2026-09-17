@@ -1,6 +1,15 @@
 ---
 import SectionHeader from './SectionHeader.astro';
 
+// Heaviest media on the linked Pesa page — prefetched in the background
+// once this page is idle, so they're warm by the time "Demo" is clicked.
+import pesaWithdraw1 from '../../assets/pesa/withdraw-1.webm';
+import pesaWithdraw1Mov from '../../assets/pesa/withdraw-1.mov';
+import pesaSettings2 from '../../assets/pesa/settings-2.webm';
+import pesaSettings2Mov from '../../assets/pesa/settings-2.mov';
+
+const pesaPrefetchAssets = [pesaWithdraw1, pesaWithdraw1Mov, pesaSettings2, pesaSettings2Mov];
+
 interface Experience {
 	role: string;
 	when: string;
@@ -59,7 +68,12 @@ const { experiences } = Astro.props;
 			}
 		</ul>
 
-		<a class="see-work opacity-60 stagger-in" data-bounce="0.88" href="/work/pesa">
+		<a
+			class="see-work opacity-60 stagger-in"
+			data-bounce="0.88"
+			data-prefetch-assets={JSON.stringify(pesaPrefetchAssets)}
+			href="/work/pesa"
+		>
 			<span>Demo</span>
 			<span class="arrow-track">
 				<span class="arrow" aria-hidden="true">→</span>
@@ -70,6 +84,25 @@ const { experiences } = Astro.props;
 
 <script>
 	import { gsap } from 'gsap';
+
+	document.addEventListener('astro:page-load', () => {
+		const link = document.querySelector<HTMLElement>('.see-work');
+		const assets: string[] = link?.dataset.prefetchAssets ? JSON.parse(link.dataset.prefetchAssets) : [];
+		if (!assets.length) return;
+
+		const prefetch = () => {
+			assets.forEach((href) => {
+				if (document.querySelector(`link[rel="prefetch"][href="${href}"]`)) return;
+				const el = document.createElement('link');
+				el.rel = 'prefetch';
+				el.href = href;
+				document.head.appendChild(el);
+			});
+		};
+
+		if ('requestIdleCallback' in window) window.requestIdleCallback(prefetch);
+		else setTimeout(prefetch, 1500);
+	});
 
 	const STICKER_COLORS = [
 		{ bg: '#EAFF98', fg: '#000000' },
