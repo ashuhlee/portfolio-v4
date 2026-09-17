@@ -311,6 +311,10 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		max-width: 31.5625rem;
 	}
 
+	:root[data-theme='dark'] .description {
+		color: var(--color-text-medium);
+	}
+
 	.description:last-child {
 		margin-bottom: 0;
 	}
@@ -361,6 +365,26 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		color: var(--color-brand-cyan);
 	}
 
+	:root[data-theme='dark'] .chip {
+		color: #000000;
+	}
+
+	:root[data-theme='dark'] .chip.role {
+		background: #FFB0EA;
+	}
+
+	:root[data-theme='dark'] .chip.focus {
+		background: #FFEAA3;
+	}
+
+	:root[data-theme='dark'] .chip.timeline {
+		background: #ACEAFF;
+	}
+
+	:root[data-theme='dark'] .chip img {
+		filter: brightness(0);
+	}
+
 	.chip-group p {
 		margin: 0;
 		font-size: var(--font-size-15);
@@ -390,6 +414,10 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		transition:
 			color 0.2s ease,
 			background 0.2s ease;
+	}
+
+	:root[data-theme='dark'] .expand-toggle {
+		background: #25232c;
 	}
 
 	.expand-toggle:hover {

@@ -7,12 +7,15 @@
 		<!--<span class="slash">\</span>-->
 		<a class="link-extras" href="/extras"><span>Extras</span><span class="bracket-right">]</span></a>
 	</nav>
-	<a class="say-hello opacity-60" data-bounce="0.8" href="mailto:hello@ashuhlee.ca">
-		<span>say hello</span>
-		<span class="arrow-track">
-			<span class="arrow" aria-hidden="true">!</span>
-		</span>
-	</a>
+	<div class="right-side">
+		<button class="theme-toggle" type="button" aria-label="Toggle dark mode">dark mode</button>
+		<a class="say-hello opacity-60" data-bounce="0.8" href="mailto:hello@ashuhlee.ca">
+			<span>say hello</span>
+			<span class="arrow-track">
+				<span class="arrow" aria-hidden="true">!</span>
+			</span>
+		</a>
+	</div>
 </header>
 
 <script>
@@ -27,6 +30,46 @@
 		sayHello.addEventListener('mouseenter', () => {
 			arrow.textContent = leading[index];
 			index = (index + 1) % leading.length;
+		});
+	});
+
+	// swap for icon
+	document.addEventListener('astro:page-load', () => {
+		const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+		if (!toggle) return;
+
+		const setLabel = (theme: string) => {
+			toggle.textContent = theme === 'dark' ? '</3' : '<3';
+		};
+
+		setLabel(document.documentElement.getAttribute('data-theme') || 'light');
+
+		let transitionInProgress = false;
+
+		toggle.addEventListener('click', () => {
+			if (transitionInProgress) return;
+
+			const current = document.documentElement.getAttribute('data-theme') || 'light';
+			const next = current === 'dark' ? 'light' : 'dark';
+
+			const applyTheme = () => {
+				document.documentElement.setAttribute('data-theme', next);
+				localStorage.setItem('theme', next);
+				setLabel(next);
+			};
+			if (!document.startViewTransition) {
+				applyTheme();
+				return;
+			}
+
+			transitionInProgress = true;
+			document.documentElement.setAttribute('data-theme-transition', next === 'dark' ? 'down' : 'up');
+			const transition = document.startViewTransition(applyTheme);
+			transition.ready.catch(() => {});
+			transition.finished.catch(() => {}).finally(() => {
+				document.documentElement.removeAttribute('data-theme-transition');
+				transitionInProgress = false;
+			});
 		});
 	});
 </script>
@@ -55,7 +98,7 @@
 		font-family: var(--font-mono), monospace;
 		text-transform: uppercase;
 		font-size: var(--font-size-13);
-		color: var(--color-text-secondary);
+		color: var(--color-text-nav);
 		text-decoration: none;
 		transition: color 0.15s ease;
 	}
@@ -112,6 +155,28 @@
 		opacity: 0.5;
 	}
 
+	.right-side {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.theme-toggle {
+		border: none;
+		background: transparent;
+		padding: 0;
+		font-family: var(--font-mono), monospace;
+		text-transform: uppercase;
+		font-size: var(--font-size-13);
+		color: var(--color-text-secondary);
+		cursor: pointer;
+		transition: color 0.15s ease;
+	}
+
+	.theme-toggle:hover {
+		color: var(--color-brand-pink);
+	}
+
 	.say-hello {
 		position: relative;
 		display: inline-flex;
@@ -123,7 +188,7 @@
 		font-style: italic;
 		font-weight: 500;
 		font-size: var(--font-size-15);
-		color: var(--color-black);
+		color: #000000;
 		text-decoration: none;
 		transition: padding 0.35s ease;
 	}
@@ -149,6 +214,14 @@
 	.say-hello:hover {
 		padding: 0.5rem 1rem;
 		color: var(--color-brand-cyan);
+	}
+
+	:root[data-theme='dark'] .say-hello::before {
+		background: #a4e8ff;
+	}
+
+	:root[data-theme='dark'] .say-hello:hover {
+		color: #000000;
 	}
 
 	.say-hello span {

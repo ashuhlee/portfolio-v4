@@ -23,8 +23,6 @@ const {
 	labelColor = 'white',
 } = Astro.props;
 
-// A <a> with no href isn't a valid link, so coming-soon cards render as a
-// plain <div> instead of an anchor missing its required attribute.
 const Tag = comingSoon ? 'div' : 'a';
 ---
 
@@ -217,5 +215,10 @@ const Tag = comingSoon ? 'div' : 'a';
 	.tags li.outline {
 		background: transparent;
 		border: 1px solid var(--color-charcoal);
+	}
+
+	:root[data-theme='dark'] .tags li.outline {
+		color: #91B5C6;
+		border-color: #91B5C6;
 	}
 </style>

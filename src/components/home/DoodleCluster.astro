@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import star from '../../assets/home/star-outline.svg';
 import terminal from '../../assets/home/doodle-image.png';
 import folder from '../../assets/home/folder-pink.png';
+import folderDark from '../../assets/home/folder-purple.png';
 import cursor from '../../assets/home/cursor-pointer.svg';
 import squiggle from '../../assets/home/squiggle1.svg';
 import arc from '../../assets/home/arc.svg';
@@ -18,7 +19,8 @@ import arc from '../../assets/home/arc.svg';
 
 	<Image src={star} alt="" class="doodle star" />
 	<Image src={terminal} alt="" class="doodle terminal" />
-	<Image src={folder} alt="" class="doodle folder" />
+	<Image src={folder} alt="" class="doodle folder folder--light" />
+	<Image src={folderDark} alt="" class="doodle folder folder--dark" />
 	<Image src={cursor} alt="" class="doodle cursor" />
 	<Image src={squiggle} alt="" class="doodle squiggle" />
 	<Image src={arc} alt="" class="doodle arc" />
@@ -134,6 +136,10 @@ import arc from '../../assets/home/arc.svg';
 		opacity: 0;
 	}
 
+	:root[data-theme='dark'] .doodles-reset {
+		background: #25232c;
+	}
+
 	.doodles {
 		position: relative;
 		width: 100%;
@@ -161,16 +167,21 @@ import arc from '../../assets/home/arc.svg';
 	.badge.dark {
 		left: 23%;
 		top: 30.4%;
-		background: var(--color-charcoal);
-		color: var(--color-brand-lime);
+		background: #393939;
+		color: var(--color-lime-bright);
 		transform: rotate(-2deg);
+	}
+
+	:root[data-theme='dark'] .badge.dark {
+		background: #FFA7E8;
+		color: #000000;
 	}
 
 	.badge.cyan {
 		left: 38%;
 		top: 40%;
-		background: var(--color-brand-cyan);
-		color: var(--color-black);
+		background: #A4E8FF;
+		color: #000000;
 		transform: rotate(2deg);
 	}
 
@@ -221,6 +232,23 @@ import arc from '../../assets/home/arc.svg';
 		transform: rotate(7deg);
 		width: 11%;
 		height: auto;
+	}
+
+		.folder--dark {
+		display: none;
+	}
+
+	:root[data-theme='dark'] .folder--light {
+		display: none;
+	}
+
+	:root[data-theme='dark'] .folder--dark {
+		display: block;
+	}
+
+	:root[data-theme='dark'] .star,
+	:root[data-theme='dark'] .squiggle {
+		filter: invert(1);
 	}
 
 	@media (max-width: 37.5rem) {

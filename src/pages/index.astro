@@ -9,7 +9,7 @@ import ProjectsSection from '../components/home/ProjectsSection.astro';
 import DoodleCluster from '../components/home/DoodleCluster.astro';
 import DitherBackground from '../components/dither/DitherBackground.astro';
 import CursorFillButton from '../components/common/CursorFillButton.astro';
-import lineDivider from '../assets/home/line1.svg';
+import Divider from '../components/home/Divider.astro';
 
 const experiences = [
 	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: '#dff28f'},
@@ -60,9 +60,9 @@ const projects = [
 
     <main class="content">
       <ProfileIntro/>
-      <Image class="divider stagger-in" src={lineDivider} inferSize alt="" draggable="false" loading="eager" />
+      <Divider class="stagger-in" />
       <ExperienceSection experiences={experiences}/>
-      <Image class="divider stagger-in" src={lineDivider} inferSize alt="" draggable="false" loading="eager" />
+      <Divider class="stagger-in" />
       <div class="stagger-in"><ProjectsSection projects={projects}/></div>
       <div>
         <div class="cursor-fill-wrap stagger-in">
@@ -73,7 +73,7 @@ const projects = [
           />
         </div>
       </div>
-      <Image class="divider divider--doodle stagger-in" src={lineDivider} inferSize alt="" draggable="false" />
+      <Divider class="divider--doodle stagger-in" />
       <div class="stagger-in"><DoodleCluster/></div>
     </main>
 
@@ -103,16 +103,5 @@ const projects = [
         justify-content: center;
         height: 3rem;
         margin: 3rem 0;
-    }
-
-    .divider {
-        display: block;
-        width: 100%;
-        height: 0.3125rem;
-        margin: 2rem 0;
-    }
-
-    .divider--doodle {
-        margin-bottom: 0.75rem;
     }
 </style>

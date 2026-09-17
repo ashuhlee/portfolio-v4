@@ -16,7 +16,7 @@ const { experiences } = Astro.props;
 
 <section class="section" id="experience">
 	<div class="stagger-in">
-		<SectionHeader title="Experience">
+		<SectionHeader title="Experience" darkColor="#ACEAFF">
 			<button class="icon-button" type="button" aria-label="Change sticker color">
 				<div class="icon-button-scale">
 					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-bounce="0.95">
@@ -72,7 +72,7 @@ const { experiences } = Astro.props;
 	import { gsap } from 'gsap';
 
 	const STICKER_COLORS = [
-		{ bg: '#edfdad', fg: '#000000' },
+		{ bg: '#EAFF98', fg: '#000000' },
 		{ bg: '#93A0FF', fg: '#3C2C91' },
 		{ bg: '#fe6fc1', fg: '#ffffff' },
 		{ bg: '#252D38', fg: '#AEEBFF' },
@@ -227,7 +227,19 @@ const { experiences } = Astro.props;
 	}
 	.see-work:hover {
 		padding: 0.375rem 1rem;
-		color: var(--color-brand-lime);
+		color: var(--color-lime-bright);
+	}
+
+	:root[data-theme='dark'] .see-work {
+		background: #25232C;
+	}
+
+	:root[data-theme='dark'] .see-work::before {
+		background: #FFA7E8;
+	}
+
+	:root[data-theme='dark'] .see-work:hover {
+		color: #000;
 	}
 	.see-work span {
 		position: relative;

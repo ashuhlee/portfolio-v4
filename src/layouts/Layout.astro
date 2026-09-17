@@ -53,6 +53,20 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<meta name="description" content={description} />
 		<title>{title}</title>
 
+		<script is:inline>
+			(function () {
+				function applyStoredTheme() {
+					try {
+						const stored = localStorage.getItem('theme');
+						const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+						document.documentElement.setAttribute('data-theme', theme);
+					} catch (e) {}
+				}
+				applyStoredTheme();
+				document.addEventListener('astro:after-swap', applyStoredTheme);
+			})();
+		</script>
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -121,7 +135,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 						y: 0,
 						duration: 0.3,
 						stagger: 0.05,
-						delay: isHomeFirstVisit ? 0.05 : 0,
+						delay: isHomeFirstVisit ? 0.03 : 0,
 						ease: 'power2.out',
 					}
 				);
@@ -300,6 +314,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		/* brand */
 		--color-brand-pink: #FE6FC1;
 		--color-brand-lime: #EDFDAD;
+		--color-lime-bright: #EAFF98;
 		--color-brand-cyan: #beefff;
 		--color-accent-purple: #9093E8;
 
@@ -315,6 +330,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-dark: #383838;
 		--color-gray-warm: #303030;
 		--color-slate: #595d62;
+
+		--color-text-nav: #444444;
 
 		--color-white: #ffffff;
 		--color-black: #000000;
@@ -363,6 +380,83 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--font-size-24: 1.5rem; 	 /* 24px */
 	}
 
+	:root[data-theme='dark'] {
+		--color-text-primary: #f2f2f2;
+		--color-text-primary-alt: #ededed;
+		--color-text-secondary: #CCCCCC;
+		--color-text-medium: #b5b5b5;
+		--color-text-muted: #999999;
+		--color-text-faint: #CCCCCC;
+		--color-charcoal: #dadada;
+		--color-charcoal-alt: #e8e8e8;
+		--color-gray-dark: #d6d6d6;
+		--color-gray-warm: #d0d0d0;
+		--color-slate: #9a9da1;
+		--color-text-nav: #ededed;
+
+		--color-white: #1b1822;
+		--color-black: #f5f5f5;
+
+		--color-bg-page: #16141C;
+
+		--color-border: #292534;
+		--color-border-soft: #2b2737;
+		--color-border-harsh: #342f42;
+
+		--color-gray-faint: #18161e;
+		--color-gray-faint-hover: #1c1a24;
+
+		--color-gray-light: #1c1923;
+		--color-gray-lighter: #1a1721;
+
+		--color-gray-hover: #221f2b;
+		--color-gray-mid: #524a68;
+		--color-gray-mid-light: #554e6d;
+
+	}
+
+	html[data-theme-transition] * {
+		view-transition-name: none !important;
+	}
+
+	html[data-theme-transition='down']::view-transition-old(root) {
+		animation: none;
+		z-index: 1;
+	}
+
+	html[data-theme-transition='down']::view-transition-new(root) {
+		animation: swipe-down 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+		z-index: 2;
+	}
+
+	html[data-theme-transition='up']::view-transition-old(root) {
+		animation: none;
+		z-index: 1;
+	}
+
+	html[data-theme-transition='up']::view-transition-new(root) {
+		animation: swipe-up 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+		z-index: 2;
+	}
+
+	@keyframes swipe-down {
+		from {
+			clip-path: inset(0 0 100% 0);
+		}
+		to {
+			clip-path: inset(0 0 0% 0);
+		}
+	}
+
+	@keyframes swipe-up {
+		from {
+			clip-path: inset(100% 0 0 0);
+		}
+		to {
+			clip-path: inset(0% 0 0 0);
+		}
+	}
+
 	html,
 	body {
 		margin: 0;
@@ -399,8 +493,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	::selection {
-		background: var(--color-brand-lime);
-		color: var(--color-text-primary);
+		background: var(--color-lime-bright);
+		color: #232323;
 	}
 
 	.path-label {
@@ -408,6 +502,10 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		user-select: none;
 		font-size: var(--font-size-12);
 		color: var(--color-gray-mid-light);
+	}
+
+	:root[data-theme='dark'] .path-label {
+		color: #464547;
 	}
 
 	.stagger-in {

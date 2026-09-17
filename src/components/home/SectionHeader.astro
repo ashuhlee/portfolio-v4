@@ -1,16 +1,27 @@
 ---
-import { Image } from 'astro:assets';
-import dotVector from '../../assets/home/dot-vector.svg';
-
 interface Props {
 	title: string;
+	darkColor?: string;
 }
 
-const { title } = Astro.props;
+const { title, darkColor } = Astro.props;
 ---
 
-<div class="section-header">
-	<h2><Image src={dotVector} width={11} height={11} alt="" loading="eager" /> {title}</h2>
+<div class="section-header" style={darkColor ? `--icon-dark-color: ${darkColor}` : undefined}>
+	<h2>
+		<svg class="dot-icon" width="11" height="11" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+			<path d="M0 0H2V2H0V0Z" fill="currentColor" />
+			<path d="M2 2H4V4H2V2Z" fill="currentColor" />
+			<path d="M4 4H6V6H4V4Z" fill="currentColor" />
+			<path d="M6 6H8V8H6V6Z" fill="currentColor" />
+			<path d="M8 8H10V10H8V8Z" fill="currentColor" />
+			<path d="M10 0H8V2H10V0Z" fill="currentColor" />
+			<path d="M8 2H6V4H8V2Z" fill="currentColor" />
+			<path d="M4 6H2V8H4V6Z" fill="currentColor" />
+			<path d="M2 8H0V10H2V8Z" fill="currentColor" />
+		</svg>
+		{title}
+	</h2>
 	<slot />
 </div>
 
@@ -21,8 +32,14 @@ const { title } = Astro.props;
 		justify-content: space-between;
 		margin-bottom: 1.5rem;
 	}
-	img {
-			margin-top: 0.1875rem;
+
+	.dot-icon {
+		margin-top: 0.1875rem;
+		color: #2a2a2a;
+	}
+
+	:root[data-theme='dark'] .dot-icon {
+		color: var(--icon-dark-color, #f2f2f2);
 	}
 
 	h2 {
