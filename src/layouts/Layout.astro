@@ -111,6 +111,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		import { gsap } from 'gsap';
 		import { ScrollSmoother } from 'gsap/ScrollSmoother';
 		import { ScrollTrigger } from 'gsap/ScrollTrigger';
+		import checkHardwareAcceleration from '../utils/hardwareAcceleration';
 
 		gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 
@@ -119,12 +120,18 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		document.addEventListener('astro:page-load', () => {
 			ScrollSmoother.get()?.kill();
-			ScrollSmoother.create({
-				wrapper: '#smooth-wrapper',
-				content: '#smooth-content',
-				smooth: 1.2,
-				effects: true,
-			});
+
+			if (checkHardwareAcceleration()) {
+				document.documentElement.classList.remove('no-smooth-scroll');
+				ScrollSmoother.create({
+					wrapper: '#smooth-wrapper',
+					content: '#smooth-content',
+					smooth: 1.2,
+					effects: true,
+				});
+			} else {
+				document.documentElement.classList.add('no-smooth-scroll');
+			}
 
 			const isHomeFirstVisit = isFirstLoad && window.location.pathname === '/';
 			isFirstLoad = false;
@@ -513,6 +520,16 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	#smooth-content {
 		overflow: visible;
 		width: 100%;
+	}
+
+	/* No GPU-backed WebGL: ScrollSmoother is never created, so fall back to
+	   plain in-flow document scrolling instead of the fixed/pinned layout
+	   it expects. */
+	html.no-smooth-scroll #smooth-wrapper {
+		position: static;
+		overflow: visible;
+		height: auto;
+		width: auto;
 	}
 
 	::selection {
