@@ -1,0 +1,99 @@
+---
+interface Props {
+	src: string;
+	class?: string;
+	ariaLabel?: string;
+	// ms to pause on the last frame before crossfading back to the start.
+	replayDelay?: number;
+	// seconds for the crossfade itself.
+	fadeDuration?: number;
+	aspectRatio?: string;
+}
+
+const { src, class: className, ariaLabel, replayDelay = 1500, fadeDuration = 0.5, aspectRatio } = Astro.props;
+---
+
+<div
+	class:list={['crossfade-video', className]}
+	style={aspectRatio ? `aspect-ratio: ${aspectRatio}` : undefined}
+	aria-label={ariaLabel}
+	data-replay-delay={replayDelay}
+	data-fade-duration={fadeDuration}
+>
+	<video class="crossfade-layer" src={src} autoplay muted playsinline controls={false} aria-hidden="true"></video>
+	<video class="crossfade-layer" src={src} muted playsinline controls={false} aria-hidden="true"></video>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLElement>('.crossfade-video').forEach((wrapper) => {
+			const layers = wrapper.querySelectorAll<HTMLVideoElement>('.crossfade-layer');
+			if (layers.length < 2) return;
+
+			let [activeVideo, hiddenVideo] = Array.from(layers);
+
+			const REPLAY_DELAY = parseFloat(wrapper.dataset.replayDelay || '1500');
+			const FADE_DURATION = parseFloat(wrapper.dataset.fadeDuration || '0.5');
+			let replayTimer: ReturnType<typeof setTimeout> | null = null;
+
+			if (!wrapper.style.aspectRatio) {
+				const setRatio = () => {
+					if (activeVideo.videoWidth && activeVideo.videoHeight) {
+						wrapper.style.aspectRatio = `${activeVideo.videoWidth} / ${activeVideo.videoHeight}`;
+					}
+				};
+				if (activeVideo.readyState >= 1) setRatio();
+				else activeVideo.addEventListener('loadedmetadata', setRatio, { once: true });
+			}
+
+			const handleEnded = (event: Event) => {
+				if (event.currentTarget !== activeVideo) return;
+
+				replayTimer = setTimeout(() => {
+					hiddenVideo.currentTime = 0;
+					hiddenVideo.play().catch(() => {});
+					gsap.to(hiddenVideo, { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' });
+					gsap.to(activeVideo, { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
+					[activeVideo, hiddenVideo] = [hiddenVideo, activeVideo];
+				}, REPLAY_DELAY);
+			};
+
+			layers.forEach((v) => v.addEventListener('ended', handleEnded));
+
+			document.addEventListener(
+				'astro:before-swap',
+				() => {
+					layers.forEach((v) => v.removeEventListener('ended', handleEnded));
+					if (replayTimer) clearTimeout(replayTimer);
+				},
+				{ once: true }
+			);
+		});
+	});
+</script>
+
+<style>
+	.crossfade-video {
+		position: relative;
+	}
+
+	.crossfade-layer {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.crossfade-layer:first-child {
+		opacity: 1;
+	}
+
+	.crossfade-layer:last-child {
+		opacity: 0;
+	}
+</style>

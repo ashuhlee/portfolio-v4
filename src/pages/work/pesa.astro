@@ -6,8 +6,9 @@ import PageFooter from '../../components/common/PageFooter.astro';
 import DitherBackground from '../../components/dither/DitherBackground.astro';
 import PixelBlastBackground from '../../components/pixelblast/PixelBlastBackground.astro';
 import BackButton from '../../components/common/BackButton.astro';
+import CrossfadeVideo from '../../components/common/CrossfadeVideo.astro';
 
-import withdraw1 from '../../assets/pesa/withdraw-1.webp';
+import withdraw1 from '../../assets/pesa/withdraw-1.webm';
 import withdraw2 from '../../assets/pesa/withdraw-2.webp';
 import withdraw3 from '../../assets/pesa/withdraw-3.webp';
 
@@ -18,7 +19,7 @@ import savings1 from '../../assets/pesa/savings-1.webp';
 import savings2 from '../../assets/pesa/savings-2.webp';
 
 import settings1 from '../../assets/pesa/settings-1.webp';
-import settings2 from '../../assets/pesa/settings-2.webp';
+import settings2 from '../../assets/pesa/settings-2.webm';
 
 import reviewPlaceholder from '../../assets/pesa/placeholder.webp';
 import chipCaretRole from '../../assets/pesa/chip-caret-role.svg';
@@ -92,11 +93,12 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				data-tooltip="Deposit and withdraw from savings"
 				data-tooltip-color="#FEC0F2"
 			>
-				<Image
+				<CrossfadeVideo
 					class="preview-phone preview-phone-left"
 					src={withdraw1}
-					inferSize
-					alt="Withdraw from stash screen"
+					aspectRatio="660 / 1368"
+					replayDelay={5000}
+					ariaLabel="Withdraw from stash screen"
 				/>
 				<Image
 					class="preview-phone preview-phone-center"
@@ -114,7 +116,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 			<div
 				class="placeholder card-wallet showcase-preview stagger-in"
 				data-tooltip="Create a new wallet"
-				data-tooltip-color="#E4F894"
+				data-tooltip-color="#FFB8AA"
 			>
 				<Image
 					class="wallet-phone wallet-phone-1"
@@ -161,7 +163,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 			<div
 				class="placeholder card-settings showcase-preview stagger-in"
 				data-tooltip="Savings creation and deletion"
-				data-tooltip-color="#FFB8AA"
+				data-tooltip-color="#E4F894"
 			>
 				<Image
 					class="settings-phone settings-phone-1"
@@ -169,11 +171,13 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 					inferSize
 					alt="Stash settings screen"
 				/>
-				<Image
+				<CrossfadeVideo
 					class="settings-phone settings-phone-2"
 					src={settings2}
-          inferSize
-					alt="Stash closed confirmation modal"
+					aspectRatio="660 / 1368"
+					replayDelay={3000}
+					fadeDuration={0.25}
+					ariaLabel="Stash closed confirmation modal"
 				/>
 			</div>
 			<div
@@ -264,6 +268,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				);
 		}
 	});
+
 </script>
 
 <style>
@@ -476,7 +481,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		overflow: hidden;
 	}
 
-	.preview-phone {
+	:global(.preview-phone) {
 		position: absolute;
 		top: 50%;
 		width: 22.9%;
@@ -486,7 +491,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		user-select: none;
 	}
 
-	.preview-phone-left {
+	:global(.preview-phone-left) {
 		left: 21.25%;
 	}
 
@@ -541,7 +546,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		padding: 1.75rem;
 	}
 
-	.settings-phone {
+	:global(.settings-phone) {
 		height: 100%;
 		width: auto;
 		max-width: 45%;
