@@ -3,18 +3,35 @@ interface Props {
 	href: string;
 	label: string;
 	hoverSound?: string;
+	fillColor?: { fill: string; fg: string };
+	external?: boolean;
+	fontSize?: string;
+	labelSpacing?: string;
+	color?: string;
+	magnet?: boolean;
 }
 
-const { href, label, hoverSound } = Astro.props;
+const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpacing, color, magnet = true } =
+	Astro.props;
 ---
 
 <a
 	class="cursor-fill-btn opacity-80"
 	data-bounce="0.9"
 	data-hover-sound={hoverSound}
+	data-fill-color={fillColor?.fill}
+	data-fill-fg={fillColor?.fg}
+	data-magnet={magnet ? undefined : 'false'}
 	href={href}
-	target="_blank"
-	rel="noopener noreferrer">
+	target={external ? '_blank' : undefined}
+	rel={external ? 'noopener noreferrer' : undefined}
+	style={[
+		fontSize ? `--btn-font-size: ${fontSize}` : '',
+		labelSpacing ? `--btn-label-spacing: ${labelSpacing}` : '',
+		color ? `--btn-color: ${color}` : '',
+	]
+		.filter(Boolean)
+		.join('; ') || undefined}>
 	<span class="fill-old" aria-hidden="true"></span>
 	<svg class="fill-scribble" aria-hidden="true" viewBox="0 0 172.072 62.3464" preserveAspectRatio="none">
 		<path
@@ -94,10 +111,14 @@ const { href, label, hoverSound } = Astro.props;
 
 			const FILL_DELAY = 0.1; // seconds after hover starts before the bg fill kicks in
 
+			const fixedFill = btn.dataset.fillColor;
+			const fixedFg = btn.dataset.fillFg;
+			const colors = fixedFill && fixedFg ? [{ fill: fixedFill, fg: fixedFg }] : HOVER_COLORS;
+
 			let colorIndex = 0;
 			let fillTimer: gsap.core.Tween | null = null;
-			btn.style.setProperty('--btn-fill', HOVER_COLORS[colorIndex].fill);
-			btn.style.setProperty('--btn-fg', HOVER_COLORS[colorIndex].fg);
+			btn.style.setProperty('--btn-fill', colors[colorIndex].fill);
+			btn.style.setProperty('--btn-fg', colors[colorIndex].fg);
 
 			gsap.set(fillOld, { xPercent: -50, yPercent: -50, scale: 0 });
 			gsap.set(scribblePath, { drawSVG: '0%' });
@@ -116,12 +137,12 @@ const { href, label, hoverSound } = Astro.props;
 
 			btn.addEventListener('mouseenter', (event) => {
 				btn.classList.add('hovering');
-				btn.style.setProperty('--btn-fill', HOVER_COLORS[colorIndex].fill);
-				btn.style.setProperty('--btn-fg', HOVER_COLORS[colorIndex].fg);
+				btn.style.setProperty('--btn-fill', colors[colorIndex].fill);
+				btn.style.setProperty('--btn-fg', colors[colorIndex].fg);
 
-				let nextIndex = Math.floor(Math.random() * HOVER_COLORS.length);
-				if (HOVER_COLORS.length > 1 && nextIndex === colorIndex) {
-					nextIndex = (nextIndex + 1) % HOVER_COLORS.length;
+				let nextIndex = Math.floor(Math.random() * colors.length);
+				if (colors.length > 1 && nextIndex === colorIndex) {
+					nextIndex = (nextIndex + 1) % colors.length;
 				}
 				colorIndex = nextIndex;
 
@@ -149,6 +170,38 @@ const { href, label, hoverSound } = Astro.props;
 
 			btn.addEventListener('mouseleave', resetVisualState);
 			btn.addEventListener('click', resetVisualState);
+
+			if (btn.dataset.magnet !== 'false') {
+				const MAGNET_PADDING = 80;
+				const MAGNET_STRENGTH = 25;
+				let magnetActive = false;
+
+				const handleMagnetMove = (event: MouseEvent) => {
+					const rect = btn.getBoundingClientRect();
+					const centerX = rect.left + rect.width / 2;
+					const centerY = rect.top + rect.height / 2;
+
+					const distX = Math.abs(centerX - event.clientX);
+					const distY = Math.abs(centerY - event.clientY);
+
+					if (distX < rect.width / 2 + MAGNET_PADDING && distY < rect.height / 2 + MAGNET_PADDING) {
+						magnetActive = true;
+						const offsetX = (event.clientX - centerX) / MAGNET_STRENGTH;
+						const offsetY = (event.clientY - centerY) / MAGNET_STRENGTH;
+						gsap.to(btn, { x: offsetX, y: offsetY, duration: 0.3, ease: 'power3.out' });
+					} else if (magnetActive) {
+						magnetActive = false;
+						gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'power3.out' });
+					}
+				};
+
+				window.addEventListener('mousemove', handleMagnetMove);
+				document.addEventListener(
+					'astro:before-swap',
+					() => window.removeEventListener('mousemove', handleMagnetMove),
+					{ once: true }
+				);
+			}
 		});
 	});
 </script>
@@ -160,17 +213,23 @@ const { href, label, hoverSound } = Astro.props;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		border: 1.75px solid var(--color-text-primary);
+		border: 1.75px solid var(--btn-color, var(--color-text-primary));
 		background: var(--color-bg-page);
 		border-radius: 999px;
 		padding: 10px 14px;
 		cursor: pointer;
 		text-decoration: none;
-		transition: padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		transition:
+			padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+			border-color 0.2s ease 0.2s; /* revert delayed so it doesn't outrun the fill leaving */
 	}
 
 	.cursor-fill-btn.hovering {
 		padding: 0.85rem 2rem;
+		border-color: var(--btn-fg, var(--color-lime-bright));
+		transition:
+			padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+			border-color 0.15s ease; /* no delay entering hover */
 	}
 
 	.fill-old {
@@ -224,16 +283,18 @@ const { href, label, hoverSound } = Astro.props;
 		position: relative;
 		z-index: 1;
 		font-family: var(--font-sofia), sans-serif;
-		font-size: var(--font-size-14);
+		font-size: var(--btn-font-size, var(--font-size-14));
 		font-weight: 600;
 		line-height: 1;
-		color: var(--color-charcoal-alt);
+		color: var(--btn-color, var(--color-charcoal-alt));
 		white-space: nowrap;
-		transition: color 0.2s ease;
+		padding-inline: var(--btn-label-spacing, 0);
+		transition: color 0.3s ease 0.3s; /* revert delayed so it doesn't outrun the fill leaving */
 	}
 
 	.cursor-fill-btn.hovering .label {
 		color: var(--btn-fg, var(--color-lime-bright));
+		transition: color 0.15s ease; /* no delay entering hover */
 	}
 
 	.arrow-track {
@@ -242,7 +303,7 @@ const { href, label, hoverSound } = Astro.props;
 		display: grid;
 		grid-template-columns: 0fr;
 		font-family: var(--font-sofia), sans-serif;
-		font-size: var(--font-size-14);
+		font-size: var(--btn-font-size, var(--font-size-14));
 		font-weight: 600;
 		line-height: 1;
 		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);

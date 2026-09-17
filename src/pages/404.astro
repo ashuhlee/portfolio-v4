@@ -1,0 +1,278 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BackButton from '../components/common/BackButton.astro';
+import CursorFillButton from '../components/common/CursorFillButton.astro';
+import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.astro';
+---
+
+<Layout title="404 | Hi, I'm Ashley" starColor="#FFABDF" showClock={false} showConfigMenu={false}>
+	<PixelBlastBackground slot="background" />
+	<div class="page">
+		<BackButton />
+
+		<div class="content">
+			<h1 class="stagger-in">404</h1>
+			<p class="description stagger-in">Hm...that page doesn't exist or can't be found.</p>
+			<div class="btn-wrap stagger-in">
+				<CursorFillButton
+					href="/"
+					label="Back to homepage"
+					fillColor={{ fill: '#FFABDF', fg: '#1A0000' }}
+					external={false}
+					fontSize="1rem"
+					labelSpacing="0.375rem"
+					color="var(--color-brand-pink)"
+				/>
+			</div>
+		</div>
+
+		<svg class="star" viewBox="0 0 30.4338 28.9443" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+			<path
+				d="M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z"
+				stroke="currentColor"
+				stroke-width="1.5"
+				vector-effect="non-scaling-stroke"
+				stroke-linecap="butt"
+				stroke-linejoin="miter"
+				stroke-dasharray="8 14"
+			/>
+		</svg>
+
+		<span class="error-bounce" aria-hidden="true">\ERROR</span>
+
+		<span class="face" aria-hidden="true">:(</span>
+
+		<div class="frame-line frame-line--v" style="left: 1rem" aria-hidden="true"></div>
+		<div class="frame-line frame-line--v" style="right: 1rem" aria-hidden="true"></div>
+		<div class="frame-line frame-line--h" style="top: 1rem" aria-hidden="true"></div>
+		<div class="frame-line frame-line--h" style="bottom: 1rem" aria-hidden="true"></div>
+	</div>
+</Layout>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const el = document.querySelector<HTMLElement>('.error-bounce');
+		if (!el) return;
+
+		const STEP = 2;
+		const TICK_MS = 12;
+
+		const COLORS = ['var(--color-brand-pink)', 'var(--color-text-primary)'];
+		let colorIndex = 0;
+		el.style.color = COLORS[colorIndex];
+
+		let w = el.offsetWidth;
+		let h = el.offsetHeight;
+		let x = Math.random() * (window.innerWidth - w);
+		let y = Math.random() * (window.innerHeight - h);
+		let dx = STEP;
+		let dy = STEP * 0.7;
+
+		el.style.left = `${x}px`;
+		el.style.top = `${y}px`;
+
+		const handleResize = () => {
+			w = el.offsetWidth;
+			h = el.offsetHeight;
+			x = Math.min(x, window.innerWidth - w);
+			y = Math.min(y, window.innerHeight - h);
+		};
+		window.addEventListener('resize', handleResize);
+
+		const interval = window.setInterval(() => {
+			x += dx;
+			y += dy;
+
+			let bounced = false;
+			if (x <= 0) {
+				x = 0;
+				dx = Math.abs(dx);
+				bounced = true;
+			} else if (x + w >= window.innerWidth) {
+				x = window.innerWidth - w;
+				dx = -Math.abs(dx);
+				bounced = true;
+			}
+			if (y <= 0) {
+				y = 0;
+				dy = Math.abs(dy);
+				bounced = true;
+			} else if (y + h >= window.innerHeight) {
+				y = window.innerHeight - h;
+				dy = -Math.abs(dy);
+				bounced = true;
+			}
+
+			if (bounced) {
+				colorIndex = (colorIndex + 1) % COLORS.length;
+				el.style.color = COLORS[colorIndex];
+			}
+
+			el.style.left = `${x}px`;
+			el.style.top = `${y}px`;
+		}, TICK_MS);
+
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				clearInterval(interval);
+				window.removeEventListener('resize', handleResize);
+			},
+			{ once: true }
+		);
+	});
+</script>
+
+<style>
+	/* Lets ripple clicks reach the PixelBlast canvas behind the page
+	   through empty space, while the back button and CTA stay clickable. */
+	:global(#smooth-wrapper),
+	:global(#smooth-content) {
+		pointer-events: none;
+	}
+
+	.page {
+		position: relative;
+		min-height: 100vh;
+		max-width: 50rem;
+		margin: 0 auto;
+		padding: 2.5rem 1.5rem 4rem;
+		pointer-events: none;
+	}
+
+	.page :global(.back-button) {
+		pointer-events: auto;
+	}
+
+	.content {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		text-align: center;
+		pointer-events: none;
+	}
+
+	h1 {
+		margin: 0;
+		font-family: var(--font-display), sans-serif;
+		font-size: var(--font-size-96);
+		line-height: 1;
+		color: var(--color-text-primary);
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.description {
+		margin: 0;
+		font-family: var(--font-sans), sans-serif;
+		font-size: var(--font-size-17);
+		line-height: 1.35;
+		color: var(--color-text-muted);
+		white-space: nowrap;
+	}
+
+	.btn-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2.75rem;
+		pointer-events: auto;
+	}
+
+	.star {
+		position: fixed;
+		right: 1.5rem;
+		bottom: -19vh;
+		width: 34rem;
+		height: auto;
+		color: var(--color-text-secondary);
+		transform: rotate(-9.22deg);
+		pointer-events: none;
+		user-select: none;
+		z-index: -1;
+	}
+
+	.star path {
+		animation: star-dash-move 3s linear infinite;
+	}
+
+	@keyframes star-dash-move {
+		to {
+			stroke-dashoffset: -22;
+		}
+	}
+
+	.error-bounce {
+		position: fixed;
+		top: 0;
+		left: 0;
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-15);
+		pointer-events: none;
+		user-select: none;
+		z-index: -1;
+		opacity: 0;
+		animation: error-bounce-fade-in 0.3s ease 1.25s forwards;
+	}
+
+	@keyframes error-bounce-fade-in {
+		to {
+			opacity: 1;
+		}
+	}
+
+	.face {
+		position: fixed;
+		top: 2rem;
+		right: 2rem;
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-15);
+		text-transform: uppercase;
+		color: var(--color-text-secondary);
+		letter-spacing: 0.03125rem;
+		pointer-events: none;
+		user-select: none;
+		z-index: -1;
+	}
+
+	.frame-line {
+		position: fixed;
+		background: var(--color-border);
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.frame-line--v {
+		top: 0;
+		bottom: 0;
+		width: 1.5px;
+	}
+
+	.frame-line--h {
+		left: 0;
+		right: 0;
+		height: 1.5px;
+	}
+
+	@media (max-width: 37.5rem) {
+		h1 {
+			font-size: 4rem;
+		}
+
+		.description {
+			white-space: normal;
+			max-width: 20rem;
+		}
+
+		.star {
+			width: 26rem;
+			right: -7rem;
+			bottom: -8rem;
+		}
+	}
+</style>

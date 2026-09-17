@@ -1,0 +1,52 @@
+---
+import PixelBlast from './PixelBlast';
+
+interface Props {
+	color?: string;
+	// Swaps in for `color` while the site is in dark mode.
+	darkColor?: string;
+	variant?: 'square' | 'circle' | 'triangle' | 'diamond';
+	pixelSize?: number;
+	patternScale?: number;
+	patternDensity?: number;
+	speed?: number;
+	edgeFade?: number;
+	enableRipples?: boolean;
+}
+
+const {
+	color = '#e3e3e3',
+	darkColor = '#212121',
+	variant = 'square',
+	pixelSize = 2,
+	patternScale = 2,
+	patternDensity = 1.5,
+	speed = 0.0,
+	edgeFade = 0.5,
+	enableRipples = false,
+} = Astro.props;
+---
+
+<div class="pixel-blast-bg">
+	<PixelBlast
+		client:load
+		variant={variant}
+		color={color}
+		darkColor={darkColor}
+		pixelSize={pixelSize}
+		patternScale={patternScale}
+		patternDensity={patternDensity}
+		speed={speed}
+		edgeFade={edgeFade}
+		enableRipples={enableRipples}
+		transparent={true}
+	/>
+</div>
+
+<style>
+	.pixel-blast-bg {
+		position: fixed;
+		inset: 0;
+		pointer-events: auto;
+	}
+</style>

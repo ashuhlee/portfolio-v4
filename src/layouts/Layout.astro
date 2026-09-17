@@ -11,12 +11,16 @@ interface Props {
 	title?: string;
 	description?: string;
 	starColor?: string;
+	showClock?: boolean;
+	showConfigMenu?: boolean;
 }
 
 const {
 	title = "Hi, I'm Ashley",
 	description = 'CS Student at UWestern building intentionally crafted products.',
 	starColor,
+	showClock = true,
+	showConfigMenu = true,
 } = Astro.props;
 
 const outDuration = 0.1;
@@ -98,9 +102,9 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		</div>
 		<Tooltip />
 		<CursorStar />
-		<ClockWidget />
+		{showClock && <ClockWidget />}
 		<ScrollProgress />
-		<ConfigMenu />
+		{showConfigMenu && <ConfigMenu />}
 	</body>
 
 	<script>
@@ -331,7 +335,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-warm: #303030;
 		--color-slate: #595d62;
 
-		--color-text-nav: #444444;
+		--color-text-nav: #2c2c2c;
 
 		--color-white: #ffffff;
 		--color-black: #000000;
@@ -379,6 +383,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--font-size-20: 1.25rem;   /* 20px */
 		--font-size-22: 1.375rem;  /* 22px */
 		--font-size-24: 1.5rem; 	 /* 24px */
+		--font-size-96: 6rem;  /* 100px */
 	}
 
 	:root[data-theme='dark'] {
@@ -394,6 +399,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-warm: #d0d0d0;
 		--color-slate: #9a9da1;
 		--color-text-nav: #ededed;
+
+		--color-brand-pink: #FF97D7;
 
 		--color-white: #1b1822;
 		--color-black: #f5f5f5;
