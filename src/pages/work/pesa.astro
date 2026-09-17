@@ -9,6 +9,7 @@ import BackButton from '../../components/common/BackButton.astro';
 import CrossfadeVideo from '../../components/common/CrossfadeVideo.astro';
 
 import withdraw1 from '../../assets/pesa/withdraw-1.webm';
+import withdraw1Mov from '../../assets/pesa/withdraw-1.mov';
 import withdraw2 from '../../assets/pesa/withdraw-2.webp';
 import withdraw3 from '../../assets/pesa/withdraw-3.webp';
 
@@ -20,6 +21,7 @@ import savings2 from '../../assets/pesa/savings-2.webp';
 
 import settings1 from '../../assets/pesa/settings-1.webp';
 import settings2 from '../../assets/pesa/settings-2.webm';
+import settings2Mov from '../../assets/pesa/settings-2.mov';
 
 import reviewPlaceholder from '../../assets/pesa/placeholder.webp';
 import chipCaretRole from '../../assets/pesa/chip-caret-role.svg';
@@ -96,6 +98,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				<CrossfadeVideo
 					class="preview-phone preview-phone-left"
 					src={withdraw1}
+					srcMov={withdraw1Mov}
 					aspectRatio="660 / 1368"
 					replayDelay={5000}
 					ariaLabel="Withdraw from stash screen"
@@ -133,7 +136,6 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 			</div>
 			<video
 				class="placeholder card-toast stagger-in"
-				src="/videos/pesa/notifications.webm"
 				autoplay
 				loop
 				muted
@@ -141,7 +143,10 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				controls={false}
 				data-tooltip="Toast feedback"
 				data-tooltip-color="#FFE9A0"
-			></video>
+			>
+				<source src="/videos/pesa/notifications.mov" type="video/mp4; codecs=hvc1" />
+				<source src="/videos/pesa/notifications.webm" type="video/webm" />
+			</video>
 			<div
 				class="placeholder card-savings showcase-preview stagger-in"
 				data-tooltip="Create a savings account"
@@ -174,6 +179,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				<CrossfadeVideo
 					class="settings-phone settings-phone-2"
 					src={settings2}
+					srcMov={settings2Mov}
 					aspectRatio="660 / 1368"
 					replayDelay={3000}
 					fadeDuration={0.25}

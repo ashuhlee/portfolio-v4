@@ -1,6 +1,10 @@
 ---
 interface Props {
 	src: string;
+	// HEVC-with-alpha .mov for Safari, which doesn't support alpha-channel
+	// WebM at all. Listed first so Safari picks it and other browsers fall
+	// back to `src`. Omit if the video has no transparency to preserve.
+	srcMov?: string;
 	class?: string;
 	ariaLabel?: string;
 	// ms to pause on the last frame before crossfading back to the start.
@@ -10,7 +14,7 @@ interface Props {
 	aspectRatio?: string;
 }
 
-const { src, class: className, ariaLabel, replayDelay = 1500, fadeDuration = 0.5, aspectRatio } = Astro.props;
+const { src, srcMov, class: className, ariaLabel, replayDelay = 1500, fadeDuration = 0.5, aspectRatio } = Astro.props;
 ---
 
 <div
@@ -20,8 +24,14 @@ const { src, class: className, ariaLabel, replayDelay = 1500, fadeDuration = 0.5
 	data-replay-delay={replayDelay}
 	data-fade-duration={fadeDuration}
 >
-	<video class="crossfade-layer" src={src} autoplay muted playsinline controls={false} aria-hidden="true"></video>
-	<video class="crossfade-layer" src={src} muted playsinline controls={false} aria-hidden="true"></video>
+	<video class="crossfade-layer" autoplay muted playsinline controls={false} aria-hidden="true">
+		{srcMov && <source src={srcMov} type="video/mp4; codecs=hvc1" />}
+		<source src={src} type="video/webm" />
+	</video>
+	<video class="crossfade-layer" muted playsinline controls={false} aria-hidden="true">
+		{srcMov && <source src={srcMov} type="video/mp4; codecs=hvc1" />}
+		<source src={src} type="video/webm" />
+	</video>
 </div>
 
 <script>
