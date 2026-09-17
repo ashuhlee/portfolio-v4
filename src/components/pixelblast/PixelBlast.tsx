@@ -367,6 +367,7 @@ export default function PixelBlast({
 	const visibilityRef = useRef({ visible: true });
 	const speedRef = useRef(speed);
 	const [theme, setTheme] = useState(getTheme);
+	const [ready, setReady] = useState(false);
 	const effectiveColor = theme === 'dark' && darkColor ? darkColor : color;
 
 	useEffect(() => {
@@ -550,6 +551,7 @@ export default function PixelBlast({
 				passive: true,
 			});
 			let raf = 0;
+			let firstFrame = true;
 			const animate = () => {
 				if (autoPauseOffscreen && !visibilityRef.current.visible) {
 					raf = requestAnimationFrame(animate);
@@ -571,6 +573,10 @@ export default function PixelBlast({
 					});
 					composer.render();
 				} else renderer.render(scene, camera);
+				if (firstFrame) {
+					firstFrame = false;
+					setReady(true);
+				}
 				raf = requestAnimationFrame(animate);
 			};
 			raf = requestAnimationFrame(animate);
@@ -653,7 +659,7 @@ export default function PixelBlast({
 		<div
 			ref={containerRef}
 			className={`pixel-blast-container ${className ?? ''}`}
-			style={style}
+			style={{ ...style, opacity: ready ? 1 : 0, transition: 'opacity 0.5s ease' }}
 			aria-label="PixelBlast interactive background"
 		/>
 	);

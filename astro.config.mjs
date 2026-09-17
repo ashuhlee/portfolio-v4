@@ -11,4 +11,9 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'viewport',
   },
+  vite: {
+    build: {
+      chunkSizeWarningLimit: 900,
+    },
+  },
 });
