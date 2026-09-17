@@ -1,6 +1,3 @@
----
----
-
 <div class="clock-widget" aria-hidden="true">
 	<span class="time"><span class="hour">--</span><span class="colon">:</span><span class="minute">--</span></span>
 	<span class="zone">pm</span>
@@ -22,18 +19,33 @@
 		return { hour, minute, period };
 	}
 
+	let currentPeriod = '';
+	let showingEst = false;
+
 	function tick() {
 		const hourEl = document.querySelector<HTMLElement>('.clock-widget .hour');
 		const minuteEl = document.querySelector<HTMLElement>('.clock-widget .minute');
 		const zoneEl = document.querySelector<HTMLElement>('.clock-widget .zone');
+
 		const { hour, minute, period } = formatTime();
+		currentPeriod = period;
+
 		if (hourEl) hourEl.textContent = hour;
 		if (minuteEl) minuteEl.textContent = minute;
-		if (zoneEl) zoneEl.textContent = period;
+		if (zoneEl && !showingEst) zoneEl.textContent = period;
 	}
 
 	document.addEventListener('astro:page-load', () => {
 		tick();
+		const widget = document.querySelector<HTMLElement>('.clock-widget');
+		const zoneEl = document.querySelector<HTMLElement>('.clock-widget .zone');
+
+		widget?.addEventListener('click', () => {
+			if (!zoneEl) return;
+			showingEst = !showingEst;
+			zoneEl.textContent = showingEst ? `${currentPeriod} · EST` : currentPeriod;
+		});
+
 		const interval = setInterval(tick, 1000);
 		document.addEventListener('astro:before-swap', () => clearInterval(interval), { once: true });
 	});
@@ -52,7 +64,8 @@
 		border-radius: 999px;
 		font-family: var(--font-mono), monospace;
 		user-select: none;
-		pointer-events: none;
+		pointer-events: auto;
+		cursor: default;
 	}
 
 	.time {
