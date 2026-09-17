@@ -1,11 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import DitherBackground from '../components/dither/DitherBackground.astro';
+import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.astro';
 import BackButton from '../components/common/BackButton.astro';
 ---
 
 <Layout title="Extras | Hi, I'm Ashley" starColor="var(--color-brand-pink)">
 	<DitherBackground slot="background" color={['grey']} />
+	<PixelBlastBackground slot="background" visibleInTheme="dark" />
 	<div class="page">
 		<BackButton />
 

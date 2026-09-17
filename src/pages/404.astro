@@ -5,7 +5,7 @@ import CursorFillButton from '../components/common/CursorFillButton.astro';
 import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.astro';
 ---
 
-<Layout title="404 | Hi, I'm Ashley" starColor="#FFABDF" showClock={false} showConfigMenu={false}>
+<Layout title="Hi, I'm Ashley" starColor="#FFABDF" showClock={false} showConfigMenu={false}>
 	<PixelBlastBackground slot="background" />
 	<div class="page">
 		<BackButton />
@@ -242,7 +242,7 @@ import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.
 
 	.frame-line {
 		position: fixed;
-		background: var(--color-border);
+		border: 0 solid var(--color-border);
 		pointer-events: none;
 		z-index: 1;
 	}
@@ -250,13 +250,13 @@ import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.
 	.frame-line--v {
 		top: 0;
 		bottom: 0;
-		width: 1.5px;
+		border-left-width: 1.5px;
 	}
 
 	.frame-line--h {
 		left: 0;
 		right: 0;
-		height: 1.5px;
+		border-top-width: 1.5px;
 	}
 
 	@media (max-width: 37.5rem) {

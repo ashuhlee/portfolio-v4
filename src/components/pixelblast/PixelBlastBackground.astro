@@ -1,5 +1,5 @@
 ---
-import PixelBlast from './PixelBlast';
+import PixelBlastGate from './PixelBlastGate';
 
 interface Props {
 	color?: string;
@@ -12,11 +12,12 @@ interface Props {
 	speed?: number;
 	edgeFade?: number;
 	enableRipples?: boolean;
+	visibleInTheme?: 'light' | 'dark';
 }
 
 const {
 	color = '#e3e3e3',
-	darkColor = '#212121',
+	darkColor = '#1F1D26',
 	variant = 'square',
 	pixelSize = 2,
 	patternScale = 2,
@@ -24,12 +25,14 @@ const {
 	speed = 0.0,
 	edgeFade = 0.5,
 	enableRipples = false,
+	visibleInTheme,
 } = Astro.props;
 ---
 
 <div class="pixel-blast-bg">
-	<PixelBlast
+	<PixelBlastGate
 		client:load
+		visibleInTheme={visibleInTheme}
 		variant={variant}
 		color={color}
 		darkColor={darkColor}

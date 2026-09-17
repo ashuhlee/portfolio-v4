@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PageFooter from '../../components/common/PageFooter.astro';
 import DitherBackground from '../../components/dither/DitherBackground.astro';
+import PixelBlastBackground from '../../components/pixelblast/PixelBlastBackground.astro';
 import BackButton from '../../components/common/BackButton.astro';
 
 import withdraw1 from '../../assets/pesa/withdraw-1.webp';
@@ -31,6 +32,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	starColor="var(--color-brand-pink)"
 >
 	<DitherBackground slot="background" color="grey" />
+	<PixelBlastBackground slot="background" visibleInTheme="dark" />
 	<div class="page">
 		<BackButton />
 

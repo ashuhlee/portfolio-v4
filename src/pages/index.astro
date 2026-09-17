@@ -8,6 +8,7 @@ import ExperienceSection from '../components/home/ExperienceSection.astro';
 import ProjectsSection from '../components/home/ProjectsSection.astro';
 import DoodleCluster from '../components/home/DoodleCluster.astro';
 import DitherBackground from '../components/dither/DitherBackground.astro';
+import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.astro';
 import CursorFillButton from '../components/common/CursorFillButton.astro';
 import Divider from '../components/home/Divider.astro';
 
@@ -54,7 +55,8 @@ const projects = [
 ---
 
 <Layout>
-  <DitherBackground slot="background" color={['pink', 'grey']} />
+  <DitherBackground slot="background" color="grey" />
+  <PixelBlastBackground slot="background" visibleInTheme="dark" />
   <div class="page">
     <div class="stagger-in"><SiteNav/></div>
 
