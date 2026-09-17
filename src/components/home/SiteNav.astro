@@ -48,6 +48,7 @@
 			</svg>
 		</button>
 		<a class="say-hello opacity-60" data-bounce="0.8" href="mailto:hello@ashuhlee.ca">
+			<span class="inner-shadow" aria-hidden="true"></span>
 			<span>say hello</span>
 			<span class="arrow-track">
 				<span class="arrow" aria-hidden="true">!</span>
@@ -266,6 +267,18 @@
 	.say-hello:hover::before {
 		opacity: 1;
 		transform: scale(1);
+	}
+
+	.say-hello .inner-shadow {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		border-radius: 999px;
+		box-shadow:
+			inset 2px 2px 2px 0 rgba(255, 255, 255, 0.60),
+			inset 2px -2px 2px 0 rgba(0, 0, 0, 0.50);
+		mix-blend-mode: overlay;
+		pointer-events: none;
 	}
 
 	.say-hello:hover {
