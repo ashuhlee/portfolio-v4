@@ -39,14 +39,13 @@ import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.
 			/>
 		</svg>
 
-		<span class="error-bounce" aria-hidden="true">\ERROR</span>
+		<span class="error-bounce" aria-hidden="true">
+			\ERROR
+		</span>
 
-		<span class="face" aria-hidden="true">:(</span>
-
-		<!--<div class="frame-line frame-line&#45;&#45;v" style="left: 1rem" aria-hidden="true"></div>-->
-		<!--<div class="frame-line frame-line&#45;&#45;v" style="right: 1rem" aria-hidden="true"></div>-->
-		<!--<div class="frame-line frame-line&#45;&#45;h" style="top: 1rem" aria-hidden="true"></div>-->
-		<!--<div class="frame-line frame-line&#45;&#45;h" style="bottom: 1rem" aria-hidden="true"></div>-->
+		<span class="face" aria-hidden="true">
+			:(
+		</span>
 	</div>
 </Layout>
 
@@ -119,14 +118,13 @@ import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.
 				clearInterval(interval);
 				window.removeEventListener('resize', handleResize);
 			},
-			{ once: true }
+			{ once: true },
 		);
 	});
 </script>
 
 <style>
-	/* Lets ripple clicks reach the PixelBlast canvas behind the page
-	   through empty space, while the back button and CTA stay clickable. */
+	/* Lets clicks ripple through to the PixelBlast canvas behind the page. */
 	:global(#smooth-wrapper),
 	:global(#smooth-content) {
 		pointer-events: none;
@@ -239,25 +237,6 @@ import PixelBlastBackground from '../components/pixelblast/PixelBlastBackground.
 		pointer-events: none;
 		user-select: none;
 		z-index: -1;
-	}
-
-	.frame-line {
-		position: fixed;
-		border: 0 solid var(--color-border);
-		pointer-events: none;
-		z-index: 1;
-	}
-
-	.frame-line--v {
-		top: 0;
-		bottom: 0;
-		border-left-width: 1.5px;
-	}
-
-	.frame-line--h {
-		left: 0;
-		right: 0;
-		border-top-width: 1.5px;
 	}
 
 	@media (max-width: 37.5rem) {

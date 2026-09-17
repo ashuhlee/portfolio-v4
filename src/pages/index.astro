@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import PageFooter from '../components/common/PageFooter.astro';
 import Layout from '../layouts/Layout.astro';
 import SiteNav from '../components/home/SiteNav.astro';
@@ -13,9 +12,9 @@ import CursorFillButton from '../components/common/CursorFillButton.astro';
 import Divider from '../components/home/Divider.astro';
 
 const experiences = [
-	{role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: 'var(--color-text-primary)'},
-	{role: 'Software Engineer Intern at Pesa', when: 'Summer 2026', dot: '#ff8fd5'},
-	{role: 'Web Development Intern at SCAN', when: 'Summer 2024 - 25', dot: '#DFF28F'},
+	{ role: 'Frontend Engineer Intern at Sun Life', when: 'Fall 2026', dot: 'var(--color-text-primary)' },
+	{ role: 'Software Engineer Intern at Pesa', when: 'Summer 2026', dot: '#ff8fd5' },
+	{ role: 'Web Development Intern at SCAN', when: 'Summer 2024 - 25', dot: '#DFF28F' },
 ];
 
 const projects = [
@@ -55,56 +54,62 @@ const projects = [
 ---
 
 <Layout>
-  <DitherBackground slot="background" color="grey" />
-  <PixelBlastBackground slot="background" visibleInTheme="dark" />
-  <div class="page">
-    <div class="stagger-in"><SiteNav/></div>
+	<DitherBackground slot="background" color="grey" />
+	<PixelBlastBackground slot="background" visibleInTheme="dark" />
+	<div class="page">
+		<div class="stagger-in">
+			<SiteNav />
+		</div>
 
-    <main class="content">
-      <ProfileIntro/>
-      <Divider class="stagger-in" />
-      <ExperienceSection experiences={experiences}/>
-      <Divider class="stagger-in" />
-      <div class="stagger-in"><ProjectsSection projects={projects}/></div>
-      <div>
-        <div class="cursor-fill-wrap stagger-in">
-          <CursorFillButton
-            href="https://github.com/ashuhlee"
-            label="View more on GitHub"
-            hoverSound="/audio/scribble.mp3"
-            magnet={false}
-          />
-        </div>
-      </div>
-      <!--<Divider class="divider&#45;&#45;doodle stagger-in" />-->
-      <!--<div class="stagger-in"><DoodleCluster/></div>-->
-    </main>
+		<main class="content">
+			<ProfileIntro />
+			<Divider class="stagger-in" />
+			<ExperienceSection experiences={experiences} />
+			<Divider class="stagger-in" />
+			<div class="stagger-in">
+				<ProjectsSection projects={projects} />
+			</div>
+			<div>
+				<div class="cursor-fill-wrap stagger-in">
+					<CursorFillButton
+						href="https://github.com/ashuhlee"
+						label="View more on GitHub"
+						hoverSound="/audio/scribble.mp3"
+						magnet={false}
+					/>
+				</div>
+			</div>
+			<!--<Divider class="divider&#45;&#45;doodle stagger-in" />-->
+			<!--<div class="stagger-in"><DoodleCluster/></div>-->
+		</main>
 
-    <div class="stagger-in"><PageFooter/></div>
-  </div>
+		<div class="stagger-in">
+			<PageFooter />
+		</div>
+	</div>
 </Layout>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll('.divider').forEach((el) => {
-      el.addEventListener('contextmenu', (event) => event.preventDefault());
-    });
-  });
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll('.divider').forEach((el) => {
+			el.addEventListener('contextmenu', (event) => event.preventDefault());
+		});
+	});
 </script>
 
 <style>
-    .page {
-        max-width: 42.1875rem;
-        margin: 0 auto;
-        padding: 3rem 1.5rem 0;
-        --page-max-width: 42.1875rem;
-    }
+	.page {
+		max-width: 42.1875rem;
+		margin: 0 auto;
+		padding: 3rem 1.5rem 0;
+		--page-max-width: 42.1875rem;
+	}
 
-    .cursor-fill-wrap {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 3rem;
-        margin: 3rem 0;
-    }
+	.cursor-fill-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 3rem;
+		margin: 3rem 0;
+	}
 </style>

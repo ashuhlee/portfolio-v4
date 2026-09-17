@@ -70,7 +70,6 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				document.addEventListener('astro:after-swap', applyStoredTheme);
 			})();
 		</script>
-
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -148,7 +147,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 						stagger: 0.05,
 						delay: isHomeFirstVisit ? 0.03 : 0,
 						ease: 'power2.out',
-					}
+					},
 				);
 			}
 
@@ -185,7 +184,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn'
+				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn',
 			);
 			if (!target) return;
 			const sound = clickSoundPool[clickSoundIndex];
@@ -338,17 +337,17 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 	:root {
 		/* brand */
-		--color-brand-pink: #FE6FC1;
-		--color-brand-lime: #EDFDAD;
-		--color-lime-bright: #EAFF98;
+		--color-brand-pink: #fe6fc1;
+		--color-brand-lime: #edfdad;
+		--color-lime-bright: #eaff98;
 		--color-brand-cyan: #beefff;
-		--color-accent-purple: #9093E8;
+		--color-accent-purple: #9093e8;
 
 		/* text */
 		--color-text-primary: #232323;
 		--color-text-primary-alt: #212121;
 		--color-text-secondary: #444444;
-		--color-text-medium: #4D4D4D;
+		--color-text-medium: #4d4d4d;
 		--color-text-muted: #606060;
 		--color-text-faint: #868686;
 		--color-charcoal: #393939;
@@ -364,19 +363,19 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		/* dark fills (hover/press states) */
 		--color-navy-deep: #202935;
-		--color-forest-deep: #222C25;
-		--color-ink-deep: #1D2726;
-		--color-charcoal-navy: #25262D;
+		--color-forest-deep: #222c25;
+		--color-ink-deep: #1d2726;
+		--color-charcoal-navy: #25262d;
 
 		/* backgrounds / borders */
 		--color-bg-page: #fefefe;
 
 		--color-border: #eaeaea;
 		--color-border-soft: #ebebeb;
-		--color-border-harsh: #E9E9E9;
+		--color-border-harsh: #e9e9e9;
 
 		--color-gray-faint: #f8f8f8;
-		--color-gray-faint-hover: #FAFAFA;
+		--color-gray-faint-hover: #fafafa;
 
 		--color-gray-light: #f4f4f4;
 		--color-gray-lighter: #f3f3f3;
@@ -386,8 +385,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-mid-light: #cbcbcb;
 
 		/* one-offs */
-		--color-selection: #7E96FF;
-		--color-chip-pink: #FEC0F2;
+		--color-selection: #7e96ff;
+		--color-chip-pink: #fec0f2;
 		--color-chip-yellow: #ffeeb5;
 
 		--font-sans: 'Sofia Pro', system-ui, sans-serif;
@@ -395,26 +394,26 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--font-display: 'Druk Wide Bold', system-ui, sans-serif;
 		--font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-		--font-size-12: 0.75rem;   /* 12px */
+		--font-size-12: 0.75rem; /* 12px */
 		--font-size-13: 0.8125rem; /* 13px */
-		--font-size-14: 0.875rem;  /* 14px */
+		--font-size-14: 0.875rem; /* 14px */
 		--font-size-15: 0.9375rem; /* 15px */
-		--font-size-16: 1rem;      /* 16px */
+		--font-size-16: 1rem; /* 16px */
 		--font-size-17: 1.0625rem; /* 17px */
-		--font-size-18: 1.125rem;  /* 18px */
-		--font-size-20: 1.25rem;   /* 20px */
-		--font-size-22: 1.375rem;  /* 22px */
-		--font-size-24: 1.5rem; 	 /* 24px */
-		--font-size-96: 6rem;  /* 100px */
+		--font-size-18: 1.125rem; /* 18px */
+		--font-size-20: 1.25rem; /* 20px */
+		--font-size-22: 1.375rem; /* 22px */
+		--font-size-24: 1.5rem; /* 24px */
+		--font-size-96: 6rem; /* 100px */
 	}
 
 	:root[data-theme='dark'] {
 		--color-text-primary: #f2f2f2;
 		--color-text-primary-alt: #ededed;
-		--color-text-secondary: #CCCCCC;
+		--color-text-secondary: #cccccc;
 		--color-text-medium: #b5b5b5;
 		--color-text-muted: #999999;
-		--color-text-faint: #CCCCCC;
+		--color-text-faint: #cccccc;
 		--color-charcoal: #dadada;
 		--color-charcoal-alt: #e8e8e8;
 		--color-gray-dark: #d6d6d6;
@@ -422,12 +421,12 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-slate: #9a9da1;
 		--color-text-nav: #ededed;
 
-		--color-brand-pink: #FF97D7;
+		--color-brand-pink: #ff97d7;
 
 		--color-white: #1b1822;
 		--color-black: #f5f5f5;
 
-		--color-bg-page: #16141C;
+		--color-bg-page: #16141c;
 
 		--color-border: #292534;
 		--color-border-soft: #2b2737;
@@ -442,7 +441,6 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		--color-gray-hover: #221f2b;
 		--color-gray-mid: #524a68;
 		--color-gray-mid-light: #554e6d;
-
 	}
 
 	html[data-theme-transition] * {
@@ -522,9 +520,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		width: 100%;
 	}
 
-	/* No GPU-backed WebGL: ScrollSmoother is never created, so fall back to
-	   plain in-flow document scrolling instead of the fixed/pinned layout
-	   it expects. */
+	/* No GPU-backed WebGL: fall back to plain in-flow scrolling instead of ScrollSmoother's pinned layout. */
 	html.no-smooth-scroll #smooth-wrapper {
 		position: static;
 		overflow: visible;

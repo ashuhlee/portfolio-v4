@@ -1,7 +1,6 @@
 ---
 interface Props {
 	title: string;
-	darkColor?: string;
 	accentColor?: string;
 }
 
@@ -11,7 +10,9 @@ const { title, accentColor } = Astro.props;
 <div class="section-header">
 	<h2>
 		{title}
-		<span class="accent" aria-hidden="true" style={accentColor ? `--accent-color: ${accentColor}` : undefined}>++</span>
+		<span class="accent" aria-hidden="true" style={accentColor ? `--accent-color: ${accentColor}` : undefined}>
+			++
+		</span>
 	</h2>
 	<slot />
 </div>

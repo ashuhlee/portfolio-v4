@@ -1,8 +1,7 @@
 ---
 import SectionHeader from './SectionHeader.astro';
 
-// Heaviest media on the linked Pesa page — prefetched in the background
-// once this page is idle, so they're warm by the time "Demo" is clicked.
+// Heaviest media on the linked Pesa page — prefetched in the background once idle.
 import pesaWithdraw1 from '../../assets/pesa/withdraw-1.webm';
 import pesaWithdraw1Mov from '../../assets/pesa/withdraw-1.mov';
 import pesaSettings2 from '../../assets/pesa/settings-2.webm';
@@ -25,10 +24,17 @@ const { experiences } = Astro.props;
 
 <section class="section" id="experience">
 	<div class="stagger-in">
-		<SectionHeader title="Experience" darkColor="#ACEAFF">
+		<SectionHeader title="Experience">
 			<button class="icon-button" type="button" aria-label="Change sticker color">
 				<div class="icon-button-scale">
-					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-bounce="0.95">
+					<svg
+						width="28"
+						height="28"
+						viewBox="0 0 28 28"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						data-bounce="0.95"
+					>
 						<path
 							d="M20.2217 16.7115C18.926 18.7855 16.6252 20.1675 14 20.1677C11.3863 20.1675 9.09354 18.7981 7.79499 16.7393L9.36713 15.7952C10.3444 17.321 12.0536 18.3336 14 18.3337C16.0465 18.3336 17.8305 17.2142 18.7777 15.5557L20.2217 16.7115Z"
 							fill="currentColor"
@@ -55,17 +61,15 @@ const { experiences } = Astro.props;
 
 	<div class="timeline-wrap">
 		<ul class="timeline">
-			{
-				experiences.map((exp) => (
-					<li class="stagger-in">
-						<span class="timeline-dot" style={{ backgroundColor: exp.dot }} />
-						<div>
-							<p class="role">{exp.role}</p>
-							<p class="when">{exp.when}</p>
-						</div>
-					</li>
-				))
-			}
+			{experiences.map((exp) => (
+				<li class="stagger-in">
+					<span class="timeline-dot" style={{ backgroundColor: exp.dot }} />
+					<div>
+						<p class="role">{exp.role}</p>
+						<p class="when">{exp.when}</p>
+					</div>
+				</li>
+			))}
 		</ul>
 
 		<a
@@ -78,7 +82,9 @@ const { experiences } = Astro.props;
 				<span class="see-work-label">
 					<span>Demo</span>
 					<span class="arrow-track">
-						<span class="arrow" aria-hidden="true">→</span>
+						<span class="arrow" aria-hidden="true">
+							→
+						</span>
 					</span>
 				</span>
 			</span>
@@ -260,8 +266,8 @@ const { experiences } = Astro.props;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 	}
 	.see-work:hover {
-		background: #F7F7F7;
-		border: 1px solid #EEEEEE;
+		background: #f7f7f7;
+		border: 1px solid #eeeeee;
 	}
 
 	.see-work-label {
@@ -275,17 +281,19 @@ const { experiences } = Astro.props;
 		font-weight: 500;
 		color: var(--color-gray-dark);
 		white-space: nowrap;
-		transition: padding 0.35s ease, color 0.5s ease;
+		transition:
+			padding 0.35s ease,
+			color 0.5s ease;
 	}
 
 	.see-work:hover .see-work-label {
-			background: linear-gradient(to bottom, var(--color-gray-faint-hover), white);
-			transition: padding 0.35s ease
+		background: linear-gradient(to bottom, var(--color-gray-faint-hover), white);
+		transition: padding 0.35s ease;
 	}
 
 	:root[data-theme='dark'] .see-work {
 		border-color: transparent;
-		background: color-mix(in srgb, #25232C 85%, black 25%);
+		background: color-mix(in srgb, #25232c 85%, black 25%);
 	}
 
 	:root[data-theme='dark'] .see-work-surface {

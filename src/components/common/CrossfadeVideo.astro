@@ -79,7 +79,7 @@ const { src, srcMov, class: className, ariaLabel, replayDelay = 1500, fadeDurati
 					layers.forEach((v) => v.removeEventListener('ended', handleEnded));
 					if (replayTimer) clearTimeout(replayTimer);
 				},
-				{ once: true }
+				{ once: true },
 			);
 		});
 	});

@@ -3,8 +3,13 @@
 
 <header class="nav">
 	<nav class="links">
-		<a class="link-home" href="/"><span>Home.</span></a>
-		<a class="link-extras" href="/extras"><span>Extras</span><span class="bracket-right">]</span></a>
+		<a class="link-home" href="/">
+			<span>Home.</span>
+		</a>
+		<a class="link-extras" href="/extras">
+			<span>Extras</span>
+			<span class="bracket-right">]</span>
+		</a>
 	</nav>
 	<div class="right-side">
 		<button class="theme-toggle" type="button" aria-label="Switch to dark mode">
@@ -51,7 +56,9 @@
 			<span class="inner-shadow" aria-hidden="true"></span>
 			<span>say hello</span>
 			<span class="arrow-track">
-				<span class="arrow" aria-hidden="true">!</span>
+				<span class="arrow" aria-hidden="true">
+					!
+				</span>
 			</span>
 		</a>
 	</div>
@@ -104,10 +111,12 @@
 			document.documentElement.setAttribute('data-theme-transition', next === 'dark' ? 'down' : 'up');
 			const transition = document.startViewTransition(applyTheme);
 			transition.ready.catch(() => {});
-			transition.finished.catch(() => {}).finally(() => {
-				document.documentElement.removeAttribute('data-theme-transition');
-				transitionInProgress = false;
-			});
+			transition.finished
+				.catch(() => {})
+				.finally(() => {
+					document.documentElement.removeAttribute('data-theme-transition');
+					transitionInProgress = false;
+				});
 		});
 	});
 </script>
@@ -172,9 +181,6 @@
 		color: var(--color-brand-pink);
 	}
 
-	.links a.link-extras:hover {
-	}
-
 	.links a:hover::before {
 		opacity: 1;
 	}
@@ -186,11 +192,6 @@
 	.links a span {
 		position: relative;
 		z-index: 1;
-	}
-
-	.slash {
-		color: var(--color-gray-mid);
-		opacity: 0.5;
 	}
 
 	.right-side {
@@ -249,7 +250,7 @@
 		transition: padding 0.35s ease;
 	}
 	.say-hello:hover {
-			font-weight: 600;
+		font-weight: 600;
 	}
 	.say-hello::before {
 		content: '';

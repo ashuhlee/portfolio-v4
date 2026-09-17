@@ -22,12 +22,14 @@ const { projects } = Astro.props;
 ---
 
 <section class="section" id="projects">
-	<SectionHeader title="Projects" darkColor="#FFEDB3">
+	<SectionHeader title="Projects">
 		<span class="path-label">~/STUFF</span>
 	</SectionHeader>
 
 	<div class="projects-grid">
-		{projects.map((project) => <ProjectCard {...project} />)}
+		{projects.map((project) => (
+			<ProjectCard {...project} />
+		))}
 	</div>
 </section>
 
