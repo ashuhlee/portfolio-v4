@@ -1,15 +1,12 @@
 ---
 interface Props {
 	src: string;
-	// HEVC-with-alpha .mov for Safari, which doesn't support alpha-channel
-	// WebM at all. Listed first so Safari picks it and other browsers fall
-	// back to `src`. Omit if the video has no transparency to preserve.
+	// HEVC-with-alpha .mov for Safari, WebM for all other browsers
 	srcMov?: string;
 	class?: string;
 	ariaLabel?: string;
-	// ms to pause on the last frame before crossfading back to the start.
+	// ms to pause on the last frame before crossfading back to the start
 	replayDelay?: number;
-	// seconds for the crossfade itself.
 	fadeDuration?: number;
 	aspectRatio?: string;
 }
@@ -47,6 +44,10 @@ const { src, srcMov, class: className, ariaLabel, replayDelay = 1500, fadeDurati
 			const REPLAY_DELAY = parseFloat(wrapper.dataset.replayDelay || '1500');
 			const FADE_DURATION = parseFloat(wrapper.dataset.fadeDuration || '0.5');
 			let replayTimer: ReturnType<typeof setTimeout> | null = null;
+
+			const revealWrapper = () => gsap.to(wrapper, { opacity: 1, duration: FADE_DURATION, ease: 'power1.out' });
+			if (activeVideo.readyState >= 2) revealWrapper();
+			else activeVideo.addEventListener('loadeddata', revealWrapper, { once: true });
 
 			if (!wrapper.style.aspectRatio) {
 				const setRatio = () => {
@@ -87,6 +88,7 @@ const { src, srcMov, class: className, ariaLabel, replayDelay = 1500, fadeDurati
 <style>
 	.crossfade-video {
 		position: relative;
+		opacity: 0;
 	}
 
 	.crossfade-layer {
