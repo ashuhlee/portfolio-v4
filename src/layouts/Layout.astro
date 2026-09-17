@@ -177,7 +177,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		const clickSoundPool = Array.from({ length: 4 }, () => {
 			const audio = new Audio('/audio/mouse-click.mp3');
 			audio.preload = 'auto';
-			audio.volume = 0.3;
+			audio.volume = 0.2;
 			audio.load();
 			return audio;
 		});
