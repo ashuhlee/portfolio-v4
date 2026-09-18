@@ -47,6 +47,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 	<span class="arrow-track">
 		<span class="arrow" aria-hidden="true">→</span>
 	</span>
+	<span class="fill-outline" aria-hidden="true"></span>
 </a>
 
 <script>
@@ -317,5 +318,23 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		padding-left: 0.125rem;
 		opacity: 1;
 		transform: translateX(0.25rem);
+	}
+
+	/* Non-interactive outline stacked on top of the button.
+	   Fixes the Safari outline bug. */
+	.fill-outline {
+		position: absolute;
+		inset: -1.75px;
+		z-index: 3;
+		border-radius: 999px;
+		border: 1.75px solid var(--btn-color, var(--color-text-primary));
+		background: none;
+		pointer-events: none;
+		transition: border-color 0.2s ease 0.2s;
+	}
+
+	.cursor-fill-btn.hovering .fill-outline {
+		border-color: var(--btn-fg, var(--color-lime-bright));
+		transition: border-color 0.15s ease;
 	}
 </style>
