@@ -99,6 +99,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<meta name="twitter:image" content={ogImage} />
 
 		<ClientRouter />
+		<Analytics/>
 	</head>
 	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
 		<slot name="background" />
