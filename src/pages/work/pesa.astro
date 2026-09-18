@@ -23,6 +23,9 @@ import settings1 from '../../assets/pesa/settings-1.webp';
 import settings2 from '../../assets/pesa/settings-2.webm';
 import settings2Mov from '../../assets/pesa/settings-2.mov';
 
+import notificationsWebm from '../../assets/pesa/notifications.webm';
+import notificationsMov from '../../assets/pesa/notifications.mov';
+
 import reviewPlaceholder from '../../assets/pesa/placeholder.webp';
 import chipCaretRole from '../../assets/pesa/chip-caret-role.svg';
 import chipCaretFocus from '../../assets/pesa/chip-caret-focus.svg';
@@ -144,8 +147,8 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				data-tooltip="Toast feedback"
 				data-tooltip-color="#FFE9A0"
 			>
-				<source src="/videos/pesa/notifications.mov" type="video/mp4; codecs=hvc1" />
-				<source src="/videos/pesa/notifications.webm" type="video/webm" />
+				<source src={notificationsMov} type="video/mp4; codecs=hvc1" />
+				<source src={notificationsWebm} type="video/webm" />
 			</video>
 			<div
 				class="placeholder card-savings showcase-preview stagger-in"
