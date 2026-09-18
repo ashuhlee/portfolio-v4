@@ -70,11 +70,6 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		gsap.to(fillOld, { scale, duration: 0.4, ease: 'power2.in' });
 	}
 
-	function releaseFillCircleOld(fillOld: HTMLElement, btn: HTMLElement, event: MouseEvent) {
-		const { x, y } = relativePoint(btn, event);
-		gsap.to(fillOld, { x, y, scale: 0, duration: 0.4, ease: 'power2.out' });
-	}
-
 	const HOVER_COLORS = [
 		{
 			fill: '#E8FB9F',
@@ -213,6 +208,9 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+		-webkit-mask-image: -webkit-radial-gradient(white, white);
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
 		border: 1.75px solid var(--btn-color, var(--color-text-primary));
 		background: var(--color-bg-page);
 		border-radius: 999px;
