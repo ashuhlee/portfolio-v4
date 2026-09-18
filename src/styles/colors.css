@@ -1,0 +1,90 @@
+:root {
+
+	--color-brand-pink: #fe6fc1;
+	--color-brand-lime: #edfdad;
+	--color-lime-bright: #eaff98;
+	--color-brand-cyan: #beefff;
+	--color-accent-purple: #9093e8;
+
+	/* text */
+	--color-text-primary: #232323;
+	--color-text-primary-alt: #212121;
+
+	--color-text-secondary: #444444;
+	--color-text-medium: #4d4d4d;
+	--color-text-muted: #606060;
+	--color-text-faint: #868686;
+	--color-charcoal: #393939;
+	--color-charcoal-alt: #222222;
+	--color-gray-dark: #383838;
+	--color-gray-warm: #303030;
+	--color-slate: #595d62;
+	--color-text-nav: #2c2c2c;
+
+	--color-white: #ffffff;
+	--color-black: #000000;
+
+	/* dark fills (hover/press states) */
+	--color-navy-deep: #202935;
+	--color-forest-deep: #222c25;
+	--color-ink-deep: #1d2726;
+	--color-charcoal-navy: #25262d;
+
+	/* backgrounds / borders */
+	--color-bg-page: #fefefe;
+
+	--color-border: #eaeaea;
+	--color-border-soft: #ebebeb;
+	--color-border-harsh: #e9e9e9;
+
+	--color-gray-faint: #f8f8f8;
+	--color-gray-faint-hover: #fafafa;
+
+	--color-gray-light: #f4f4f4;
+	--color-gray-lighter: #f3f3f3;
+
+	--color-gray-hover: #f0f0f0;
+	--color-gray-mid: #c8c8c8;
+	--color-gray-mid-light: #cbcbcb;
+
+	/* pastels */
+	--color-selection: #7e96ff;
+	--color-chip-pink: #fec0f2;
+	--color-chip-yellow: #ffeeb5;
+}
+
+:root[data-theme='dark'] {
+	--color-brand-pink: #ff97d7;
+
+	--color-text-primary: #f2f2f2;
+	--color-text-primary-alt: #ededed;
+	--color-text-secondary: #cccccc;
+	--color-text-medium: #b5b5b5;
+	--color-text-muted: #999999;
+	--color-text-faint: #cccccc;
+	--color-charcoal: #dadada;
+	--color-charcoal-alt: #e8e8e8;
+	--color-gray-dark: #d6d6d6;
+	--color-gray-warm: #d0d0d0;
+	--color-slate: #9a9da1;
+	--color-text-nav: #ededed;
+
+	--color-white: #1b1822;
+	--color-black: #f5f5f5;
+
+	--color-bg-page: #16141c;
+
+	--color-border: #292534;
+	--color-border-soft: #2b2737;
+	--color-border-harsh: #342f42;
+
+	--color-gray-faint: #18161e;
+	--color-gray-faint-hover: #1c1a24;
+
+	--color-gray-light: #1c1923;
+	--color-gray-lighter: #1a1721;
+
+	--color-gray-hover: #221f2b;
+	--color-gray-mid: #524a68;
+	--color-gray-mid-light: #554e6d;
+}

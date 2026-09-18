@@ -2,10 +2,10 @@
 import SectionHeader from './SectionHeader.astro';
 
 // Heaviest media on the linked Pesa page — prefetched in the background once idle.
-import pesaWithdraw1 from '../../assets/pesa/withdraw-1.webm';
-import pesaWithdraw1Mov from '../../assets/pesa/withdraw-1.mov';
-import pesaSettings2 from '../../assets/pesa/settings-2.webm';
-import pesaSettings2Mov from '../../assets/pesa/settings-2.mov';
+import pesaWithdraw1 from '@/assets/pesa/withdraw-1.webm';
+import pesaWithdraw1Mov from '@/assets/pesa/withdraw-1.mov';
+import pesaSettings2 from '@/assets/pesa/settings-2.webm';
+import pesaSettings2Mov from '@/assets/pesa/settings-2.mov';
 
 const pesaPrefetchAssets = [pesaWithdraw1, pesaWithdraw1Mov, pesaSettings2, pesaSettings2Mov];
 
@@ -325,25 +325,8 @@ const { experiences } = Astro.props;
 		background: linear-gradient(to bottom, #ffb6ec, #ff97d7);
 	}
 
-	.see-work .arrow-track {
-		display: grid;
-		grid-template-columns: 0fr;
-		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	}
-
 	.see-work:hover .arrow-track {
 		grid-template-columns: 1fr;
-	}
-
-	.see-work .arrow {
-		position: relative;
-		overflow: hidden;
-		min-width: 0;
-		opacity: 0;
-		transform: translateX(-0.25rem);
-		transition:
-			opacity 0.3s ease,
-			transform 0.2s ease;
 	}
 
 	.see-work:hover .arrow {

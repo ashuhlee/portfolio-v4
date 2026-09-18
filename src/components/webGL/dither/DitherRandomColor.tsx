@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import DitherCanvas, { type DitherProps, type RGB } from './DitherCanvas';
-import checkHardwareAcceleration from '../../utils/hardwareAcceleration';
+import checkHardwareAcceleration from '@/utils/hardwareAcceleration';
 
 function isMultiple(waveColor: RGB | RGB[]): waveColor is RGB[] {
 	return Array.isArray(waveColor[0]);

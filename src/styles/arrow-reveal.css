@@ -1,0 +1,18 @@
+
+.arrow-track {
+	position: relative;
+	display: grid;
+	grid-template-columns: 0fr;
+	transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.arrow {
+	position: relative;
+	overflow: hidden;
+	min-width: 0;
+	opacity: 0;
+	transform: translateX(-0.25rem);
+	transition:
+		opacity var(--arrow-fade-duration, 0.3s) ease,
+		transform var(--arrow-slide-duration, 0.2s) ease;
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PixelBlast from './PixelBlast';
-import checkHardwareAcceleration from '../../utils/hardwareAcceleration';
+import checkHardwareAcceleration from '@/utils/hardwareAcceleration';
 
 function getTheme(): string {
 	if (typeof document === 'undefined') return 'light';

@@ -1,0 +1,17 @@
+---
+interface Props {
+	variant: string;
+	tooltip: string;
+	tooltipColor: string;
+}
+
+const { variant, tooltip, tooltipColor } = Astro.props;
+---
+
+<div
+	class:list={['placeholder', `card-${variant}`, 'showcase-preview', 'stagger-in']}
+	data-tooltip={tooltip}
+	data-tooltip-color={tooltipColor}
+>
+	<slot />
+</div>

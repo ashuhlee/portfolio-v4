@@ -1,35 +1,36 @@
 ---
 import { Image } from 'astro:assets';
 
-import Layout from '../../layouts/Layout.astro';
-import PageFooter from '../../components/common/PageFooter.astro';
-import DitherBackground from '../../components/dither/DitherBackground.astro';
-import PixelBlastBackground from '../../components/pixelblast/PixelBlastBackground.astro';
-import BackButton from '../../components/common/BackButton.astro';
-import CrossfadeVideo from '../../components/common/CrossfadeVideo.astro';
+import Layout from '@/layouts/Layout.astro';
+import PageFooter from '@/components/common/PageFooter.astro';
+import DitherBackground from '@/components/webGL/dither/DitherBackground.astro';
+import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
+import BackButton from '@/components/common/BackButton.astro';
+import CrossfadeVideo from '@/components/common/CrossfadeVideo.astro';
+import ShowcaseCard from '@/components/pesa/ShowcaseCard.astro';
 
-import withdraw1 from '../../assets/pesa/withdraw-1.webm';
-import withdraw1Mov from '../../assets/pesa/withdraw-1.mov';
-import withdraw2 from '../../assets/pesa/withdraw-2.webp';
-import withdraw3 from '../../assets/pesa/withdraw-3.webp';
+import withdraw1 from '@/assets/pesa/withdraw-1.webm';
+import withdraw1Mov from '@/assets/pesa/withdraw-1.mov';
+import withdraw2 from '@/assets/pesa/withdraw-2.webp';
+import withdraw3 from '@/assets/pesa/withdraw-3.webp';
 
-import wallet1 from '../../assets/pesa/wallet-1.webp';
-import wallet2 from '../../assets/pesa/wallet-2.webp';
+import wallet1 from '@/assets/pesa/wallet-1.webp';
+import wallet2 from '@/assets/pesa/wallet-2.webp';
 
-import savings1 from '../../assets/pesa/savings-1.webp';
-import savings2 from '../../assets/pesa/savings-2.webp';
+import savings1 from '@/assets/pesa/savings-1.webp';
+import savings2 from '@/assets/pesa/savings-2.webp';
 
-import settings1 from '../../assets/pesa/settings-1.webp';
-import settings2 from '../../assets/pesa/settings-2.webm';
-import settings2Mov from '../../assets/pesa/settings-2.mov';
+import settings1 from '@/assets/pesa/settings-1.webp';
+import settings2 from '@/assets/pesa/settings-2.webm';
+import settings2Mov from '@/assets/pesa/settings-2.mov';
 
-import notificationsWebm from '../../assets/pesa/notifications.webm';
-import notificationsMov from '../../assets/pesa/notifications.mov';
+import notificationsWebm from '@/assets/pesa/notifications.webm';
+import notificationsMov from '@/assets/pesa/notifications.mov';
 
-import reviewPlaceholder from '../../assets/pesa/placeholder.webp';
-import chipCaretRole from '../../assets/pesa/chip-caret-role.svg';
-import chipCaretFocus from '../../assets/pesa/chip-caret-focus.svg';
-import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
+import reviewPlaceholder from '@/assets/pesa/placeholder.webp';
+import chipCaretRole from '@/assets/pesa/chip-caret-role.svg';
+import chipCaretFocus from '@/assets/pesa/chip-caret-focus.svg';
+import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 ---
 
 <Layout
@@ -93,11 +94,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		</div>
 
 		<div class="showcase-grid">
-			<div
-				class="placeholder card-withdraw showcase-preview stagger-in"
-				data-tooltip="Deposit and withdraw from savings"
-				data-tooltip-color="#FEC0F2"
-			>
+			<ShowcaseCard variant="withdraw" tooltip="Deposit and withdraw from savings" tooltipColor="#FEC0F2">
 				<CrossfadeVideo
 					class="preview-phone preview-phone-left"
 					src={withdraw1}
@@ -118,12 +115,8 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 					inferSize
 					alt="Decline withdrawal request modal"
 				/>
-			</div>
-			<div
-				class="placeholder card-wallet showcase-preview stagger-in"
-				data-tooltip="Create a new wallet"
-				data-tooltip-color="#FFB8AA"
-			>
+			</ShowcaseCard>
+			<ShowcaseCard variant="wallet" tooltip="Create a new wallet" tooltipColor="#FFB8AA">
 				<Image
 					class="wallet-phone wallet-phone-1"
 					src={wallet1}
@@ -136,7 +129,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 					inferSize
 					alt="Activate your USD wallet screen"
 				/>
-			</div>
+			</ShowcaseCard>
 			<video
 				class="placeholder card-toast stagger-in"
 				autoplay
@@ -150,11 +143,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 				<source src={notificationsMov} type="video/mp4; codecs=hvc1" />
 				<source src={notificationsWebm} type="video/webm" />
 			</video>
-			<div
-				class="placeholder card-savings showcase-preview stagger-in"
-				data-tooltip="Create a savings account"
-				data-tooltip-color="#BEEFFF"
-			>
+			<ShowcaseCard variant="savings" tooltip="Create a savings account" tooltipColor="#BEEFFF">
 				<Image
 					class="savings-phone savings-phone-1"
 					src={savings1}
@@ -167,12 +156,8 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 					inferSize
 					alt="Stash created successfully modal"
 				/>
-			</div>
-			<div
-				class="placeholder card-settings showcase-preview stagger-in"
-				data-tooltip="Savings creation and deletion"
-				data-tooltip-color="#E4F894"
-			>
+			</ShowcaseCard>
+			<ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#E4F894">
 				<Image
 					class="settings-phone settings-phone-1"
 					src={settings1}
@@ -188,19 +173,15 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 					fadeDuration={0.25}
 					ariaLabel="Stash closed confirmation modal"
 				/>
-			</div>
-			<div
-				class="placeholder card-review showcase-preview stagger-in"
-				data-tooltip="Action-prompted dialogs"
-				data-tooltip-color="#FFAFDD"
-			>
+			</ShowcaseCard>
+			<ShowcaseCard variant="review" tooltip="Action-prompted dialogs" tooltipColor="#FFAFDD">
 				<Image
 					class="review-phone"
 					src={reviewPlaceholder}
 					inferSize
 					alt="App Store review prompt dialog"
 				/>
-			</div>
+			</ShowcaseCard>
 
 			<p class="showcase-note stagger-in">
 				<span class="showcase-note-text">+ a bunch of other cool stuff</span><span class="showcase-exclaim">!</span>
@@ -475,7 +456,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		transform-origin: 50% 100%;
 	}
 
-	.placeholder {
+	:global(.placeholder) {
 		position: absolute;
 		background: var(--color-gray-faint);
 		border: 1px solid var(--color-border-soft);
@@ -486,7 +467,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		object-fit: cover;
 	}
 
-	.showcase-preview {
+	:global(.showcase-preview) {
 		overflow: hidden;
 	}
 
@@ -530,7 +511,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		top: -36.26%;
 	}
 
-	.card-savings.showcase-preview {
+	:global(.card-savings.showcase-preview) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -547,7 +528,7 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		user-select: none;
 	}
 
-	.card-settings.showcase-preview {
+	:global(.card-settings.showcase-preview) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -575,14 +556,14 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 	}
 
 
-	.card-withdraw {
+	:global(.card-withdraw) {
 		left: 0;
 		top: 0;
 		width: 99.8%;
 		height: 37%;
 	}
 
-	.card-wallet {
+	:global(.card-wallet) {
 		left: 0;
 		top: 38.9%;
 		width: 54.9%;
@@ -596,21 +577,21 @@ import chipCaretTimeline from '../../assets/pesa/chip-caret-timeline.svg';
 		height: 15.5%;
 	}
 
-	.card-savings {
+	:global(.card-savings) {
 		left: 58%;
 		top: 56.3%;
 		width: 42%;
 		height: 24.4%;
 	}
 
-	.card-settings {
+	:global(.card-settings) {
 		left: 0;
 		top: 63.9%;
 		width: 55.2%;
 		height: 31.2%;
 	}
 
-	.card-review {
+	:global(.card-review) {
 		left: 58%;
 		top: 82.5%;
 		width: 41.8%;

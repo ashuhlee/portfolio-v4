@@ -300,27 +300,14 @@
 		z-index: 1;
 	}
 
-	.say-hello .arrow-track {
-		display: grid;
-		grid-template-columns: 0fr;
-		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	.say-hello .arrow {
+		--arrow-fade-duration: 0.15s;
+		--arrow-slide-duration: 0.15s;
+		white-space: nowrap;
 	}
 
 	.say-hello:hover .arrow-track {
 		grid-template-columns: 1fr;
-	}
-
-	.say-hello .arrow {
-		position: relative;
-		z-index: 1;
-		overflow: hidden;
-		min-width: 0;
-		opacity: 0;
-		white-space: nowrap;
-		transform: translateX(-0.25rem);
-		transition:
-			opacity 0.15s ease,
-			transform 0.15s ease;
 	}
 
 	.say-hello:hover .arrow {

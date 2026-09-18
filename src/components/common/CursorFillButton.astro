@@ -298,15 +298,11 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 	}
 
 	.arrow-track {
-		position: relative;
 		z-index: 1;
-		display: grid;
-		grid-template-columns: 0fr;
 		font-family: var(--font-sofia), sans-serif;
 		font-size: var(--btn-font-size, var(--font-size-14));
 		font-weight: 600;
 		line-height: 1;
-		transition: grid-template-columns 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 
 	.cursor-fill-btn.hovering .arrow-track {
@@ -314,15 +310,9 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 	}
 
 	.arrow {
+		--arrow-slide-duration: 0.15s;
 		display: block;
-		overflow: hidden;
-		min-width: 0;
-		opacity: 0;
 		color: var(--btn-fg, var(--color-lime-bright));
-		transform: translateX(-0.25rem);
-		transition:
-			opacity 0.3s ease,
-			transform 0.15s ease;
 	}
 
 	.cursor-fill-btn.hovering .arrow {

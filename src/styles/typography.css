@@ -1,0 +1,18 @@
+:root {
+	--font-sans: 'Sofia Pro', system-ui, sans-serif;
+	--font-sofia: 'Sofia Pro', var(--font-sans);
+	--font-display: 'Druk Wide Bold', system-ui, sans-serif;
+	--font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+	--font-size-12: 0.75rem;     /* 12px */
+	--font-size-13: 0.8125rem;   /* 13px */
+	--font-size-14: 0.875rem;    /* 14px */
+	--font-size-15: 0.9375rem;   /* 15px */
+	--font-size-16: 1rem;        /* 16px */
+	--font-size-17: 1.0625rem;   /* 17px */
+	--font-size-18: 1.125rem;    /* 18px */
+	--font-size-20: 1.25rem;     /* 20px */
+	--font-size-22: 1.375rem;    /* 22px */
+	--font-size-24: 1.5rem;      /* 24px */
+	--font-size-96: 6rem;        /* 96px */
+}
