@@ -11,7 +11,6 @@ When I'm not working or studying, I'm usually building some random side project,
 ‎‎ ・ 🔭 Currently interning as a Frontend Engineer at Sun Life (Fall 2026)<br>
 ‎‎ ・ 🎧 Previously: Software Engineer Intern at Pesa<br>
 ‎‎ ・ 🩷 Check out my personal site over at [ashuhlee.ca](https://ashuhlee.ca)<br>
-‎‎ ・ 💭 Reach me at hello[at]ashuhlee.ca
 
 ꕀ
 

@@ -4,7 +4,6 @@
 	--color-brand-lime: #edfdad;
 	--color-lime-bright: #eaff98;
 	--color-brand-cyan: #beefff;
-	--color-accent-purple: #9093e8;
 
 	/* text */
 	--color-text-primary: #232323;
@@ -26,8 +25,6 @@
 
 	/* dark fills (hover/press states) */
 	--color-navy-deep: #202935;
-	--color-forest-deep: #222c25;
-	--color-ink-deep: #1d2726;
 	--color-charcoal-navy: #25262d;
 
 	/* backgrounds / borders */
@@ -40,7 +37,6 @@
 	--color-gray-faint: #f8f8f8;
 	--color-gray-faint-hover: #fafafa;
 
-	--color-gray-light: #f4f4f4;
 	--color-gray-lighter: #f3f3f3;
 
 	--color-gray-hover: #f0f0f0;
@@ -48,7 +44,6 @@
 	--color-gray-mid-light: #cbcbcb;
 
 	/* pastels */
-	--color-selection: #7e96ff;
 	--color-chip-pink: #fec0f2;
 	--color-chip-yellow: #ffeeb5;
 }
@@ -81,7 +76,6 @@
 	--color-gray-faint: #18161e;
 	--color-gray-faint-hover: #1c1a24;
 
-	--color-gray-light: #1c1923;
 	--color-gray-lighter: #1a1721;
 
 	--color-gray-hover: #221f2b;

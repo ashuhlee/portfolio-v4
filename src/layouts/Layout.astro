@@ -6,6 +6,7 @@ import '@/styles/fonts.css';
 import '@/styles/arrow-reveal.css';
 import '@/styles/colors.css';
 import '@/styles/typography.css';
+import '@/styles/easing.css';
 
 import Tooltip from '@/components/common/Tooltip.astro';
 import ClockWidget from '@/components/common/ClockWidget.astro';
@@ -229,7 +230,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	html[data-theme-transition='down']::view-transition-new(root) {
-		animation: swipe-down 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+		animation: swipe-down 0.5s var(--ease-swipe) forwards;
 		z-index: 2;
 	}
 
@@ -239,7 +240,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	html[data-theme-transition='up']::view-transition-new(root) {
-		animation: swipe-up 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+		animation: swipe-up 0.5s var(--ease-swipe) forwards;
 		z-index: 2;
 	}
 

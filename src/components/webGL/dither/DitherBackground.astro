@@ -1,5 +1,6 @@
 ---
 import DitherRandomColor from './DitherRandomColor';
+import type { RGB } from './DitherCanvas';
 
 const COLOR_PRESETS = {
 	pink: [1, 0.9372549019607843, 0.9764705882352941],
@@ -33,8 +34,8 @@ const {
 } = Astro.props;
 
 const waveColor = Array.isArray(color)
-	? color.map((c) => COLOR_PRESETS[c] ?? COLOR_PRESETS.pink)
-	: (COLOR_PRESETS[color] ?? COLOR_PRESETS.pink);
+	? color.map((c): RGB => [...(COLOR_PRESETS[c] ?? COLOR_PRESETS.pink)])
+	: ([...(COLOR_PRESETS[color] ?? COLOR_PRESETS.pink)] as RGB);
 ---
 
 <div class="dither-bg">

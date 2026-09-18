@@ -220,7 +220,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		cursor: pointer;
 		text-decoration: none;
 		transition:
-			padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+			padding 0.3s var(--ease-spring),
 			border-color 0.2s ease 0.2s; /* revert delayed so it doesn't outrun the fill leaving */
 	}
 
@@ -228,7 +228,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		padding: 0.85rem 2rem;
 		border-color: var(--btn-fg, var(--color-lime-bright));
 		transition:
-			padding 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+			padding 0.3s var(--ease-spring),
 			border-color 0.15s ease; /* no delay entering hover */
 	}
 
