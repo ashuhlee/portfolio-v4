@@ -1,0 +1,99 @@
+---
+import TextLoop from '@/components/common/TextLoop';
+---
+
+<div class="seeking-banner" data-variant="pink" role="note">
+	<div class="seeking-banner-inner">
+		<TextLoop
+			client:load
+			text="Seeking Summer '27 Internships"
+			shape="line"
+			speed={40}
+			separator="✦"
+			fontSize={12.5}
+			fontWeight={400}
+			letterSpacing={0.27}
+			color="var(--banner-fg)"
+			ribbonColor="var(--banner-bg)"
+			ribbonWidth={20}
+			pauseOnHover={false}
+		/>
+	</div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const VARIANTS = ['pink', 'lime', 'lime', 'ink'];
+
+	let observer: IntersectionObserver | null = null;
+	let delayed: gsap.core.Tween | null = null;
+
+	document.addEventListener('astro:page-load', () => {
+		observer?.disconnect();
+		delayed?.kill();
+
+		const inner = document.querySelector<HTMLElement>('.seeking-banner-inner');
+		const footer = document.querySelector('.page-footer');
+		if (!inner || !footer) return;
+
+		const banner = inner.parentElement as HTMLElement;
+		banner.dataset.variant = VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
+		gsap.set(inner, { y: 0, yPercent: 100 });
+		banner.style.pointerEvents = 'none';
+
+		const slideUp = () => {
+			delayed = gsap.delayedCall(0.65, () => {
+				banner.style.pointerEvents = 'auto';
+				gsap.to(inner, { yPercent: 0, duration: 0.4, ease: 'power3.out' });
+			});
+		};
+
+		banner.onclick = () => {
+			delayed?.kill();
+			banner.style.pointerEvents = 'none';
+			gsap.to(inner, { yPercent: 100, duration: 0.4, ease: 'power3.in' });
+		};
+
+		observer = new IntersectionObserver(([entry]) => {
+			if (!entry.isIntersecting) return;
+			observer?.disconnect();
+			slideUp();
+		});
+		observer.observe(footer);
+	});
+</script>
+
+<style>
+	.seeking-banner {
+		width: 100vw;
+		position: relative;
+		left: 50%;
+		margin-left: -50vw;
+		overflow: hidden;
+		cursor: pointer;
+		font-family: var(--font-mono), monospace;
+		--banner-bg: var(--color-brand-pink);
+		--banner-fg: var(--color-white);
+	}
+
+	.seeking-banner[data-variant='lime'] {
+		--banner-bg: var(--color-brand-lime);
+		--banner-fg: #000000;
+	}
+
+	.seeking-banner[data-variant='ink'] {
+		--banner-bg: var(--color-text-nav);
+		--banner-fg: var(--color-white);
+	}
+
+	/* In dark mode the ink variant would be light-on-light, so it falls back to pink */
+	:root[data-theme='dark'] .seeking-banner[data-variant='ink'] {
+		--banner-bg: var(--color-brand-pink);
+		--banner-fg: var(--color-white);
+	}
+
+	.seeking-banner-inner {
+		transform: translateY(100%);
+	}
+</style>

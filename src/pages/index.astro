@@ -9,6 +9,7 @@ import DitherBackground from '@/components/webGL/dither/DitherBackground.astro';
 import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
 import CursorFillButton from '@/components/common/CursorFillButton.astro';
 import Divider from '@/components/home/Divider.astro';
+import SeekingBanner from '@/components/home/SeekingBanner.astro';
 
 import codImage from '@/assets/projects/cod.png';
 import starlitImage from '@/assets/projects/starlit.png';
@@ -81,11 +82,10 @@ const projects = [
 					/>
 				</div>
 			</div>
-			<!--<Divider class="divider&#45;&#45;doodle stagger-in" />-->
-			<!--<div class="stagger-in"><DoodleCluster/></div>-->
 		</main>
 
 		<div class="stagger-in">
+			<SeekingBanner />
 			<PageFooter />
 		</div>
 	</div>
