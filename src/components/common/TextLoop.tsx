@@ -30,6 +30,7 @@ const DEFAULT_W = 1200;
 const DEFAULT_H = 520;
 const EDGE_PAD = 6;
 const LINE_OVERSCAN = 320;
+const MEASURE_REPS = 8;
 
 const buildPath = (shape: Shape, curviness: number, ribbonWidth: number, viewW: number, viewH: number) => {
 	const cx = viewW / 2;
@@ -96,6 +97,7 @@ const TextLoop = ({
 
 	const [metrics, setMetrics] = useState({ length: 0, reps: 1 });
 	const [containerW, setContainerW] = useState(0);
+	const [capShift, setCapShift] = useState(fontSize * 0.35);
 
 	const rawId = useId();
 	const pathId = `text-loop-${rawId.replace(/:/g, '')}`;
@@ -133,6 +135,24 @@ const TextLoop = ({
 		return () => observer.disconnect();
 	}, [isPixelLine]);
 
+	// Safari ignores dominant-baseline on textPath, so a plain line centers its caps with an explicit shift instead.
+	useLayoutEffect(() => {
+		if (!isPixelLine) return;
+
+		const measureCaps = () => {
+			const measureEl = measureRef.current;
+			const ctx = document.createElement('canvas').getContext('2d');
+			if (!measureEl || !ctx) return;
+
+			ctx.font = `${fontWeight} ${fontSize}px ${getComputedStyle(measureEl).fontFamily}`;
+			const capHeight = ctx.measureText('H').actualBoundingBoxAscent;
+			if (capHeight > 0) setCapShift(capHeight / 2);
+		};
+
+		measureCaps();
+		document.fonts?.ready.then(measureCaps).catch(() => {});
+	}, [isPixelLine, fontSize, fontWeight]);
+
 	useLayoutEffect(() => {
 		const pathEl = pathRef.current;
 		const measureEl = measureRef.current;
@@ -146,13 +166,19 @@ const TextLoop = ({
 			let unitWidth = 0;
 			try {
 				length = pathEl.getTotalLength();
-				unitWidth = measureEl.getComputedTextLength();
+				unitWidth = measureEl.getComputedTextLength() / (isPixelLine ? MEASURE_REPS : 1);
 			} catch {
 				return;
 			}
 			if (!length) return;
 
-			const reps = unitWidth > 0 ? Math.max(1, Math.round(length / unitWidth)) : 1;
+			let reps = unitWidth > 0 ? Math.max(1, Math.round(length / unitWidth)) : 1;
+
+			// A plain line loops on its own text width, so no browser-specific textLength stretching is needed.
+			if (isPixelLine && unitWidth > 0) {
+				reps = Math.ceil((viewW + LINE_OVERSCAN) / unitWidth);
+				length = reps * unitWidth;
+			}
 			setMetrics((prev) => (prev.length === length && prev.reps === reps ? prev : { length, reps }));
 		};
 
@@ -162,7 +188,7 @@ const TextLoop = ({
 		return () => {
 			cancelled = true;
 		};
-	}, [d, unit, fontSize, fontWeight, letterSpacing]);
+	}, [d, unit, fontSize, fontWeight, letterSpacing, isPixelLine, viewW]);
 
 	useEffect(() => {
 		const { length } = metrics;
@@ -209,7 +235,8 @@ const TextLoop = ({
 	}, [metrics, speed, direction, pauseOnHover]);
 
 	const loopText = unit.repeat(metrics.reps);
-	const fitLength = metrics.length || undefined;
+	const fitLength = isPixelLine ? undefined : metrics.length || undefined;
+	const lineShift = isPixelLine ? `translate(0 ${capShift})` : undefined;
 
 	return (
 		<div ref={rootRef} className={`text-loop ${className}`.trim()} style={style}>
@@ -232,13 +259,14 @@ const TextLoop = ({
 				/>
 
 				<text ref={measureRef} className="text-loop-measure" style={textStyle} aria-hidden="true">
-					{unit}
+					{isPixelLine ? unit.repeat(MEASURE_REPS) : unit}
 				</text>
 
 				<text
 					className="text-loop-text"
 					style={{ ...textStyle, fill: color }}
-					dominantBaseline="central"
+					dominantBaseline={isPixelLine ? undefined : 'central'}
+					transform={lineShift}
 					aria-hidden="true"
 					textLength={fitLength}
 					lengthAdjust="spacing"
@@ -251,7 +279,8 @@ const TextLoop = ({
 				<text
 					className="text-loop-text"
 					style={{ ...textStyle, fill: color }}
-					dominantBaseline="central"
+					dominantBaseline={isPixelLine ? undefined : 'central'}
+					transform={lineShift}
 					aria-hidden="true"
 					textLength={fitLength}
 					lengthAdjust="spacing"
