@@ -1,0 +1,37 @@
+:root {
+	--skeleton-base: rgba(234, 234, 235, 0.7);
+	--skeleton-shine: #eaeaeb;
+}
+
+:root[data-theme='dark'] {
+	--skeleton-base: rgba(38, 39, 40, 0.7);
+	--skeleton-shine: #262728;
+}
+
+.skeleton {
+	position: absolute;
+	overflow: hidden;
+	border-radius: 1.5rem;
+	background: var(--skeleton-base);
+	pointer-events: none;
+	transition: opacity 0.25s ease-out;
+}
+
+.skeleton--done {
+	opacity: 0;
+}
+
+.skeleton::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(90deg, transparent, var(--skeleton-shine), transparent);
+	animation: skeleton-shimmer 2s linear infinite;
+}
+
+@keyframes skeleton-shimmer {
+	to {
+		transform: translateX(200%);
+	}
+}

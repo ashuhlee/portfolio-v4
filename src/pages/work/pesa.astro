@@ -200,10 +200,16 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import SplitType from 'split-type';
+	import { attachSkeletons } from '@/utils/skeleton';
 
 	gsap.registerPlugin(ScrollTrigger);
 
 	document.addEventListener('astro:page-load', () => {
+		attachSkeletons(
+			'.preview-phone, .wallet-phone, .savings-phone, .settings-phone, ' +
+			'.review-phone, .crossfade-video, video.card-toast',
+		);
+
 		const page = document.querySelector<HTMLElement>('.page');
 
 		const toggle = document.querySelector<HTMLButtonElement>('.expand-toggle');
