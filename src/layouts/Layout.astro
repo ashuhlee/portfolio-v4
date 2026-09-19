@@ -120,6 +120,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		import { ScrollSmoother } from 'gsap/ScrollSmoother';
 		import { ScrollTrigger } from 'gsap/ScrollTrigger';
 		import checkHardwareAcceleration from '@/utils/hardwareAcceleration';
+		import isSafari from '@/utils/isSafari';
 
 		gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 		let isFirstLoad = true;
@@ -127,7 +128,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		document.addEventListener('astro:page-load', () => {
 			ScrollSmoother.get()?.kill();
 
-			if (checkHardwareAcceleration()) {
+			if (checkHardwareAcceleration() && !isSafari()) {
 				document.documentElement.classList.remove('no-smooth-scroll');
 				ScrollSmoother.create({
 					wrapper: '#smooth-wrapper',

@@ -22,7 +22,12 @@
 		let rafId: number;
 		function update() {
 			const smoother = ScrollSmoother.get();
-			if (smoother?.scrollTrigger) setScale(smoother.scrollTrigger.progress);
+			if (smoother?.scrollTrigger) {
+				setScale(smoother.scrollTrigger.progress);
+			} else {
+				const max = document.documentElement.scrollHeight - window.innerHeight;
+				setScale(max > 0 ? window.scrollY / max : 0);
+			}
 			rafId = requestAnimationFrame(update);
 		}
 		update();

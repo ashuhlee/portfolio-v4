@@ -190,6 +190,16 @@ const TextLoop = ({
 		};
 	}, [d, unit, fontSize, fontWeight, letterSpacing, isPixelLine, viewW]);
 
+	// Re-check against the rendered text itself, since browsers disagree on whether the hidden measure text includes tracking.
+	useLayoutEffect(() => {
+		if (!isPixelLine || !metrics.length) return;
+
+		const rendered = headRef.current?.getComputedTextLength() ?? 0;
+		if (rendered > 0 && Math.abs(rendered - metrics.length) > 0.5) {
+			setMetrics((prev) => ({ ...prev, length: rendered }));
+		}
+	}, [isPixelLine, metrics.reps, metrics.length]);
+
 	useEffect(() => {
 		const { length } = metrics;
 		const head = headRef.current;
