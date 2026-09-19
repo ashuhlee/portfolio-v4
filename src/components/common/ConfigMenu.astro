@@ -1,22 +1,100 @@
 ---
+import Toggle from '@/components/common/Toggle.astro';
+
+const SETTINGS = [
+	{ key: 'soundEffects', label: 'sound effects' },
+	{ key: 'tooltips', label: 'tooltips' },
+	{ key: 'trailingCursor', label: 'trailing cursor' },
+];
 ---
 
-<button class="config-toggle" type="button" data-bounce="0.85" aria-label="Site settings" disabled>
-	<svg width="15" height="15" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div class="config-menu">
+	<button
+		class="config-toggle"
+		type="button"
+		data-bounce="0.85"
+		aria-label="Site settings"
+		aria-haspopup="true"
+		aria-expanded="false"
+		aria-controls="config-panel"
+	>
+		<svg width="15" height="15" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
 			d="M9.275 0.46 H14.075 C14.155 0.46 14.201 0.515 14.207 0.561 L14.208 0.565 L14.208 0.569 L14.664 3.749 L14.702 4.01 L14.945 4.109 C15.636 4.393 16.273 4.767 16.867 5.224 L17.075 5.384 L17.318 5.286 L20.295 4.091 C20.325 4.081 20.363 4.08 20.398 4.092 C20.431 4.103 20.452 4.122 20.464 4.144 L20.466 4.149 L20.469 4.154 L22.865 8.299 C22.906 8.377 22.88 8.45 22.839 8.483 L20.308 10.462 L20.103 10.622 L20.135 10.881 C20.182 11.256 20.216 11.619 20.216 12 C20.216 12.381 20.182 12.744 20.135 13.119 L20.103 13.378 L20.308 13.538 L22.839 15.517 C22.88 15.549 22.906 15.623 22.865 15.701 L20.469 19.846 L20.466 19.851 L20.464 19.856 C20.433 19.912 20.369 19.938 20.303 19.912 L17.318 18.713 L17.078 18.617 L16.871 18.772 C16.271 19.222 15.633 19.609 14.945 19.891 L14.702 19.99 L14.664 20.251 L14.208 23.431 L14.208 23.435 L14.207 23.439 C14.201 23.485 14.155 23.54 14.075 23.54 H9.275 C9.195 23.54 9.149 23.485 9.143 23.439 L9.143 23.435 L9.142 23.431 L8.686 20.251 L8.649 19.99 L8.405 19.891 L8.341 19.864 C7.674 19.584 7.059 19.218 6.483 18.776 L6.275 18.616 L6.032 18.713 L3.055 19.909 C3.025 19.919 2.987 19.92 2.953 19.908 C2.919 19.897 2.899 19.878 2.887 19.856 L2.884 19.851 L2.881 19.846 L0.485 15.701 C0.444 15.623 0.471 15.549 0.512 15.517 L3.042 13.538 L3.248 13.378 L3.215 13.119 C3.168 12.744 3.135 12.369 3.135 12 C3.135 11.631 3.168 11.256 3.215 10.881 L3.248 10.622 L3.042 10.462 L0.512 8.483 C0.457 8.44 0.444 8.368 0.479 8.31 L0.48 8.308 L0.481 8.306 L2.881 4.154 L2.884 4.149 L2.887 4.144 C2.917 4.088 2.982 4.062 3.047 4.088 L6.032 5.286 L6.272 5.383 L6.479 5.228 C7.079 4.778 7.717 4.391 8.405 4.109 L8.649 4.01 L8.686 3.749 L9.142 0.569 L9.143 0.565 L9.143 0.561 C9.149 0.515 9.195 0.46 9.275 0.46 Z M11.675 7.979 C9.457 7.979 7.654 9.782 7.654 12 C7.654 14.218 9.457 16.021 11.675 16.021 C13.893 16.021 15.696 14.218 15.696 12 C15.696 9.782 13.893 7.979 11.675 7.979 Z"
 			stroke="currentColor"
 			stroke-width="2"
 		/>
 	</svg>
-</button>
+	</button>
+
+	<div class="config-panel" id="config-panel" role="group" aria-label="Site settings">
+		{SETTINGS.map(({ key, label }) => <Toggle id={`setting-${key}`} label={label} data-setting={key} />)}
+	</div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+	import { getSetting, setSetting, SETTINGS_EVENT, type SettingKey } from '@/utils/settings';
+
+	let closeMenu: (() => void) | null = null;
+
+	const syncInputs = () => {
+		document.querySelectorAll<HTMLInputElement>('.config-panel input[data-setting]').forEach((input) => {
+			input.checked = getSetting(input.dataset.setting as SettingKey);
+		});
+	};
+
+	document.addEventListener(SETTINGS_EVENT, syncInputs);
+	document.addEventListener('click', (event) => {
+		if (!(event.target as HTMLElement)?.closest('.config-menu')) closeMenu?.();
+	});
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') closeMenu?.();
+	});
+
+	document.addEventListener('astro:page-load', () => {
+		const toggle = document.querySelector<HTMLButtonElement>('.config-toggle');
+		const panel = document.querySelector<HTMLElement>('.config-panel');
+		const icon = toggle?.querySelector('svg');
+		if (!toggle || !panel || !icon) return;
+
+		let open = false;
+		gsap.set(panel, { autoAlpha: 0, scale: 0.92, transformOrigin: 'top left' });
+		syncInputs();
+
+		const setOpen = (next: boolean) => {
+			if (next === open) return;
+			open = next;
+			toggle.setAttribute('aria-expanded', String(open));
+
+			gsap.killTweensOf(panel);
+			gsap.to(panel, {
+				autoAlpha: open ? 1 : 0,
+				scale: open ? 1 : 0.94,
+				duration: open ? 0.25 : 0.15,
+				ease: open ? 'back.out(1.7)' : 'power2.in',
+			});
+			gsap.to(icon, { rotate: open ? 60 : 0, duration: 0.4, ease: 'power2.out' });
+		};
+
+		closeMenu = () => setOpen(false);
+		toggle.addEventListener('click', () => setOpen(!open));
+
+		panel.querySelectorAll<HTMLInputElement>('input[data-setting]').forEach((input) => {
+			input.addEventListener('change', () => setSetting(input.dataset.setting as SettingKey, input.checked));
+		});
+	});
+</script>
 
 <style>
-	.config-toggle {
+	.config-menu {
 		position: fixed;
 		top: 1.25rem;
 		left: 1.25rem;
 		z-index: 5;
+	}
+
+	.config-toggle {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -32,8 +110,25 @@
 		color: var(--color-brand-pink);
 	}
 
+	.config-panel {
+		position: absolute;
+		top: calc(100% + 0.625rem);
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5625rem;
+		width: max-content;
+		padding: 0.875rem 0.125rem;
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	:root[data-theme='dark'] .config-panel {
+		border-color: var(--color-border-harsh);
+	}
+
 	@media (max-width: 37.5rem) {
-		.config-toggle {
+		.config-menu {
 			top: 1rem;
 			left: 1rem;
 		}

@@ -5,6 +5,7 @@
 
 <script>
 	import { gsap } from 'gsap';
+	import { getSetting, onSettingChange } from '@/utils/settings';
 
 	const tooltip = document.getElementById('hover-tooltip');
 	if (tooltip) {
@@ -20,7 +21,7 @@
 
 		document.addEventListener('mouseover', (event) => {
 			const target = (event.target as HTMLElement)?.closest<HTMLElement>('[data-tooltip]');
-			if (!target || target === activeTarget) return;
+			if (!target || target === activeTarget || !getSetting('tooltips')) return;
 
 			activeTarget = target;
 			document.documentElement.classList.add('tooltip-active');
@@ -52,14 +53,22 @@
 			yTo(event.clientY + 15);
 		});
 
+		const hideTooltip = () => {
+			activeTarget = null;
+			tooltip.classList.remove('visible');
+			document.documentElement.classList.remove('tooltip-active');
+		};
+
+		onSettingChange('tooltips', (enabled) => {
+			if (!enabled) hideTooltip();
+		});
+
 		document.addEventListener('mouseout', (event) => {
 			if (!activeTarget) return;
 			const related = event.relatedTarget as HTMLElement | null;
 			if (related && activeTarget.contains(related)) return;
 
-			activeTarget = null;
-			tooltip.classList.remove('visible');
-			document.documentElement.classList.remove('tooltip-active');
+			hideTooltip();
 		});
 	}
 </script>

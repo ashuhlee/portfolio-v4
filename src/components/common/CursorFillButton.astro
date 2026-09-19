@@ -53,6 +53,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 <script>
 	import { gsap } from 'gsap';
 	import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+	import { getSetting } from '@/utils/settings';
 
 	gsap.registerPlugin(DrawSVGPlugin);
 
@@ -147,7 +148,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 				gsap.fromTo(scribblePath, { drawSVG: '0%' }, { drawSVG: '100%', duration: 0.4, ease: 'power2.inOut' });
 				fillTimer = gsap.delayedCall(FILL_DELAY, () => triggerFillCircleOld(fillOld, btn, event));
 
-				if (hoverSoundPool.length) {
+				if (hoverSoundPool.length && getSetting('soundEffects')) {
 					const sound = hoverSoundPool[hoverSoundIndex];
 					hoverSoundIndex = (hoverSoundIndex + 1) % hoverSoundPool.length;
 					sound.currentTime = 0;

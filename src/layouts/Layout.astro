@@ -121,6 +121,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		import { ScrollTrigger } from 'gsap/ScrollTrigger';
 		import checkHardwareAcceleration from '@/utils/hardwareAcceleration';
 		import isSafari from '@/utils/isSafari';
+		import { getSetting } from '@/utils/settings';
 
 		gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 		let isFirstLoad = true;
@@ -194,7 +195,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			const target = (event.target as HTMLElement)?.closest(
 				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn',
 			);
-			if (!target) return;
+			if (!target || !getSetting('soundEffects')) return;
 			const sound = clickSoundPool[clickSoundIndex];
 			clickSoundIndex = (clickSoundIndex + 1) % clickSoundPool.length;
 			sound.currentTime = 0;

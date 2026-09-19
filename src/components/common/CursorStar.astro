@@ -15,6 +15,7 @@
 
 <script>
 	import { gsap } from 'gsap';
+	import { getSetting, onSettingChange } from '@/utils/settings';
 
 	const STAR_PATH =
 		'M18.0958 11.2871L18.2638 11.8057H28.1261L20.588 17.2822L20.1476 17.6025L20.3155 18.1201L23.1944 26.9805L15.6573 21.5049L15.2169 21.1846L14.7765 21.5049L7.23839 26.9805L10.1183 18.1201L10.2862 17.6025L9.84581 17.2822L2.30772 11.8057H12.17L12.338 11.2871L15.2169 2.4248L18.0958 11.2871Z';
@@ -31,6 +32,7 @@
 		const yTo = gsap.quickTo(star, 'y', { duration: 0.35, ease: 'power3' });
 
 		document.addEventListener('mousemove', (event) => {
+			if (!getSetting('trailingCursor')) return;
 			xTo(event.clientX + 13);
 			yTo(event.clientY + 13);
 			star.classList.add('visible');
@@ -40,10 +42,14 @@
 			star.classList.remove('visible');
 		});
 
+		onSettingChange('trailingCursor', (enabled) => {
+			if (!enabled) star.classList.remove('visible');
+		});
+
 		const scaleTo = (value: number) =>
 			gsap.to(star, { scale: value, duration: 0.14, ease: 'power2.out' });
 
-		const HIDE_ON = 'a, .config-toggle, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
+		const HIDE_ON = 'a, .config-toggle, .config-panel, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
 
 		document.addEventListener('mouseover', (event) => {
 			const target = event.target as HTMLElement;
