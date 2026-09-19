@@ -274,7 +274,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 	}
 
 	.page.expanded {
-		max-width: 80vw;
+		max-width: max(50rem, 80vw);
 	}
 
 	.header-row {
@@ -620,6 +620,12 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 		}
 		.chip-group p {
 			text-align: left;
+		}
+	}
+
+	@media (max-width: 62.5rem) {
+		.expand-toggle {
+			display: none;
 		}
 	}
 </style>
