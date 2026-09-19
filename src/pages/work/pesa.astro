@@ -20,9 +20,10 @@ import wallet2 from '@/assets/pesa/wallet-2.webp';
 import savings1 from '@/assets/pesa/savings-1.webp';
 import savings2 from '@/assets/pesa/savings-2.webp';
 
-import settings1 from '@/assets/pesa/settings-1.webp';
 import settings2 from '@/assets/pesa/settings-2.webm';
 import settings2Mov from '@/assets/pesa/settings-2.mov';
+import create1 from '@/assets/pesa/create-1.webm';
+import create1Mov from '@/assets/pesa/create-1.mov';
 
 import notificationsWebm from '@/assets/pesa/notifications.webm';
 import notificationsMov from '@/assets/pesa/notifications.mov';
@@ -150,19 +151,22 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 					inferSize
 					alt="Empty personal stash screen"
 				/>
-				<Image
+				<CrossfadeVideo
 					class="savings-phone savings-phone-2"
-					src={savings2}
-					inferSize
-					alt="Stash created successfully modal"
+					src={create1}
+					srcMov={create1Mov}
+					aspectRatio="660 / 1368"
+					replayDelay={3000}
+					fadeDuration={0.2}
+					ariaLabel="Create stash screen"
 				/>
 			</ShowcaseCard>
 			<ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#E4F894">
 				<Image
 					class="settings-phone settings-phone-1"
-					src={settings1}
+					src={savings2}
 					inferSize
-					alt="Stash settings screen"
+					alt="Stash created successfully modal"
 				/>
 				<CrossfadeVideo
 					class="settings-phone settings-phone-2"
@@ -519,7 +523,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 		padding: 1.5rem;
 	}
 
-	.savings-phone {
+	:global(.savings-phone) {
 		height: 100%;
 		width: auto;
 		max-width: 45%;
