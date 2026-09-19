@@ -20,6 +20,7 @@ import TextLoop from '@/components/common/TextLoop';
 		/>
 	</div>
 </div>
+<div class="seeking-banner-handle" aria-hidden="true"></div>
 
 <script>
 	import { gsap } from 'gsap';
@@ -38,27 +39,35 @@ import TextLoop from '@/components/common/TextLoop';
 		if (!inner || !footer) return;
 
 		const banner = inner.parentElement as HTMLElement;
+		const handle = banner.nextElementSibling as HTMLElement;
 		banner.dataset.variant = VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
+
 		gsap.set(inner, { y: 0, yPercent: 100 });
 		banner.style.pointerEvents = 'none';
+		handle.style.pointerEvents = 'none';
 
-		const slideUp = () => {
-			delayed = gsap.delayedCall(0.65, () => {
+		const show = (delay: number) => {
+			handle.style.pointerEvents = 'none';
+			delayed = gsap.delayedCall(delay, () => {
 				banner.style.pointerEvents = 'auto';
 				gsap.to(inner, { yPercent: 0, duration: 0.4, ease: 'power3.out' });
 			});
 		};
 
-		banner.onclick = () => {
+		const hide = () => {
 			delayed?.kill();
 			banner.style.pointerEvents = 'none';
+			handle.style.pointerEvents = 'auto';
 			gsap.to(inner, { yPercent: 100, duration: 0.4, ease: 'power3.in' });
 		};
+
+		banner.onclick = hide;
+		handle.onclick = () => show(0);
 
 		observer = new IntersectionObserver(([entry]) => {
 			if (!entry.isIntersecting) return;
 			observer?.disconnect();
-			slideUp();
+			show(0.65);
 		});
 		observer.observe(footer);
 	});
@@ -87,10 +96,20 @@ import TextLoop from '@/components/common/TextLoop';
 		--banner-fg: var(--color-white);
 	}
 
-	/* In dark mode the ink variant would be light-on-light, so it falls back to pink */
 	:root[data-theme='dark'] .seeking-banner[data-variant='ink'] {
 		--banner-bg: var(--color-brand-pink);
 		--banner-fg: var(--color-white);
+	}
+
+	.seeking-banner-handle {
+		position: relative;
+		z-index: 2;
+		width: 100vw;
+		left: 50%;
+		height: 0.75rem;
+		margin: -0.375rem 0;
+		margin-left: -50vw;
+		cursor: pointer;
 	}
 
 	.seeking-banner-inner {
