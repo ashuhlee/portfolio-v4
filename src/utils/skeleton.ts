@@ -24,11 +24,17 @@ export function attachSkeletons(selector: string) {
 		skeleton.setAttribute('aria-hidden', 'true');
 		container.append(skeleton);
 
+		const isStaggered = el.classList.contains('stagger-in');
+		if (el.classList.contains('placeholder')) skeleton.style.borderRadius = getComputedStyle(el).borderRadius;
+
 		const place = () => {
 			const box = container.getBoundingClientRect();
 			const rect = el.getBoundingClientRect();
-			skeleton.style.left = `${rect.left - box.left - container.clientLeft}px`;
-			skeleton.style.top = `${rect.top - box.top - container.clientTop}px`;
+			const slide = isStaggered ? new DOMMatrix(getComputedStyle(el).transform) : new DOMMatrix();
+
+			skeleton.style.left = `${rect.left - box.left - container.clientLeft - slide.m41}px`;
+			skeleton.style.top = `${rect.top - box.top - container.clientTop - slide.m42}px`;
+
 			skeleton.style.width = `${rect.width}px`;
 			skeleton.style.height = `${rect.height}px`;
 		};
