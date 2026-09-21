@@ -13,7 +13,6 @@ interface Props {
 	labelColor?: string;
 	image?: ImageMetadata;
 	imageAlt?: string;
-	// An imported gif (image) or a webm/mp4 URL (video)
 	preview?: ImageMetadata | string;
 }
 
@@ -117,7 +116,6 @@ const Tag = comingSoon ? 'div' : 'a';
 						preview.currentTime = 0;
 						preview.play().catch(() => {});
 					} else {
-						// Re-assigning the source restarts the animation from its first frame
 						preview.removeAttribute('src');
 						preview.src = src;
 					}
@@ -295,7 +293,6 @@ const Tag = comingSoon ? 'div' : 'a';
 			clip-path 0.35s var(--ease-standard);
 	}
 
-	/* The thumb grows by --slide while the body's bottom overflows the card and is clipped, leaving only the title in view */
 	.card.showing-preview .body {
 		margin-bottom: calc(var(--slide, 0px) * -1);
 		clip-path: inset(0 0 calc(var(--slide, 0px) + 0.375rem) 0);

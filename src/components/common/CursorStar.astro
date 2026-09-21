@@ -49,7 +49,7 @@
 		const scaleTo = (value: number) =>
 			gsap.to(star, { scale: value, duration: 0.14, ease: 'power2.out' });
 
-		const HIDE_ON = 'a, .config-toggle, .config-panel, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
+		const HIDE_ON = 'a, .page-btn, .config-toggle, .config-panel, .expand-toggle, .avatar-icon, .icon-button, .doodles, .doodles-top';
 
 		document.addEventListener('mouseover', (event) => {
 			const target = event.target as HTMLElement;
