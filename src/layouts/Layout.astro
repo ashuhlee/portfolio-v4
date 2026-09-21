@@ -157,7 +157,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 			const FADE_DURATION = 0.15;
 			document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('img, video').forEach((el) => {
-				if (el.closest('.crossfade-video')) return;
+				if (el.closest('.crossfade-video') || el.classList.contains('thumb-preview')) return;
 
 				const isImg = el.tagName === 'IMG';
 				const isLoaded = isImg ? (el as HTMLImageElement).complete : (el as HTMLVideoElement).readyState >= 2;

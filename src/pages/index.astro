@@ -11,24 +11,25 @@ import CursorFillButton from '@/components/common/CursorFillButton.astro';
 import Divider from '@/components/home/Divider.astro';
 import SeekingBanner from '@/components/home/SeekingBanner.astro';
 
-import codImage from '@/assets/projects/cod.png';
-import starlitImage from '@/assets/projects/starlit.png';
+import codPreview from '@/assets/projects/countorama.webm';
+import starlitPreview from '@/assets/projects/starlit.gif';
+import flappyKittyPreview from '@/assets/projects/flappy-kitty.webm';
 
 const experiences = [
 	{
-		role: 'Frontend Engineer Intern @ Sun Life',
+		role: 'Frontend Engineer Intern at Sun Life',
 		when: 'Fall 2026',
 		dot: 'var(--color-text-primary)',
 		href: 'https://www.sunlife.ca/en/',
 	},
 	{
-		role: 'Software Engineer Intern @ Pesa',
+		role: 'Software Engineer Intern at Pesa',
 		when: 'Summer 2026',
 		dot: '#ff8fd5',
 		href: 'https://www.pesa.co/',
 	},
 	{
-		role: 'Web Development Intern @ SCAN',
+		role: 'Web Development Intern at SCAN',
 		when: 'Summer 2024 - 25',
 		dot: '#DFF28F'
 	},
@@ -41,6 +42,7 @@ const projects = [
 		tags: ['Game', 'Electron', 'Typescript'],
 		color: '#303030',
 		url: 'https://github.com/ashuhlee/count-or-die',
+		preview: codPreview,
 	},
 	{
 		name: 'Starlit',
@@ -50,6 +52,7 @@ const projects = [
 		blendMode: 'overlay',
 		overlayOpacity: 0.19,
 		url: 'https://github.com/ashuhlee/starlit',
+		preview: starlitPreview,
 	},
 	{
 		name: 'Loggi',
@@ -60,12 +63,12 @@ const projects = [
 		labelColor: '#5E5E5E',
 	},
 	{
-		name: 'Synced',
-		description: 'Plan and manage your Twitch stream schedule, directly from your phone',
-		tags: ['Mobile', 'Flutter', 'Dart'],
+		name: 'Flappy Kitty',
+		description: "A Flappy Bird-style game but it's a cat, with collision detection & physics based movement",
+		tags: ['Game', 'Lua', 'Love2D'],
 		color: '#beefff',
-		comingSoon: true,
-		labelColor: '#2E444B',
+		url: 'https://github.com/ashuhlee/flappy-kitty',
+		preview: flappyKittyPreview,
 	},
 ];
 ---
