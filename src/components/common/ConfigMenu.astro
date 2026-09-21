@@ -27,7 +27,7 @@ const SETTINGS = [
 	</svg>
 	</button>
 
-	<div class="config-panel" id="config-panel" role="group" aria-label="Site settings">
+	<div class="config-panel" id="config-panel" role="group" aria-label="Site settings" inert>
 		{SETTINGS.map(({ key, label }) => <Toggle id={`setting-${key}`} label={label} data-setting={key} />)}
 	</div>
 </div>
@@ -59,17 +59,19 @@ const SETTINGS = [
 		if (!toggle || !panel || !icon) return;
 
 		let open = false;
-		gsap.set(panel, { autoAlpha: 0, scale: 0.92, transformOrigin: 'top left' });
+		gsap.set(panel, { opacity: 0, scale: 0.92, transformOrigin: 'top left' });
+		panel.inert = true;
 		syncInputs();
 
 		const setOpen = (next: boolean) => {
 			if (next === open) return;
 			open = next;
 			toggle.setAttribute('aria-expanded', String(open));
+			panel.inert = !open;
 
 			gsap.killTweensOf(panel);
 			gsap.to(panel, {
-				autoAlpha: open ? 1 : 0,
+				opacity: open ? 1 : 0,
 				scale: open ? 1 : 0.94,
 				duration: open ? 0.25 : 0.15,
 				ease: open ? 'back.out(1.7)' : 'power2.in',
@@ -119,7 +121,10 @@ const SETTINGS = [
 		gap: 0.5625rem;
 		width: max-content;
 		padding: 0.875rem 0.125rem;
-		visibility: hidden;
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--color-bg-page) 70%, transparent);
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
 		opacity: 0;
 	}
 

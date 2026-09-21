@@ -2,7 +2,7 @@
 ---
 
 <a class="back-button stagger-in" data-bounce="0.85" href="/" aria-label="Back to home">
-	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
 			d="M20 10.2L7.06453 10.2L13.1405 4.124L12 3L4 11L12 19L13.1405 17.876L7.06453 11.8L20 11.8V10.2Z"
 			fill="black"
@@ -12,21 +12,74 @@
 
 <style>
 	.back-button {
+		--ring-bg: color-mix(in srgb, var(--color-gray-lighter) 15%, black 1%);
+		--ring-border: var(--color-border-soft);
+		--face-top: var(--color-bg-page);
+		--face-bottom: var(--color-gray-lighter);
+		--face-shadow: rgba(0, 0, 0, 0.1);
+
+		position: relative;
+		isolation: isolate;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 2.75rem;
 		height: 2.75rem;
-		background: var(--color-gray-lighter);
 		border-radius: 999px;
 		margin-bottom: 4rem;
 		margin-top: 0.25rem;
 	}
 
-	:root[data-theme='dark'] .back-button {
-		background: #26222d;
+	/* Outer ring */
+	.back-button::before {
+		content: '';
+		position: absolute;
+		inset: -0.375rem;
+		z-index: -1;
+		border-radius: 50%;
+		background: var(--ring-bg);
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease;
 	}
+
+	.back-button::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border-radius: 50%;
+		background: linear-gradient(to bottom, var(--face-top), var(--face-bottom));
+		box-shadow: 0 1px 3px var(--face-shadow);
+		transition: box-shadow 0.15s ease;
+	}
+
+	.back-button:active {
+		--ring-bg: #f7f7f7;
+		--ring-border: #eeeeee;
+		--face-top: var(--color-gray-faint-hover);
+		--face-bottom: white;
+	}
+
+	.back-button path {
+		transition: fill 0.2s ease;
+	}
+
+	:root[data-theme='dark'] .back-button {
+		--ring-bg: color-mix(in srgb, #25232c 85%, black 25%);
+		--ring-border: transparent;
+		--face-top: #2b2933;
+		--face-bottom: #18171d;
+		--face-shadow: rgba(0, 0, 0, 0.5);
+	}
+
 	:root[data-theme='dark'] .back-button path {
 		fill: #f5f5f5;
+	}
+
+	:root[data-theme='dark'] .back-button:hover,
+	:root[data-theme='dark'] .back-button:active {
+		--ring-bg: color-mix(in srgb, #25232c 85%, black 25%);
+		--ring-border: transparent;
 	}
 </style>

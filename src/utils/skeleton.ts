@@ -1,6 +1,6 @@
 import '@/styles/skeleton.css';
 
-const FADE_OUT_MS = 250;
+const FADE_OUT_MS = 150;
 
 const PREVIEW_MS = 0;
 

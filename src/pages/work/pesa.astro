@@ -61,15 +61,15 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 
 			<div class="chips">
 				<div class="chip-group stagger-in">
-					<span class="chip role">Role <Image src={chipCaretRole} width={9.5} height={9.5} alt="" /></span>
+					<span class="chip role">Role <Image src={chipCaretRole} width={9.5} height={9.5} alt="" loading="eager" /></span>
 					<p>Software Engineer Intern</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip focus">Focus <Image src={chipCaretFocus} width={9.5} height={9.5} alt="" /></span>
+					<span class="chip focus">Focus <Image src={chipCaretFocus} width={9.5} height={9.5} alt="" loading="eager" /></span>
 					<p>Mobile (iOS + Android)</p>
 				</div>
 				<div class="chip-group stagger-in">
-					<span class="chip timeline">Timeline <Image src={chipCaretTimeline} width={9.5} height={9.5} alt="" /></span>
+					<span class="chip timeline">Timeline <Image src={chipCaretTimeline} width={9.5} height={9.5} alt="" loading="eager" /></span>
 					<p>Summer 2026</p>
 				</div>
 			</div>
@@ -108,12 +108,14 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 					class="preview-phone preview-phone-center"
 					src={withdraw2}
 					inferSize
+					loading="eager"
 					alt="Request for withdrawal modal"
 				/>
 				<Image
 					class="preview-phone preview-phone-right"
 					src={withdraw3}
 					inferSize
+					loading="eager"
 					alt="Decline withdrawal request modal"
 				/>
 			</ShowcaseCard>
@@ -350,7 +352,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 		background: var(--color-charcoal-navy);
 		border-radius: 1.5rem;
 		padding: 0.375rem 0.75rem 0.55rem 0.75rem;
-		font-family: var(--font-sofia), sans-serif;
+		font-family: var(--font-sans), sans-serif;
 		font-weight: 600;
 		font-size: var(--font-size-14);
 		line-height: 0.5;
@@ -453,7 +455,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 		top: calc(95.1% + 1.5rem);
 		width: 55.2%;
 		margin: 0;
-		font-family: var(--font-sofia), sans-serif;
+		font-family: var(--font-sans), sans-serif;
 		font-style: italic;
 		font-weight: 500;
 		font-size: var(--font-size-15);
