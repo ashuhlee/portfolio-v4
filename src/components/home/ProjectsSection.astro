@@ -1,6 +1,7 @@
 ---
 import SectionHeader from './SectionHeader.astro';
 import ProjectCard from './ProjectCard.astro';
+import ChevronIcon from '@/components/common/ChevronIcon.astro';
 
 interface Project {
 	name: string;
@@ -19,9 +20,14 @@ interface Project {
 
 interface Props {
 	projects: Project[];
+	pageSize?: number;
 }
 
-const { projects } = Astro.props;
+const { projects, pageSize = 4 } = Astro.props;
+
+const pages = Array.from({ length: Math.ceil(projects.length / pageSize) }, (_, i) =>
+	projects.slice(i * pageSize, (i + 1) * pageSize),
+);
 ---
 
 <section class="section" id="projects">
@@ -29,19 +35,193 @@ const { projects } = Astro.props;
 		<span class="path-label">~/STUFF</span>
 	</SectionHeader>
 
-	<div class="projects-grid">
-		{projects.map((project) => (
-			<ProjectCard {...project} />
-		))}
+	<div class="projects-viewport">
+		{
+			pages.map((page, index) => (
+				<div class="projects-grid" data-page={index} hidden={index !== 0}>
+					{page.map((project) => (
+						<ProjectCard {...project} />
+					))}
+				</div>
+			))
+		}
 	</div>
+
+	{
+		pages.length > 1 && (
+			<div class="projects-pagination">
+				<button class="page-btn page-prev" type="button" aria-label="Previous projects" data-bounce="0.85" hidden>
+					<ChevronIcon />
+				</button>
+				<button class="page-btn page-next" type="button" aria-label="Next projects" data-bounce="0.85">
+					<ChevronIcon direction="right" />
+				</button>
+			</div>
+		)
+	}
 </section>
 
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	document.addEventListener('astro:page-load', () => {
+		const section = document.querySelector<HTMLElement>('#projects');
+
+		const prev = section?.querySelector<HTMLButtonElement>('.page-prev');
+		const next = section?.querySelector<HTMLButtonElement>('.page-next');
+		const viewport = section?.querySelector<HTMLElement>('.projects-viewport');
+
+		const grids = Array.from(section?.querySelectorAll<HTMLElement>('.projects-grid') ?? []);
+		if (!section || !viewport || !prev || !next || grids.length < 2) return;
+
+		const OFFSET = 12;
+		let index = 0;
+		let busy = false;
+
+		const updateButtons = () => {
+			prev.hidden = index === 0;
+			next.disabled = index === grids.length - 1;
+		};
+
+		const goTo = (target: number) => {
+			if (busy || target === index || target < 0 || target >= grids.length) return;
+			busy = true;
+
+			const from = grids[index];
+			const to = grids[target];
+			const fromCards = from.querySelectorAll('.card');
+			const toCards = to.querySelectorAll('.card');
+			const fromHeight = viewport.offsetHeight;
+			from.classList.add('is-animating');
+
+			gsap.to(fromCards, {
+				opacity: 0,
+				y: -OFFSET,
+				duration: 0.2,
+				stagger: 0.03,
+				ease: 'power2.in',
+				onComplete: () => {
+					gsap.set(fromCards, { clearProps: 'opacity,y' });
+					from.classList.remove('is-animating');
+					from.hidden = true;
+
+					index = target;
+					updateButtons();
+
+					to.hidden = false;
+					to.classList.add('is-animating');
+
+					gsap.set(toCards, { opacity: 0, y: -OFFSET });
+					const toHeight = viewport.offsetHeight;
+					viewport.style.overflow = 'hidden';
+
+					gsap.fromTo(
+						viewport,
+						{ height: fromHeight },
+						{
+							height: toHeight,
+							duration: 0.3,
+							ease: 'power2.inOut',
+							onComplete: () => {
+								gsap.set(viewport, { clearProps: 'height,overflow' });
+								ScrollTrigger.refresh();
+
+								gsap.to(toCards, {
+									opacity: 1,
+									y: 0,
+									duration: 0.2,
+									stagger: 0.04,
+									ease: 'power2.out',
+									onComplete: () => {
+										gsap.set(toCards, { clearProps: 'opacity,y' });
+										to.classList.remove('is-animating');
+										busy = false;
+									},
+								});
+							},
+						},
+					);
+				},
+			});
+		};
+
+		prev.addEventListener('click', () => goTo(index - 1));
+		next.addEventListener('click', () => goTo(index + 1));
+		updateButtons();
+	});
+</script>
+
 <style>
+	.projects-pagination {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.75rem;
+		margin-top: 1rem;
+	}
+
+	.page-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		border: none;
+		border-radius: 48px;
+		background: var(--color-gray-faint);
+		color: var(--color-text-primary);
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			background 0.2s ease,
+			opacity 0.2s ease;
+	}
+
+	.page-btn:hover:not(:disabled) {
+		color: var(--color-brand-pink);
+	}
+
+	.page-btn:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	.page-btn[hidden] {
+		display: none;
+	}
+
+	/* Restarts each time the button is un-hidden */
+	.page-prev:not([hidden]) {
+		animation: page-btn-in 0.15s ease-out;
+	}
+
+	@keyframes page-btn-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	:root[data-theme='dark'] .page-btn {
+		background: #26222d;
+	}
+
 	.projects-grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		align-items: start;
 		gap: 1.5rem;
+	}
+
+	.projects-grid[hidden] {
+		display: none;
+	}
+
+	.projects-grid.is-animating :global(.card) {
+		transition: none;
 	}
 
 	@media (max-width: 37.5rem) {
