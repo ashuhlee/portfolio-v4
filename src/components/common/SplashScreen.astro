@@ -49,6 +49,11 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		</div>
 	</div>
 
+	<!-- Keyboard hint -->
+	<p class="splash-hint" aria-hidden="true">
+		<span class="splash-hint-mark">! </span><span class="splash-hint-text">press the enter or down arrow key</span>
+	</p>
+
 	<!-- Headline, name pill, and enter button -->
 	<div class="splash-content">
 		<div class="splash-headline-wrap">
@@ -78,6 +83,9 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 
 <script>
 	import { gsap } from 'gsap';
+	import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+
+	gsap.registerPlugin(DrawSVGPlugin);
 
 	const INERT_SELECTORS = '#smooth-wrapper, .cursor-star, .clock-widget, .scroll-progress, .config-menu';
 
@@ -105,9 +113,16 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		const pillBg = pill?.querySelector<HTMLElement>('.splash-pill-bg');
 
 		const doodles = splash.querySelectorAll<HTMLElement>('.splash-doodle');
+		const doodlesNoLoop = splash.querySelectorAll<HTMLElement>('.splash-doodle:not(.splash-doodle--loop-2)');
+		const loopSvg = splash.querySelector<SVGElement>('.splash-doodle--loop-2');
+
 		const doodlesLeft = splash.querySelectorAll<HTMLElement>('.splash-doodle--smiley, .splash-doodle--sparkle');
 		const doodlesRight = splash.querySelectorAll<HTMLElement>('.splash-doodle--loop-2, .splash-doodle--asterisk');
 		const doodleWraps = Array.from(splash.querySelectorAll<HTMLElement>('.splash-doodle-wrap'));
+		const loopPath = splash.querySelector<SVGPathElement>('.splash-doodle--loop-2 path');
+
+		const hint = splash.querySelector<HTMLElement>('.splash-hint');
+
 		const smiley = splash.querySelector<SVGSVGElement>('.splash-doodle--smiley');
 		const smileyEyes = Array.from(smiley?.querySelectorAll<SVGCircleElement>('.splash-smiley-eye') ?? []);
 
@@ -145,22 +160,46 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 
 		// Entrance animation
 		gsap.set(splash, { autoAlpha: 1 });
+		if (hint) gsap.set(hint, { opacity: 0 });
 		if (prefersReduced) {
 			gsap.set([headlineChars, pill, enterWrap, doodles], { opacity: 1, scale: 1, y: 0 });
 			gsap.set(headlineChars, { attr: { dy: '0em' } });
+			if (hint) gsap.to(hint, { opacity: 1, duration: 0.4, delay: 4 });
 		} else {
 			gsap.set(headlineChars, { opacity: 0, attr: { dy: '0.18em' } });
 			gsap.set(pill, { opacity: 0, scale: 0.6 });
 			gsap.set(enterWrap, { opacity: 0, y: 9 });
-			gsap.set(doodles, { opacity: 0, scale: 0.5 });
+			gsap.set(doodlesNoLoop, { opacity: 0, scale: 0.5 });
+			if (loopPath) {
+				gsap.set(loopSvg, { opacity: 1 }); // loop is visible but path is undrawn
+				gsap.set(loopPath, { drawSVG: '0%' });
+			}
 
-			gsap
+			const intro = gsap
 				.timeline({ delay: 0.1 })
 				.to(headlineChars, { opacity: 1, attr: { dy: '0em' }, duration: 0.3, stagger: 0.02, ease: 'power2.out' })
 				.to(pill, { opacity: 1, scale: 1, duration: 0.375, ease: 'back.out(1.9)' }, '-=0.2')
 				.to(enterWrap, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '-=0.2')
+				.to(doodlesNoLoop, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.2)' }, '-=0.35');
 
-				.to(doodles, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.2)' }, '-=0.35')
+			if (loopPath) intro.to(loopPath, { drawSVG: '100%', duration: 0.45, ease: 'power1.inOut' }, '<');
+
+			if (hint) {
+				gsap.delayedCall(10, () => {
+					const hintTween = gsap.fromTo(hint,
+						{ opacity: 0 },
+						{ opacity: 1, duration: 0.6, ease: 'power1.inOut', yoyo: true, repeat: -1, repeatDelay: 1.2 }
+					);
+					hint.addEventListener('mouseenter', () => {
+						hintTween.pause();
+						gsap.to(hint, { opacity: 1, duration: 0.25, ease: 'power1.out' });
+					});
+					hint.addEventListener('mouseleave', () => {
+						gsap.killTweensOf(hint);
+						hintTween.resume();
+					});
+				});
+			}
 		}
 
 		let dismissed = false;
@@ -311,8 +350,13 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		const onKeydown = (event: KeyboardEvent) => {
 			if (event.key === 'Enter' || event.key === 'ArrowDown') {
 				event.preventDefault();
+				enterLink.classList.add('is-key-pressed');
+				enterLink.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+				setTimeout(() => enterLink.classList.remove('is-key-pressed'), 300);
+				gsap.timeline()
+					.to(enterLink, { scale: 0.9, duration: 0.15, ease: 'power2.out' })
+					.to(enterLink, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
 				dismiss();
-
 			}
 		};
 
@@ -399,6 +443,35 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		rotate: 2.5deg;
 	}
 
+	/* Keyboard hint */
+	.splash-hint {
+		position: absolute;
+		top: 1.75rem;
+		right: 1.75rem;
+		margin: 0;
+		max-width: 9rem;
+		font-family: var(--font-mono), monospace;
+		font-weight: 500;
+		font-size: 0.75rem;
+		line-height: 1.4;
+		opacity: 0;
+		cursor: default;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.splash-hint-mark {
+		color: var(--color-brand-pink);
+	}
+
+	.splash-hint-text {
+		color: var(--color-text-muted);
+	}
+
+	:global(:root[data-theme='dark']) .splash-hint-text {
+		color: #888;
+	}
+
 	/* Centered intro content */
 	.splash-content {
 		position: relative;
@@ -436,7 +509,7 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 	.splash-headline text {
 		font-family: var(--font-avenir-next), sans-serif;
 		font-weight: 700;
-		font-size: 6.125rem;
+		font-size: 6rem;
 		letter-spacing: -0.3125rem;
 		fill: var(--color-white);
 		stroke: url(#splash-headline-stroke);
@@ -452,17 +525,28 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		align-items: center;
 		justify-content: center;
 		margin-top: -11cqw;
-		padding: 5.3cqw 7.9cqw 2.4cqw;
+		padding: 5.3cqw 7.9cqw 2cqw;
 		opacity: 0;
 	}
 
 	.splash-pill-bg {
-		--splash-pill-gradient-start: #FF9DD5;
+		--splash-pill-gradient-start: #FFCDF9;
 		position: absolute;
 		inset: 0;
 		border-radius: 999px;
-		background: linear-gradient(200deg, var(--splash-pill-gradient-start) 25%, var(--color-brand-pink) 100%);
+		background: radial-gradient(91.12% 59.56% at 89.32% 11.01%, var(--splash-pill-gradient-start) 0, var(--color-brand-pink) 100%);
 		rotate: -2.5deg;
+		overflow: hidden;
+	}
+
+	.splash-pill-bg::after {
+		content: '';
+		position: absolute;
+		inset: -50%;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+		opacity: 0.35;
+		mix-blend-mode: overlay;
+		pointer-events: none;
 	}
 
 	:global(:root[data-theme='dark']) .splash-pill-bg {
@@ -489,7 +573,7 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		align-items: center;
 		justify-content: center;
 		height: 12.7cqw;
-		margin-top: 7.9cqw;
+		margin-top: 6cqw;
 		opacity: 0;
 	}
 
@@ -506,13 +590,13 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		background: var(--color-bg-page);
 		color: var(--splash-button-accent);
 		outline: 0 solid color-mix(in srgb, var(--splash-button-accent) 30%, transparent);
-		font-family: var(--font-sans), sans-serif;
-		font-size: 4.2cqw;
+		font-family: var(--font-mono), sans-serif;
+		font-size: 3.4cqw;
 		font-weight: 600;
 		line-height: 1;
 		text-decoration: none;
 		white-space: nowrap;
-		cursor: pointer;
+		cursor: crosshair;
 		transition:
 			padding 0.3s var(--ease-spring),
 			color 0.15s ease,
@@ -533,11 +617,18 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		--splash-button-accent: var(--color-black);
 	}
 
+	.splash-enter-button.is-key-pressed {
+		--splash-button-accent: var(--color-black);
+	}
+
 	.splash-enter-button:focus-visible {
 		outline-width: 4px;
 	}
 
 	.splash-enter-arrow {
+		font-family: var(--font-sans), sans-serif;
+		font-size: 1.1em;
+		line-height: 1;
 		transition: transform 0.2s ease;
 	}
 
