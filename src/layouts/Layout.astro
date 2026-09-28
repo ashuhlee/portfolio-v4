@@ -70,6 +70,10 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		<script is:inline>
 			(function () {
+				if (!('__portfolioInitialPath' in window)) {
+					window.__portfolioInitialPath = window.location.pathname;
+				}
+
 				function applyStoredTheme() {
 					try {
 						const stored = localStorage.getItem('theme');
@@ -144,19 +148,34 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				document.documentElement.classList.add('no-smooth-scroll');
 			}
 
-			const staggerEls = document.querySelectorAll('.stagger-in');
-			if (staggerEls.length) {
-				gsap.fromTo(
-					staggerEls,
-					{ opacity: 0, y: 10 },
-					{
-						opacity: 1,
-						y: 0,
-						duration: 0.3,
-						stagger: 0.05,
-						ease: 'power2.out',
-					},
-				);
+			const runStaggerIn = () => {
+				const staggerEls = document.querySelectorAll('.stagger-in');
+				if (staggerEls.length) {
+					gsap.fromTo(
+						staggerEls,
+						{ opacity: 0, y: 10 },
+						{
+							opacity: 1,
+							y: 0,
+							duration: 0.3,
+							stagger: 0.05,
+							ease: 'power2.out',
+						},
+					);
+				}
+			};
+
+			const splash = document.getElementById('splash');
+			const runtime = window as Window & {
+				__portfolioInitialPath?: string;
+				__portfolioSplashShown?: boolean;
+			};
+			const splashWillShow =
+				splash && runtime.__portfolioInitialPath === '/' && !runtime.__portfolioSplashShown;
+			if (splashWillShow) {
+				document.addEventListener('splash:dismissed', () => window.setTimeout(runStaggerIn, 20), { once: true });
+			} else {
+				runStaggerIn();
 			}
 
 			const FADE_DURATION = 0.15;
@@ -192,7 +211,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn',
+				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn, .splash-enter-button',
 			);
 			if (!target || !getSetting('soundEffects')) return;
 			const sound = clickSoundPool[clickSoundIndex];

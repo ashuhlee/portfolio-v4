@@ -1,64 +1,55 @@
 ---
-// Intro splash screen that shows while content loads.
-// Press enter, scroll or click the button to reveal main page
-import CursorFillButton from '@/components/common/CursorFillButton.astro';
 import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
 ---
 
-<script is:inline>
-	(function () {
-		try {
-			if (sessionStorage.getItem('splash-seen') === '1') {
-				document.documentElement.classList.add('splash-skip');
-			}
-		} catch (e) {}
-	})();
-</script>
-
 <div class="splash" id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
 	<PixelBlastBackground color="#FFE8F5"/>
+	<!-- Decorative doodles -->
 	<div class="splash-doodles" aria-hidden="true">
+		<div class="splash-doodle-wrap splash-doodle-wrap--smiley">
 		<svg class="splash-doodle splash-doodle--smiley" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M34.6658 28.6482C32.4446 32.2037 28.5004 34.5729 24 34.5731C19.5194 34.5729 15.5889 32.2253 13.3628 28.696L16.0579 27.0775C17.7333 29.6932 20.6633 31.429 24 31.4293C27.5083 31.429 30.5665 29.5101 32.1903 26.6669L34.6658 28.6482Z"
-				fill="#FE6FC1"
+				fill="var(--color-brand-pink)"
 			/>
-			<path
-				d="M17.7146 14.5707C19.4502 14.5709 20.8561 15.979 20.8561 17.7146C20.8559 19.4501 19.4501 20.8559 17.7146 20.8561C15.979 20.8561 14.5709 19.4502 14.5707 17.7146C14.5707 15.9789 15.9789 14.5707 17.7146 14.5707Z"
-				fill="#FE6FC1"
-			/>
-			<path
-				d="M30.2854 14.5707C32.0211 14.5707 33.4293 15.9789 33.4293 17.7146C33.4291 19.4502 32.021 20.8561 30.2854 20.8561C28.5499 20.8559 27.1441 19.4501 27.1439 17.7146C27.1439 15.979 28.5498 14.5709 30.2854 14.5707Z"
-				fill="#FE6FC1"
-			/>
+			<circle class="splash-smiley-eye" cx="17.7146" cy="17.7146" r="3.142" fill="var(--color-brand-pink)" />
+			<circle class="splash-smiley-eye" cx="30.2854" cy="17.7146" r="3.142" fill="var(--color-brand-pink)" />
 			<path
 				fill-rule="evenodd"
 				clip-rule="evenodd"
 				d="M24 2C36.1503 2 46 11.8497 46 24C46 36.1503 36.1503 46 24 46C11.8497 46 2 36.1503 2 24C2 11.8497 11.8497 2 24 2ZM24 5.14388C13.5855 5.14388 5.14388 13.5855 5.14388 24C5.14388 34.4145 13.5855 42.8561 24 42.8561C34.4145 42.8561 42.8561 34.4145 42.8561 24C42.8561 13.5855 34.4145 5.14388 24 5.14388Z"
-				fill="#FE6FC1"
+				fill="var(--color-brand-pink)"
 			/>
 		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--loop-2">
 		<svg class="splash-doodle splash-doodle--loop-2" viewBox="0 0 77 59" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M0.74113 56.3201C2.24113 46.6535 13.2411 25.3193 42.7411 31.3201C69.1264 36.6873 65.2411 54.8193 57.2411 57.8197C52.0745 58.9864 41.5411 57.4197 40.7411 41.8197C39.7411 22.3197 71.2411 -0.680298 76.7411 0.819702"
-				stroke="#FE6FC1"
+				stroke="var(--color-brand-pink)"
 				stroke-width="2"
 			/>
 		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--sparkle">
 		<svg class="splash-doodle splash-doodle--sparkle" viewBox="0 0 43 53" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M41.0733 25.5321C25.1983 25.5321 20.5367 31.3277 20.5367 51.0642C16.9341 32.8454 12.3671 26.93 0 25.5321C15.8751 25.5321 20.5369 19.7365 20.5369 0C20.5367 19.7365 25.1985 25.5321 41.0733 25.5321Z"
-				fill="#FE6FC1"
+				fill="var(--color-brand-pink)"
 			/>
 		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--asterisk">
 		<svg class="splash-doodle splash-doodle--asterisk" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M25.62 19.32L32.424 28.308L24.864 33.6L18.06 24.444L11.424 33.264L4.032 27.972L10.836 19.236L0 15.624L2.94 7.224L13.608 10.92V0H22.848V10.92L33.516 7.56L36.372 15.96L25.62 19.32Z"
-				fill="#FE6FC1"
+				fill="var(--color-brand-pink)"
 			/>
 		</svg>
+		</div>
 	</div>
 
+	<!-- Headline, name pill, and enter button -->
 	<div class="splash-content">
 		<div class="splash-headline-wrap">
 			<svg class="splash-headline" viewBox="0 0 506 172" role="img" aria-label="hi there, i&rsquo;m">
@@ -77,17 +68,10 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		</div>
 
 		<div class="splash-enter-wrap">
-			<CursorFillButton
-				href="/"
-				label="enter site"
-				external={false}
-				fontSize="1rem"
-				labelSpacing="0.5rem"
-				color="#fe6fc1"
-				fillColor={{ fill: '#FF9BD4', fg: '#1A0000' }}
-				hoverSound="/audio/scribble.mp3"
-				magnet={false}
-			/>
+			<button class="splash-enter-button" type="button" data-bounce="0.9">
+				<span>enter site</span>
+				<span class="splash-enter-arrow" aria-hidden="true">→</span>
+			</button>
 		</div>
 	</div>
 </div>
@@ -95,88 +79,232 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 <script>
 	import { gsap } from 'gsap';
 
-	const SEEN_KEY = 'splash-seen';
-
 	const INERT_SELECTORS = '#smooth-wrapper, .cursor-star, .clock-widget, .scroll-progress, .config-menu';
 
+	// Initialize the splash on the first homepage load
 	document.addEventListener('astro:page-load', () => {
 		const splash = document.getElementById('splash');
 		if (!splash) return;
 
-		if (document.documentElement.classList.contains('splash-skip')) {
+		const runtime = window as Window & {
+			__portfolioInitialPath?: string;
+			__portfolioSplashShown?: boolean;
+		};
+		if (runtime.__portfolioInitialPath !== '/' || runtime.__portfolioSplashShown) {
 			splash.remove();
 			return;
 		}
 
 		const enterWrap = splash.querySelector<HTMLElement>('.splash-enter-wrap');
-		const enterLink = enterWrap?.querySelector<HTMLAnchorElement>('.cursor-fill-btn');
+		const enterLink = enterWrap?.querySelector<HTMLButtonElement>('.splash-enter-button');
 
 		const headlineChars = splash.querySelectorAll<SVGTSpanElement>('.splash-headline .char');
+		const headline = splash.querySelector<SVGSVGElement>('.splash-headline');
+
 		const pill = splash.querySelector<HTMLElement>('.splash-pill');
+		const pillBg = pill?.querySelector<HTMLElement>('.splash-pill-bg');
 
 		const doodles = splash.querySelectorAll<HTMLElement>('.splash-doodle');
+		const doodlesLeft = splash.querySelectorAll<HTMLElement>('.splash-doodle--smiley, .splash-doodle--sparkle');
+		const doodlesRight = splash.querySelectorAll<HTMLElement>('.splash-doodle--loop-2, .splash-doodle--asterisk');
+		const doodleWraps = Array.from(splash.querySelectorAll<HTMLElement>('.splash-doodle-wrap'));
+		const smiley = splash.querySelector<SVGSVGElement>('.splash-doodle--smiley');
+		const smileyEyes = Array.from(smiley?.querySelectorAll<SVGCircleElement>('.splash-smiley-eye') ?? []);
 
-		if (!enterWrap || !enterLink || !headlineChars.length || !pill) return;
+		if (
+			!enterWrap ||
+			!enterLink ||
+			!headlineChars.length ||
+			!pill ||
+			!pillBg ||
+			!smiley ||
+			!smileyEyes.length
+		)
+			return;
 
-		const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTORS));
+	const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTORS));
 		inertTargets.forEach((el) => (el.inert = true));
 
-		const blockScroll = (event: Event) => event.preventDefault();
-		window.addEventListener('wheel', blockScroll, { passive: false });
-		window.addEventListener('touchmove', blockScroll, { passive: false });
+		// Scroll-to-dismiss controls and background scroll lock
+		let touchStartY: number | null = null;
+		const onWheel = (event: WheelEvent) => {
+			event.preventDefault();
+			if (event.deltaY > 0) dismiss();
+		};
+		const onTouchStart = (event: TouchEvent) => {
+			touchStartY = event.touches[0]?.clientY ?? null;
+		};
+		const onTouchMove = (event: TouchEvent) => {
+			event.preventDefault();
+			const touchY = event.touches[0]?.clientY;
+			if (touchStartY !== null && touchY !== undefined && touchY < touchStartY) dismiss();
+			touchStartY = touchY ?? null;
+		};
 
 		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-		// reveal the splash itself (was hidden via CSS to avoid a pre-JS flash)
+		// Entrance animation
 		gsap.set(splash, { autoAlpha: 1 });
 		if (prefersReduced) {
 			gsap.set([headlineChars, pill, enterWrap, doodles], { opacity: 1, scale: 1, y: 0 });
 			gsap.set(headlineChars, { attr: { dy: '0em' } });
 		} else {
-			// headline chars start faded + dropped down
 			gsap.set(headlineChars, { opacity: 0, attr: { dy: '0.18em' } });
-			// name pill
 			gsap.set(pill, { opacity: 0, scale: 0.6 });
-		 // enter button starts faded + nudged down
 			gsap.set(enterWrap, { opacity: 0, y: 9 });
-			// Sets initial values for doodles
 			gsap.set(doodles, { opacity: 0, scale: 0.5 });
 
 			gsap
 				.timeline({ delay: 0.1 })
-				.to(headlineChars, { opacity: 1, attr: { dy: '0em' }, duration: 0.375, stagger: 0.02, ease: 'power2.out' })
+				.to(headlineChars, { opacity: 1, attr: { dy: '0em' }, duration: 0.3, stagger: 0.02, ease: 'power2.out' })
 				.to(pill, { opacity: 1, scale: 1, duration: 0.375, ease: 'back.out(1.9)' }, '-=0.2')
 				.to(enterWrap, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '-=0.2')
 
 				.to(doodles, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.2)' }, '-=0.35')
 		}
 
-		enterLink.focus({ preventScroll: true });
-
 		let dismissed = false;
+		let isEnterButtonHovered = false;
+
+		// Enter site button hover animation
+		const enterSiteAnimation = (isHovering: boolean) => {
+			if (prefersReduced || dismissed) return;
+			isEnterButtonHovered = isHovering;
+			if (isHovering) {
+				moveEyesX(0);
+				moveEyesY(0);
+				tiltSmileyX(0);
+				tiltSmileyY(0);
+			}
+
+			gsap.to(doodlesLeft, {
+					x: isHovering ? -14 : 0,
+					scale: isHovering ? 1.1 : 1,
+					duration: 0.3,
+					stagger: 0.05,
+					ease: isHovering ? 'back.out(1.7)' : 'power2.inOut',
+					overwrite: 'auto',
+				});
+				gsap.to(doodlesRight, {
+					x: isHovering ? 14 : 0,
+					scale: isHovering ? 1.1 : 1,
+					duration: 0.3,
+					stagger: 0.05,
+					ease: isHovering ? 'back.out(1.7)' : 'power2.inOut',
+					overwrite: 'auto',
+				});
+		};
+
+		enterLink.addEventListener('pointerenter', () => enterSiteAnimation(true));
+		enterLink.addEventListener('pointerleave', (event) => {
+			enterSiteAnimation(false);
+			moveDoodlesWithPointer(event);
+		});
+
+		// Magnet cursor effect for the decorative doodles
+		const doodleParallax = doodleWraps.map((el, index) => ({
+			moveX: gsap.quickTo(el, 'x', { duration: 0.55, ease: 'power3.out' }),
+			moveY: gsap.quickTo(el, 'y', { duration: 0.55, ease: 'power3.out' }),
+			depth: [0.55, 0.8, 0.65, 0.95][index] ?? 0.7,
+		}));
+
+		// Smiley face animation
+		const eyeGaze = { x: 0, y: 0 };
+		const eyeCenters = smileyEyes.map((eye) => ({
+			x: Number(eye.getAttribute('cx')),
+			y: Number(eye.getAttribute('cy')),
+		}));
+		const updateSmileyEyes = () => {
+			smileyEyes.forEach((eye, index) => {
+				eye.setAttribute('cx', String(eyeCenters[index].x + eyeGaze.x));
+				eye.setAttribute('cy', String(eyeCenters[index].y + eyeGaze.y));
+			});
+		};
+		const moveEyesX = gsap.quickTo(eyeGaze, 'x', {
+			duration: 0.16,
+			ease: 'power2.out',
+			onUpdate: updateSmileyEyes,
+		});
+		const moveEyesY = gsap.quickTo(eyeGaze, 'y', {
+			duration: 0.16,
+			ease: 'power2.out',
+			onUpdate: updateSmileyEyes,
+		});
+		gsap.set(smiley, { transformPerspective: 350, transformOrigin: '50% 50%' });
+		const tiltSmileyX = gsap.quickTo(smiley, 'rotationX', { duration: 0.35, ease: 'power3.out' });
+		const tiltSmileyY = gsap.quickTo(smiley, 'rotationY', { duration: 0.35, ease: 'power3.out' });
+		const moveDoodlesWithPointer = (event: MouseEvent) => {
+			if (prefersReduced || dismissed) return;
+
+			const bounds = splash.getBoundingClientRect();
+			const pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 20;
+			const pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 16;
+			doodleParallax.forEach(({ moveX, moveY, depth }) => {
+				moveX(pointerX * depth);
+				moveY(pointerY * depth);
+			});
+			if (isEnterButtonHovered) return;
+
+			const smileyBounds = smiley.getBoundingClientRect();
+			const gazeX = Math.max(
+				-1,
+				Math.min(1, (event.clientX - (smileyBounds.left + smileyBounds.width / 2)) / (smileyBounds.width / 2)),
+			);
+			const gazeY = Math.max(
+				-1,
+				Math.min(1, (event.clientY - (smileyBounds.top + smileyBounds.height / 2)) / (smileyBounds.height / 2)),
+			);
+			moveEyesX(gazeX * 1.2);
+			moveEyesY(gazeY * 1.2);
+			tiltSmileyX(-gazeY * 10);
+			tiltSmileyY(gazeX * 14);
+		};
+		const resetDoodleParallax = () => {
+				doodleParallax.forEach(({ moveX, moveY }) => {
+				moveX(0);
+				moveY(0);
+			});
+			moveEyesX(0);
+			moveEyesY(0);
+			tiltSmileyX(0);
+			tiltSmileyY(0);
+		};
+		splash.addEventListener('mousemove', moveDoodlesWithPointer);
+		splash.addEventListener('mouseleave', resetDoodleParallax);
+
+		// Exit animation
 		const dismiss = () => {
 			if (dismissed) return;
 			dismissed = true;
 
-			try {
-				sessionStorage.setItem(SEEN_KEY, '1');
-			} catch (e) {}
-
-			window.removeEventListener('wheel', blockScroll);
-			window.removeEventListener('touchmove', blockScroll);
 			window.removeEventListener('keydown', onKeydown);
+			splash.removeEventListener('mousemove', moveDoodlesWithPointer);
+			splash.removeEventListener('mouseleave', resetDoodleParallax);
 			inertTargets.forEach((el) => (el.inert = false));
 
 			const tl = gsap.timeline({
-				onComplete: () => splash.remove(),
+				onComplete: () => {
+					window.removeEventListener('wheel', onWheel);
+					window.removeEventListener('touchstart', onTouchStart);
+					window.removeEventListener('touchmove', onTouchMove);
+					runtime.__portfolioSplashShown = true;
+					splash.remove();
+					document.dispatchEvent(new Event('splash:dismissed'));
+				},
 			});
 
 			if (prefersReduced) {
-				tl.to(splash, { autoAlpha: 0, duration: 0.2 }); // whole splash fades out
+				tl.to(splash, { autoAlpha: 0, duration: 0.2 }); // fades out
 			} else {
-				tl.to(doodles, { opacity: 0, scale: 0.6, duration: 0.25, stagger: 0.03, ease: 'power2.in' }) // doodles shrink away first
-					.to(splash, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' }, '-=0.15') // whole splash fades out, overlapping the doodles
-					.to(splash, { display: 'none', duration: 0 });
+				tl.to(doodles, { scale: 0, duration: 0.3, stagger: 0.07, ease: 'back.in(2.2)'})
+					.to([headline, pill, enterWrap, ...doodles], {
+						opacity: 0,
+						y: -20,
+						duration: 0.175,
+						stagger: 0.05,
+						ease: 'power2.in',
+					})
+					.to(splash, { autoAlpha: 0, duration: 0.25, ease: 'power2.out' });
 			}
 		};
 
@@ -188,19 +316,18 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 			}
 		};
 
-		enterLink.addEventListener('click', (event) => {
-			event.preventDefault();
-			dismiss();
-		});
+		// Button, keyboard, and scroll dismissal listeners.
+		window.addEventListener('wheel', onWheel, { passive: false });
+		window.addEventListener('touchstart', onTouchStart, { passive: true });
+		window.addEventListener('touchmove', onTouchMove, { passive: false });
+
+		enterLink.addEventListener('click', dismiss);
 		window.addEventListener('keydown', onKeydown);
 	});
 </script>
 
 <style>
-	:global(html.splash-skip) #splash {
-		display: none;
-	}
-
+	/* Splash backdrop and decorative doodles */
 	.splash {
 		position: fixed;
 		inset: 0;
@@ -208,68 +335,95 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		--splash-content-width: min(23.7rem, 82vw, 48svh);
 		background: var(--color-bg-page);
 		overflow: hidden;
 	}
 
 	.splash-doodles {
 		position: absolute;
-		inset: 0;
+		left: 50%;
+		top: 50%;
+		width: var(--splash-content-width);
+		aspect-ratio: 1.52;
+		transform: translate(-50%, -50%);
 		pointer-events: none;
 	}
 
-	.splash-doodle {
+	.splash-doodle-wrap {
 		position: absolute;
+		will-change: transform;
+	}
+
+	.splash-doodle {
+		display: block;
+		width: 100%;
+		height: auto;
 		opacity: 0;
 	}
 
-	.splash-doodle--smiley {
-		width: clamp(2rem, 3.765vw, 2rem);
-		left: 34%;
-		top: 36%;
+	:global(:root[data-theme='dark']) .splash-doodle:not(.splash-doodle--loop-2) path,
+	:global(:root[data-theme='dark']) .splash-doodle circle {
+		fill: var(--color-brand-lime);
+	}
+
+	:global(:root[data-theme='dark']) .splash-doodle--loop-2 path {
+		fill: none;
+		stroke: var(--color-brand-lime);
+	}
+
+	.splash-doodle-wrap--smiley {
+		width: 2rem;
+		left: -16%;
+		top: 0;
 		rotate: 8deg;
 	}
 
-	.splash-doodle--loop-2 {
+	.splash-doodle-wrap--loop-2 {
 		width: clamp(2.7rem, 3.975vw, 3.6rem);
-		left: 61%;
-		top: 52%;
+		left: 88%;
+		top: 58%;
 	}
 
-	.splash-doodle--sparkle {
+	.splash-doodle-wrap--sparkle {
 		width: clamp(1.3125rem, 1.875vw, 1.875rem);
-		left: 39.5%;
-		top: 57%;
+		left: 8%;
+		top: 68%;
 		rotate: -2deg;
 	}
 
-	.splash-doodle--asterisk {
+	.splash-doodle-wrap--asterisk {
 		width: clamp(1.125rem, 1.75vw, 1.75rem);
-		left: 63%;
-		top: 37%;
+		left: 104%;
+		top: 8%;
 		rotate: 2.5deg;
 	}
 
+	/* Centered intro content */
 	.splash-content {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 0 1.125rem;
+		width: var(--splash-content-width);
+		padding: 0;
+		container-type: inline-size;
 	}
 
+	/* Headline and name pill */
 	.splash-headline-wrap {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		width: 100%;
 	}
 
 	.splash-headline {
 		position: relative;
 		z-index: 1;
 		display: block;
-		width: clamp(10.6rem, 31vw, 23.7rem);
+		width: 100%;
 		height: auto;
 		overflow: visible;
 		-webkit-user-select: none;
@@ -297,17 +451,22 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: -2.625rem;
-		padding: 1.25rem 1.875rem 0.5625rem;
+		margin-top: -11cqw;
+		padding: 5.3cqw 7.9cqw 2.4cqw;
 		opacity: 0;
 	}
 
 	.splash-pill-bg {
+		--splash-pill-gradient-start: #FF9DD5;
 		position: absolute;
 		inset: 0;
 		border-radius: 999px;
-		background: linear-gradient(200deg, #FF92D0 15%, #FE6FC1 85%);
-		rotate: -3deg;
+		background: linear-gradient(200deg, var(--splash-pill-gradient-start) 25%, var(--color-brand-pink) 100%);
+		rotate: -2.5deg;
+	}
+
+	:global(:root[data-theme='dark']) .splash-pill-bg {
+		--splash-pill-gradient-start: #FF7CCC;
 	}
 
 	.splash-pill-text {
@@ -315,44 +474,74 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		top: -0.12em;
 		font-family: var(--font-averia), serif;
 		font-weight: 700;
-		font-size: clamp(1.3125rem, 4.125vw, 3.375rem);
+		font-size: 14.25cqw;
 		line-height: 1;
-		letter-spacing: -0.175rem;
-		color: #ffffff;
+		letter-spacing: -0.74cqw;
+		color: var(--color-white);
 		-webkit-user-select: none;
 		user-select: none;
 		white-space: nowrap;
 	}
 
+	/* Enter button */
 	.splash-enter-wrap {
-		margin-top: 1.875rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 12.7cqw;
+		margin-top: 7.9cqw;
 		opacity: 0;
 	}
 
-	:global(.splash-enter-wrap .cursor-fill-btn:focus-visible) {
-		outline: 2px solid #fe6fc1;
-		outline-offset: 2px;
+	.splash-enter-button {
+		--splash-button-accent: var(--color-brand-pink);
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2.1cqw;
+		padding: 2.64cqw 3.69cqw;
+		border: max(1px, 0.46cqw) solid var(--splash-button-accent);
+		border-radius: 999px;
+		background: var(--color-bg-page);
+		color: var(--splash-button-accent);
+		outline: 0 solid color-mix(in srgb, var(--splash-button-accent) 30%, transparent);
+		font-family: var(--font-sans), sans-serif;
+		font-size: 4.2cqw;
+		font-weight: 600;
+		line-height: 1;
+		text-decoration: none;
+		white-space: nowrap;
+		cursor: pointer;
+		transition:
+			padding 0.3s var(--ease-spring),
+			color 0.15s ease,
+			border-color 0.15s ease,
+			outline 0.15s ease;
 	}
 
-	:global(.splash-enter-wrap .cursor-fill-btn .arrow-track) {
-		grid-template-columns: 1fr;
+	.splash-enter-button:hover {
+		--splash-button-accent: var(--color-black);
+		padding: 3.59cqw 8.44cqw;
 	}
 
-	:global(.splash-enter-wrap .cursor-fill-btn .arrow) {
-		opacity: 1;
-		transform: translateX(0);
-		color: var(--btn-color, #fe6fc1);
-		transition: color 0.3s ease 0.3s;
+	:global(:root[data-theme='dark']) .splash-enter-button {
+		--splash-button-accent: var(--color-brand-lime);
 	}
 
-	:global(.splash-enter-wrap .cursor-fill-btn.hovering .arrow) {
-		color: var(--btn-fg, #1a0000);
-		transition: color 0.15s ease;
+	:global(:root[data-theme='dark']) .splash-enter-button:hover {
+		--splash-button-accent: var(--color-black);
 	}
 
-	@media (max-width: 26.25rem) {
-		.splash-doodle {
-			display: none;
-		}
+	.splash-enter-button:focus-visible {
+		outline-width: 4px;
+	}
+
+	.splash-enter-arrow {
+		transition: transform 0.2s ease;
+	}
+
+	.splash-enter-button:hover .splash-enter-arrow {
+		transform: translateX(1.58cqw);
 	}
 </style>
