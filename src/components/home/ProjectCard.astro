@@ -76,7 +76,7 @@ const Tag = comingSoon ? 'div' : 'a';
 
 <script>
 	document.addEventListener('astro:page-load', () => {
-		const PREVIEW_DELAY = 750;
+		const PREVIEW_DELAY = 1500;
 		const PREVIEW_FADE_OUT = 150;
 
 		document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
@@ -207,7 +207,7 @@ const Tag = comingSoon ? 'div' : 'a';
 		--thumb-blend: color-burn;
 		--thumb-opacity: 0.08;
 		position: relative;
-		height: 4.875rem;
+		height: 0;
 		width: 100%;
 		overflow: hidden;
 		transform-origin: center;
