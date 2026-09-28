@@ -1,0 +1,358 @@
+---
+// Intro splash screen that shows while content loads.
+// Press enter, scroll or click the button to reveal main page
+import CursorFillButton from '@/components/common/CursorFillButton.astro';
+import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
+---
+
+<script is:inline>
+	(function () {
+		try {
+			if (sessionStorage.getItem('splash-seen') === '1') {
+				document.documentElement.classList.add('splash-skip');
+			}
+		} catch (e) {}
+	})();
+</script>
+
+<div class="splash" id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
+	<PixelBlastBackground color="#FFE8F5"/>
+	<div class="splash-doodles" aria-hidden="true">
+		<svg class="splash-doodle splash-doodle--smiley" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M34.6658 28.6482C32.4446 32.2037 28.5004 34.5729 24 34.5731C19.5194 34.5729 15.5889 32.2253 13.3628 28.696L16.0579 27.0775C17.7333 29.6932 20.6633 31.429 24 31.4293C27.5083 31.429 30.5665 29.5101 32.1903 26.6669L34.6658 28.6482Z"
+				fill="#FE6FC1"
+			/>
+			<path
+				d="M17.7146 14.5707C19.4502 14.5709 20.8561 15.979 20.8561 17.7146C20.8559 19.4501 19.4501 20.8559 17.7146 20.8561C15.979 20.8561 14.5709 19.4502 14.5707 17.7146C14.5707 15.9789 15.9789 14.5707 17.7146 14.5707Z"
+				fill="#FE6FC1"
+			/>
+			<path
+				d="M30.2854 14.5707C32.0211 14.5707 33.4293 15.9789 33.4293 17.7146C33.4291 19.4502 32.021 20.8561 30.2854 20.8561C28.5499 20.8559 27.1441 19.4501 27.1439 17.7146C27.1439 15.979 28.5498 14.5709 30.2854 14.5707Z"
+				fill="#FE6FC1"
+			/>
+			<path
+				fill-rule="evenodd"
+				clip-rule="evenodd"
+				d="M24 2C36.1503 2 46 11.8497 46 24C46 36.1503 36.1503 46 24 46C11.8497 46 2 36.1503 2 24C2 11.8497 11.8497 2 24 2ZM24 5.14388C13.5855 5.14388 5.14388 13.5855 5.14388 24C5.14388 34.4145 13.5855 42.8561 24 42.8561C34.4145 42.8561 42.8561 34.4145 42.8561 24C42.8561 13.5855 34.4145 5.14388 24 5.14388Z"
+				fill="#FE6FC1"
+			/>
+		</svg>
+		<svg class="splash-doodle splash-doodle--loop-2" viewBox="0 0 77 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M0.74113 56.3201C2.24113 46.6535 13.2411 25.3193 42.7411 31.3201C69.1264 36.6873 65.2411 54.8193 57.2411 57.8197C52.0745 58.9864 41.5411 57.4197 40.7411 41.8197C39.7411 22.3197 71.2411 -0.680298 76.7411 0.819702"
+				stroke="#FE6FC1"
+				stroke-width="2"
+			/>
+		</svg>
+		<svg class="splash-doodle splash-doodle--sparkle" viewBox="0 0 43 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M41.0733 25.5321C25.1983 25.5321 20.5367 31.3277 20.5367 51.0642C16.9341 32.8454 12.3671 26.93 0 25.5321C15.8751 25.5321 20.5369 19.7365 20.5369 0C20.5367 19.7365 25.1985 25.5321 41.0733 25.5321Z"
+				fill="#FE6FC1"
+			/>
+		</svg>
+		<svg class="splash-doodle splash-doodle--asterisk" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M25.62 19.32L32.424 28.308L24.864 33.6L18.06 24.444L11.424 33.264L4.032 27.972L10.836 19.236L0 15.624L2.94 7.224L13.608 10.92V0H22.848V10.92L33.516 7.56L36.372 15.96L25.62 19.32Z"
+				fill="#FE6FC1"
+			/>
+		</svg>
+	</div>
+
+	<div class="splash-content">
+		<div class="splash-headline-wrap">
+			<svg class="splash-headline" viewBox="0 0 506 172" role="img" aria-label="hi there, i&rsquo;m">
+				<defs>
+					<linearGradient id="splash-headline-stroke" gradientUnits="userSpaceOnUse" x1="253" y1="48" x2="253" y2="140">
+						<stop offset="0%" stop-color="#FEA0D6" />
+						<stop offset="80%" stop-color="#FE83C9" />
+					</linearGradient>
+				</defs>
+				<text x="253" y="122" text-anchor="middle" xml:space="preserve"><tspan class="char">h</tspan><tspan class="char">i</tspan><tspan class="char">&#160;</tspan><tspan class="char">t</tspan><tspan class="char">h</tspan><tspan class="char">e</tspan><tspan class="char">r</tspan><tspan class="char">e</tspan><tspan class="char">,</tspan><tspan class="char">&#160;</tspan><tspan class="char">i</tspan><tspan class="char">&rsquo;</tspan><tspan class="char">m</tspan></text>
+			</svg>
+			<div class="splash-pill">
+				<div class="splash-pill-bg" aria-hidden="true"></div>
+				<span class="splash-pill-text">ashuhlee</span>
+			</div>
+		</div>
+
+		<div class="splash-enter-wrap">
+			<CursorFillButton
+				href="/"
+				label="enter site"
+				external={false}
+				fontSize="1rem"
+				labelSpacing="0.5rem"
+				color="#fe6fc1"
+				fillColor={{ fill: '#FF9BD4', fg: '#1A0000' }}
+				hoverSound="/audio/scribble.mp3"
+				magnet={false}
+			/>
+		</div>
+	</div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const SEEN_KEY = 'splash-seen';
+
+	const INERT_SELECTORS = '#smooth-wrapper, .cursor-star, .clock-widget, .scroll-progress, .config-menu';
+
+	document.addEventListener('astro:page-load', () => {
+		const splash = document.getElementById('splash');
+		if (!splash) return;
+
+		if (document.documentElement.classList.contains('splash-skip')) {
+			splash.remove();
+			return;
+		}
+
+		const enterWrap = splash.querySelector<HTMLElement>('.splash-enter-wrap');
+		const enterLink = enterWrap?.querySelector<HTMLAnchorElement>('.cursor-fill-btn');
+
+		const headlineChars = splash.querySelectorAll<SVGTSpanElement>('.splash-headline .char');
+		const pill = splash.querySelector<HTMLElement>('.splash-pill');
+
+		const doodles = splash.querySelectorAll<HTMLElement>('.splash-doodle');
+
+		if (!enterWrap || !enterLink || !headlineChars.length || !pill) return;
+
+		const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTORS));
+		inertTargets.forEach((el) => (el.inert = true));
+
+		const blockScroll = (event: Event) => event.preventDefault();
+		window.addEventListener('wheel', blockScroll, { passive: false });
+		window.addEventListener('touchmove', blockScroll, { passive: false });
+
+		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		// reveal the splash itself (was hidden via CSS to avoid a pre-JS flash)
+		gsap.set(splash, { autoAlpha: 1 });
+		if (prefersReduced) {
+			gsap.set([headlineChars, pill, enterWrap, doodles], { opacity: 1, scale: 1, y: 0 });
+			gsap.set(headlineChars, { attr: { dy: '0em' } });
+		} else {
+			// headline chars start faded + dropped down
+			gsap.set(headlineChars, { opacity: 0, attr: { dy: '0.18em' } });
+			// name pill
+			gsap.set(pill, { opacity: 0, scale: 0.6 });
+		 // enter button starts faded + nudged down
+			gsap.set(enterWrap, { opacity: 0, y: 9 });
+			// Sets initial values for doodles
+			gsap.set(doodles, { opacity: 0, scale: 0.5 });
+
+			gsap
+				.timeline({ delay: 0.1 })
+				.to(headlineChars, { opacity: 1, attr: { dy: '0em' }, duration: 0.375, stagger: 0.02, ease: 'power2.out' })
+				.to(pill, { opacity: 1, scale: 1, duration: 0.375, ease: 'back.out(1.9)' }, '-=0.2')
+				.to(enterWrap, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '-=0.2')
+
+				.to(doodles, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.2)' }, '-=0.35')
+		}
+
+		enterLink.focus({ preventScroll: true });
+
+		let dismissed = false;
+		const dismiss = () => {
+			if (dismissed) return;
+			dismissed = true;
+
+			try {
+				sessionStorage.setItem(SEEN_KEY, '1');
+			} catch (e) {}
+
+			window.removeEventListener('wheel', blockScroll);
+			window.removeEventListener('touchmove', blockScroll);
+			window.removeEventListener('keydown', onKeydown);
+			inertTargets.forEach((el) => (el.inert = false));
+
+			const tl = gsap.timeline({
+				onComplete: () => splash.remove(),
+			});
+
+			if (prefersReduced) {
+				tl.to(splash, { autoAlpha: 0, duration: 0.2 }); // whole splash fades out
+			} else {
+				tl.to(doodles, { opacity: 0, scale: 0.6, duration: 0.25, stagger: 0.03, ease: 'power2.in' }) // doodles shrink away first
+					.to(splash, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' }, '-=0.15') // whole splash fades out, overlapping the doodles
+					.to(splash, { display: 'none', duration: 0 });
+			}
+		};
+
+		const onKeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Enter' || event.key === 'ArrowDown') {
+				event.preventDefault();
+				dismiss();
+
+			}
+		};
+
+		enterLink.addEventListener('click', (event) => {
+			event.preventDefault();
+			dismiss();
+		});
+		window.addEventListener('keydown', onKeydown);
+	});
+</script>
+
+<style>
+	:global(html.splash-skip) #splash {
+		display: none;
+	}
+
+	.splash {
+		position: fixed;
+		inset: 0;
+		z-index: 10001;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-bg-page);
+		overflow: hidden;
+	}
+
+	.splash-doodles {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.splash-doodle {
+		position: absolute;
+		opacity: 0;
+	}
+
+	.splash-doodle--smiley {
+		width: clamp(2rem, 3.765vw, 2rem);
+		left: 34%;
+		top: 36%;
+		rotate: 8deg;
+	}
+
+	.splash-doodle--loop-2 {
+		width: clamp(2.7rem, 3.975vw, 3.6rem);
+		left: 61%;
+		top: 52%;
+	}
+
+	.splash-doodle--sparkle {
+		width: clamp(1.3125rem, 1.875vw, 1.875rem);
+		left: 39.5%;
+		top: 57%;
+		rotate: -2deg;
+	}
+
+	.splash-doodle--asterisk {
+		width: clamp(1.125rem, 1.75vw, 1.75rem);
+		left: 63%;
+		top: 37%;
+		rotate: 2.5deg;
+	}
+
+	.splash-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 0 1.125rem;
+	}
+
+	.splash-headline-wrap {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.splash-headline {
+		position: relative;
+		z-index: 1;
+		display: block;
+		width: clamp(10.6rem, 31vw, 23.7rem);
+		height: auto;
+		overflow: visible;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+	.splash-headline .char {
+		opacity: 0;
+	}
+
+	.splash-headline text {
+		font-family: var(--font-avenir-next), sans-serif;
+		font-weight: 700;
+		font-size: 6.125rem;
+		letter-spacing: -0.3125rem;
+		fill: var(--color-white);
+		stroke: url(#splash-headline-stroke);
+		stroke-width: 5.5px;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		paint-order: stroke fill;
+	}
+
+	.splash-pill {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: -2.625rem;
+		padding: 1.25rem 1.875rem 0.5625rem;
+		opacity: 0;
+	}
+
+	.splash-pill-bg {
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		background: linear-gradient(200deg, #FF92D0 15%, #FE6FC1 85%);
+		rotate: -3deg;
+	}
+
+	.splash-pill-text {
+		position: relative;
+		top: -0.12em;
+		font-family: var(--font-averia), serif;
+		font-weight: 700;
+		font-size: clamp(1.3125rem, 4.125vw, 3.375rem);
+		line-height: 1;
+		letter-spacing: -0.175rem;
+		color: #ffffff;
+		-webkit-user-select: none;
+		user-select: none;
+		white-space: nowrap;
+	}
+
+	.splash-enter-wrap {
+		margin-top: 1.875rem;
+		opacity: 0;
+	}
+
+	:global(.splash-enter-wrap .cursor-fill-btn:focus-visible) {
+		outline: 2px solid #fe6fc1;
+		outline-offset: 2px;
+	}
+
+	:global(.splash-enter-wrap .cursor-fill-btn .arrow-track) {
+		grid-template-columns: 1fr;
+	}
+
+	:global(.splash-enter-wrap .cursor-fill-btn .arrow) {
+		opacity: 1;
+		transform: translateX(0);
+		color: var(--btn-color, #fe6fc1);
+		transition: color 0.3s ease 0.3s;
+	}
+
+	:global(.splash-enter-wrap .cursor-fill-btn.hovering .arrow) {
+		color: var(--btn-fg, #1a0000);
+		transition: color 0.15s ease;
+	}
+
+	@media (max-width: 26.25rem) {
+		.splash-doodle {
+			display: none;
+		}
+	}
+</style>

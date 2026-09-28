@@ -3,6 +3,8 @@
 	--font-sofia: 'Sofia Pro', var(--font-sans);
 	--font-display: 'Druk Wide Bold', system-ui, sans-serif;
 	--font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+	--font-avenir-next: 'Avenir Next', system-ui, sans-serif;
+	--font-averia: 'Averia Serif Libre', serif;
 
 	--font-size-12: 0.75rem;     /* 12px */
 	--font-size-13: 0.8125rem;   /* 13px */

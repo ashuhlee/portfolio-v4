@@ -14,6 +14,7 @@ import ClockWidget from '@/components/common/ClockWidget.astro';
 import ScrollProgress from '@/components/common/ScrollProgress.astro';
 import ConfigMenu from '@/components/common/ConfigMenu.astro';
 import CursorStar from '@/components/common/CursorStar.astro';
+import SplashScreen from '@/components/common/SplashScreen.astro';
 
 interface Props {
 	title?: string;
@@ -21,6 +22,7 @@ interface Props {
 	starColor?: string;
 	showClock?: boolean;
 	showConfigMenu?: boolean;
+	showSplash?: boolean;
 }
 
 const {
@@ -29,6 +31,7 @@ const {
 	starColor,
 	showClock = true,
 	showConfigMenu = true,
+	showSplash = false,
 } = Astro.props;
 
 const outDuration = 0.075;
@@ -81,7 +84,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Averia+Serif+Libre:wght@700&display=swap"
 			rel="stylesheet"
 		/>
 
@@ -102,6 +105,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<Analytics/>
 	</head>
 	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
+		{showSplash && <SplashScreen />}
 		<slot name="background" />
 		<div id="smooth-wrapper" transition:animate={pageTransition}>
 			<div id="smooth-content">
