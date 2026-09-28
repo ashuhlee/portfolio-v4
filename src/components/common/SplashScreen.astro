@@ -1,0 +1,638 @@
+---
+import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
+---
+
+<div class="splash" id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
+	<PixelBlastBackground color="#FFE8F5"/>
+	<!-- Decorative doodles -->
+	<div class="splash-doodles" aria-hidden="true">
+		<div class="splash-doodle-wrap splash-doodle-wrap--smiley">
+		<svg class="splash-doodle splash-doodle--smiley" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M34.6658 28.6482C32.4446 32.2037 28.5004 34.5729 24 34.5731C19.5194 34.5729 15.5889 32.2253 13.3628 28.696L16.0579 27.0775C17.7333 29.6932 20.6633 31.429 24 31.4293C27.5083 31.429 30.5665 29.5101 32.1903 26.6669L34.6658 28.6482Z"
+				fill="var(--color-brand-pink)"
+			/>
+			<circle class="splash-smiley-eye" cx="17.7146" cy="17.7146" r="3.142" fill="var(--color-brand-pink)" />
+			<circle class="splash-smiley-eye" cx="30.2854" cy="17.7146" r="3.142" fill="var(--color-brand-pink)" />
+			<path
+				fill-rule="evenodd"
+				clip-rule="evenodd"
+				d="M24 2C36.1503 2 46 11.8497 46 24C46 36.1503 36.1503 46 24 46C11.8497 46 2 36.1503 2 24C2 11.8497 11.8497 2 24 2ZM24 5.14388C13.5855 5.14388 5.14388 13.5855 5.14388 24C5.14388 34.4145 13.5855 42.8561 24 42.8561C34.4145 42.8561 42.8561 34.4145 42.8561 24C42.8561 13.5855 34.4145 5.14388 24 5.14388Z"
+				fill="var(--color-brand-pink)"
+			/>
+		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--loop-2">
+		<svg class="splash-doodle splash-doodle--loop-2" viewBox="0 0 77 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M0.74113 56.3201C2.24113 46.6535 13.2411 25.3193 42.7411 31.3201C69.1264 36.6873 65.2411 54.8193 57.2411 57.8197C52.0745 58.9864 41.5411 57.4197 40.7411 41.8197C39.7411 22.3197 71.2411 -0.680298 76.7411 0.819702"
+				stroke="var(--color-brand-pink)"
+				stroke-width="2"
+			/>
+		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--sparkle">
+		<svg class="splash-doodle splash-doodle--sparkle" viewBox="0 0 43 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M41.0733 25.5321C25.1983 25.5321 20.5367 31.3277 20.5367 51.0642C16.9341 32.8454 12.3671 26.93 0 25.5321C15.8751 25.5321 20.5369 19.7365 20.5369 0C20.5367 19.7365 25.1985 25.5321 41.0733 25.5321Z"
+				fill="var(--color-brand-pink)"
+			/>
+		</svg>
+		</div>
+		<div class="splash-doodle-wrap splash-doodle-wrap--asterisk">
+		<svg class="splash-doodle splash-doodle--asterisk" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M25.62 19.32L32.424 28.308L24.864 33.6L18.06 24.444L11.424 33.264L4.032 27.972L10.836 19.236L0 15.624L2.94 7.224L13.608 10.92V0H22.848V10.92L33.516 7.56L36.372 15.96L25.62 19.32Z"
+				fill="var(--color-brand-pink)"
+			/>
+		</svg>
+		</div>
+	</div>
+
+	<!-- Keyboard hint -->
+	<p class="splash-hint" aria-hidden="true">
+		<span class="splash-hint-mark">! </span><span class="splash-hint-text">press the enter or down arrow key</span>
+	</p>
+
+	<!-- Headline, name pill, and enter button -->
+	<div class="splash-content">
+		<div class="splash-headline-wrap">
+			<svg class="splash-headline" viewBox="0 0 506 172" role="img" aria-label="hi there, i&rsquo;m">
+				<defs>
+					<linearGradient id="splash-headline-stroke" gradientUnits="userSpaceOnUse" x1="253" y1="48" x2="253" y2="140">
+						<stop offset="0%" stop-color="#FEA0D6" />
+						<stop offset="80%" stop-color="#FE83C9" />
+					</linearGradient>
+				</defs>
+				<text x="253" y="122" text-anchor="middle" xml:space="preserve"><tspan class="char">h</tspan><tspan class="char">i</tspan><tspan class="char">&#160;</tspan><tspan class="char">t</tspan><tspan class="char">h</tspan><tspan class="char">e</tspan><tspan class="char">r</tspan><tspan class="char">e</tspan><tspan class="char">,</tspan><tspan class="char">&#160;</tspan><tspan class="char">i</tspan><tspan class="char">&rsquo;</tspan><tspan class="char">m</tspan></text>
+			</svg>
+			<div class="splash-pill">
+				<div class="splash-pill-bg" aria-hidden="true"></div>
+				<span class="splash-pill-text">ashuhlee</span>
+			</div>
+		</div>
+
+		<div class="splash-enter-wrap">
+			<button class="splash-enter-button" type="button" data-bounce="0.9">
+				<span>enter site</span>
+				<span class="splash-enter-arrow" aria-hidden="true">→</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+	import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+
+	gsap.registerPlugin(DrawSVGPlugin);
+
+	const INERT_SELECTORS = '#smooth-wrapper, .cursor-star, .clock-widget, .scroll-progress, .config-menu';
+
+	// Initialize the splash on the first homepage load
+	document.addEventListener('astro:page-load', () => {
+		const splash = document.getElementById('splash');
+		if (!splash) return;
+
+		const runtime = window as Window & {
+			__portfolioInitialPath?: string;
+			__portfolioSplashShown?: boolean;
+		};
+		if (runtime.__portfolioInitialPath !== '/' || runtime.__portfolioSplashShown) {
+			splash.remove();
+			return;
+		}
+
+		const enterWrap = splash.querySelector<HTMLElement>('.splash-enter-wrap');
+		const enterLink = enterWrap?.querySelector<HTMLButtonElement>('.splash-enter-button');
+
+		const headlineChars = splash.querySelectorAll<SVGTSpanElement>('.splash-headline .char');
+		const headline = splash.querySelector<SVGSVGElement>('.splash-headline');
+
+		const pill = splash.querySelector<HTMLElement>('.splash-pill');
+		const pillBg = pill?.querySelector<HTMLElement>('.splash-pill-bg');
+
+		const doodles = splash.querySelectorAll<HTMLElement>('.splash-doodle');
+		const doodlesNoLoop = splash.querySelectorAll<HTMLElement>('.splash-doodle:not(.splash-doodle--loop-2)');
+		const loopSvg = splash.querySelector<SVGElement>('.splash-doodle--loop-2');
+
+		const doodlesLeft = splash.querySelectorAll<HTMLElement>('.splash-doodle--smiley, .splash-doodle--sparkle');
+		const doodlesRight = splash.querySelectorAll<HTMLElement>('.splash-doodle--loop-2, .splash-doodle--asterisk');
+		const doodleWraps = Array.from(splash.querySelectorAll<HTMLElement>('.splash-doodle-wrap'));
+		const loopPath = splash.querySelector<SVGPathElement>('.splash-doodle--loop-2 path');
+
+		const hint = splash.querySelector<HTMLElement>('.splash-hint');
+
+		const smiley = splash.querySelector<SVGSVGElement>('.splash-doodle--smiley');
+		const smileyEyes = Array.from(smiley?.querySelectorAll<SVGCircleElement>('.splash-smiley-eye') ?? []);
+
+		if (
+			!enterWrap ||
+			!enterLink ||
+			!headlineChars.length ||
+			!pill ||
+			!pillBg ||
+			!smiley ||
+			!smileyEyes.length
+		)
+			return;
+
+	const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTORS));
+		inertTargets.forEach((el) => (el.inert = true));
+
+		// Scroll-to-dismiss controls and background scroll lock
+		let touchStartY: number | null = null;
+		const onWheel = (event: WheelEvent) => {
+			event.preventDefault();
+			if (event.deltaY > 0) dismiss();
+		};
+		const onTouchStart = (event: TouchEvent) => {
+			touchStartY = event.touches[0]?.clientY ?? null;
+		};
+		const onTouchMove = (event: TouchEvent) => {
+			event.preventDefault();
+			const touchY = event.touches[0]?.clientY;
+			if (touchStartY !== null && touchY !== undefined && touchY < touchStartY) dismiss();
+			touchStartY = touchY ?? null;
+		};
+
+		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		// Entrance animation
+		gsap.set(splash, { autoAlpha: 1 });
+		if (hint) gsap.set(hint, { opacity: 0 });
+		if (prefersReduced) {
+			gsap.set([headlineChars, pill, enterWrap, doodles], { opacity: 1, scale: 1, y: 0 });
+			gsap.set(headlineChars, { attr: { dy: '0em' } });
+			if (hint) gsap.to(hint, { opacity: 1, duration: 0.4, delay: 4 });
+		} else {
+			gsap.set(headlineChars, { opacity: 0, attr: { dy: '0.18em' } });
+			gsap.set(pill, { opacity: 0, scale: 0.6 });
+			gsap.set(enterWrap, { opacity: 0, y: 9 });
+			gsap.set(doodlesNoLoop, { opacity: 0, scale: 0.5 });
+			if (loopPath) {
+				gsap.set(loopSvg, { opacity: 1 }); // loop is visible but path is undrawn
+				gsap.set(loopPath, { drawSVG: '0%' });
+			}
+
+			const intro = gsap
+				.timeline({ delay: 0.1 })
+				.to(headlineChars, { opacity: 1, attr: { dy: '0em' }, duration: 0.3, stagger: 0.02, ease: 'power2.out' })
+				.to(pill, { opacity: 1, scale: 1, duration: 0.375, ease: 'back.out(1.9)' }, '-=0.2')
+				.to(enterWrap, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '-=0.2')
+				.to(doodlesNoLoop, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.2)' }, '-=0.35');
+
+			if (loopPath) intro.to(loopPath, { drawSVG: '100%', duration: 0.45, ease: 'power1.inOut' }, '<');
+
+			if (hint) {
+				gsap.delayedCall(10, () => {
+					const hintTween = gsap.fromTo(hint,
+						{ opacity: 0 },
+						{ opacity: 1, duration: 0.6, ease: 'power1.inOut', yoyo: true, repeat: -1, repeatDelay: 1.2 }
+					);
+					hint.addEventListener('mouseenter', () => {
+						hintTween.pause();
+						gsap.to(hint, { opacity: 1, duration: 0.25, ease: 'power1.out' });
+					});
+					hint.addEventListener('mouseleave', () => {
+						gsap.killTweensOf(hint);
+						hintTween.resume();
+					});
+				});
+			}
+		}
+
+		let dismissed = false;
+		let isEnterButtonHovered = false;
+
+		// Enter site button hover animation
+		const enterSiteAnimation = (isHovering: boolean) => {
+			if (prefersReduced || dismissed) return;
+			isEnterButtonHovered = isHovering;
+			if (isHovering) {
+				moveEyesX(0);
+				moveEyesY(0);
+				tiltSmileyX(0);
+				tiltSmileyY(0);
+			}
+
+			gsap.to(doodlesLeft, {
+					x: isHovering ? -14 : 0,
+					scale: isHovering ? 1.1 : 1,
+					duration: 0.3,
+					stagger: 0.05,
+					ease: isHovering ? 'back.out(1.7)' : 'power2.inOut',
+					overwrite: 'auto',
+				});
+				gsap.to(doodlesRight, {
+					x: isHovering ? 14 : 0,
+					scale: isHovering ? 1.1 : 1,
+					duration: 0.3,
+					stagger: 0.05,
+					ease: isHovering ? 'back.out(1.7)' : 'power2.inOut',
+					overwrite: 'auto',
+				});
+		};
+
+		enterLink.addEventListener('pointerenter', () => enterSiteAnimation(true));
+		enterLink.addEventListener('pointerleave', (event) => {
+			enterSiteAnimation(false);
+			moveDoodlesWithPointer(event);
+		});
+
+		// Magnet cursor effect for the decorative doodles
+		const doodleParallax = doodleWraps.map((el, index) => ({
+			moveX: gsap.quickTo(el, 'x', { duration: 0.55, ease: 'power3.out' }),
+			moveY: gsap.quickTo(el, 'y', { duration: 0.55, ease: 'power3.out' }),
+			depth: [0.55, 0.8, 0.65, 0.95][index] ?? 0.7,
+		}));
+
+		// Smiley face animation
+		const eyeGaze = { x: 0, y: 0 };
+		const eyeCenters = smileyEyes.map((eye) => ({
+			x: Number(eye.getAttribute('cx')),
+			y: Number(eye.getAttribute('cy')),
+		}));
+		const updateSmileyEyes = () => {
+			smileyEyes.forEach((eye, index) => {
+				eye.setAttribute('cx', String(eyeCenters[index].x + eyeGaze.x));
+				eye.setAttribute('cy', String(eyeCenters[index].y + eyeGaze.y));
+			});
+		};
+		const moveEyesX = gsap.quickTo(eyeGaze, 'x', {
+			duration: 0.16,
+			ease: 'power2.out',
+			onUpdate: updateSmileyEyes,
+		});
+		const moveEyesY = gsap.quickTo(eyeGaze, 'y', {
+			duration: 0.16,
+			ease: 'power2.out',
+			onUpdate: updateSmileyEyes,
+		});
+		gsap.set(smiley, { transformPerspective: 350, transformOrigin: '50% 50%' });
+		const tiltSmileyX = gsap.quickTo(smiley, 'rotationX', { duration: 0.35, ease: 'power3.out' });
+		const tiltSmileyY = gsap.quickTo(smiley, 'rotationY', { duration: 0.35, ease: 'power3.out' });
+		const moveDoodlesWithPointer = (event: MouseEvent) => {
+			if (prefersReduced || dismissed) return;
+
+			const bounds = splash.getBoundingClientRect();
+			const pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 20;
+			const pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 16;
+			doodleParallax.forEach(({ moveX, moveY, depth }) => {
+				moveX(pointerX * depth);
+				moveY(pointerY * depth);
+			});
+			if (isEnterButtonHovered) return;
+
+			const smileyBounds = smiley.getBoundingClientRect();
+			const gazeX = Math.max(
+				-1,
+				Math.min(1, (event.clientX - (smileyBounds.left + smileyBounds.width / 2)) / (smileyBounds.width / 2)),
+			);
+			const gazeY = Math.max(
+				-1,
+				Math.min(1, (event.clientY - (smileyBounds.top + smileyBounds.height / 2)) / (smileyBounds.height / 2)),
+			);
+			moveEyesX(gazeX * 1.2);
+			moveEyesY(gazeY * 1.2);
+			tiltSmileyX(-gazeY * 10);
+			tiltSmileyY(gazeX * 14);
+		};
+		const resetDoodleParallax = () => {
+				doodleParallax.forEach(({ moveX, moveY }) => {
+				moveX(0);
+				moveY(0);
+			});
+			moveEyesX(0);
+			moveEyesY(0);
+			tiltSmileyX(0);
+			tiltSmileyY(0);
+		};
+		splash.addEventListener('mousemove', moveDoodlesWithPointer);
+		splash.addEventListener('mouseleave', resetDoodleParallax);
+
+		// Exit animation
+		const dismiss = () => {
+			if (dismissed) return;
+			dismissed = true;
+
+			window.removeEventListener('keydown', onKeydown);
+			splash.removeEventListener('mousemove', moveDoodlesWithPointer);
+			splash.removeEventListener('mouseleave', resetDoodleParallax);
+			inertTargets.forEach((el) => (el.inert = false));
+
+			const tl = gsap.timeline({
+				onComplete: () => {
+					window.removeEventListener('wheel', onWheel);
+					window.removeEventListener('touchstart', onTouchStart);
+					window.removeEventListener('touchmove', onTouchMove);
+					runtime.__portfolioSplashShown = true;
+					splash.remove();
+					document.dispatchEvent(new Event('splash:dismissed'));
+				},
+			});
+
+			if (prefersReduced) {
+				tl.to(splash, { autoAlpha: 0, duration: 0.2 }); // fades out
+			} else {
+				tl.to(doodles, { scale: 0, duration: 0.3, stagger: 0.07, ease: 'back.in(2.2)'})
+					.to([headline, pill, enterWrap, ...doodles], {
+						opacity: 0,
+						y: -20,
+						duration: 0.175,
+						stagger: 0.05,
+						ease: 'power2.in',
+					})
+					.to(splash, { autoAlpha: 0, duration: 0.25, ease: 'power2.out' });
+			}
+		};
+
+		const onKeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Enter' || event.key === 'ArrowDown') {
+				event.preventDefault();
+				enterLink.classList.add('is-key-pressed');
+				enterLink.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+				setTimeout(() => enterLink.classList.remove('is-key-pressed'), 300);
+				gsap.timeline()
+					.to(enterLink, { scale: 0.9, duration: 0.15, ease: 'power2.out' })
+					.to(enterLink, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+				dismiss();
+			}
+		};
+
+		// Button, keyboard, and scroll dismissal listeners.
+		window.addEventListener('wheel', onWheel, { passive: false });
+		window.addEventListener('touchstart', onTouchStart, { passive: true });
+		window.addEventListener('touchmove', onTouchMove, { passive: false });
+
+		enterLink.addEventListener('click', dismiss);
+		window.addEventListener('keydown', onKeydown);
+	});
+</script>
+
+<style>
+	/* Splash backdrop and decorative doodles */
+	.splash {
+		position: fixed;
+		inset: 0;
+		z-index: 10001;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		--splash-content-width: min(23.7rem, 82vw, 48svh);
+		background: var(--color-bg-page);
+		overflow: hidden;
+	}
+
+	.splash-doodles {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: var(--splash-content-width);
+		aspect-ratio: 1.52;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	}
+
+	.splash-doodle-wrap {
+		position: absolute;
+		will-change: transform;
+	}
+
+	.splash-doodle {
+		display: block;
+		width: 100%;
+		height: auto;
+		opacity: 0;
+	}
+
+	:global(:root[data-theme='dark']) .splash-doodle:not(.splash-doodle--loop-2) path,
+	:global(:root[data-theme='dark']) .splash-doodle circle {
+		fill: var(--color-brand-lime);
+	}
+
+	:global(:root[data-theme='dark']) .splash-doodle--loop-2 path {
+		fill: none;
+		stroke: var(--color-brand-lime);
+	}
+
+	.splash-doodle-wrap--smiley {
+		width: 2rem;
+		left: -16%;
+		top: 0;
+		rotate: 8deg;
+	}
+
+	.splash-doodle-wrap--loop-2 {
+		width: clamp(2.7rem, 3.975vw, 3.6rem);
+		left: 88%;
+		top: 58%;
+	}
+
+	.splash-doodle-wrap--sparkle {
+		width: clamp(1.3125rem, 1.875vw, 1.875rem);
+		left: 8%;
+		top: 68%;
+		rotate: -2deg;
+	}
+
+	.splash-doodle-wrap--asterisk {
+		width: clamp(1.125rem, 1.75vw, 1.75rem);
+		left: 104%;
+		top: 8%;
+		rotate: 2.5deg;
+	}
+
+	/* Keyboard hint */
+	.splash-hint {
+		position: absolute;
+		top: 1.75rem;
+		right: 1.75rem;
+		margin: 0;
+		max-width: 9rem;
+		font-family: var(--font-mono), monospace;
+		font-weight: 500;
+		font-size: 0.75rem;
+		line-height: 1.4;
+		opacity: 0;
+		cursor: default;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.splash-hint-mark {
+		color: var(--color-brand-pink);
+	}
+
+	.splash-hint-text {
+		color: var(--color-text-muted);
+	}
+
+	:global(:root[data-theme='dark']) .splash-hint-text {
+		color: #888;
+	}
+
+	/* Centered intro content */
+	.splash-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: var(--splash-content-width);
+		padding: 0;
+		container-type: inline-size;
+	}
+
+	/* Headline and name pill */
+	.splash-headline-wrap {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.splash-headline {
+		position: relative;
+		z-index: 1;
+		display: block;
+		width: 100%;
+		height: auto;
+		overflow: visible;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+	.splash-headline .char {
+		opacity: 0;
+	}
+
+	.splash-headline text {
+		font-family: var(--font-avenir-next), sans-serif;
+		font-weight: 700;
+		font-size: 6rem;
+		letter-spacing: -0.3125rem;
+		fill: var(--color-white);
+		stroke: url(#splash-headline-stroke);
+		stroke-width: 5.5px;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		paint-order: stroke fill;
+	}
+
+	.splash-pill {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: -11cqw;
+		padding: 5.3cqw 7.9cqw 2cqw;
+		opacity: 0;
+	}
+
+	.splash-pill-bg {
+		--splash-pill-gradient-start: #FFCDF9;
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		background: radial-gradient(91.12% 59.56% at 89.32% 11.01%, var(--splash-pill-gradient-start) 0, var(--color-brand-pink) 100%);
+		rotate: -2.5deg;
+		overflow: hidden;
+	}
+
+	.splash-pill-bg::after {
+		content: '';
+		position: absolute;
+		inset: -50%;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+		opacity: 0.35;
+		mix-blend-mode: overlay;
+		pointer-events: none;
+	}
+
+	:global(:root[data-theme='dark']) .splash-pill-bg {
+		--splash-pill-gradient-start: #FF7CCC;
+	}
+
+	.splash-pill-text {
+		position: relative;
+		top: -0.12em;
+		font-family: var(--font-averia), serif;
+		font-weight: 700;
+		font-size: 14.25cqw;
+		line-height: 1;
+		letter-spacing: -0.74cqw;
+		color: var(--color-white);
+		-webkit-user-select: none;
+		user-select: none;
+		white-space: nowrap;
+	}
+
+	/* Enter button */
+	.splash-enter-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 12.7cqw;
+		margin-top: 6cqw;
+		opacity: 0;
+	}
+
+	.splash-enter-button {
+		--splash-button-accent: var(--color-brand-pink);
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2.1cqw;
+		padding: 2.64cqw 3.69cqw;
+		border: max(1px, 0.46cqw) solid var(--splash-button-accent);
+		border-radius: 999px;
+		background: var(--color-bg-page);
+		color: var(--splash-button-accent);
+		outline: 0 solid color-mix(in srgb, var(--splash-button-accent) 30%, transparent);
+		font-family: var(--font-mono), sans-serif;
+		font-size: 3.4cqw;
+		font-weight: 600;
+		line-height: 1;
+		text-decoration: none;
+		white-space: nowrap;
+		cursor: crosshair;
+		transition:
+			padding 0.3s var(--ease-spring),
+			color 0.15s ease,
+			border-color 0.15s ease,
+			outline 0.15s ease;
+	}
+
+	.splash-enter-button:hover {
+		--splash-button-accent: var(--color-black);
+		padding: 3.59cqw 8.44cqw;
+	}
+
+	:global(:root[data-theme='dark']) .splash-enter-button {
+		--splash-button-accent: var(--color-brand-lime);
+	}
+
+	:global(:root[data-theme='dark']) .splash-enter-button:hover {
+		--splash-button-accent: var(--color-black);
+	}
+
+	.splash-enter-button.is-key-pressed {
+		--splash-button-accent: var(--color-black);
+	}
+
+	.splash-enter-button:focus-visible {
+		outline-width: 4px;
+	}
+
+	.splash-enter-arrow {
+		font-family: var(--font-sans), sans-serif;
+		font-size: 1.1em;
+		line-height: 1;
+		transition: transform 0.2s ease;
+	}
+
+	.splash-enter-button:hover .splash-enter-arrow {
+		transform: translateX(1.58cqw);
+	}
+</style>
