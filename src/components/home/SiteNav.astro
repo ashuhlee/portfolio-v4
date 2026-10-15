@@ -65,20 +65,6 @@
 </header>
 
 <script>
-	const leading = ['!', '!!', ':3', '!?', ':D'];
-
-	document.addEventListener('astro:page-load', () => {
-		const sayHello = document.querySelector<HTMLElement>('.say-hello');
-		const arrow = sayHello?.querySelector<HTMLElement>('.arrow');
-		if (!sayHello || !arrow) return;
-
-		let index = 0;
-		sayHello.addEventListener('mouseenter', () => {
-			arrow.textContent = leading[index];
-			index = (index + 1) % leading.length;
-		});
-	});
-
 	document.addEventListener('astro:page-load', () => {
 		const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
 		if (!toggle) return;
@@ -234,85 +220,4 @@
 		display: none;
 	}
 
-	.say-hello {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		background: var(--color-brand-cyan);
-		border-radius: 999px;
-		padding: 0.375rem 0.625rem;
-		font-family: var(--font-sans), sans-serif;
-		font-style: italic;
-		font-weight: 500;
-		font-size: var(--font-size-15);
-		color: #000000;
-		text-decoration: none;
-		transition: padding 0.35s ease;
-	}
-	.say-hello:hover {
-		font-weight: 600;
-	}
-	.say-hello::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: 999px;
-		background: var(--color-navy-deep);
-		opacity: 0;
-		transform: scale(0.7);
-		transition:
-			opacity 0.15s ease,
-			transform 0.25s var(--ease-spring);
-	}
-
-	.say-hello:hover::before {
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	.say-hello .inner-shadow {
-		position: absolute;
-		inset: 0;
-		z-index: 2;
-		border-radius: 999px;
-		box-shadow:
-			inset 2px 2px 2px 0 rgba(255, 255, 255, 0.4),
-			inset 2px -2px 2px 0 rgba(0, 0, 0, 0.3);
-		mix-blend-mode: overlay;
-		pointer-events: none;
-	}
-
-	.say-hello:hover {
-		padding: 0.6rem 0.875rem;
-		color: var(--color-brand-cyan);
-	}
-
-	:root[data-theme='dark'] .say-hello::before {
-		background: #a4e8ff;
-	}
-
-	:root[data-theme='dark'] .say-hello:hover {
-		color: #000000;
-	}
-
-	.say-hello span {
-		position: relative;
-		z-index: 1;
-	}
-
-	.say-hello .arrow {
-		--arrow-fade-duration: 0.15s;
-		--arrow-slide-duration: 0.15s;
-		white-space: nowrap;
-	}
-
-	.say-hello:hover .arrow-track {
-		grid-template-columns: 1fr;
-	}
-
-	.say-hello:hover .arrow {
-		padding-left: 0.125rem;
-		opacity: 1;
-		transform: translateX(0);
-	}
 </style>

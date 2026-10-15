@@ -2,8 +2,6 @@ import '@/styles/skeleton.css';
 
 const FADE_OUT_MS = 150;
 
-const PREVIEW_MS = 0;
-
 function getMedia(el: HTMLElement): HTMLImageElement | HTMLVideoElement | null {
 	if (el instanceof HTMLImageElement || el instanceof HTMLVideoElement) return el;
 	return el.querySelector('video');
@@ -17,7 +15,7 @@ export function attachSkeletons(selector: string) {
 	document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
 		const media = getMedia(el);
 		const container = el.parentElement;
-		if (!media || !container || (!PREVIEW_MS && isLoaded(media))) return;
+		if (!media || !container || isLoaded(media)) return;
 
 		const skeleton = document.createElement('div');
 		skeleton.className = 'skeleton';
@@ -44,19 +42,15 @@ export function attachSkeletons(selector: string) {
 		observer.observe(container);
 
 		let loaded = isLoaded(media);
-		let waited = !PREVIEW_MS;
-
-		if (PREVIEW_MS) el.style.visibility = 'hidden';
 
 		const reveal = () => {
 			observer.disconnect();
-			el.style.visibility = '';
 			skeleton.classList.add('skeleton--done');
 			setTimeout(() => skeleton.remove(), FADE_OUT_MS);
 		};
 
 		const tryReveal = () => {
-			if (loaded && waited) reveal();
+			if (loaded) reveal();
 		};
 
 		const markLoaded = () => {
@@ -67,12 +61,5 @@ export function attachSkeletons(selector: string) {
 		const loadEvent = media instanceof HTMLImageElement ? 'load' : 'loadeddata';
 		media.addEventListener(loadEvent, markLoaded, { once: true });
 		media.addEventListener('error', markLoaded, { once: true });
-
-		if (PREVIEW_MS) {
-			setTimeout(() => {
-				waited = true;
-				tryReveal();
-			}, PREVIEW_MS);
-		}
 	});
 }

@@ -11,7 +11,6 @@ interface Props {
 	overlayOpacity?: number;
 	comingSoon?: boolean;
 	url?: string;
-	labelColor?: string;
 	image?: ImageMetadata;
 	imageAlt?: string;
 	preview?: ImageMetadata | string;
@@ -27,7 +26,6 @@ const {
 	overlayOpacity = 0.08,
 	comingSoon = false,
 	url = 'https://github.com/ashuhlee',
-	labelColor = 'white',
 	image,
 	imageAlt = '',
 	preview,
@@ -55,7 +53,6 @@ const Tag = comingSoon ? 'div' : 'a';
 			'--thumb-blend': blendMode,
 			'--thumb-opacity': overlayOpacity,
 			'--thumb-color': color,
-			'--thumb-label-color': labelColor,
 		}}
 	>
 		{image && <Image class="thumb-image" src={image} alt={imageAlt} width={128} height={128} />}
@@ -166,7 +163,7 @@ const Tag = comingSoon ? 'div' : 'a';
 		text-decoration: none;
 		color: inherit;
 		background: var(--color-white);
-		border: 1px solid var(--color-border-harsh);
+		border: 1px solid var(--color-border-harsher);
 		border-radius: 0.5625rem;
 		overflow: hidden;
 		rotate: 0deg;
@@ -181,10 +178,10 @@ const Tag = comingSoon ? 'div' : 'a';
 			box-shadow 0.3s var(--ease-standard);
 	}
 
-	.card.hovering {
-		border-width: 1.4px;
-		border-color: var(--card-hover-border, var(--color-border-harsh));
-	}
+	//.card.hovering {
+	//	border-width: 1.4px;
+	//	border-color: var(--card-hover-border, var(--color-border-harsh));
+	//}
 
 	.card:nth-child(4n + 1).hovering,
 	.card:nth-child(4n).hovering {
@@ -261,22 +258,6 @@ const Tag = comingSoon ? 'div' : 'a';
 	.card.showing-preview .thumb-preview {
 		opacity: 1;
 		transition: opacity 0.5s ease;
-	}
-
-	.thumb-label {
-		position: absolute;
-		left: 1rem;
-		bottom: 0.75rem;
-		z-index: 1;
-		font-family: var(--font-sans), sans-serif;
-		font-style: italic;
-		font-weight: 600;
-		font-size: var(--font-size-16);
-		letter-spacing: 0.05em;
-		color: var(--thumb-label-color, white);
-		-webkit-user-select: none;
-		user-select: none;
-		pointer-events: none;
 	}
 
 	.card.hovering .thumb {

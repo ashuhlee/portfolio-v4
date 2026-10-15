@@ -1,16 +1,15 @@
 ---
 interface Props {
 	title: string;
-	accentColor?: string;
 }
 
-const { title, accentColor } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <div class="section-header">
 	<h2>
 		{title}
-		<span class="accent" aria-hidden="true" style={accentColor ? `--accent-color: ${accentColor}` : undefined}>
+		<span class="accent" aria-hidden="true">
 			_
 		</span>
 	</h2>
