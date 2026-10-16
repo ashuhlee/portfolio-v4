@@ -10,6 +10,7 @@ import ProjectsSection from '@/components/home/ProjectsSection.astro';
 <Layout showSplash>
 	<PixelBlastBackground slot="background" color="#F7F7F7"/>
 	<div class="page">
+		<img src="/images/ribbon.png" class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
 		<div class="layout">
 			<div class="content">
 				<div class="identity stagger-in">
@@ -224,6 +225,7 @@ import ProjectsSection from '@/components/home/ProjectsSection.astro';
 				window.removeEventListener('mouseup', onMouseUp);
 			}, { once: true });
 		}
+
 	});
 </script>
 
@@ -469,6 +471,24 @@ import ProjectsSection from '@/components/home/ProjectsSection.astro';
 
 	:root[data-theme='dark'] .role {
 		color: var(--color-text-muted);
+	}
+
+	/* ── ribbon decoration ── */
+	.page-ribbon {
+		position: absolute;
+		top: -5rem;
+		right: -25rem;
+		height: 440px;
+		transform: rotate(90deg);
+		opacity: 0.07;
+		pointer-events: none;
+		user-select: none;
+		filter: blur(2px);
+		z-index: 0;
+	}
+
+	:root[data-theme='dark'] .page-ribbon {
+		opacity: 0;
 	}
 
 	/* ── Footer decoration ── */

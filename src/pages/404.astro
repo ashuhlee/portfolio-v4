@@ -6,7 +6,7 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 ---
 
 <Layout title="Hi, I'm Ashley" starColor="#FFABDF" showClock={false} showConfigMenu={false}>
-	<PixelBlastBackground slot="background" />
+	<PixelBlastBackground slot="background" color="#F7F7F7"/>
 	<div class="page">
 		<BackButton />
 
@@ -39,12 +39,10 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 			/>
 		</svg>
 
+		<img src="/images/butterfly.gif" class="star-butterfly" alt="" aria-hidden="true" draggable="false" />
+
 		<span class="error-bounce" aria-hidden="true">
 			\ERROR
-		</span>
-
-		<span class="face" aria-hidden="true">
-			:(
 		</span>
 	</div>
 </Layout>
@@ -185,6 +183,7 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 
 	.star {
 		position: fixed;
+		display: none;
 		right: 1.5rem;
 		bottom: -19vh;
 		width: 34rem;
@@ -205,6 +204,24 @@ import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackgr
 		to {
 			stroke-dashoffset: -22;
 		}
+	}
+
+	.star-butterfly {
+		position: fixed;
+		right: 10rem;
+		bottom: -18vh;
+		width: 460px;
+		height: 460px;
+		object-fit: cover;
+		opacity: 0.06;
+		filter: blur(4px);
+		pointer-events: none;
+		user-select: none;
+		z-index: -1;
+	}
+
+	:root[data-theme='dark'] .star-butterfly {
+		display: none;
 	}
 
 	.error-bounce {

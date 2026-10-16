@@ -182,7 +182,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('img, video').forEach((el) => {
 				if (el.closest('.crossfade-video') || el.classList.contains('thumb-preview')) return;
 				if (el.closest('.site-nav')) return;
-				if (el.classList.contains('avatar-butterfly') || el.classList.contains('cell-butterfly') || el.classList.contains('cell-disco')) return;
+				if (el.classList.contains('avatar-butterfly') || el.classList.contains('cell-butterfly') || el.classList.contains('cell-disco') || el.classList.contains('page-earbuds') || el.classList.contains('page-ribbon') || el.classList.contains('star-butterfly')) return;
 
 				const isImg = el.tagName === 'IMG';
 				const isLoaded = isImg ? (el as HTMLImageElement).complete : (el as HTMLVideoElement).readyState >= 2;
@@ -298,6 +298,17 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		color: var(--color-text-primary);
 		font-family: var(--font-sans), sans-serif;
 		-webkit-font-smoothing: antialiased;
+	}
+
+	body::after {
+		content: '';
+		position: fixed;
+		inset: -50%;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+		opacity: 0.08;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+		z-index: 9998;
 	}
 
 	* {
