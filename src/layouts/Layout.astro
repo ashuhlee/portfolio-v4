@@ -13,8 +13,8 @@ import Tooltip from '@/components/common/Tooltip.astro';
 import ClockWidget from '@/components/common/ClockWidget.astro';
 import ScrollProgress from '@/components/common/ScrollProgress.astro';
 import ConfigMenu from '@/components/common/ConfigMenu.astro';
-import CursorStar from '@/components/common/CursorStar.astro';
 import SplashScreen from '@/components/common/SplashScreen.astro';
+import NavBar from '@/components/common/NavBar.astro';
 
 interface Props {
 	title?: string;
@@ -30,7 +30,7 @@ const {
 	description = 'CS Student at UWestern building intentionally crafted products.',
 	starColor,
 	showClock = true,
-	showConfigMenu = true,
+	showConfigMenu = false,
 	showSplash = false,
 } = Astro.props;
 
@@ -116,8 +116,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				<slot />
 			</div>
 		</div>
+		<NavBar transition:persist />
 		<Tooltip />
-		<CursorStar />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />
 		{showConfigMenu && <ConfigMenu />}
@@ -181,6 +181,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			const FADE_DURATION = 0.15;
 			document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('img, video').forEach((el) => {
 				if (el.closest('.crossfade-video') || el.classList.contains('thumb-preview')) return;
+				if (el.closest('.site-nav')) return;
+				if (el.classList.contains('avatar-butterfly') || el.classList.contains('cell-butterfly') || el.classList.contains('cell-disco')) return;
 
 				const isImg = el.tagName === 'IMG';
 				const isLoaded = isImg ? (el as HTMLImageElement).complete : (el as HTMLVideoElement).readyState >= 2;
@@ -211,7 +213,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 
 		document.addEventListener('mouseup', (event) => {
 			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn, .splash-enter-button',
+				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn, .splash-enter-button, .proj-cell-link, .exp-cell-link',
 			);
 			if (!target || !getSetting('soundEffects')) return;
 			const sound = clickSoundPool[clickSoundIndex];
@@ -329,7 +331,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	}
 
 	::selection {
-		background: var(--color-brand-lime);
+		background: var(--color-border-harsher);
 		color: #232323;
 	}
 

@@ -1,233 +1,338 @@
 ---
 import SectionHeader from './SectionHeader.astro';
-import ProjectCard from './ProjectCard.astro';
-import ChevronIcon from '@/components/common/ChevronIcon.astro';
 
-interface Project {
-	name: string;
-	description: string;
-	tags: string[];
-	color: string;
-	borderColor?: string;
-	blendMode?: string;
-	overlayOpacity?: number;
-	comingSoon?: boolean;
-	url?: string;
-	image?: ImageMetadata;
-	imageAlt?: string;
-	preview?: ImageMetadata | string;
-}
-
-interface Props {
-	projects: Project[];
-	pageSize?: number;
-}
-
-const { projects, pageSize = 4 } = Astro.props;
-
-const pages = Array.from({ length: Math.ceil(projects.length / pageSize) }, (_, i) =>
-	projects.slice(i * pageSize, (i + 1) * pageSize),
-);
+const projects = [
+	{
+		lang: 'TypeScript',
+		name: 'Count O Rama',
+		description: 'A cross platform arcade game with progressive difficulty and power ups',
+		href: 'https://github.com/ashuhlee/count-or-die',
+	},
+	{
+		lang: 'Swift',
+		name: 'Loggi',
+		description: 'Track and log your daily meals, weight and steps, synced with the health app',
+		href: undefined,
+	},
+	{
+		lang: 'Python',
+		name: 'Starlit',
+		description: 'A customizable weather package that matches any terminal (4k+ downloads)',
+		href: 'https://github.com/ashuhlee/starlit',
+	},
+	{
+		lang: 'Lua',
+		name: 'Flappy Kitty',
+		description: 'A Flappy Bird-style game with collision detection and physics based movement',
+		href: 'https://github.com/ashuhlee/flappy-kitty',
+	},
+];
 ---
 
-<section class="section" id="projects">
-	<SectionHeader title="Projects">
-		<span class="path-label">~/STUFF</span>
-	</SectionHeader>
-
-	<div class="projects-viewport">
-		{
-			pages.map((page, index) => (
-				<div class="projects-grid" data-page={index} hidden={index !== 0}>
-					{page.map((project) => (
-						<ProjectCard {...project} />
-					))}
-				</div>
-			))
-		}
-	</div>
-
-	{
-		pages.length > 1 && (
-			<div class="projects-pagination">
-				<button class="page-btn page-prev" type="button" aria-label="Previous projects" data-bounce="0.85" hidden>
-					<ChevronIcon />
-				</button>
-				<button class="page-btn page-next" type="button" aria-label="Next projects" data-bounce="0.85">
-					<ChevronIcon direction="right" />
-				</button>
+<section class="section stagger-in">
+	<SectionHeader title="projects">
+		<div class="proj-scroll-widget" aria-hidden="true">
+			<span class="proj-y-text" id="proj-y-label">y: 0px</span>
+			<div class="proj-circles-wrap">
+				<svg class="proj-circle proj-circle-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<svg class="proj-circle proj-circle-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" fill="#F1F1F1" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<svg class="proj-circle proj-circle-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<div class="proj-line-h"></div>
+				<div class="proj-line-v"></div>
 			</div>
-		)
-	}
+		</div>
+	</SectionHeader>
+	<div class="section-grid">
+		{projects.map((proj) => {
+			const Tag = proj.href ? 'a' : 'div';
+			return (
+				<Tag
+					class={`grid-cell proj-cell${proj.href ? ' proj-cell-link' : ''}`}
+					href={proj.href}
+					target={proj.href ? '_blank' : undefined}
+					rel={proj.href ? 'noopener noreferrer' : undefined}
+					data-tooltip={proj.href ? 'view on github' : '[coming soon]'}
+				>
+					{proj.href && <img src="/images/butterfly.gif" class="cell-butterfly" width="480" height="480" alt="" aria-hidden="true" draggable="false" />}
+					<div data-bounce={proj.href ? '0.95' : undefined} class="cell-content">
+						<p class="proj-lang">{proj.lang}</p>
+						<p class="proj-name">{proj.name}</p>
+						<p class="proj-desc">{proj.description}</p>
+					</div>
+				</Tag>
+			);
+		})}
+		<span class="grid-center-plus" aria-hidden="true">+</span>
+		<span class="grid-triangle grid-triangle-left" aria-hidden="true"></span>
+		<span class="grid-triangle grid-triangle-right" aria-hidden="true"></span>
+	</div>
 </section>
 
 <script>
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-	gsap.registerPlugin(ScrollTrigger);
-
 	document.addEventListener('astro:page-load', () => {
-		const section = document.querySelector<HTMLElement>('#projects');
+		const yLabel = document.getElementById('proj-y-label');
+		if (!yLabel) return;
 
-		const prev = section?.querySelector<HTMLButtonElement>('.page-prev');
-		const next = section?.querySelector<HTMLButtonElement>('.page-next');
-		const viewport = section?.querySelector<HTMLElement>('.projects-viewport');
-
-		const grids = Array.from(section?.querySelectorAll<HTMLElement>('.projects-grid') ?? []);
-		if (!section || !viewport || !prev || !next || grids.length < 2) return;
-
-		const OFFSET = 12;
-		let index = 0;
-		let busy = false;
-
-		const updateButtons = () => {
-			prev.hidden = index === 0;
-			next.disabled = index === grids.length - 1;
+		let rafId: number;
+		const updateY = () => {
+			yLabel.textContent = `y: ${Math.round(window.scrollY)}px`;
 		};
-
-		const goTo = (target: number) => {
-			if (busy || target === index || target < 0 || target >= grids.length) return;
-			busy = true;
-
-			const from = grids[index];
-			const to = grids[target];
-			const fromCards = from.querySelectorAll('.card');
-			const toCards = to.querySelectorAll('.card');
-			const fromHeight = viewport.offsetHeight;
-			from.classList.add('is-animating');
-
-			gsap.to(fromCards, {
-				opacity: 0,
-				y: -OFFSET,
-				duration: 0.2,
-				stagger: 0.03,
-				ease: 'power2.in',
-				onComplete: () => {
-					gsap.set(fromCards, { clearProps: 'opacity,y' });
-					from.classList.remove('is-animating');
-					from.hidden = true;
-
-					index = target;
-					updateButtons();
-
-					to.hidden = false;
-					to.classList.add('is-animating');
-
-					gsap.set(toCards, { opacity: 0, y: -OFFSET });
-					const toHeight = viewport.offsetHeight;
-					viewport.style.overflow = 'hidden';
-
-					gsap.fromTo(
-						viewport,
-						{ height: fromHeight },
-						{
-							height: toHeight,
-							duration: 0.3,
-							ease: 'power2.inOut',
-							onComplete: () => {
-								gsap.set(viewport, { clearProps: 'height,overflow' });
-								ScrollTrigger.refresh();
-
-								gsap.to(toCards, {
-									opacity: 1,
-									y: 0,
-									duration: 0.2,
-									stagger: 0.04,
-									ease: 'power2.out',
-									onComplete: () => {
-										gsap.set(toCards, { clearProps: 'opacity,y' });
-										to.classList.remove('is-animating');
-										busy = false;
-									},
-								});
-							},
-						},
-					);
-				},
-			});
-		};
-
-		prev.addEventListener('click', () => goTo(index - 1));
-		next.addEventListener('click', () => goTo(index + 1));
-		updateButtons();
+		updateY();
+		window.addEventListener('scroll', () => {
+			cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(updateY);
+		}, { passive: true });
 	});
 </script>
 
 <style>
-	.projects-pagination {
+	.section {
+		margin-top: 3.5rem;
+	}
+
+	/* ── Scroll widget ── */
+	.proj-scroll-widget {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
-		gap: 0.75rem;
-		margin-top: 1rem;
+		gap: 6px;
+		flex-shrink: 0;
 	}
 
-	.page-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.5rem;
-		height: 1.5rem;
-		padding: 0;
-		border: none;
-		border-radius: 48px;
-		background: var(--color-gray-faint);
-		color: var(--color-text-primary);
-		cursor: pointer;
-		transition:
-			color 0.2s ease,
-			background 0.2s ease,
-			opacity 0.2s ease;
+	.proj-y-text {
+		font-family: 'Azeret Mono', monospace;
+		font-size: 11px;
+		color: #a6a6a6;
+		white-space: nowrap;
+		line-height: 1;
+		margin-right: 0.75rem;
 	}
 
-	.page-btn:hover:not(:disabled) {
-		color: var(--color-brand-pink);
+	.proj-circles-wrap {
+		position: relative;
+		width: 56px;
+		height: 28px;
+		flex-shrink: 0;
 	}
 
-	.page-btn:disabled {
-		opacity: 0.35;
-		cursor: default;
+	.proj-circle {
+		position: absolute;
+		width: 28px;
+		height: 28px;
+		top: 0;
 	}
 
-	.page-btn[hidden] {
-		display: none;
+	.proj-circle-1 { left: 0; }
+	.proj-circle-2 { left: 14px; }
+	.proj-circle-3 { left: 28px; }
+
+	.proj-line-h {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: calc(50% - 0.25px);
+		height: 0.5px;
+		background: repeating-linear-gradient(
+			to right,
+			#a6a6a6 0, #a6a6a6 2px,
+			transparent 2px, transparent 4px
+		);
+		pointer-events: none;
 	}
 
-	/* Restarts each time the button is un-hidden */
-	.page-prev:not([hidden]) {
-		animation: page-btn-in 0.15s ease-out;
+	.proj-line-v {
+		position: absolute;
+		left: calc(42px - 0.25px);
+		top: 0;
+		bottom: 0;
+		width: 0.5px;
+		background: #a6a6a6;
+		pointer-events: none;
 	}
 
-	@keyframes page-btn-in {
-		from {
-			opacity: 0;
-		}
+	:root[data-theme='dark'] .proj-circle-2 circle {
+		fill: #1c1a21;
 	}
 
-	:root[data-theme='dark'] .page-btn {
-		background: #26222d;
+	:root[data-theme='dark'] .proj-y-text {
+		color: #38333b;
 	}
 
-	.projects-grid {
+	:root[data-theme='dark'] .proj-circle circle {
+		stroke: #38333b;
+	}
+
+	:root[data-theme='dark'] .proj-line-h {
+		background: repeating-linear-gradient(
+			to right,
+			#38333b 0, #38333b 2px,
+			transparent 2px, transparent 4px
+		);
+	}
+
+	:root[data-theme='dark'] .proj-line-v {
+		background: #38333b;
+	}
+
+	/* ── Grid ── */
+	.section-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		align-items: start;
-		gap: 1.5rem;
+		grid-template-columns: 1fr 1fr;
+		border: 1px solid #e6e6e6;
+		position: relative;
 	}
 
-	.projects-grid[hidden] {
-		display: none;
+	:root[data-theme='dark'] .section-grid {
+		border-color: #2e2b35;
 	}
 
-	.projects-grid.is-animating :global(.card) {
-		transition: none;
+	.grid-cell {
+		padding: 1rem;
+		text-decoration: none;
+		color: inherit;
+		position: relative;
+		overflow: hidden;
+		transition: opacity 0.2s ease;
 	}
 
+	.grid-cell:nth-child(odd) {
+		border-right: 1px solid #e6e6e6;
+	}
 
-@media (max-width: 37.5rem) {
-		.projects-grid {
-			grid-template-columns: 1fr;
-		}
+	.grid-cell:nth-child(-n+2) {
+		border-bottom: 1px solid #e6e6e6;
+	}
+
+	:root[data-theme='dark'] .grid-cell:nth-child(odd),
+	:root[data-theme='dark'] .grid-cell:nth-child(-n+2) {
+		border-color: #2e2b35;
+	}
+
+	.grid-center-plus {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		font-family: 'Azeret Mono', monospace;
+		font-weight: 300;
+		font-size: 15px;
+		line-height: 1;
+		color: #bcbcbc;
+		background: var(--color-bg, #fff);
+		padding: 0 2px;
+		z-index: 1;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	:root[data-theme='dark'] .grid-center-plus {
+		color: #4a4a4a;
+		background: var(--color-bg, #1A1820);
+	}
+
+	.grid-triangle {
+		position: absolute;
+		top: 50%;
+		width: 4px;
+		height: 9px;
+		background: #e6e6e6;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	:root[data-theme='dark'] .grid-triangle {
+		background: #2e2b35;
+	}
+
+	.grid-triangle-left {
+		left: 0;
+		transform: translateY(-50%);
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+
+	.grid-triangle-right {
+		right: 0;
+		transform: translateY(-50%);
+		clip-path: polygon(100% 0, 0 50%, 100% 100%);
+	}
+
+	/* ── Project cells ── */
+	.proj-cell-link {
+		transition: background 0.15s ease, opacity 0.2s ease;
+		cursor: pointer;
+	}
+
+	.proj-cell-link:hover {
+		background: var(--color-bg-page);
+	}
+
+	:root[data-theme='dark'] .proj-cell-link:hover {
+		background: rgba(255, 255, 255, 0.02);
+	}
+
+	.section-grid:has(.proj-cell-link:hover) .proj-cell:not(:hover) {
+		opacity: 1;
+	}
+
+	.cell-butterfly {
+		position: absolute;
+		bottom: -50px;
+		right: 20px;
+		width: 160px;
+		height: 160px;
+		object-fit: cover;
+		opacity: 0;
+		filter: blur(3px);
+		pointer-events: none;
+		user-select: none;
+		transition: opacity 0.35s ease;
+	}
+
+	.proj-cell-link:hover .cell-butterfly {
+		opacity: 0.055;
+	}
+
+	.cell-content {
+		position: relative;
+	}
+
+	.proj-lang {
+		font-family: var(--font-mono), monospace;
+		font-size: 11px;
+		text-transform: uppercase;
+		color: var(--color-brand-pink);
+		margin: 0 0 0.125rem;
+		line-height: 24px;
+	}
+
+	.proj-name {
+		font-family: 'GT Walsheim Pro', sans-serif;
+		font-size: 15.5px;
+		font-weight: 500;
+		text-transform: lowercase;
+		color: #212121;
+		margin: 0 0 0.6rem;
+		line-height: 1.2;
+	}
+
+	:root[data-theme='dark'] .proj-name {
+		color: var(--color-text-primary);
+	}
+
+	.proj-desc {
+		font-family: var(--font-sans), sans-serif;
+		font-size: var(--font-size-14);
+		color: #595d62;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	:root[data-theme='dark'] .proj-desc {
+		color: var(--color-text-muted);
 	}
 </style>

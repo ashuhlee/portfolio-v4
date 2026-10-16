@@ -1,0 +1,66 @@
+---
+/**
+ * Original pink-square avatar with spinning icon.
+ * Preserved here so it can be swapped back into the identity section of index.astro.
+ *
+ * Usage (in index.astro identity div):
+ *   import AvatarPinkOriginal from '@/components/home/AvatarPinkOriginal.astro';
+ *   <AvatarPinkOriginal />
+ *
+ * Also restore the import at the top of index.astro:
+ *   import { Image } from 'astro:assets';
+ *   import avatarIcon from '@/assets/home/icon-white.png';
+ * And remove the butterfly <img> that replaced it.
+ */
+import { Image } from 'astro:assets';
+import avatarIcon from '@/assets/home/icon-white.png';
+---
+
+<div class="avatar-wrap">
+	<div class="avatar-bg">
+		<Image
+			class="avatar-icon"
+			src={avatarIcon}
+			width={24}
+			height={24}
+			densities={[1, 2, 3]}
+			alt=""
+			draggable="false"
+			loading="eager"
+		/>
+	</div>
+</div>
+
+<script>
+	import { gsap } from 'gsap';
+	document.addEventListener('astro:page-load', () => {
+		const icon = document.querySelector<HTMLElement>('.avatar-icon');
+		if (icon) {
+			let rotation = 0;
+			icon.addEventListener('click', () => {
+				rotation += 60;
+				gsap.to(icon, { rotate: rotation, duration: 0.4, ease: 'back.out(1.7)' });
+			});
+		}
+	});
+</script>
+
+<style>
+	.avatar-wrap {
+		flex-shrink: 0;
+	}
+
+	.avatar-bg {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		background: var(--color-brand-pink);
+		border-radius: 4px;
+	}
+
+	.avatar-icon {
+		cursor: pointer;
+	}
+</style>

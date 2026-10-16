@@ -6,44 +6,31 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<div class="section-header">
-	<h2>
-		{title}
-		<span class="accent" aria-hidden="true">
-			_
-		</span>
-	</h2>
+<div class="section-head">
+	<p class="section-title"><span class="section-arrow">_</span> {title}</p>
 	<slot />
 </div>
 
 <style>
-	.section-header {
+	.section-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 1.5rem;
 	}
 
-	h2 {
-		user-select: none;
-		-webkit-user-select: none;
-		display: flex;
-		align-items: center;
-		gap: 0.125rem;
-		margin: 0;
-		font-family: var(--font-display), sans-serif;
-		text-transform: uppercase;
-		font-weight: 600;
-		font-size: var(--font-size-13);
+	.section-title {
+		font-family: var(--font-mono), monospace;
+		font-size: 14px;
+		font-weight: 500;
+		text-transform: lowercase;
 		color: var(--color-text-primary);
+		margin: 0;
+		letter-spacing: -0.01em;
 	}
 
-	.accent {
-		flex-shrink: 0;
-		font-family: var(--font-mono), monospace;
-		font-weight: 400;
-		text-transform: uppercase;
-		font-size: var(--font-size-13);
-		color: var(--accent-color, var(--color-brand-pink));
+	.section-arrow {
+		color: var(--color-gray-mid-light);
+		margin-right: -0.5rem;
 	}
 </style>

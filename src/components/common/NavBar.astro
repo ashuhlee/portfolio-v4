@@ -1,0 +1,188 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+
+const links = [
+	{ href: '/', label: 'HOME' },
+	{ href: '/extras', label: 'EXTRAS' },
+];
+---
+
+<nav class="site-nav" aria-label="Site navigation">
+	<div class="nav-links">
+		{links.map((link) => (
+			<a
+				href={link.href}
+				class={`nav-link${pathname === link.href ? ' nav-link-active' : ''}`}
+				aria-current={pathname === link.href ? 'page' : undefined}
+			>
+				<span class="nav-arrow">&gt;</span>{link.label}
+			</a>
+		))}
+	</div>
+
+	<div class="nav-bottom">
+		<img
+			src="/images/nav-flower.png"
+			class="nav-flower"
+			width="62"
+			height="62"
+			alt=""
+			aria-hidden="true"
+			draggable="false"
+		/>
+		<p class="nav-status">
+			OPEN TO WINTER <span class="nav-plus">+</span> SUMMER 2027 ROLES
+		</p>
+	</div>
+</nav>
+
+<style>
+	.site-nav {
+		position: fixed;
+		left: 0;
+		top: 0;
+		height: 100vh;
+		pointer-events: none;
+		z-index: 50;
+		display: flex;
+		flex-direction: column;
+		padding-top: 110px;
+		padding-bottom: 80px;
+		will-change: transform;
+	}
+
+	@media (max-width: 900px) {
+		.site-nav {
+			display: none;
+		}
+	}
+
+	/* ── Nav links ── */
+	.nav-links {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding-left: 77px;
+		overflow: hidden;
+	}
+
+	.nav-link {
+		display: block;
+		font-family: 'Azeret Mono', monospace;
+		font-size: 12px;
+		font-weight: 400;
+		color: #6d6d6d;
+		text-decoration: none;
+		text-transform: uppercase;
+		line-height: 24px;
+		white-space: nowrap;
+		pointer-events: auto;
+		transition: color 0.2s ease;
+	}
+
+	.nav-link:hover {
+		color: var(--color-brand-pink);
+	}
+
+	.nav-link-active {
+		color: var(--color-black);
+	}
+
+	.nav-arrow {
+		color: inherit;
+		margin-right: 0;
+	}
+
+	/* ── Bottom section ── */
+	.nav-bottom {
+		margin-top: auto;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.nav-flower {
+		display: block;
+		width: 62px;
+		height: 62px;
+		object-fit: cover;
+		opacity: 0.11;
+		filter: blur(1.5px);
+		pointer-events: none;
+		user-select: none;
+		margin-left: 66px;
+		margin-bottom: 20px;
+	}
+
+	.nav-status {
+		font-family: 'Azeret Mono', monospace;
+		font-size: 12px;
+		font-weight: 400;
+		color: #212121;
+		text-transform: uppercase;
+		line-height: 18px;
+		width: 146px;
+		margin: 0;
+		margin-left: 77px;
+		pointer-events: auto;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	:root[data-theme='dark'] .nav-status {
+		color: var(--color-text-primary);
+	}
+
+	.nav-plus {
+		color: #fe6fc1;
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap';
+
+	document.addEventListener('astro:page-load', () => {
+		const nav = document.querySelector<HTMLElement>('.site-nav');
+		const footer = document.querySelector<HTMLElement>('.page-footer');
+		if (!nav) return;
+
+		// Footer avoidance
+		if (footer) {
+			const update = () => {
+				nav.style.transform = '';
+				const footerTop = footer.getBoundingClientRect().top;
+				const navBottom = nav.getBoundingClientRect().bottom;
+				const overlap = navBottom - footerTop;
+				if (overlap > 0) {
+					nav.style.transform = `translateY(${-overlap}px)`;
+				}
+			};
+			gsap.ticker.add(update);
+			document.addEventListener('astro:before-swap', () => {
+				gsap.ticker.remove(update);
+			}, { once: true });
+			update();
+		}
+
+		// On non-home pages: hide nav, reveal on hover
+		const isHome = window.location.pathname === '/';
+		if (!isHome) {
+			gsap.set(nav, { opacity: 0 });
+			nav.style.pointerEvents = 'auto';
+
+			const fadeIn = () => gsap.to(nav, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+			const fadeOut = () => gsap.to(nav, { opacity: 0, duration: 0.25, ease: 'power2.in' });
+
+			nav.addEventListener('mouseenter', fadeIn);
+			nav.addEventListener('mouseleave', fadeOut);
+
+			document.addEventListener('astro:before-swap', () => {
+				nav.removeEventListener('mouseenter', fadeIn);
+				nav.removeEventListener('mouseleave', fadeOut);
+				nav.style.pointerEvents = '';
+			}, { once: true });
+		} else {
+			gsap.set(nav, { opacity: 1 });
+			nav.style.pointerEvents = '';
+		}
+	});
+</script>

@@ -1,368 +1,244 @@
 ---
 import SectionHeader from './SectionHeader.astro';
 
-// Heaviest media on the linked Pesa page — prefetched in the background once idle.
-import pesaWithdraw1 from '@/assets/pesa/withdraw-1.webm';
-import pesaWithdraw1Mov from '@/assets/pesa/withdraw-1.mov';
-import pesaSettings2 from '@/assets/pesa/settings-2.webm';
-import pesaSettings2Mov from '@/assets/pesa/settings-2.mov';
-
-const pesaPrefetchAssets = [pesaWithdraw1, pesaWithdraw1Mov, pesaSettings2, pesaSettings2Mov];
-
-interface Experience {
-	role: string;
-	when: string;
-	dot: string;
-	href?: string;
-}
-
-interface Props {
-	experiences: Experience[];
-}
-
-const { experiences } = Astro.props;
+const experiences = [
+	{
+		role: 'Frontend Engineer Intern',
+		company: 'Sun Life',
+		when: 'fall 2026',
+	},
+	{
+		role: 'Software Engineer Intern',
+		company: 'Pesa',
+		when: 'summer 2026',
+		href: '/work/pesa',
+		tooltip: 'view demo',
+	},
+	{
+		role: 'Web Development Intern',
+		company: 'Scan',
+		when: 'summer 2024 + 2025',
+	},
+	{
+		role: 'Designer',
+		company: 'Western University',
+		when: '2023',
+	},
+];
 ---
 
-<section class="section" id="experience">
-	<div class="stagger-in">
-		<SectionHeader title="Experience">
-			<button class="icon-button" type="button" aria-label="Change sticker color">
-				<div class="icon-button-scale">
-					<svg
-						width="28"
-						height="28"
-						viewBox="0 0 28 28"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						data-bounce="0.95"
-					>
-						<path
-							d="M20.2217 16.7115C18.926 18.7855 16.6252 20.1675 14 20.1677C11.3863 20.1675 9.09354 18.7981 7.79499 16.7393L9.36713 15.7952C10.3444 17.321 12.0536 18.3336 14 18.3337C16.0465 18.3336 17.8305 17.2142 18.7777 15.5557L20.2217 16.7115Z"
-							fill="currentColor"
-						/>
-						<path
-							d="M10.3335 8.4996C11.346 8.49971 12.1661 9.32108 12.1661 10.3335C12.166 11.3459 11.3459 12.166 10.3335 12.1661C9.32108 12.1661 8.49971 11.346 8.4996 10.3335C8.4996 9.32101 9.32101 8.4996 10.3335 8.4996Z"
-							fill="currentColor"
-						/>
-						<path
-							d="M17.6665 8.4996C18.679 8.4996 19.5004 9.32101 19.5004 10.3335C19.5003 11.346 18.6789 12.1661 17.6665 12.1661C16.6541 12.166 15.834 11.3459 15.8339 10.3335C15.8339 9.32108 16.654 8.49971 17.6665 8.4996Z"
-							fill="currentColor"
-						/>
-						<path
-							fill-rule="evenodd"
-							clip-rule="evenodd"
-							d="M14 1.16667C21.0877 1.16667 26.8333 6.91235 26.8333 14C26.8333 21.0877 21.0877 26.8333 14 26.8333C6.91234 26.8333 1.16667 21.0877 1.16667 14C1.16667 6.91235 6.91234 1.16667 14 1.16667ZM14 3.0006C7.92487 3.0006 3.0006 7.92487 3.0006 14C3.0006 20.0751 7.92487 24.9994 14 24.9994C20.0751 24.9994 24.9994 20.0751 24.9994 14C24.9994 7.92487 20.0751 3.0006 14 3.0006Z"
-							fill="currentColor"
-						/>
-					</svg>
-				</div>
-			</button>
-		</SectionHeader>
-	</div>
-
-	<div class="timeline-wrap">
-		<ul class="timeline">
-			{experiences.map((exp) => (
-				<li class="stagger-in">
-					<span class="timeline-dot" style={{ backgroundColor: exp.dot }} />
-					<div>
-						<p class="role">
-							{exp.href ? (
-								<a class="role-link" href={exp.href} target="_blank" rel="noopener noreferrer">
-									{exp.role}
-								</a>
-							) : (
-								exp.role
-							)}
+<section class="section stagger-in">
+	<SectionHeader title="experience">
+		<!--<img src="/images/section-icon.svg" class="section-icon" alt="" aria-hidden="true" width="28" height="28" />-->
+	</SectionHeader>
+	<div class="section-grid">
+		{experiences.map((exp) => {
+			const Tag = exp.href ? 'a' : 'div';
+			return (
+				<Tag
+					class={`grid-cell exp-cell${exp.href ? ' exp-cell-link' : ''}`}
+					href={exp.href}
+					target={exp.href?.startsWith('http') ? '_blank' : undefined}
+					rel={exp.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+				data-tooltip={exp.tooltip}
+				>
+					{exp.href && (
+						<div class="cell-disco-wrap">
+							<img src="/images/disco.gif" class="cell-disco" alt="" aria-hidden="true" draggable="false" />
+						</div>
+					)}
+					<div data-bounce={exp.href ? '0.95' : undefined} class="cell-content">
+						<p class="exp-role">
+							{exp.role}
+							{exp.href && <span class="exp-arrow">↗</span>}
 						</p>
-						<p class="when">{exp.when}</p>
+						<p class="exp-meta">{exp.company}, {exp.when}</p>
 					</div>
-				</li>
-			))}
-		</ul>
-
-		<a
-			class="see-work stagger-in"
-			data-prefetch-assets={JSON.stringify(pesaPrefetchAssets)}
-			data-bounce="0.9"
-			href="/work/pesa"
-		>
-			<span class="see-work-surface">
-				<span class="see-work-label">
-					<span>Demo</span>
-					<span class="arrow-track">
-						<span class="arrow" aria-hidden="true">
-							→
-						</span>
-					</span>
-				</span>
-			</span>
-		</a>
+				</Tag>
+			);
+		})}
+		<span class="grid-center-plus" aria-hidden="true">+</span>
+		<span class="grid-triangle grid-triangle-left" aria-hidden="true"></span>
+		<span class="grid-triangle grid-triangle-right" aria-hidden="true"></span>
 	</div>
 </section>
 
-<script>
-	import { gsap } from 'gsap';
-
-	document.addEventListener('astro:page-load', () => {
-		const link = document.querySelector<HTMLElement>('.see-work');
-		const assets: string[] = link?.dataset.prefetchAssets ? JSON.parse(link.dataset.prefetchAssets) : [];
-		if (!assets.length) return;
-
-		const prefetch = () => {
-			assets.forEach((href) => {
-				if (document.querySelector(`link[rel="prefetch"][href="${href}"]`)) return;
-				const el = document.createElement('link');
-				el.rel = 'prefetch';
-				el.href = href;
-				document.head.appendChild(el);
-			});
-		};
-
-		if ('requestIdleCallback' in window) window.requestIdleCallback(prefetch);
-		else setTimeout(prefetch, 1500);
-	});
-
-	const STICKER_COLORS = [
-		{ bg: '#EAFF98', fg: '#000000' },
-		{ bg: '#93A0FF', fg: '#3C2C91' },
-		{ bg: '#fe6fc1', fg: '#ffffff' },
-		{ bg: '#252D38', fg: '#AEEBFF' },
-		{ bg: '#6D99FF', fg: '#ffffff' },
-	];
-
-	const FLIP_AXES = [
-		{ rotateX: -90, rotateY: -90 },
-		{ rotateX: 90, rotateY: 0 },
-		{ rotateX: 0, rotateY: -90 },
-		{ rotateX: -90, rotateY: 0 },
-		{ rotateX: 90, rotateY: 90 },
-		{ rotateX: 0, rotateY: 90 },
-	];
-
-	document.addEventListener('astro:page-load', () => {
-		document.querySelectorAll<HTMLElement>('.icon-button').forEach((el) => {
-			const scale = el.querySelector<HTMLElement>('.icon-button-scale');
-			if (!scale) return;
-
-			let index = 0;
-			scale.style.background = STICKER_COLORS[index].bg;
-			scale.style.color = STICKER_COLORS[index].fg;
-
-			let flipping = false;
-			let tilted = false;
-
-			el.addEventListener('click', () => {
-				if (flipping) return;
-				flipping = true;
-				index = (index + 1) % STICKER_COLORS.length;
-				tilted = !tilted;
-				const axis = FLIP_AXES[Math.floor(Math.random() * FLIP_AXES.length)];
-
-				gsap
-					.timeline({ onComplete: () => (flipping = false) })
-					.to(scale, { rotateX: axis.rotateX, rotateY: axis.rotateY, duration: 0.18, ease: 'power1.in' })
-					.to(el, { rotate: tilted ? -8.5 : 8.5, duration: 0.25, ease: 'power1.inOut' }, 0)
-					.set(scale, {
-						onComplete: () => {
-							scale.style.background = STICKER_COLORS[index].bg;
-							scale.style.color = STICKER_COLORS[index].fg;
-						},
-					})
-					.to(scale, { rotateX: 0, rotateY: 0, duration: 0.18, ease: 'power1.out' });
-			});
-		});
-	});
-</script>
-
 <style>
-	.icon-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.75rem;
-		height: 2.75rem;
-		padding: 0;
-		background: none;
-		border: none;
-		cursor: pointer;
-		perspective: 18.75rem;
-		transform: rotate(8.5deg);
+	.section {
+		margin-top: 3.5rem;
 	}
 
-	.icon-button-scale {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-		border-radius: 999px;
-	}
-
-	.timeline-wrap {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		column-gap: 1rem;
-		row-gap: 1.25rem;
-	}
-
-	.timeline {
-		display: contents;
-	}
-
-	.timeline li {
-		grid-column: 1;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		align-items: flex-start;
-		gap: 0.625rem;
-	}
-
-	.timeline-dot {
-		width: 0.4rem;
-		height: 0.4rem;
-		margin-top: 0.4375rem;
+	.section-icon {
+		display: block;
+		width: 28px;
+		height: 28px;
 		flex-shrink: 0;
 	}
 
-	.role {
-		margin: 0 0 0.125rem;
-		font-weight: 500;
-		font-size: var(--font-size-15);
-		color: var(--color-black);
+	/* ── Grid ── */
+	.section-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		border: 1px solid #e6e6e6;
+		position: relative;
 	}
 
-	.role-link {
+	:root[data-theme='dark'] .section-grid {
+		border-color: #2e2b35;
+	}
+
+	.grid-cell {
+		padding: 1rem;
+		text-decoration: none;
 		color: inherit;
-		text-decoration: none;
+		position: relative;
+		overflow: hidden;
 	}
 
-	.role-link:hover {
-		text-decoration: underline;
+	.grid-cell:nth-child(odd) {
+		border-right: 1px solid #e6e6e6;
 	}
 
-	.when {
-		margin: 0;
-		font-size: var(--font-size-14);
-		color: var(--color-slate);
+	.grid-cell:nth-child(-n+2) {
+		border-bottom: 1px solid #e6e6e6;
 	}
 
-	.see-work {
-		grid-column: 2;
-		grid-row: 2;
-		align-self: center;
-		justify-self: end;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.35rem;
-		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--color-gray-dark) 12%, white 75%);
-		background: color-mix(in srgb, var(--color-gray-lighter) 70%, black 1%);
-		text-decoration: none;
-		transition: padding 0.35s ease;
+	:root[data-theme='dark'] .grid-cell:nth-child(odd),
+	:root[data-theme='dark'] .grid-cell:nth-child(-n+2) {
+		border-color: #2e2b35;
 	}
 
-	.see-work-surface {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		padding: 0.3rem;
-		border-radius: 999px;
+	.grid-center-plus {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		font-family: 'Azeret Mono', monospace;
+		font-weight: 300;
+		font-size: 15px;
+		line-height: 1;
+		color: #bcbcbc;
+		background: var(--color-bg, #fff);
+		padding: 0 2px;
+		z-index: 1;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	:root[data-theme='dark'] .grid-center-plus {
+		color: #4a4a4a;
+		background: var(--color-bg, #1A1820);
+	}
+
+	.grid-triangle {
+		position: absolute;
+		top: 50%;
+		width: 4px;
+		height: 9px;
+		background: #e6e6e6;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	:root[data-theme='dark'] .grid-triangle {
+		background: #2e2b35;
+	}
+
+	.grid-triangle-left {
+		left: 0;
+		transform: translateY(-50%);
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+
+	.grid-triangle-right {
+		right: 0;
+		transform: translateY(-50%);
+		clip-path: polygon(100% 0, 0 50%, 100% 100%);
+	}
+
+	/* ── Experience cells ── */
+	.exp-cell-link {
+		transition: background 0.15s ease;
 		cursor: pointer;
-		background: linear-gradient(to bottom, white, var(--color-gray-hover));
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-		transition:
-			transform 0.15s ease,
-			box-shadow 0.15s ease;
 	}
 
-	.see-work:active .see-work-surface {
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-	}
-	.see-work:hover {
-		background: #f7f7f7;
-		border: 1px solid #eeeeee;
+	.exp-cell-link:hover {
+		background: var(--color-bg-page);
 	}
 
-	.see-work-label {
-		display: flex;
-		align-items: center;
+	:root[data-theme='dark'] .exp-cell-link:hover {
+		background: rgba(255, 255, 255, 0.02);
+	}
+
+	:root[data-theme='dark'] .cell-disco-wrap {
+		display: none;
+	}
+
+	.cell-disco-wrap {
+		position: absolute;
+		bottom: -100px;
+		right: 20px;
+		width: 160px;
+		height: 160px;
+		overflow: hidden;
+		pointer-events: none;
+		user-select: none;
+		opacity: 0;
+		filter: blur(1px);
+		transition: opacity 0.35s ease;
+	}
+
+	.exp-cell-link:hover .cell-disco-wrap {
+		opacity: 0.03;
+	}
+
+	.cell-disco {
 		width: 100%;
-		padding: 0.175rem 0.5rem;
-		border-radius: 999px;
-		background: linear-gradient(to bottom, var(--color-gray-lighter), white);
-		font-size: var(--font-size-14);
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.cell-content {
+		position: relative;
+	}
+
+	.exp-role {
+		font-family: 'GT Walsheim Pro', sans-serif;
+		font-size: 15.5px;
 		font-weight: 500;
-		color: var(--color-gray-dark);
-		white-space: nowrap;
-		transition:
-			padding 0.35s ease,
-			color 0.5s ease;
+		text-transform: lowercase;
+		color: #212121;
+		margin: 0 0 0.25rem;
+		line-height: 1.2;
 	}
 
-	.see-work:hover .see-work-label {
-		background: linear-gradient(to bottom, var(--color-gray-faint-hover), white);
-		transition: padding 0.35s ease;
+	:root[data-theme='dark'] .exp-role {
+		color: var(--color-text-primary);
 	}
 
-	:root[data-theme='dark'] .see-work {
-		border-color: transparent;
-		background: color-mix(in srgb, #25232c 85%, black 25%);
+	.exp-arrow {
+		font-family: var(--font-sans), sans-serif;
+		font-style: normal;
+		color: var(--color-brand-pink);
+		margin-left: 0.6rem;
+		font-size: 16px;
+		display: inline-block;
+		transition: margin-left 0.15s ease;
 	}
 
-	:root[data-theme='dark'] .see-work-surface {
-		background: linear-gradient(to bottom, #2b2933, #18171d);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-		transition:
-			transform 0.15s ease,
-			box-shadow 0.15s ease,
-			background 0.2s ease;
+	.exp-cell-link:hover .exp-arrow {
+		margin-left: 0.7rem;
 	}
 
-	:root[data-theme='dark'] .see-work:hover .see-work-surface,
-	:root[data-theme='dark'] .see-work:active .see-work-surface {
-		background: linear-gradient(to bottom, #ffb7e3, #e15eae);
-		box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+	.exp-meta {
+		font-family: var(--font-sans), sans-serif;
+		font-size: 14.5px;
+		color: #595d62;
+		margin: 0;
+		line-height: 1.2;
 	}
 
-	:root[data-theme='dark'] .see-work-label {
-		color: #f5f5f5;
-		background: #2b2933;
-		transition:
-			padding 0.35s ease,
-			background 0.2s ease,
-			color 0.2s ease;
-	}
-
-	:root[data-theme='dark'] .see-work:hover .see-work-label {
-		color: #000000;
-		background: linear-gradient(to bottom, #ffb6ec, #ff97d7);
-	}
-
-	.see-work:hover .arrow-track {
-		grid-template-columns: 1fr;
-	}
-
-	.see-work:hover .arrow {
-		padding-left: 0.0625rem;
-		opacity: 1;
-		transform: translateX(0.25rem);
-	}
-
-	@media (max-width: 37.5rem) {
-		.timeline-wrap {
-			grid-template-columns: 1fr;
-		}
-
-		.see-work {
-			grid-column: 1;
-			grid-row: auto;
-			justify-self: start;
-			margin-top: 0.25rem;
-		}
+	:root[data-theme='dark'] .exp-meta {
+		color: var(--color-text-muted);
 	}
 </style>
