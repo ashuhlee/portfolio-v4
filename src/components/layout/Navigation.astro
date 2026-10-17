@@ -193,6 +193,10 @@ const links = [
 		-webkit-user-select: none;
 	}
 
+	:root[data-theme='dark'] .nav-flower {
+		opacity: 0.16;
+	}
+
 	:root[data-theme='dark'] .nav-status {
 		color: var(--color-text-primary);
 	}
@@ -246,7 +250,8 @@ const links = [
 				nav.style.pointerEvents = '';
 			}, { once: true });
 		} else {
-			gsap.set(nav, { opacity: 1 });
+			gsap.set(nav, { opacity: 0 });
+			gsap.to(nav, { opacity: 1, duration: 0.3, delay: 0.25, ease: 'power2.out' });
 			nav.style.pointerEvents = '';
 		}
 	});

@@ -147,6 +147,10 @@
 		user-select: none;
 	}
 
+	:root[data-theme='dark'] .avatar-butterfly {
+		opacity: 0.18;
+	}
+
 	.who {
 		flex: 1;
 	}
@@ -287,6 +291,7 @@
 		opacity: 0.7;
 		transform: translate(-50%, -50%);
 		pointer-events: none;
+		filter: blur(1.5px);
 	}
 
 	:root[data-theme='dark'] .bio-accent .scribble-wrap {
