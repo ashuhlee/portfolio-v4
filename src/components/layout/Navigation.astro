@@ -77,7 +77,8 @@ const links = [
 	}
 
 	.nav-link {
-		display: block;
+		display: inline-flex;
+		width: fit-content;
 		font-family: 'Azeret Mono', monospace;
 		font-size: 12px;
 		font-weight: 400;
@@ -214,7 +215,13 @@ const links = [
 		const footer = document.querySelector<HTMLElement>('.page-footer');
 		if (!nav) return;
 
-		// Footer avoidance
+		nav.querySelectorAll<HTMLAnchorElement>('.nav-link').forEach((link) => {
+			link.addEventListener('click', (e) => {
+				const linkPath = new URL(link.href).pathname;
+				if (linkPath === window.location.pathname) e.preventDefault();
+			});
+		});
+
 		if (footer) {
 			const update = () => {
 				nav.style.transform = '';
