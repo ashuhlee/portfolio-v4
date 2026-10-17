@@ -68,20 +68,18 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		const diagonal = Math.hypot(rect.width, rect.height);
 		const scale = ((2 * diagonal) / fillOld.offsetWidth) * 1.1;
 
-		gsap.set(fillOld, { x, y, scale: 0 });
-		gsap.to(fillOld, { scale, duration: 0.4, ease: 'power2.in' });
+		gsap.set(fillOld, { x, y, scale: 0, filter: 'blur(3px)' });
+		gsap.to(fillOld, {
+			scale,
+			duration: 0.4,
+			ease: 'power2.in',
+			onComplete: () => gsap.to(fillOld, { filter: 'blur(0px)', duration: 0.25, ease: 'power2.out' }),
+		});
 	}
 
 	const HOVER_COLORS = [
-		{
-			fill: '#FFB2E0',
-			fg: '#232323',
-		},
-		{
-			fill: '#EDEEF0',
-			fg: '#232323',
-		},
-
+		{ fill: '#FFB2E0', fg: '#232323' },
+		{ fill: '#EDEEF0', fg: '#232323' },
 	];
 
 	document.addEventListener('astro:page-load', () => {
@@ -146,7 +144,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 				gsap.killTweensOf(scribblePath);
 				gsap.killTweensOf(fillOld);
 				gsap.to(scribblePath, { drawSVG: '100% 100%', duration: 0.4, ease: 'power1.in' });
-				gsap.set(fillOld, { scale: 0 });
+				gsap.set(fillOld, { scale: 0, clearProps: 'filter' });
 			};
 
 			btn.addEventListener('mouseleave', resetVisualState);
@@ -225,6 +223,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		border-radius: 50%;
 		background: var(--btn-fill, var(--color-text-primary));
 		pointer-events: none;
+		filter: blur(3px);
 	}
 
 	.fill-scribble {
