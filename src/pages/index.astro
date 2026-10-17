@@ -1,16 +1,18 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import PageFooter from '@/components/common/PageFooter.astro';
 import CursorFillButton from '@/components/common/CursorFillButton.astro';
 import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
 import ExperienceSection from '@/components/home/ExperienceSection.astro';
 import ProjectsSection from '@/components/home/ProjectsSection.astro';
+import ribbonImg from '@/assets/images/ribbon.png';
 ---
 
 <Layout showSplash>
 	<PixelBlastBackground slot="background" color="#F7F7F7"/>
 	<div class="page">
-		<img src="/images/ribbon.png" class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
+		<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
 		<div class="layout">
 			<div class="content">
 				<div class="identity stagger-in">
@@ -480,10 +482,10 @@ import ProjectsSection from '@/components/home/ProjectsSection.astro';
 		right: -25rem;
 		height: 445px;
 		transform: rotate(90deg);
-		opacity: 0.07;
+		opacity: 0.08;
 		pointer-events: none;
 		user-select: none;
-		filter: blur(2px);
+		filter: blur(2.5px);
 		z-index: 0;
 	}
 
@@ -499,6 +501,7 @@ import ProjectsSection from '@/components/home/ProjectsSection.astro';
 		z-index: 0;
 		cursor: grab;
 		user-select: none;
+		display: none;
 	}
 
 	.fd-corner {

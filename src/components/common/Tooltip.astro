@@ -42,12 +42,9 @@
 			if (colorEnd) {
 				tooltip.style.setProperty('--splash-pill-gradient-size', '55% 90%');
 				tooltip.style.setProperty('--splash-pill-gradient-pos', '22% 15%');
-				tooltip.style.textTransform = 'lowercase';
 			} else {
 				tooltip.style.setProperty('--splash-pill-gradient-size', '91.12% 59.56%');
 				tooltip.style.setProperty('--splash-pill-gradient-pos', '89.32% 11.01%');
-				tooltip.style.fontStyle = '';
-				tooltip.style.textTransform = '';
 			}
 
 			gsap.set(tooltip, { width: 'auto' });
@@ -141,7 +138,5 @@
 		border: none;
 		color: #000000;
 		padding: 0.25rem 0.75rem 0.375rem 0.75rem;
-		font-style: normal !important;
-		text-transform: lowercase;
 	}
 </style>

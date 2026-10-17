@@ -1,7 +1,23 @@
 ---
+import { Image } from 'astro:assets';
+import butterflyImg from '@/assets/images/butterfly.png';
 ---
 
 <footer class="page-footer">
+	<div class="butterfly butterfly-large" aria-hidden="true">
+		<div class="butterfly-transform butterfly-transform-large">
+			<div class="butterfly-wrap butterfly-wrap-large">
+				<Image src={butterflyImg} alt="" class="butterfly-img" />
+			</div>
+		</div>
+	</div>
+	<div class="butterfly butterfly-small" aria-hidden="true">
+		<div class="butterfly-transform butterfly-transform-small">
+			<div class="butterfly-wrap butterfly-wrap-small">
+				<Image src={butterflyImg} alt="" class="butterfly-img" />
+			</div>
+		</div>
+	</div>
 	<div class="page-footer-inner">
 		<div class="brand">
 			<p class="wordmark">ASHUHLEE</p>
@@ -42,6 +58,7 @@
 		margin-left: -50vw;
 		background: var(--color-bg-page);
 		border-top: 1px solid var(--color-border);
+		overflow: hidden;
 	}
 
 	.page-footer-inner {
@@ -50,7 +67,7 @@
 		justify-content: space-between;
 		max-width: calc(var(--page-max-width, 50rem) * 1.4);
 		margin: 0 auto;
-		padding: 2rem 1.5rem 2.5rem;
+		padding: 2.5rem 1.5rem 3rem;
 	}
 
 	.brand {
@@ -157,6 +174,72 @@
 
 	.foot-label-wrap {
 		z-index: 1;
+	}
+
+	.butterfly {
+		position: absolute;
+		pointer-events: none;
+		mix-blend-mode: difference;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.butterfly-large {
+		width: 320px;
+		height: auto;
+		right: 30px;
+		top: -80px;
+	}
+
+	.butterfly-small {
+		width: 150px;
+		height: auto;
+		right: 370px;
+		top: -30px;
+	}
+
+	.butterfly-transform {
+		flex: none;
+	}
+
+	.butterfly-transform-large {
+		transform: rotate(-175deg) scaleY(-1) scaleX(-1);
+	}
+
+	.butterfly-transform-small {
+		transform: rotate(-7deg) scaleX(-1);
+	}
+
+	.butterfly-wrap {
+		position: relative;
+	}
+
+	.butterfly-wrap-large {
+		width: 348px;
+		height: auto;
+		filter: blur(2px);
+		opacity: 0.1;
+	}
+
+	.butterfly-wrap-small {
+		width: 161px;
+		height: auto;
+		filter: blur(3px);
+		opacity: 0.08;
+	}
+
+	.butterfly-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: none;
+		pointer-events: none;
+	}
+
+	:global(:root[data-theme='dark']) .butterfly {
+		mix-blend-mode: lighten;
+		opacity: 0.6;
 	}
 
 	@media (max-width: 45rem) {

@@ -47,6 +47,19 @@
 		});
 
 		const interval = setInterval(tick, 1000);
+
+		const footer = document.querySelector('.page-footer');
+		if (widget && footer) {
+			const observer = new IntersectionObserver(
+				([entry]) => {
+					widget.classList.toggle('clock-hidden', entry.isIntersecting);
+				},
+				{ threshold: 0 }
+			);
+			observer.observe(footer);
+			document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+		}
+
 		document.addEventListener('astro:before-swap', () => clearInterval(interval), { once: true });
 	});
 </script>
@@ -57,6 +70,8 @@
 		right: 2rem;
 		bottom: 2rem;
 		z-index: 5;
+		opacity: 1;
+		transition: opacity 0.15s ease;
 		display: inline-flex;
 		align-items: baseline;
 		gap: 0.125rem;
@@ -85,6 +100,11 @@
 		font-style: italic;
 		font-size: var(--font-size-12);
 		color: var(--color-text-primary);
+	}
+
+	.clock-widget.clock-hidden {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	@media (max-width: 37.5rem) {

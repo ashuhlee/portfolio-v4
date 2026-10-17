@@ -23,6 +23,7 @@ interface Props {
 	showClock?: boolean;
 	showConfigMenu?: boolean;
 	showSplash?: boolean;
+	showNav?: boolean;
 }
 
 const {
@@ -32,6 +33,7 @@ const {
 	showClock = true,
 	showConfigMenu = false,
 	showSplash = false,
+	showNav = true,
 } = Astro.props;
 
 const outDuration = 0.075;
@@ -116,7 +118,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				<slot />
 			</div>
 		</div>
-		<NavBar transition:persist />
+		{showNav && <NavBar transition:persist />}
 		<Tooltip />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />
