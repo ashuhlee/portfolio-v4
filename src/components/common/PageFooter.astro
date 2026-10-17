@@ -8,9 +8,15 @@
 			<p class="copyright"><span class="copyright-icon">©</span> 2026 Ashley Oyewole. All rights reserved.</p>
 		</div>
 		<nav class="footer-links">
-			<a class="link-linkedin" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span></a>
-			<a class="link-github" href="https://github.com/ashuhlee" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span class="bracket-right">]</span></a>
-			<a class="link-email" href="mailto:hello@ashuhlee.ca"><span>Email</span></a>
+			<a class="link-linkedin" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
+				<span class="foot-label-wrap"><span class="foot-primary">LinkedIn</span><span class="foot-hover">&gt;LinkedIn</span></span>
+			</a>
+			<a class="link-github" href="https://github.com/ashuhlee" target="_blank" rel="noopener noreferrer">
+				<span class="foot-label-wrap"><span class="foot-primary">GitHub</span><span class="foot-hover">GitHub</span></span>
+			</a>
+			<a class="link-email" href="mailto:hello@ashuhlee.ca">
+				<span class="foot-label-wrap"><span class="foot-primary">Email</span><span class="foot-hover">@Email</span></span>
+			</a>
 		</nav>
 	</div>
 </footer>
@@ -83,75 +89,73 @@
 		position: relative;
 		display: inline-flex;
 		align-items: center;
-		padding: 0.375rem 0.625rem;
+		padding: 0.375rem 0.75rem;
 		font-family: var(--font-mono), monospace;
 		text-transform: uppercase;
 		font-size: var(--font-size-12);
 		color: var(--color-text-secondary);
 		text-decoration: none;
-		transition: color 0.2s ease;
 	}
 
-	.footer-links a::before {
-		content: '> ';
+
+	.foot-label-wrap {
+		position: relative;
 		display: inline-block;
-		width: 0;
-		margin-right: 0;
-		overflow: hidden;
+	}
+
+	.foot-primary {
+		display: block;
+		color: var(--color-text-secondary);
+		transition: none;
+	}
+
+	.foot-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-brand-pink);
 		opacity: 0;
+		transition: none;
+		white-space: nowrap;
 	}
 
-	.footer-links a.link-github::before {
-		content: '[';
+	.link-linkedin .foot-hover,
+	.link-email .foot-hover {
+		left: -1ch;
 	}
 
-	.footer-links a.link-email::before {
-		content: '\5C';
-	}
-
-	.footer-links a .bracket-right {
-		display: inline-block;
-		width: 0;
-		margin-left: 0;
-		overflow: hidden;
+	.footer-links a.hovering .foot-primary {
 		opacity: 0;
+		transition: none;
+	}
+
+	.footer-links a.hovering .foot-hover {
+		opacity: 1;
+		transition: opacity 0.3s ease 0.03s;
 	}
 
 	.footer-links a.hovering {
 		color: var(--color-brand-pink);
 	}
 
-	.footer-links a.hovering::before {
-		width: auto;
-		margin-right: 0;
-		opacity: 1;
-	}
-
-	.footer-links a.hovering .bracket-right {
-		width: auto;
-		margin-left: 0;
-		opacity: 1;
-	}
-
-	.footer-links a::after {
+	.foot-label-wrap::after {
 		content: '';
 		position: absolute;
-		left: 0.625rem;
-		right: 0.625rem;
-		bottom: 0.375rem;
+		left: 0;
+		right: 0;
+		bottom: -0.1px;
 		height: 1px;
 		background: currentColor;
 		opacity: 0.4;
 		transition: opacity 0.2s ease, transform 0.4s ease;
 	}
 
-	.footer-links a.hovering::after {
+	.footer-links a.hovering .foot-label-wrap::after {
 		opacity: 0;
 		height: 0;
 	}
 
-	.footer-links a span {
-		position: relative;
+	.foot-label-wrap {
 		z-index: 1;
 	}
 

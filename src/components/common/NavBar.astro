@@ -3,7 +3,7 @@ const pathname = new URL(Astro.request.url).pathname;
 
 const links = [
 	{ href: '/', label: 'HOME' },
-	{ href: '/extras', label: 'EXTRAS' },
+	{ href: '/extras', label: 'EXTRA' },
 ];
 ---
 
@@ -15,7 +15,14 @@ const links = [
 				class={`nav-link${pathname === link.href ? ' nav-link-active' : ''}`}
 				aria-current={pathname === link.href ? 'page' : undefined}
 			>
-				<span class="nav-arrow">&gt;</span>{link.label}
+				<span class="nav-arrow-wrap">
+					<span class="nav-arrow nav-arrow-primary">&gt;</span>
+					<span class="nav-arrow nav-arrow-hover">&gt;</span>
+				</span>
+				<span class="nav-label-wrap">
+					<span class="nav-label-primary">{link.label}</span>
+					<span class="nav-label-hover">{link.label}</span>
+				</span>
 			</a>
 		))}
 	</div>
@@ -77,20 +84,75 @@ const links = [
 		line-height: 24px;
 		white-space: nowrap;
 		pointer-events: auto;
-		transition: color 0.1s ease;
-	}
-
-	.nav-link:hover {
-		color: var(--color-brand-pink);
 	}
 
 	.nav-link-active {
 		color: var(--color-black);
 	}
 
-	.nav-arrow {
-		color: inherit;
+	.nav-arrow-wrap {
+		position: relative;
+		display: inline-block;
 		margin-right: 0;
+	}
+
+	.nav-arrow {
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	.nav-arrow-primary {
+		color: inherit;
+		display: block;
+		transition: none;
+	}
+
+	.nav-arrow-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-brand-pink);
+		opacity: 0;
+		transition: none;
+	}
+
+	.nav-label-wrap {
+		position: relative;
+		display: inline-block;
+	}
+
+	.nav-label-primary {
+		display: block;
+	}
+
+	.nav-label-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-brand-pink);
+		opacity: 0;
+		transition: none;
+	}
+
+	.nav-link:hover .nav-label-primary {
+		opacity: 0;
+		transition: none;
+	}
+
+	.nav-link:hover .nav-label-hover {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
+	}
+
+	.nav-link:hover .nav-arrow-primary {
+		opacity: 0;
+		transition: none;
+	}
+
+	.nav-link:hover .nav-arrow-hover {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.05s;
 	}
 
 	/* ── Bottom section ── */

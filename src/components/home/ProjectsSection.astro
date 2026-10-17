@@ -4,24 +4,28 @@ import SectionHeader from './SectionHeader.astro';
 const projects = [
 	{
 		lang: 'TypeScript',
+		platform: 'web + desktop',
 		name: 'Count O Rama',
 		description: 'A cross platform arcade game with progressive difficulty and power ups',
 		href: 'https://github.com/ashuhlee/count-or-die',
 	},
 	{
 		lang: 'Swift',
+		platform: 'ios',
 		name: 'Loggi',
 		description: 'Track and log your daily meals, weight and steps, synced with the health app',
 		href: undefined,
 	},
 	{
 		lang: 'Python',
+		platform: 'terminal',
 		name: 'Starlit',
 		description: 'A customizable weather package that matches any terminal (4k+ downloads)',
 		href: 'https://github.com/ashuhlee/starlit',
 	},
 	{
 		lang: 'Lua',
+		platform: 'win + mac',
 		name: 'Flappy Kitty',
 		description: 'A Flappy Bird-style game with collision detection and physics based movement',
 		href: 'https://github.com/ashuhlee/flappy-kitty',
@@ -61,7 +65,10 @@ const projects = [
 				>
 					{proj.href && <img src="/images/butterfly.gif" class="cell-butterfly" width="480" height="480" alt="" aria-hidden="true" draggable="false" />}
 					<div data-bounce={proj.href ? '0.95' : undefined} class="cell-content">
-						<p class="proj-lang">{proj.lang}</p>
+						<div class="proj-lang-wrap">
+							<span class="proj-lang lang-primary">{proj.lang}</span>
+							<span class="proj-lang lang-platform">{proj.platform}</span>
+						</div>
 						<p class="proj-name">{proj.name}</p>
 						<p class="proj-desc">{proj.description}</p>
 					</div>
@@ -294,6 +301,10 @@ const projects = [
 	}
 
 	.proj-cell-link:hover .cell-butterfly {
+		opacity: 0.07;
+	}
+
+	:root[data-theme='dark'] .proj-cell-link:hover .cell-butterfly {
 		opacity: 0.06;
 	}
 
@@ -301,13 +312,41 @@ const projects = [
 		position: relative;
 	}
 
+	.proj-lang-wrap {
+		position: relative;
+		height: 24px;
+		margin: 0 0 0.125rem;
+	}
+
 	.proj-lang {
 		font-family: var(--font-mono), monospace;
 		font-size: 11px;
 		text-transform: uppercase;
 		color: var(--color-brand-pink);
-		margin: 0 0 0.125rem;
 		line-height: 24px;
+		display: block;
+	}
+
+	.lang-primary {
+		transition: none;
+	}
+
+	.lang-platform {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		transition: none;
+	}
+	
+	.proj-cell-link:hover .lang-primary {
+		opacity: 0;
+		transition: none;
+	}
+
+	.proj-cell-link:hover .lang-platform {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
 	}
 
 	.proj-name {

@@ -74,11 +74,11 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 
 	const HOVER_COLORS = [
 		{
-			fill: '#FFB0E1',
+			fill: '#FFB2E0',
 			fg: '#232323',
 		},
 		{
-			fill: '#EAEAEA',
+			fill: '#EDEEF0',
 			fg: '#232323',
 		},
 
@@ -199,7 +199,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		transform: translateZ(0);
 		border: 1.75px solid var(--btn-color, var(--color-text-primary));
 		background: var(--color-bg-page);
-		border-radius: 999px;
+
 		padding: 10px 14px;
 		cursor: pointer;
 		text-decoration: none;
@@ -248,10 +248,9 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		position: absolute;
 		inset: 0;
 		z-index: 2;
-		border-radius: 999px;
 		box-shadow:
-			inset 0 0.425rem 0.400rem 0 rgba(255, 255, 255, 0.60),
-			inset 0.0625rem -0.3125rem 0.250rem 0 rgba(0, 0, 0, 0.50);
+			inset 0 0.55rem 0.400rem 0 rgba(255, 255, 255, 0.60),
+			inset 0.0625rem -0.45rem 0.250rem 0 rgba(0, 0, 0, 0.35);
 		mix-blend-mode: overlay;
 		pointer-events: none;
 		opacity: 0;
@@ -322,7 +321,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 		position: absolute;
 		inset: -1.75px;
 		z-index: 3;
-		border-radius: 999px;
+
 		border: 1.75px solid var(--btn-color, var(--color-text-primary));
 		background: none;
 		pointer-events: none;
