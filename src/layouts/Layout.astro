@@ -9,12 +9,12 @@ import '@/styles/colors.css';
 import '@/styles/typography.css';
 import '@/styles/easing.css';
 
-import Tooltip from '@/components/common/Tooltip.astro';
-import ClockWidget from '@/components/common/ClockWidget.astro';
-import ScrollProgress from '@/components/common/ScrollProgress.astro';
-import ConfigMenu from '@/components/common/ConfigMenu.astro';
-import SplashScreen from '@/components/common/SplashScreen.astro';
-import NavBar from '@/components/common/NavBar.astro';
+import Tooltip from '@/components/ui/Tooltip.astro';
+import ClockWidget from '@/components/interactive/ClockWidget.astro';
+import ScrollProgress from '@/components/ui/ScrollProgress.astro';
+import ConfigMenu from '@/components/interactive/ConfigMenu.astro';
+import Splash from '@/components/layout/Splash.astro';
+import Navigation from '@/components/layout/Navigation.astro';
 
 interface Props {
 	title?: string;
@@ -111,14 +111,14 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<Analytics/>
 	</head>
 	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
-		{showSplash && <SplashScreen />}
+		{showSplash && <Splash />}
 		<slot name="background" />
 		<div id="smooth-wrapper" transition:animate={pageTransition}>
 			<div id="smooth-content">
 				<slot />
 			</div>
 		</div>
-		{showNav && <NavBar transition:persist />}
+		{showNav && <Navigation transition:persist />}
 		<Tooltip />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />

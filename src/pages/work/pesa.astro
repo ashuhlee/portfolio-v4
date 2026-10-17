@@ -2,36 +2,34 @@
 import {Image} from 'astro:assets';
 
 import Layout from '@/layouts/Layout.astro';
-import PageFooter from '@/components/common/PageFooter.astro';
-import DitherBackground from '@/components/webGL/dither/DitherBackground.astro';
-import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
-import BackButton from '@/components/common/BackButton.astro';
-import CrossfadeVideo from '@/components/common/CrossfadeVideo.astro';
-import ShowcaseCard from '@/components/pesa/ShowcaseCard.astro';
+import Footer from '@/components/layout/Footer.astro';
+import DitherBackground from '@/components/webgl/dither/DitherBackground.astro';
+import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackground.astro';
+import BackButton from '@/components/layout/BackButton.astro';
+import CrossfadeVideo from '@/components/media/CrossfadeVideo.astro';
+import ShowcaseCard from '@/components/projects/ShowcaseCard.astro';
+import PesaHeader from '@/components/projects/PesaHeader.astro';
 
-import withdraw1 from '@/assets/pesa/withdraw-1.webm';
-import withdraw1Mov from '@/assets/pesa/withdraw-1.mov';
-import withdraw2 from '@/assets/pesa/withdraw-2.webp';
-import withdraw3 from '@/assets/pesa/withdraw-3.webp';
+import withdraw1 from '@/assets/videos/webm/pesa-withdraw-1.webm';
+import withdraw1Mov from '@/assets/videos/mov/pesa-withdraw-1.mov';
+import withdraw2 from '@/assets/images/webp/pesa-withdraw-2.webp';
+import withdraw3 from '@/assets/images/webp/pesa-withdraw-3.webp';
 
-import wallet1 from '@/assets/pesa/wallet-1.webp';
-import wallet2 from '@/assets/pesa/wallet-2.webp';
+import wallet1 from '@/assets/images/webp/pesa-wallet-1.webp';
+import wallet2 from '@/assets/images/webp/pesa-wallet-2.webp';
 
-import savings1 from '@/assets/pesa/savings-1.webp';
-import savings2 from '@/assets/pesa/savings-2.webp';
+import savings1 from '@/assets/images/webp/pesa-savings-1.webp';
+import savings2 from '@/assets/images/webp/pesa-savings-2.webp';
 
-import settings2 from '@/assets/pesa/settings-2.webm';
-import settings2Mov from '@/assets/pesa/settings-2.mov';
-import create1 from '@/assets/pesa/create-1.webm';
-import create1Mov from '@/assets/pesa/create-1.mov';
+import settings2 from '@/assets/videos/webm/pesa-settings.webm';
+import settings2Mov from '@/assets/videos/mov/pesa-settings.mov';
+import create1 from '@/assets/videos/webm/pesa-create-stash.webm';
+import create1Mov from '@/assets/videos/mov/pesa-create-stash.mov';
 
-import notificationsWebm from '@/assets/pesa/notifications.webm';
-import notificationsMov from '@/assets/pesa/notifications.mov';
+import notificationsWebm from '@/assets/videos/webm/pesa-notifications.webm';
+import notificationsMov from '@/assets/videos/mov/pesa-notifications.mov';
 
-import reviewPlaceholder from '@/assets/pesa/placeholder.webp';
-import chipCaretRole from '@/assets/pesa/chip-caret-role.svg';
-import chipCaretFocus from '@/assets/pesa/chip-caret-focus.svg';
-import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
+import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 ---
 
 <Layout
@@ -44,41 +42,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
   <div class="page">
     <BackButton/>
 
-    <header class="header-row">
-      <div class="header-left">
-        <div class="title-row stagger-in">
-          <h1>PESA</h1>
-        </div>
-        <p class="description stagger-in">
-          Over the summer I worked on Pesa's mobile app, using Flutter. I worked across
-          iOS and Android to build and ship new features and improve existing user experiences, rotating across product
-          /
-          engineering teams.
-        </p>
-        <p class="description stagger-in">
-          I had the opportunity to ship multiple user-facing features that are now used by thousands of people around
-          the world.
-        </p>
-      </div>
-
-      <div class="chips">
-        <div class="chip-group stagger-in">
-          <span class="chip role">Role <Image src={chipCaretRole} width={9.5} height={9.5} alt=""
-                                              loading="eager"/></span>
-          <p>Software Engineer Intern</p>
-        </div>
-        <div class="chip-group stagger-in">
-          <span class="chip focus">Focus <Image src={chipCaretFocus} width={9.5} height={9.5} alt=""
-                                                loading="eager"/></span>
-          <p>Mobile (iOS + Android)</p>
-        </div>
-        <div class="chip-group stagger-in">
-          <span class="chip timeline">Timeline <Image src={chipCaretTimeline} width={9.5} height={9.5} alt=""
-                                                      loading="eager"/></span>
-          <p>Summer 2026</p>
-        </div>
-      </div>
-    </header>
+    <PesaHeader />
 
     <div class="showcase-header stagger-in">
       <h2>SHOWCASE</h2>
@@ -203,7 +167,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
     </div>
 
     <div class="stagger-in">
-      <PageFooter/>
+      <Footer/>
     </div>
   </div>
 </Layout>
@@ -254,124 +218,6 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
 
     .page.expanded {
         max-width: max(50rem, 80vw);
-    }
-
-    .header-row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    .header-left {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .title-row {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 0.75rem;
-    }
-
-    h1 {
-        font-family: var(--font-display), sans-serif;
-        font-size: var(--font-size-20);
-        margin: 0;
-        color: var(--color-text-primary);
-    }
-
-    .description {
-        font-family: 'GT Walsheim Pro', sans-serif;
-        font-size: 15.5px;
-        line-height: 1.5;
-        color: var(--color-text-muted);
-        margin: 0 0 0.75rem;
-        max-width: 31.5625rem;
-    }
-
-    :root[data-theme='dark'] .description {
-        color: var(--color-text-medium);
-    }
-
-    .description:last-child {
-        margin-bottom: 0;
-    }
-
-    .chips {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        flex-shrink: 0;
-        width: 11.25rem;
-    }
-
-    .chip-group {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 0.5rem;
-    }
-
-    .chip {
-        -webkit-user-select: none;
-        user-select: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--color-charcoal-navy);
-        border-radius: 1.5rem;
-        padding: 0.375rem 0.75rem 0.55rem 0.75rem;
-        font-family: var(--font-sans), sans-serif;
-        font-weight: 600;
-        font-size: var(--font-size-14);
-        line-height: 0.5;
-        white-space: nowrap;
-    }
-
-    .chip img {
-        margin-top: 0.1875rem;
-    }
-
-    .chip.role {
-        color: var(--color-chip-pink);
-    }
-
-    .chip.focus {
-        color: var(--color-chip-yellow);
-    }
-
-    .chip.timeline {
-        color: var(--color-brand-cyan);
-    }
-
-    :root[data-theme='dark'] .chip {
-        color: #000000;
-    }
-
-    :root[data-theme='dark'] .chip.role {
-        background: #ffb0ea;
-    }
-
-    :root[data-theme='dark'] .chip.focus {
-        background: #ffeaa3;
-    }
-
-    :root[data-theme='dark'] .chip.timeline {
-        background: #aceaff;
-    }
-
-    :root[data-theme='dark'] .chip img {
-        filter: brightness(0);
-    }
-
-    .chip-group p {
-        margin: 0;
-        font-size: var(--font-size-15);
-        color: var(--color-gray-warm);
-        text-align: right;
     }
 
     .showcase-header {
@@ -579,24 +425,6 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
         top: 82.5%;
         width: 41.8%;
         height: 17.5%;
-    }
-
-    @media (max-width: 45rem) {
-        .header-row {
-            flex-direction: column;
-        }
-
-        .chips {
-            width: 100%;
-        }
-
-        .chip-group {
-            align-items: flex-start;
-        }
-
-        .chip-group p {
-            text-align: left;
-        }
     }
 
     @media (max-width: 62.5rem) {
