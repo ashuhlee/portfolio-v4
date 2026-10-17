@@ -250,42 +250,22 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		view-transition-name: none !important;
 	}
 
-	html[data-theme-transition='down']::view-transition-old(root) {
-		animation: none;
-		z-index: 1;
+	html[data-theme-transition]::view-transition-old(root) {
+		animation: theme-fade-out 0.35s ease forwards;
 	}
 
-	html[data-theme-transition='down']::view-transition-new(root) {
-		animation: swipe-down 0.5s var(--ease-swipe) forwards;
-		z-index: 2;
+	html[data-theme-transition]::view-transition-new(root) {
+		animation: theme-fade-in 0.35s ease forwards;
 	}
 
-	html[data-theme-transition='up']::view-transition-old(root) {
-		animation: none;
-		z-index: 1;
+	@keyframes theme-fade-out {
+		from { opacity: 1; }
+		to   { opacity: 0; }
 	}
 
-	html[data-theme-transition='up']::view-transition-new(root) {
-		animation: swipe-up 0.5s var(--ease-swipe) forwards;
-		z-index: 2;
-	}
-
-	@keyframes swipe-down {
-		from {
-			clip-path: inset(0 0 100% 0);
-		}
-		to {
-			clip-path: inset(0 0 0% 0);
-		}
-	}
-
-	@keyframes swipe-up {
-		from {
-			clip-path: inset(100% 0 0 0);
-		}
-		to {
-			clip-path: inset(0% 0 0 0);
-		}
+	@keyframes theme-fade-in {
+		from { opacity: 0; }
+		to   { opacity: 1; }
 	}
 
 	html,

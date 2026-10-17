@@ -67,7 +67,7 @@
 					return;
 				}
 				transitionInProgress = true;
-				document.documentElement.setAttribute('data-theme-transition', next === 'dark' ? 'down' : 'up');
+				document.documentElement.setAttribute('data-theme-transition', '');
 				const transition = document.startViewTransition(applyTheme);
 				transition.ready.catch(() => {});
 				transition.finished.catch(() => {}).finally(() => {
