@@ -67,16 +67,6 @@ import ribbonImg from '@/assets/images/ribbon.png';
 					/>
 		</div>
 
-		<div class="footer-decoration" aria-hidden="true">
-			<svg width="255" height="254" viewBox="0 0 255 254" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-					<rect class="fd-border" x="3.92146" y="32.205" width="219" height="219" transform="rotate(-7.38639 3.92146 32.205)" stroke="#A7A7A7" stroke-dasharray="5 5"/>
-					<rect class="fd-corner" x="0.560963" y="29.6153" width="8" height="8" transform="rotate(-7.38639 0.560963 29.6153)" fill="#EEEEEE" stroke="#A7A7A7"/>
-					<rect class="fd-corner" x="216.752" y="1.58894" width="8" height="8" transform="rotate(-7.38639 216.752 1.58894)" fill="#EEEEEE" stroke="#A7A7A7"/>
-					<rect class="fd-corner" x="28.4594" y="244.815" width="8" height="8" transform="rotate(-7.38639 28.4594 244.815)" fill="#EEEEEE" stroke="#A7A7A7"/>
-					<rect class="fd-corner" x="244.651" y="216.788" width="8" height="8" transform="rotate(-7.38639 244.651 216.788)" fill="#EEEEEE" stroke="#A7A7A7"/>
-				</svg>
-		</div>
-
 		<div class="footer-wrap stagger-in">
 			<PageFooter />
 		</div>
@@ -182,51 +172,6 @@ import ribbonImg from '@/assets/images/ribbon.png';
 			link.addEventListener('click', resetLink);
 		});
 
-		// Footer decoration drag
-		const decoration = document.querySelector<HTMLElement>('.footer-decoration');
-		if (decoration) {
-			let dragging = false;
-			let originX = 0, originY = 0;
-			let currentX = 0, currentY = 0;
-
-			const onMouseMove = (e: MouseEvent) => {
-				if (!dragging) return;
-				currentX = e.clientX - originX;
-				currentY = e.clientY - originY;
-				gsap.set(decoration, { x: currentX, y: currentY });
-			};
-
-			const onMouseUp = () => {
-				if (!dragging) return;
-				dragging = false;
-				decoration.style.cursor = 'grab';
-				decoration.classList.remove('dragging');
-				gsap.to(decoration, {
-					x: 0, y: 0,
-					duration: 2,
-					ease: 'elastic.out(1, 0.3)',
-					onComplete: () => { currentX = 0; currentY = 0; },
-				});
-			};
-
-			decoration.addEventListener('mousedown', (e) => {
-				dragging = true;
-				originX = e.clientX - currentX;
-				originY = e.clientY - currentY;
-				gsap.killTweensOf(decoration);
-				decoration.style.cursor = 'grabbing';
-				decoration.classList.add('dragging');
-				e.preventDefault();
-			});
-
-			window.addEventListener('mousemove', onMouseMove);
-			window.addEventListener('mouseup', onMouseUp);
-
-			document.addEventListener('astro:before-swap', () => {
-				window.removeEventListener('mousemove', onMouseMove);
-				window.removeEventListener('mouseup', onMouseUp);
-			}, { once: true });
-		}
 
 	});
 </script>
@@ -250,7 +195,7 @@ import ribbonImg from '@/assets/images/ribbon.png';
 		align-items: center;
 		justify-content: center;
 		margin-top: 3.5rem;
-		margin-bottom: 3.5rem;
+		margin-bottom: 4.5rem;
 		/* fixed height so the button's hover growth doesn't shift the footer */
 		height: 3rem;
 	}
@@ -491,56 +436,6 @@ import ribbonImg from '@/assets/images/ribbon.png';
 
 	:root[data-theme='dark'] .page-ribbon {
 		opacity: 0.02;
-	}
-
-	/* ── Footer decoration ── */
-	.footer-decoration {
-		position: absolute;
-		bottom: -30px;
-		right: -270px;
-		z-index: 0;
-		cursor: grab;
-		user-select: none;
-		display: none;
-	}
-
-	.fd-corner {
-		transition: fill 0.1s ease, stroke 0.1s ease;
-	}
-
-	.fd-border {
-		transition: stroke 0.1s ease;
-	}
-
-	.footer-decoration:hover .fd-corner,
-	.footer-decoration.dragging .fd-corner {
-		fill: #FFB2DE;
-		stroke: #545454;
-	}
-
-	.footer-decoration:hover .fd-border,
-	.footer-decoration.dragging .fd-border {
-		stroke: #545454;
-	}
-
-	:root[data-theme='dark'] .fd-border {
-		stroke: #38333b;
-	}
-
-	:root[data-theme='dark'] .fd-corner {
-		fill: #28252c;
-		stroke: #38333b;
-	}
-
-	:root[data-theme='dark'] .footer-decoration:hover .fd-corner,
-	:root[data-theme='dark'] .footer-decoration.dragging .fd-corner {
-		fill: #FFB2DE;
-		stroke: #545454;
-	}
-
-	:root[data-theme='dark'] .footer-decoration:hover .fd-border,
-	:root[data-theme='dark'] .footer-decoration.dragging .fd-border {
-		stroke: #545454;
 	}
 
 	.footer-wrap {

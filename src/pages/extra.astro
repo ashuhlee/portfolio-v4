@@ -1,0 +1,244 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import DitherBackground from '@/components/webGL/dither/DitherBackground.astro';
+import PixelBlastBackground from '@/components/webGL/pixelblast/PixelBlastBackground.astro';
+import BackButton from '@/components/common/BackButton.astro';
+---
+
+<Layout title="Extras | Hi, I'm Ashley" starColor="var(--color-brand-pink)">
+	<DitherBackground slot="background" color={['grey']} />
+	<PixelBlastBackground slot="background" visibleInTheme="dark" />
+	<div class="page">
+		<BackButton />
+
+		<h1 class="stagger-in">UNDER CONSTRUCTION</h1>
+		<p class="description stagger-in">Looks like this page has no content yet &nbsp;(◞‸◟；)</p>
+
+		<div class="fd-wrap" aria-hidden="true">
+			<svg class="fd-svg" width="380" height="378" viewBox="0 0 255 254" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+				<rect class="fd-border" x="3.92146" y="32.205" width="219" height="219" transform="rotate(-7.38639 3.92146 32.205)" stroke="#A7A7A7" stroke-dasharray="5 5"/>
+				<!-- visible corner squares -->
+				<rect class="fd-corner" x="0.560963" y="29.6153" width="8" height="8" transform="rotate(-7.38639 0.560963 29.6153)" fill="#EEEEEE" stroke="#A7A7A7"/>
+				<rect class="fd-corner" x="216.752"  y="1.58894"  width="8" height="8" transform="rotate(-7.38639 216.752 1.58894)"  fill="#EEEEEE" stroke="#A7A7A7"/>
+				<rect class="fd-corner" x="28.4594"  y="244.815"  width="8" height="8" transform="rotate(-7.38639 28.4594 244.815)"  fill="#EEEEEE" stroke="#A7A7A7"/>
+				<rect class="fd-corner" x="244.651"  y="216.788"  width="8" height="8" transform="rotate(-7.38639 244.651 216.788)"  fill="#EEEEEE" stroke="#A7A7A7"/>
+				<!-- larger invisible hit circles placed over each corner square -->
+				<circle class="fd-hit" data-corner="tl" cx="4.56"  cy="33.62" r="14" fill="transparent" transform="rotate(-7.38639 0.560963 29.6153)"  style="cursor:nwse-resize"/>
+				<circle class="fd-hit" data-corner="tr" cx="220.75" cy="5.59"  r="14" fill="transparent" transform="rotate(-7.38639 216.752 1.58894)"   style="cursor:nesw-resize"/>
+				<circle class="fd-hit" data-corner="bl" cx="32.46" cy="248.82" r="14" fill="transparent" transform="rotate(-7.38639 28.4594 244.815)"   style="cursor:nesw-resize"/>
+				<circle class="fd-hit" data-corner="br" cx="248.65" cy="220.79" r="14" fill="transparent" transform="rotate(-7.38639 244.651 216.788)"  style="cursor:nwse-resize"/>
+			</svg>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const el = document.querySelector<HTMLElement>('.fd-wrap');
+		const svgEl = el?.querySelector<SVGSVGElement>('.fd-svg');
+		if (!el || !svgEl) return;
+
+		let w = 380, h = 378;
+		let tx = window.innerWidth / 2 + 200;
+		let ty = window.innerHeight - h + 120;
+		let rotate = 0;
+
+		type Mode = 'idle' | 'drag' | 'rotate' | 'resize';
+		let mode: Mode = 'idle';
+		let originX = 0, originY = 0;
+		let originAngle = 0;
+
+		// resize state computed at mousedown
+		let fixedX = 0, fixedY = 0;
+		let resizeScaleX = 1, resizeScaleY = 1;
+		let resizeFxO = 0, resizeFyO = 0;
+
+		function rot(x: number, y: number, rad: number) {
+			const c = Math.cos(rad), s = Math.sin(rad);
+			return { x: x * c - y * s, y: x * s + y * c };
+		}
+
+		function apply() {
+			svgEl.setAttribute('width', String(Math.round(w)));
+			svgEl.setAttribute('height', String(Math.round(h)));
+			el.style.transform = `translate(${tx}px, ${ty}px) rotate(${rotate}deg)`;
+		}
+
+		apply();
+
+		el.addEventListener('mousedown', (e: MouseEvent) => {
+			const hit = (e.target as Element).closest<Element>('[data-corner]');
+			if (hit) {
+				e.preventDefault();
+				const corner = (hit as HTMLElement).dataset.corner!;
+				const opp = { tl: 'br', tr: 'bl', bl: 'tr', br: 'tl' }[corner]!;
+				const rad = rotate * Math.PI / 180;
+
+				// screen position of opposite corner (stays fixed during resize)
+				const oppEl = el.querySelector<Element>(`[data-corner="${opp}"]`)!;
+				const oppR = oppEl.getBoundingClientRect();
+				fixedX = oppR.left + oppR.width / 2;
+				fixedY = oppR.top + oppR.height / 2;
+
+				// screen position of dragged corner at mousedown
+				const dragR = hit.getBoundingClientRect();
+				const dragX = dragR.left + dragR.width / 2;
+				const dragY = dragR.top + dragR.height / 2;
+
+				// unrotate drag-to-fixed vector to get local scale factors
+				const startVec = rot(dragX - fixedX, dragY - fixedY, -rad);
+				resizeScaleX = startVec.x / w;
+				resizeScaleY = startVec.y / h;
+
+				// fixed corner's offset from element center, expressed as fractions
+				const elR = el.getBoundingClientRect();
+				const cx = elR.left + elR.width / 2;
+				const cy = elR.top + elR.height / 2;
+				const ffc = rot(fixedX - cx, fixedY - cy, -rad);
+				resizeFxO = (ffc.x + w / 2) / w;
+				resizeFyO = (ffc.y + h / 2) / h;
+
+				mode = 'resize';
+				el.classList.add('resizing');
+				return;
+			}
+
+			e.preventDefault();
+			if (e.altKey || e.button === 2) {
+				mode = 'rotate';
+				const r = el.getBoundingClientRect();
+				const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+				originAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) - rotate;
+			} else {
+				mode = 'drag';
+				originX = e.clientX - tx;
+				originY = e.clientY - ty;
+			}
+			el.classList.add('dragging');
+		});
+
+		const onMove = (e: MouseEvent) => {
+			if (mode === 'drag') {
+				tx = e.clientX - originX;
+				ty = e.clientY - originY;
+				apply();
+			} else if (mode === 'rotate') {
+				const r = el.getBoundingClientRect();
+				const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+				rotate = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) - originAngle;
+				apply();
+			} else if (mode === 'resize') {
+				const rad = rotate * Math.PI / 180;
+				const local = rot(e.clientX - fixedX, e.clientY - fixedY, -rad);
+				const new_w = Math.max(80, local.x / resizeScaleX);
+				const new_h = Math.max(80, local.y / resizeScaleY);
+
+				w = new_w;
+				h = new_h;
+
+				// reposition so fixed corner stays in place
+				const fc = rot(resizeFxO * new_w - new_w / 2, resizeFyO * new_h - new_h / 2, rad);
+				tx = fixedX - fc.x - new_w / 2;
+				ty = fixedY - fc.y - new_h / 2;
+
+				apply();
+			}
+		};
+
+		const onUp = () => {
+			mode = 'idle';
+			el.classList.remove('dragging', 'resizing');
+		};
+
+		el.addEventListener('contextmenu', (e) => e.preventDefault());
+		window.addEventListener('mousemove', onMove);
+		window.addEventListener('mouseup', onUp);
+
+		document.addEventListener('astro:before-swap', () => {
+			window.removeEventListener('mousemove', onMove);
+			window.removeEventListener('mouseup', onUp);
+		}, { once: true });
+	});
+</script>
+
+<style>
+	.page {
+		max-width: 50rem;
+		margin: 0 auto;
+		padding: 2.5rem 1.5rem 4rem;
+	}
+
+	h1 {
+		font-family: var(--font-display), sans-serif;
+		font-size: var(--font-size-20);
+		margin: 0;
+		color: var(--color-text-primary);
+	}
+
+	.description {
+		font-size: var(--font-size-15);
+		line-height: 1.5;
+		color: var(--color-text-muted);
+		margin: 0.75rem 0 0;
+		max-width: 31.875rem;
+	}
+
+	.fd-wrap {
+		position: fixed;
+		top: 0;
+		left: 0;
+		cursor: grab;
+		user-select: none;
+		will-change: transform;
+		z-index: 10;
+	}
+
+	.fd-wrap.dragging {
+		cursor: grabbing;
+	}
+
+	.fd-corner {
+		transition: fill 0.1s ease, stroke 0.1s ease;
+		pointer-events: none;
+	}
+
+	.fd-border {
+		transition: stroke 0.1s ease;
+		pointer-events: none;
+	}
+
+	.fd-wrap:hover .fd-corner,
+	.fd-wrap.dragging .fd-corner,
+	.fd-wrap.resizing .fd-corner {
+		fill: #FFB2DE;
+		stroke: #545454;
+	}
+
+	.fd-wrap:hover .fd-border,
+	.fd-wrap.dragging .fd-border,
+	.fd-wrap.resizing .fd-border {
+		stroke: #545454;
+	}
+
+	:root[data-theme='dark'] .fd-border {
+		stroke: #38333b;
+	}
+
+	:root[data-theme='dark'] .fd-corner {
+		fill: #28252c;
+		stroke: #38333b;
+	}
+
+	:root[data-theme='dark'] .fd-wrap:hover .fd-corner,
+	:root[data-theme='dark'] .fd-wrap.dragging .fd-corner,
+	:root[data-theme='dark'] .fd-wrap.resizing .fd-corner {
+		fill: #FFB2DE;
+		stroke: #545454;
+	}
+
+	:root[data-theme='dark'] .fd-wrap:hover .fd-border,
+	:root[data-theme='dark'] .fd-wrap.dragging .fd-border,
+	:root[data-theme='dark'] .fd-wrap.resizing .fd-border {
+		stroke: #545454;
+	}
+</style>

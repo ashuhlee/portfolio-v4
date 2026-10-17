@@ -100,8 +100,8 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
     </div>
 
     <div class="showcase-grid">
-      <ShowcaseCard variant="withdraw" tooltip="Deposit and withdraw from savings" tooltipColor="#FEBCF1"
-                    tooltipColorStart="#FFDBF8">
+      <ShowcaseCard variant="withdraw" tooltip="Deposit and withdraw from savings" tooltipColor="#FFA6D9"
+                    tooltipColorStart="#FFDDF8">
         <CrossfadeVideo
           class="preview-phone preview-phone-left"
           src={withdraw1}
@@ -125,7 +125,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
           alt="Decline withdrawal request modal"
         />
       </ShowcaseCard>
-      <ShowcaseCard variant="wallet" tooltip="Create a new wallet" tooltipColor="#FFE692" tooltipColorStart="#FFF7DF">
+      <ShowcaseCard variant="wallet" tooltip="Create a new wallet" tooltipColor="#D8D8D8" tooltipColorStart="#FFFFFF">
         <Image
           class="wallet-phone wallet-phone-1"
           src={wallet1}
@@ -147,14 +147,14 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
         playsinline
         controls={false}
         data-tooltip="Toast feedback"
-        data-tooltip-color="#D8D8D8"
-        data-tooltip-color-start="#FFFFFF"
+        data-tooltip-color="#FFA6D9"
+        data-tooltip-color-start="#FFDDF8"
       >
         <source src={notificationsMov} type="video/mp4; codecs=hvc1"/>
         <source src={notificationsWebm} type="video/webm"/>
       </video>
-      <ShowcaseCard variant="savings" tooltip="Create a savings account" tooltipColor="#A9EAFF"
-                    tooltipColorStart="#E8F9FF">
+      <ShowcaseCard variant="savings" tooltip="Create a savings account" tooltipColor="#212121"
+                    tooltipColorStart="#555555" tooltipTextColor="#FFFFFF">
         <Image
           class="savings-phone savings-phone-1"
           src={savings1}
@@ -171,8 +171,8 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
           ariaLabel="Create stash screen"
         />
       </ShowcaseCard>
-      <ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#D9EE84"
-                    tooltipColorStart="#F8FFDC">
+      <ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#FFA6D9"
+                    tooltipColorStart="#FFDDF8">
         <Image
           class="settings-phone settings-phone-1"
           src={savings2}
@@ -447,7 +447,7 @@ import chipCaretTimeline from '@/assets/pesa/chip-caret-timeline.svg';
         position: absolute;
         background: var(--color-gray-faint);
         border: 1px solid var(--color-border-soft);
-        border-radius: 0.75rem;
+        border-radius: 0.5rem
     }
 
     video.placeholder {

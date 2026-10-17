@@ -8,6 +8,7 @@ const projects = [
 		name: 'Count O Rama',
 		description: 'A cross platform arcade game with progressive difficulty and power ups',
 		href: 'https://github.com/ashuhlee/count-or-die',
+		tooltip: 'play the beta',
 	},
 	{
 		lang: 'Swift',
@@ -15,6 +16,7 @@ const projects = [
 		name: 'Loggi',
 		description: 'Track and log your daily meals, weight and steps, synced with the health app',
 		href: undefined,
+		tooltip: '[coming soon]',
 	},
 	{
 		lang: 'Python',
@@ -22,6 +24,7 @@ const projects = [
 		name: 'Starlit',
 		description: 'A customizable weather package that matches any terminal (4k+ downloads)',
 		href: 'https://github.com/ashuhlee/starlit',
+		tooltip: 'view on github',
 	},
 	{
 		lang: 'Lua',
@@ -29,6 +32,7 @@ const projects = [
 		name: 'Flappy Kitty',
 		description: 'A Flappy Bird-style game with collision detection and physics based movement',
 		href: 'https://github.com/ashuhlee/flappy-kitty',
+		tooltip: 'view on github',
 	},
 ];
 ---
@@ -61,7 +65,7 @@ const projects = [
 					href={proj.href}
 					target={proj.href ? '_blank' : undefined}
 					rel={proj.href ? 'noopener noreferrer' : undefined}
-					data-tooltip={proj.href ? 'view on github' : '[coming soon]'}
+					data-tooltip={proj.tooltip}
 				>
 					{proj.href && <img src="/images/butterfly.gif" class="cell-butterfly" width="480" height="480" alt="" aria-hidden="true" draggable="false" />}
 					<div data-bounce={proj.href ? '0.95' : undefined} class="cell-content">

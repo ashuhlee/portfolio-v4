@@ -35,6 +35,8 @@
 
 			const colorEnd = target.dataset.tooltipColor;
 			const colorStart = target.dataset.tooltipColorStart;
+			const textColor = target.dataset.tooltipTextColor;
+			tooltip.style.color = textColor ?? '#000000';
 
 			tooltip.style.setProperty('--splash-pill-gradient-end', colorEnd ?? '#FF9ED6');
 			tooltip.style.setProperty('--splash-pill-gradient-start', colorStart ?? '#FFDDF8');
@@ -101,6 +103,15 @@
 			var(--splash-pill-gradient-start) 0,
 			var(--splash-pill-gradient-end) 100%
 		);
+
+		-webkit-mask-image:
+			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 3px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 3px), transparent 100%);
+		-webkit-mask-composite: source-in;
+		mask-image:
+			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 3px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 3px), transparent 100%);
+		mask-composite: intersect;
 
 		opacity: 0;
 		pointer-events: none;

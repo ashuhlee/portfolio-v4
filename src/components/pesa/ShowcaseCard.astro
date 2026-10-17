@@ -4,9 +4,10 @@ interface Props {
 	tooltip: string;
 	tooltipColor: string;
 	tooltipColorStart?: string;
+	tooltipTextColor?: string;
 }
 
-const { variant, tooltip, tooltipColor, tooltipColorStart } = Astro.props;
+const { variant, tooltip, tooltipColor, tooltipColorStart, tooltipTextColor } = Astro.props;
 ---
 
 <div
@@ -14,6 +15,7 @@ const { variant, tooltip, tooltipColor, tooltipColorStart } = Astro.props;
 	data-tooltip={tooltip}
 	data-tooltip-color={tooltipColor}
 	data-tooltip-color-start={tooltipColorStart}
+	data-tooltip-text-color={tooltipTextColor}
 >
 	<slot />
 </div>
