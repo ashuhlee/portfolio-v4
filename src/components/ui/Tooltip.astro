@@ -1,78 +1,77 @@
 ---
+import externalIconRaw from '@/assets/icons/external-icon.svg?raw';
+import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 ---
 
 <div class="hover-tooltip" id="hover-tooltip" transition:persist></div>
+<span id="tooltip-external-icon" hidden set:html={externalIconRaw}></span>
+<span id="tooltip-eye-icon" hidden set:html={eyeIconRaw}></span>
 
 <script>
 	import { gsap } from 'gsap';
 	import { getSetting, onSettingChange } from '@/utils/settings';
 
 	const tooltip = document.getElementById('hover-tooltip');
+	const externalIconHTML = document.getElementById('tooltip-external-icon')?.innerHTML ?? '';
+	const eyeIconHTML = document.getElementById('tooltip-eye-icon')?.innerHTML ?? '';
+
 	if (tooltip) {
 		let activeTarget: HTMLElement | null = null;
-
-		const xTo = gsap.quickTo(tooltip, 'x', { duration: 0.35, ease: 'power3' });
-		const yTo = gsap.quickTo(tooltip, 'y', { duration: 0.35, ease: 'power3' });
-
-		function offsetFor(target: HTMLElement, clientX: number) {
-			const isLeft = target.dataset.tooltipAlign === 'left';
-			return isLeft ? clientX - 15 : clientX + 15;
-		}
+	
+		gsap.set(tooltip, { xPercent: -50, yPercent: -50, opacity: 0 });
 
 		document.addEventListener('mouseover', (event) => {
 			const target = (event.target as HTMLElement)?.closest<HTMLElement>('[data-tooltip]');
 			if (!target || target === activeTarget || !getSetting('tooltips')) return;
+			if (target.closest('.showcase-grid')) return;
 
 			activeTarget = target;
 			document.documentElement.classList.add('tooltip-active');
 
-			// const oldWidth = tooltip.getBoundingClientRect().width;
-
-			tooltip.classList.add('visible');
-			tooltip.classList.remove('solid');
-
-			tooltip.style.background = '';
+			gsap.killTweensOf(tooltip);
 
 			const colorEnd = target.dataset.tooltipColor;
 			const colorStart = target.dataset.tooltipColorStart;
 			const textColor = target.dataset.tooltipTextColor;
 			tooltip.style.color = textColor ?? '#000000';
 
-			tooltip.style.setProperty('--splash-pill-gradient-end', colorEnd ?? '#FF9ED6');
-			tooltip.style.setProperty('--splash-pill-gradient-start', colorStart ?? '#FFEBFB');
+			tooltip.style.setProperty('--gradient-end', colorEnd ?? '#FF9ED6');
+			tooltip.style.setProperty('--gradient-start', colorStart ?? '#FFEBFB');
 
 			if (colorEnd) {
-				tooltip.style.setProperty('--splash-pill-gradient-size', '55% 90%');
-				tooltip.style.setProperty('--splash-pill-gradient-pos', '22% 15%');
+				tooltip.style.setProperty('--gradient-size', '55% 90%');
+				tooltip.style.setProperty('--gradient-pos', '22% 15%');
 			} else {
-				tooltip.style.setProperty('--splash-pill-gradient-size', '91% 60%');
-				tooltip.style.setProperty('--splash-pill-gradient-pos', '89% 11%');
+				tooltip.style.setProperty('--gradient-size', '91% 60%');
+				tooltip.style.setProperty('--gradient-pos', '89% 11%');
 			}
 
 			gsap.set(tooltip, { width: 'auto' });
-			tooltip.textContent = target.dataset.tooltip ?? '';
-			// const newWidth = tooltip.getBoundingClientRect().width;
 
-			// gsap.fromTo(tooltip, { width: oldWidth }, { width: newWidth, duration: 0.15, ease: 'power2.out' });
+			const tooltipText = target.dataset.tooltip ?? '';
+			const isExternal = target.getAttribute('target') === '_blank';
+			const isViewDemo = tooltipText === 'view demo';
+			const icon = isViewDemo ? eyeIconHTML : isExternal ? externalIconHTML : '';
+			const displayText = isViewDemo ? `${tooltipText} →` : tooltipText;
+			if (icon) {
+				const iconClass = isViewDemo ? 'tooltip-icon' : 'tooltip-icon tooltip-icon-external';
+				tooltip.innerHTML = `<span class="${iconClass}">${icon}</span><span class="tooltip-text">${displayText}</span>`;
+			} else {
+				tooltip.textContent = tooltipText;
+			}
 
-			const mouseEvent = event as MouseEvent;
-
-			gsap.set(tooltip, {
-				x: offsetFor(target, mouseEvent.clientX),
-				y: mouseEvent.clientY + 15,
-			});
+			gsap.to(tooltip, { opacity: 1, duration: 0.15, ease: 'none' });
 		});
 
 		document.addEventListener('mousemove', (event) => {
-			if (!activeTarget) return;
-			xTo(offsetFor(activeTarget, event.clientX));
-			yTo(event.clientY + 15);
+			gsap.set(tooltip, { x: event.clientX, y: event.clientY });
 		});
 
 		const hideTooltip = () => {
 			activeTarget = null;
-			tooltip.classList.remove('visible');
 			document.documentElement.classList.remove('tooltip-active');
+			gsap.killTweensOf(tooltip);
+			gsap.to(tooltip, { opacity: 0, duration: 0.2, ease: 'power2.out' });
 		};
 
 		onSettingChange('tooltips', (enabled) => {
@@ -83,7 +82,6 @@
 			if (!activeTarget) return;
 			const related = event.relatedTarget as HTMLElement | null;
 			if (related && activeTarget.contains(related)) return;
-
 			hideTooltip();
 		});
 	}
@@ -91,43 +89,42 @@
 
 <style>
 	.hover-tooltip {
-		--splash-pill-gradient-start: #FFEBFB;
-		--splash-pill-gradient-end: #FFA6D9;
-
-		--splash-pill-gradient-size: 91% 60%;
-		--splash-pill-gradient-pos: 89% 11%;
+		--gradient-start: #FFEBFB;
+		--gradient-end: #FFA6D9;
+		--gradient-size: 91% 60%;
+		--gradient-pos: 89% 11%;
 
 		background: radial-gradient(
-			var(--splash-pill-gradient-size) at
-			var(--splash-pill-gradient-pos),
-			var(--splash-pill-gradient-start) 0,
-			var(--splash-pill-gradient-end) 100%
+			var(--gradient-size) at var(--gradient-pos),
+			var(--gradient-start) 0,
+			var(--gradient-end) 100%
 		);
 
 		-webkit-mask-image:
-			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 3px), transparent 100%),
-			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 3px), transparent 100%);
+			linear-gradient(to right,  transparent 0px, black 2px, black calc(100% - 2px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 2px, black calc(100% - 2px), transparent 100%);
 		-webkit-mask-composite: source-in;
 		mask-image:
-			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 3px), transparent 100%),
-			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 3px), transparent 100%);
+			linear-gradient(to right,  transparent 0px, black 2px, black calc(100% - 2px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 2px, black calc(100% - 2px), transparent 100%);
 		mask-composite: intersect;
 
-		opacity: 0;
+		display: inline-flex;
+		align-items: center;
 		pointer-events: none;
 		position: fixed;
 		top: 0;
 		left: 0;
-		font-family: var(--font-sans), sans-serif;
-		font-size: var(--font-size-14);
-		font-weight: 600;
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		font-weight: 400;
 		color: #000000;
 		padding: 0.5rem 0.6rem;
 		box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.025);
-		font-style: italic;
+		text-transform: uppercase;
+		letter-spacing: 0;
 		white-space: nowrap;
 		overflow: hidden;
-		transition: opacity 0.18s ease, scale 0.2s ease;
 		z-index: 9999;
 	}
 
@@ -141,8 +138,8 @@
 		pointer-events: none;
 	}
 
-	.hover-tooltip.visible {
-		opacity: 1;
+	:global(:root.tooltip-active *) {
+		cursor: none !important;
 	}
 
 	:root[data-theme='dark'] .hover-tooltip {
@@ -150,4 +147,26 @@
 		mask-image: none;
 	}
 
+	:global(.tooltip-icon),
+	:global(.tooltip-text) {
+		display: flex;
+		align-items: center;
+		line-height: 1;
+	}
+
+	:global(.tooltip-icon) {
+		margin-right: 0.25rem;
+		flex-shrink: 0;
+	}
+
+	:global(.tooltip-icon svg) {
+		width: 14px;
+		height: 14px;
+		display: block;
+	}
+
+	:global(.tooltip-icon-external svg) {
+		width: 15px;
+		height: 15px;
+	}
 </style>
