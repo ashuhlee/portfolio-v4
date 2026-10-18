@@ -104,7 +104,7 @@ const projects = [
 
 <style>
 	.section {
-		margin-top: 3.5rem;
+		margin-top: 2.5rem;
 	}
 
 	/* ── Scroll widget ── */
@@ -116,9 +116,9 @@ const projects = [
 	}
 
 	.proj-y-text {
-		font-family: 'Azeret Mono', monospace;
+		font-family: var(--font-mono);
 		font-size: 11px;
-		color: #a6a6a6;
+		color: var(--color-gray-reg);
 		white-space: nowrap;
 		line-height: 1;
 		margin-right: 0.75rem;
@@ -150,7 +150,7 @@ const projects = [
 		height: 0.5px;
 		background: repeating-linear-gradient(
 			to right,
-			#a6a6a6 0, #a6a6a6 2px,
+			var(--color-gray-reg) 0, var(--color-gray-reg) 2px,
 			transparent 2px, transparent 4px
 		);
 		pointer-events: none;
@@ -162,7 +162,7 @@ const projects = [
 		top: 0;
 		bottom: 0;
 		width: 0.5px;
-		background: #a6a6a6;
+		background: var(--color-gray-reg);
 		pointer-events: none;
 	}
 
@@ -229,7 +229,7 @@ const projects = [
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
-		font-family: 'Azeret Mono', monospace;
+		font-family: var(--font-mono);
 		font-weight: 300;
 		font-size: 15px;
 		line-height: 1;
@@ -283,7 +283,7 @@ const projects = [
 	}
 
 	:root[data-theme='dark'] .proj-cell-link:hover {
-		background: rgba(255, 255, 255, 0.015);
+		background: rgba(255, 255, 255, 0.02);
 	}
 
 	.cell-butterfly {
@@ -350,17 +350,13 @@ const projects = [
 	}
 
 	.proj-name {
-		font-family: 'GT Walsheim Pro', sans-serif;
+		font-family: var(--font-gt), sans-serif;
 		font-size: 15.5px;
 		font-weight: 500;
 		text-transform: lowercase;
-		color: #212121;
+		color: var(--color-text-primary-alt);
 		margin: 0 0 0.6rem;
 		line-height: 1.2;
-	}
-
-	:root[data-theme='dark'] .proj-name {
-		color: var(--color-text-primary);
 	}
 
 	.proj-desc {

@@ -39,7 +39,8 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 			const textColor = target.dataset.tooltipTextColor;
 			tooltip.style.color = textColor ?? '#000000';
 
-			tooltip.style.setProperty('--gradient-end', colorEnd ?? '#FF9ED6');
+			const defaultEnd = getComputedStyle(document.documentElement).getPropertyValue('--color-pink-gradient-end').trim();
+			tooltip.style.setProperty('--gradient-end', colorEnd ?? defaultEnd);
 			tooltip.style.setProperty('--gradient-start', colorStart ?? '#FFEBFB');
 
 			if (colorEnd) {
@@ -103,7 +104,7 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 <style>
 	.hover-tooltip {
 		--gradient-start: #FFEBFB;
-		--gradient-end: #FFA6D9;
+		--gradient-end: var(--color-pink-gradient-end);
 		--gradient-size: 91% 60%;
 		--gradient-pos: 89% 11%;
 		opacity: 0;

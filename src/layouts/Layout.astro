@@ -16,6 +16,8 @@ import ConfigMenu from '@/components/interactive/ConfigMenu.astro';
 import Splash from '@/components/layout/Splash.astro';
 import Navigation from '@/components/layout/Navigation.astro';
 
+interface NavLink { label: string; href: string; }
+
 interface Props {
 	title?: string;
 	description?: string;
@@ -24,6 +26,7 @@ interface Props {
 	showConfigMenu?: boolean;
 	showSplash?: boolean;
 	showNav?: boolean;
+	navLinks?: { primary: NavLink; secondary: NavLink };
 }
 
 const {
@@ -34,7 +37,16 @@ const {
 	showConfigMenu = false,
 	showSplash = false,
 	showNav = true,
+	navLinks,
 } = Astro.props;
+
+const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isIndex = normalizedPath === '/';
+const isExtra = normalizedPath === '/extra';
+const resolvedNavLinks = navLinks ?? {
+	primary: { label: isIndex ? 'WORK' : 'BACK HOME', href: isIndex ? '/work/pesa' : '/' },
+	secondary: { label: isExtra ? 'WORK' : 'EXTRA', href: isExtra ? '/work/pesa' : '/extra' },
+};
 
 
 const ogImage = new URL('/og-image.png', Astro.url).toString();
@@ -104,7 +116,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<div class="page-root">
 			<slot />
 		</div>
-		{showNav && <Navigation pathname={Astro.url.pathname} />}
+		{showNav && <Navigation primary={resolvedNavLinks.primary} secondary={resolvedNavLinks.secondary} />}
 		<Tooltip />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />

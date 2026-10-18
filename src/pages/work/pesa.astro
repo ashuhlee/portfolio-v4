@@ -256,10 +256,6 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         color: var(--color-brand-pink);
     }
 
-    :root[data-theme='dark'] .expand-toggle:hover {
-        background: #25232c;
-    }
-
     h2 {
         font-family: var(--font-display), sans-serif;
         font-size: var(--font-size-18);
@@ -303,6 +299,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         position: absolute;
         background: var(--color-gray-faint-hover);
         border: 1px solid var(--color-border-soft);
+        border-radius: 0.1875rem
     }
 
     video.placeholder {
@@ -422,18 +419,19 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         background-image: url('/images/patterns/dither-clouds.png');
         background-size: cover;
         background-position: center;
-        opacity: 0.08;
+        opacity: 0.1;
         pointer-events: none;
         z-index: 0;
         transition: opacity 0.4s ease;
     }
 
-    :global(:root[data-theme='dark'] .card-withdraw::before) {
-        opacity: 0;
+    :global(.page.expanded .card-withdraw::before) {
+        opacity: 0.06;
     }
 
-    :global(.page.expanded .card-withdraw::before) {
-        opacity: 0.04;
+    :global(:root[data-theme='dark'] .card-withdraw::before),
+    :global(:root[data-theme='dark'] .page.expanded .card-withdraw::before) {
+        opacity: 0;
     }
 
     :global(.card-wallet) {

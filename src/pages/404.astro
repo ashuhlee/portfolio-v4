@@ -50,19 +50,9 @@ import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackgr
 	}
 
 	:global(.cursor-fill-btn) {
-		background: transparent !important;
 		transition:
 			padding 0.3s var(--ease-spring),
-			border-color 0.2s ease 0.2s,
-			background 0.05s ease !important;
-	}
-
-	:global(.cursor-fill-btn.hovering) {
-		background: var(--color-bg-page) !important;
-		transition:
-			padding 0.3s var(--ease-spring),
-			border-color 0.15s ease,
-			background 0.1s ease 0.15s !important;
+			border-color 0.2s ease 0.2s !important;
 	}
 
 	.page {
@@ -172,7 +162,8 @@ import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackgr
 	}
 
 	:root[data-theme='dark'] .star-butterfly {
-		display: none;
+		opacity: 0.05;
+		filter: blur(9px) invert(1);
 	}
 
 	@media (max-width: 37.5rem) {

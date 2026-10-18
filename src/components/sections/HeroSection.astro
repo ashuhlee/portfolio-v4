@@ -118,14 +118,14 @@ import emailIconRaw from '@/assets/icons/email-icon.svg?raw';
 		font-family: var(--font-display), sans-serif;
 		font-size: var(--font-size-15);
 		text-transform: uppercase;
-		color: #212121;
+		color: var(--color-text-primary-alt);
 	}
 
 	.role {
 		margin: 0;
 		font-family: var(--font-sans), sans-serif;
 		font-size: var(--font-size-15);
-		color: #606060;
+		color: var(--color-text-muted);
 	}
 
 	.theme-toggle {
@@ -191,7 +191,7 @@ import emailIconRaw from '@/assets/icons/email-icon.svg?raw';
 	}
 
 	:root[data-theme='dark'] .bio {
-		color: var(--color-text-secondary);
+		color: var(--color-text-primary-alt);
 	}
 
 	.bio-email {
@@ -276,11 +276,4 @@ import emailIconRaw from '@/assets/icons/email-icon.svg?raw';
 		opacity: 0.5;
 	}
 
-	:root[data-theme='dark'] .name {
-		color: var(--color-text-primary);
-	}
-
-	:root[data-theme='dark'] .role {
-		color: var(--color-text-muted);
-	}
 </style>

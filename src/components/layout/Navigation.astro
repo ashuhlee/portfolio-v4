@@ -3,39 +3,33 @@ import { Image } from 'astro:assets';
 import navFlowerImg from '@/assets/images/png/nav-flower.png';
 
 interface Props {
-	pathname?: string;
+	primary: { label: string; href: string };
+	secondary: { label: string; href: string };
 }
 
-const { pathname = '/' } = Astro.props;
-const normalizedPath = pathname.replace(/\/$/, '') || '/';
-const isIndex = normalizedPath === '/';
-const isExtra = normalizedPath === '/extra';
-const primaryLabel = isIndex ? 'WORK' : 'BACK HOME';
-const primaryHref = isIndex ? '/work/pesa' : '/';
-const secondaryLabel = isExtra ? 'WORK' : 'EXTRA';
-const secondaryHref = isExtra ? '/work/pesa' : '/extra';
+const { primary, secondary } = Astro.props;
 ---
 
 <nav class="site-nav" aria-label="Site navigation">
 	<div class="nav-links">
-		<a href={primaryHref} class="nav-link" id="nav-link-primary">
+		<a href={primary.href} class="nav-link" id="nav-link-primary">
 			<span class="nav-arrow-wrap">
 				<span class="nav-arrow nav-arrow-primary">\</span>
 				<span class="nav-arrow nav-arrow-hover">\</span>
 			</span>
 			<span class="nav-label-wrap">
-				<span class="nav-label-primary" id="nav-label-primary-main">{primaryLabel}</span>
-				<span class="nav-label-hover" id="nav-label-hover-main">{primaryLabel}</span>
+				<span class="nav-label-primary" id="nav-label-primary-main">{primary.label}</span>
+				<span class="nav-label-hover" id="nav-label-hover-main">{primary.label}</span>
 			</span>
 		</a>
-		<a href={secondaryHref} class="nav-link" id="nav-link-extra">
+		<a href={secondary.href} class="nav-link" id="nav-link-extra">
 			<span class="nav-arrow-wrap">
 				<span class="nav-arrow nav-arrow-primary">\</span>
 				<span class="nav-arrow nav-arrow-hover">\</span>
 			</span>
 			<span class="nav-label-wrap">
-				<span class="nav-label-primary">{secondaryLabel}</span>
-				<span class="nav-label-hover">{secondaryLabel}</span>
+				<span class="nav-label-primary">{secondary.label}</span>
+				<span class="nav-label-hover">{secondary.label}</span>
 			</span>
 		</a>
 	</div>
@@ -98,10 +92,6 @@ const secondaryHref = isExtra ? '/work/pesa' : '/extra';
 		line-height: 24px;
 		white-space: nowrap;
 		pointer-events: auto;
-	}
-
-	.nav-link-active {
-		color: var(--color-black);
 	}
 
 	.nav-arrow-wrap {
@@ -190,15 +180,14 @@ const secondaryHref = isExtra ? '/work/pesa' : '/extra';
 	}
 
 	.nav-status {
-		font-family: 'Azeret Mono', monospace;
+		font-family: var(--font-mono);
 		font-size: 12px;
 		font-weight: 400;
-		color: #212121;
+		color: var(--color-text-primary-alt);
 		text-transform: uppercase;
 		line-height: 18px;
 		width: 146px;
-		margin: 0;
-		margin-left: 72px;
+		margin: 0 0 0 72px;
 		pointer-events: auto;
 		user-select: none;
 		-webkit-user-select: none;
@@ -208,12 +197,8 @@ const secondaryHref = isExtra ? '/work/pesa' : '/extra';
 		opacity: 0.16;
 	}
 
-	:root[data-theme='dark'] .nav-status {
-		color: var(--color-text-primary);
-	}
-
 	.nav-plus {
-		color: #fe6fc1;
+		color: var(--color-brand-pink);
 	}
 </style>
 

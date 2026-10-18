@@ -23,7 +23,7 @@ const { id, label, prefix, checked = false, ...rest } = Astro.props;
 
 <style>
 	.toggle {
-		--toggle-off: #ebebeb;
+		--toggle-off: var(--color-border-soft);
 		--toggle-on: var(--color-text-primary);
 		display: flex;
 		align-items: center;

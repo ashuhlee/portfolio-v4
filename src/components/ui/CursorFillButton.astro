@@ -144,7 +144,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 				gsap.killTweensOf(scribblePath);
 				gsap.killTweensOf(fillOld);
 				gsap.to(scribblePath, { drawSVG: '100% 100%', duration: 0.4, ease: 'power1.in' });
-				gsap.set(fillOld, { scale: 0, clearProps: 'filter' });
+				gsap.to(fillOld, { scale: 0, duration: 0.2, ease: 'power1.in', clearProps: 'filter' });
 			};
 
 			btn.addEventListener('mouseleave', resetVisualState);
@@ -187,6 +187,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 
 <style>
 	.cursor-fill-btn {
+		--btn-fill: transparent;
 		position: relative;
 		display: inline-flex;
 		align-items: center;

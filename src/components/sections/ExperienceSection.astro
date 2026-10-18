@@ -65,7 +65,7 @@ const experiences = [
 
 <style>
 	.section {
-		margin-top: 3.5rem;
+		margin-top: 3rem;
 	}
 
 	/* ── Grid ── */
@@ -106,7 +106,7 @@ const experiences = [
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
-		font-family: 'Azeret Mono', monospace;
+		font-family: var(--font-mono);
 		font-weight: 300;
 		font-size: 15px;
 		line-height: 1;
@@ -160,7 +160,7 @@ const experiences = [
 	}
 
 	:root[data-theme='dark'] .exp-cell-link:hover {
-		background: rgba(255, 255, 255, 0.015);
+		background: rgba(255, 255, 255, 0.02);
 	}
 
 	:root[data-theme='dark'] .cell-disco-wrap {
@@ -210,17 +210,13 @@ const experiences = [
 	}
 
 	.exp-role {
-		font-family: 'GT Walsheim Pro', sans-serif;
+		font-family: var(--font-gt), sans-serif;
 		font-size: 15.5px;
 		font-weight: 500;
 		text-transform: lowercase;
-		color: #212121;
+		color: var(--color-text-primary-alt);
 		margin: 0 0 0.25rem;
 		line-height: 1.2;
-	}
-
-	:root[data-theme='dark'] .exp-role {
-		color: var(--color-text-primary);
 	}
 
 	.exp-meta {
