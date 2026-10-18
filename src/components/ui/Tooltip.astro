@@ -11,16 +11,35 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 	import { gsap } from 'gsap';
 	import { getSetting, onSettingChange } from '@/utils/settings';
 
-	const tooltip = document.getElementById('hover-tooltip');
-	const externalIconHTML = document.getElementById('tooltip-external-icon')?.innerHTML ?? '';
-	const eyeIconHTML = document.getElementById('tooltip-eye-icon')?.innerHTML ?? '';
+	const w = window as Window & { __tooltipInit?: boolean };
 
-	if (tooltip) {
+	// Hide tooltip and reset state on every page navigation
+	document.addEventListener('astro:before-swap', () => {
+		const tooltip = document.getElementById('hover-tooltip');
+		if (tooltip) gsap.set(tooltip, { opacity: 0 });
+		document.documentElement.classList.remove('tooltip-active');
+	});
+
+	if (!w.__tooltipInit) {
+		w.__tooltipInit = true;
+
+		const tooltip = document.getElementById('hover-tooltip');
+
 		let activeTarget: HTMLElement | null = null;
-	
-		gsap.set(tooltip, { xPercent: -50, yPercent: -50, opacity: 0 });
+		let externalIconHTML = '';
+		let eyeIconHTML = '';
+
+		// Refresh icon references after each page swap (spans are replaced on navigation)
+		document.addEventListener('astro:page-load', () => {
+			externalIconHTML = document.getElementById('tooltip-external-icon')?.innerHTML ?? '';
+			eyeIconHTML = document.getElementById('tooltip-eye-icon')?.innerHTML ?? '';
+			activeTarget = null;
+		});
+
+		if (tooltip) gsap.set(tooltip, { xPercent: -50, yPercent: -50, opacity: 0 });
 
 		document.addEventListener('mouseover', (event) => {
+			if (!tooltip) return;
 			const target = (event.target as HTMLElement)?.closest<HTMLElement>('[data-tooltip]');
 			if (!target || target === activeTarget || !getSetting('tooltips')) return;
 			if (target.closest('.showcase-grid')) return;
@@ -64,12 +83,13 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 		});
 
 		document.addEventListener('mousemove', (event) => {
-			gsap.set(tooltip, { x: event.clientX, y: event.clientY });
+			if (tooltip) gsap.set(tooltip, { x: event.clientX, y: event.clientY });
 		});
 
 		const hideTooltip = () => {
 			activeTarget = null;
 			document.documentElement.classList.remove('tooltip-active');
+			if (!tooltip) return;
 			gsap.killTweensOf(tooltip);
 			gsap.to(tooltip, { opacity: 0, duration: 0.2, ease: 'power2.out' });
 		};
