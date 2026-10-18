@@ -64,8 +64,8 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
     </div>
 
     <div class="showcase-grid">
-      <ShowcaseCard variant="withdraw" tooltip="Deposit and withdraw from savings" tooltipColor="#FFA6D9"
-                    tooltipColorStart="#FFDDF8">
+      <ShowcaseCard variant="withdraw" tooltip="Deposit + withdraw from savings" tooltipColor="#D8D8D8"
+                    tooltipColorStart="#FFFFFF">
         <CrossfadeVideo
           class="preview-phone preview-phone-left"
           src={withdraw1}
@@ -89,7 +89,8 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
           alt="Decline withdrawal request modal"
         />
       </ShowcaseCard>
-      <ShowcaseCard variant="wallet" tooltip="Create a new wallet" tooltipColor="#D8D8D8" tooltipColorStart="#FFFFFF">
+      <ShowcaseCard variant="wallet" tooltip="Create a new wallet" tooltipColor="#212121"
+                    tooltipColorStart="#555555" tooltipTextColor="#FFFFFF">
         <Image
           class="wallet-phone wallet-phone-1"
           src={wallet1}
@@ -110,15 +111,15 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         muted
         playsinline
         controls={false}
-        data-tooltip="Toast feedback"
+        data-tooltip="Toast notifications"
         data-tooltip-color="#FFA6D9"
         data-tooltip-color-start="#FFDDF8"
       >
         <source src={notificationsMov} type="video/mp4; codecs=hvc1"/>
         <source src={notificationsWebm} type="video/webm"/>
       </video>
-      <ShowcaseCard variant="savings" tooltip="Create a savings account" tooltipColor="#212121"
-                    tooltipColorStart="#555555" tooltipTextColor="#FFFFFF">
+      <ShowcaseCard variant="savings" tooltip="Create a savings account" tooltipColor="#D8D8D8"
+                    tooltipColorStart="#FFFFFF">
         <Image
           class="savings-phone savings-phone-1"
           src={savings1}
@@ -234,22 +235,21 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         justify-content: center;
         width: 2rem;
         height: 2rem;
-        background: var(--color-gray-faint);
         border: none;
-        border-radius: 999px;
+
+        background: transparent;
         color: var(--color-black);
         cursor: pointer;
-        transition: color 0.2s ease,
-        background 0.2s ease;
-    }
-
-    :root[data-theme='dark'] .expand-toggle {
-        background: #25232c;
+        transition: color 0.2s ease, background 0.2s ease;
     }
 
     .expand-toggle:hover {
         background: var(--color-gray-faint-hover);
         color: var(--color-brand-pink);
+    }
+
+    :root[data-theme='dark'] .expand-toggle:hover {
+        background: #25232c;
     }
 
     h2 {
@@ -281,9 +281,9 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 
     :global(.placeholder) {
         position: absolute;
-        background: var(--color-gray-faint);
+        background: var(--color-gray-faint-hover);
         border: 1px solid var(--color-border-soft);
-        border-radius: 0.5rem
+        border-radius: 0.25rem
     }
 
     video.placeholder {
