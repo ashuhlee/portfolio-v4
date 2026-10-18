@@ -26,7 +26,7 @@
 			activeTarget = target;
 			document.documentElement.classList.add('tooltip-active');
 
-			const oldWidth = tooltip.getBoundingClientRect().width;
+			// const oldWidth = tooltip.getBoundingClientRect().width;
 
 			tooltip.classList.add('visible');
 			tooltip.classList.remove('solid');
@@ -51,9 +51,9 @@
 
 			gsap.set(tooltip, { width: 'auto' });
 			tooltip.textContent = target.dataset.tooltip ?? '';
-			const newWidth = tooltip.getBoundingClientRect().width;
+			// const newWidth = tooltip.getBoundingClientRect().width;
 
-			gsap.fromTo(tooltip, { width: oldWidth }, { width: newWidth, duration: 0.25, ease: 'power2.out' });
+			// gsap.fromTo(tooltip, { width: oldWidth }, { width: newWidth, duration: 0.15, ease: 'power2.out' });
 
 			const mouseEvent = event as MouseEvent;
 

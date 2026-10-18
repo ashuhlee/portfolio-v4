@@ -331,8 +331,8 @@ import emailIconRaw from '@/assets/icons/email-icon.svg?raw';
 	.bio-email {
 		position: relative;
 		display: inline-flex;
-		align-items: center;
-		vertical-align: middle;
+		align-items: baseline;
+		vertical-align: baseline;
 		color: var(--color-text-medium);
 		text-decoration: none;
 		transition: color 0.1s ease;
@@ -367,6 +367,7 @@ import emailIconRaw from '@/assets/icons/email-icon.svg?raw';
 		width: 0;
 		overflow: hidden;
 		opacity: 0;
+		transform: translateY(2px);
 		transition: width 0.15s ease, opacity 0.1s ease;
 	}
 
