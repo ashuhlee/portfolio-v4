@@ -264,12 +264,24 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         width: 100%;
         aspect-ratio: 919 / 1396;
         margin-bottom: 3.5rem;
+
+        /* ── Spacing controls ── */
+        --gap: 1.9%;        /* vertical gap between rows */
+        --x-right: 58%;    /* left edge of right column */
+
+        /* ── Card heights ── */
+        --h-withdraw: 37%;
+        --h-wallet:   23%;
+        --h-toast:    15.5%;
+        --h-savings:  24.4%;
+        --h-settings: 31.2%;
+        --h-review:   17.5%;
     }
 
     .showcase-note {
         position: absolute;
         left: 0;
-        top: calc(95.1% + 1.5rem);
+        top: calc(var(--h-withdraw) + var(--gap) + var(--h-wallet) + var(--gap) + var(--h-settings) + 1.5rem);
         width: 55.2%;
         margin: 0;
         font-family: var(--font-mono), monospace;
@@ -388,42 +400,42 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         left: 0;
         top: 0;
         width: 99.8%;
-        height: 37%;
+        height: var(--h-withdraw);
     }
 
     :global(.card-wallet) {
         left: 0;
-        top: 38.9%;
+        top: calc(var(--h-withdraw) + var(--gap));
         width: 54.9%;
-        height: 23%;
+        height: var(--h-wallet);
     }
 
     .card-toast {
-        left: 58%;
-        top: 38.9%;
+        left: var(--x-right);
+        top: calc(var(--h-withdraw) + var(--gap));
         width: 41.8%;
-        height: 15.5%;
+        height: var(--h-toast);
     }
 
     :global(.card-savings) {
-        left: 58%;
-        top: 56.3%;
+        left: var(--x-right);
+        top: calc(var(--h-withdraw) + var(--gap) + var(--h-toast) + var(--gap));
         width: 42%;
-        height: 24.4%;
+        height: var(--h-savings);
     }
 
     :global(.card-settings) {
         left: 0;
-        top: 63.9%;
+        top: calc(var(--h-withdraw) + var(--gap) + var(--h-wallet) + var(--gap));
         width: 55.2%;
-        height: 31.2%;
+        height: var(--h-settings);
     }
 
     :global(.card-review) {
-        left: 58%;
-        top: 82.5%;
+        left: var(--x-right);
+        top: calc(var(--h-withdraw) + var(--gap) + var(--h-toast) + var(--gap) + var(--h-savings) + var(--gap));
         width: 41.8%;
-        height: 17.5%;
+        height: var(--h-review);
     }
 
     @media (max-width: 62.5rem) {
