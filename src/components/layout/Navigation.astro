@@ -8,9 +8,11 @@ interface Props {
 
 const { pathname = '/' } = Astro.props;
 const isIndex = pathname === '/';
+const isExtra = pathname === '/extra';
 const primaryLabel = isIndex ? 'WORK' : 'BACK HOME';
 const primaryHref = isIndex ? '/work/pesa' : '/';
-const extraActive = pathname === '/extra';
+const secondaryLabel = isExtra ? 'WORK' : 'EXTRA';
+const secondaryHref = isExtra ? '/work/pesa' : '/extra';
 ---
 
 <nav class="site-nav" aria-label="Site navigation">
@@ -25,14 +27,14 @@ const extraActive = pathname === '/extra';
 				<span class="nav-label-hover" id="nav-label-hover-main">{primaryLabel}</span>
 			</span>
 		</a>
-		<a href="/extra" class:list={['nav-link', { 'nav-link-active': extraActive }]} id="nav-link-extra" aria-current={extraActive ? 'page' : undefined}>
+		<a href={secondaryHref} class="nav-link" id="nav-link-extra">
 			<span class="nav-arrow-wrap">
 				<span class="nav-arrow nav-arrow-primary">\</span>
 				<span class="nav-arrow nav-arrow-hover">\</span>
 			</span>
 			<span class="nav-label-wrap">
-				<span class="nav-label-primary">EXTRA</span>
-				<span class="nav-label-hover">EXTRA</span>
+				<span class="nav-label-primary">{secondaryLabel}</span>
+				<span class="nav-label-hover">{secondaryLabel}</span>
 			</span>
 		</a>
 	</div>

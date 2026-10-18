@@ -1,23 +1,97 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import DitherBackground from '@/components/webgl/dither/DitherBackground.astro';
 import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackground.astro';
 import BackButton from '@/components/layout/BackButton.astro';
-import DraggableFrame from '@/components/interactive/DraggableFrame.astro';
 ---
 
-<Layout title="Play — Hi, I'm Ashley" starColor="var(--color-brand-pink)" showNav={false}>
-	<DitherBackground slot="background" color={['grey']} />
-	<PixelBlastBackground slot="background" visibleInTheme="dark" />
+<Layout title="Play — Hi, I'm Ashley" starColor="var(--color-brand-pink)" showNav={true}>
+	<PixelBlastBackground slot="background" color="#F5F5F5"/>
 	<div class="page">
 		<BackButton />
+		<h1 class="stagger-in">PLAY</h1>
+		<p class="description stagger-in">Looks like this page is still finding its rhythm. Maybe find something to listen to while you wait?</p>
 
-		<h1 class="stagger-in">UNDER CONSTRUCTION</h1>
-		<p class="description stagger-in">Looks like this page has no content yet, come back later!</p>
-
-		<DraggableFrame />
+		<div class="spotify-grid" id="spotify-grid"></div>
+		<button class="refresh-btn" id="refresh-btn">
+			<span class="refresh-label-wrap">
+				<span class="refresh-label-primary">↳ REFRESH</span>
+				<span class="refresh-label-hover">↳ REFRESH</span>
+			</span>
+		</button>
 	</div>
 </Layout>
+
+<script>
+	const SONGS = [
+		'https://open.spotify.com/track/7cmDGIipe87TP2CV7F3yED',
+		'https://open.spotify.com/track/4dIYdBeZRIG0m1YDcbQRUO',
+		'https://open.spotify.com/track/180AbZduI6bYQIzwCHRwu9',
+		'https://open.spotify.com/track/1KOv9Wf7Kc0hoVooMfhrVJ',
+		'https://open.spotify.com/track/5jqNQZBwbZWQXPWfo0ygZF?si=517a6b602a024083',
+		'https://open.spotify.com/track/1ljtQrsf55VCwjqXjro7Po?si=c3716046fca840e8',
+		'https://open.spotify.com/track/190IqlryWu91WBKeDgZqZz?si=fe253f4c77534e19',
+		'https://open.spotify.com/track/3DPVz4ZjvVXVKjbrkGapdf?si=e07e318cf5e045db',
+		'https://open.spotify.com/track/3lIxtCaROdRDuTnNBDm3n2?si=ae4efb0decfd4b5e',
+		'https://open.spotify.com/track/7H0ya83CMmgFcOhw0UB6ow?si=8ef97289b19d4b5d',
+		'https://open.spotify.com/track/747Ki1XZhdywdnrbip0Yak?si=05433500d6584510',
+		'https://open.spotify.com/track/6ubPFMzlIg73d1jzzWcC8B?si=84a33b6a64844349',
+		'https://open.spotify.com/track/68Cb7H8alHBORhwX7T04E2?si=332e003272ff448b',
+		'https://open.spotify.com/track/3jjsRKEsF42ccXf8kWR3nu?si=c12fdcbba0994415',
+		'https://open.spotify.com/track/761QvVHTibYjEi2r6A4g4Q?si=f0a38bb86965454a',
+	];
+
+	function renderSongs(hideBtn = false) {
+		const grid = document.getElementById('spotify-grid');
+		const btn = document.getElementById('refresh-btn') as HTMLElement | null;
+		if (!grid) return;
+
+		if (!hideBtn && btn) btn.style.opacity = '1';
+
+		grid.innerHTML = '';
+		const picked = [...SONGS].sort(() => Math.random() - 0.5).slice(0, 4);
+		let loaded = 0;
+
+		picked.forEach(url => {
+			const embedUrl = url.split('?')[0].replace('open.spotify.com/', 'open.spotify.com/embed/') + '?utm_source=generator&theme=0';
+
+			const wrapper = document.createElement('div');
+			wrapper.style.position = 'relative';
+			wrapper.style.backgroundColor = '#1a1a1a';
+			wrapper.style.border = '1px solid var(--color-border-soft)';
+			wrapper.style.borderRadius = '2px';
+			wrapper.style.overflow = 'hidden';
+			wrapper.style.opacity = '0';
+			wrapper.style.transition = 'opacity 0.4s ease';
+
+			const iframe = document.createElement('iframe');
+			iframe.src = embedUrl;
+			iframe.width = '100%';
+			iframe.height = '80';
+			iframe.setAttribute('frameborder', '0');
+			iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+			iframe.loading = 'lazy';
+			iframe.style.filter = 'grayscale(1)';
+			iframe.style.display = 'block';
+
+			const grain = document.createElement('div');
+			grain.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.6;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.35\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23g)\'/%3E%3C/svg%3E")';
+
+			iframe.addEventListener('load', () => {
+				wrapper.style.opacity = '1';
+				if (hideBtn && ++loaded === picked.length && btn) btn.style.opacity = '1';
+			}, { once: true });
+
+			wrapper.appendChild(iframe);
+			wrapper.appendChild(grain);
+			grid.appendChild(wrapper);
+		});
+	}
+
+	document.addEventListener('astro:page-load', () => {
+		renderSongs(true);
+		document.getElementById('refresh-btn')?.addEventListener('click', () => renderSongs(false));
+	});
+</script>
 
 <style>
 	.page {
@@ -36,8 +110,58 @@ import DraggableFrame from '@/components/interactive/DraggableFrame.astro';
 	.description {
 		font-size: var(--font-size-15);
 		line-height: 1.5;
-		color: var(--color-text-muted);
+		color: var(--color-text-secondary);
 		margin: 0.75rem 0 0;
 		max-width: 31.875rem;
+	}
+
+	.refresh-btn {
+		display: inline-flex;
+		align-items: center;
+		background: none;
+		border: none;
+		padding: 0;
+		margin-top: 1rem;
+		font-family: 'Azeret Mono', monospace;
+		font-size: 12px;
+		font-weight: 400;
+		color: var(--color-brand-pink);
+		text-transform: uppercase;
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		line-height: 24px;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.refresh-label-wrap {
+		position: relative;
+		display: inline-block;
+	}
+
+	.refresh-label-primary {
+		display: block;
+	}
+
+	.refresh-label-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+	}
+
+	.refresh-btn:hover .refresh-label-primary { opacity: 0; }
+	.refresh-btn:hover .refresh-label-hover   { opacity: 1; transition: opacity 0.2s ease 0.03s; }
+
+	.spotify-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 18px;
+		margin-top: 2rem;
+		max-width: 36rem;
+	}
+
+	.spotify-grid iframe {
+		display: block;
 	}
 </style>
