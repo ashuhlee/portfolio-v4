@@ -157,6 +157,12 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 		cursor: none !important;
 	}
 
+	@media (hover: none) and (pointer: coarse) {
+		.hover-tooltip {
+			display: none;
+		}
+	}
+
 	:root[data-theme='dark'] .hover-tooltip {
 		-webkit-mask-image: none;
 		mask-image: none;
