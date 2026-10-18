@@ -3,7 +3,6 @@ import {Image} from 'astro:assets';
 
 import Layout from '@/layouts/Layout.astro';
 import Footer from '@/components/layout/Footer.astro';
-import DitherBackground from '@/components/webgl/dither/DitherBackground.astro';
 import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackground.astro';
 import BackButton from '@/components/layout/BackButton.astro';
 import CrossfadeVideo from '@/components/media/CrossfadeVideo.astro';
@@ -37,8 +36,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
   description="Over the summer I worked on Pesa's mobile app, using Flutter and Dart across iOS and Android."
   starColor="var(--color-brand-pink)"
 >
-  <DitherBackground slot="background" color="grey"/>
-  <PixelBlastBackground slot="background" visibleInTheme="dark"/>
+  <PixelBlastBackground slot="background" color="#F5F5F5"/>
 <div class="page">
     <BackButton/>
 
