@@ -1,5 +1,5 @@
 ---
-import { ClientRouter, fade } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import Analytics from '@vercel/analytics/astro';
 
 import '@/styles/bounce.css';
@@ -67,6 +67,10 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				}
 				applyStoredTheme();
 				document.addEventListener('astro:after-swap', applyStoredTheme);
+
+				document.addEventListener('astro:before-swap', function (e) {
+					e.newDocument.documentElement.scrollTop = 0;
+				});
 			})();
 		</script>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -95,10 +99,10 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
 		{showSplash && <Splash />}
 		<slot name="background" />
-		<div transition:animate={fade({ duration: '0.15s' })}>
+		<div class="page-root">
 			<slot />
 		</div>
-		{showNav && <Navigation transition:persist />}
+		{showNav && <Navigation pathname={Astro.url.pathname} />}
 		<Tooltip />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />
@@ -110,36 +114,6 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		import { getSetting } from '@/utils/settings';
 
 		document.addEventListener('astro:page-load', () => {
-			const runStaggerIn = () => {
-				const staggerEls = document.querySelectorAll('.stagger-in');
-				if (staggerEls.length) {
-					gsap.fromTo(
-						staggerEls,
-						{ opacity: 0, y: 10 },
-						{
-							opacity: 1,
-							y: 0,
-							duration: 0.3,
-							stagger: 0.05,
-							ease: 'power2.out',
-						},
-					);
-				}
-			};
-
-			const splash = document.getElementById('splash');
-			const runtime = window as Window & {
-				__portfolioInitialPath?: string;
-				__portfolioSplashShown?: boolean;
-			};
-			const splashWillShow =
-				splash && runtime.__portfolioInitialPath === '/' && !runtime.__portfolioSplashShown;
-			if (splashWillShow) {
-				document.addEventListener('splash:dismissed', () => window.setTimeout(runStaggerIn, 20), { once: true });
-			} else {
-				runStaggerIn();
-			}
-
 			const FADE_DURATION = 0.15;
 			document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('img, video').forEach((el) => {
 				if (el.closest('.crossfade-video') || el.classList.contains('thumb-preview')) return;
@@ -206,6 +180,21 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 </html>
 
 <style is:global>
+	@keyframes page-fade-in {
+		from { opacity: 0; }
+	}
+
+	@keyframes page-fade-out {
+		to { opacity: 0; }
+	}
+
+	::view-transition-old(root) {
+		animation: page-fade-out 0.4s ease-out forwards;
+	}
+	::view-transition-new(root) {
+		animation: page-fade-in 0.4s ease-out forwards;
+	}
+
 	html[data-theme-transition] * {
 		view-transition-name: none !important;
 	}
@@ -226,6 +215,12 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 	@keyframes theme-fade-in {
 		from { opacity: 0; }
 		to   { opacity: 1; }
+	}
+
+	/* Creates a stacking context above the fixed WebGL backgrounds so page content is clickable */
+	.page-root {
+		position: relative;
+		z-index: 0;
 	}
 
 	html,
@@ -269,8 +264,4 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		color: #000000;
 	}
 
-	.stagger-in {
-		opacity: 0;
-		transform: translateY(0.625rem);
-	}
 </style>

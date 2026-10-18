@@ -1,21 +1,31 @@
 ---
 import { Image } from 'astro:assets';
 import navFlowerImg from '@/assets/images/png/nav-flower.png';
+
+interface Props {
+	pathname?: string;
+}
+
+const { pathname = '/' } = Astro.props;
+const isIndex = pathname === '/';
+const primaryLabel = isIndex ? 'WORK' : 'BACK HOME';
+const primaryHref = isIndex ? '/work/pesa' : '/';
+const extraActive = pathname === '/extra';
 ---
 
 <nav class="site-nav" aria-label="Site navigation">
 	<div class="nav-links">
-		<a href="/" class="nav-link" id="nav-link-primary">
+		<a href={primaryHref} class="nav-link" id="nav-link-primary">
 			<span class="nav-arrow-wrap">
 				<span class="nav-arrow nav-arrow-primary">\</span>
 				<span class="nav-arrow nav-arrow-hover">\</span>
 			</span>
 			<span class="nav-label-wrap">
-				<span class="nav-label-primary" id="nav-label-primary-main">HOME</span>
-				<span class="nav-label-hover" id="nav-label-hover-main">HOME</span>
+				<span class="nav-label-primary" id="nav-label-primary-main">{primaryLabel}</span>
+				<span class="nav-label-hover" id="nav-label-hover-main">{primaryLabel}</span>
 			</span>
 		</a>
-		<a href="/extra" class="nav-link" id="nav-link-extra">
+		<a href="/extra" class:list={['nav-link', { 'nav-link-active': extraActive }]} id="nav-link-extra" aria-current={extraActive ? 'page' : undefined}>
 			<span class="nav-arrow-wrap">
 				<span class="nav-arrow nav-arrow-primary">\</span>
 				<span class="nav-arrow nav-arrow-hover">\</span>
@@ -212,27 +222,8 @@ import navFlowerImg from '@/assets/images/png/nav-flower.png';
 		const footer = document.querySelector<HTMLElement>('.page-footer');
 		if (!nav) return;
 
-		const pathname = window.location.pathname;
-		const primaryLink = document.getElementById('nav-link-primary') as HTMLAnchorElement | null;
-		const primaryLabelMain = document.getElementById('nav-label-primary-main');
-		const primaryLabelHover = document.getElementById('nav-label-hover-main');
-
-		// Update primary link: \WORK on index, \HOME everywhere else
-		if (primaryLink && primaryLabelMain && primaryLabelHover) {
-			const isIndex = pathname === '/';
-			const label = isIndex ? 'WORK' : 'HOME';
-			const href = isIndex ? '/work/pesa' : '/';
-			primaryLink.href = href;
-			primaryLabelMain.textContent = label;
-			primaryLabelHover.textContent = label;
-		}
-
-		// Update active states
+		// Prevent navigating to the current page
 		nav.querySelectorAll<HTMLAnchorElement>('.nav-link').forEach((link) => {
-			const isActive = new URL(link.href, window.location.origin).pathname === pathname;
-			link.classList.toggle('nav-link-active', isActive);
-			link.setAttribute('aria-current', isActive ? 'page' : '');
-			// Prevent navigating to the current page
 			link.addEventListener('click', (e) => {
 				if (new URL(link.href, window.location.origin).pathname === window.location.pathname) {
 					e.preventDefault();
@@ -254,8 +245,11 @@ import navFlowerImg from '@/assets/images/png/nav-flower.png';
 			update();
 		}
 
-		// Always visible — fade in on load
-		gsap.set(nav, { opacity: 0 });
-		gsap.to(nav, { opacity: 1, duration: 0.3, delay: 0.1, ease: 'power2.out' });
+		// Fade in only on the very first page load (not on SPA navigations)
+		if (!(window as any).__navInited) {
+			(window as any).__navInited = true;
+			gsap.set(nav, { opacity: 0 });
+			gsap.to(nav, { opacity: 1, duration: 0.3, delay: 0.1, ease: 'power2.out' });
+		}
 	});
 </script>

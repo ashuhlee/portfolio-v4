@@ -51,6 +51,7 @@
 		}
 
 		apply();
+		el.style.opacity = '1';
 
 		el.addEventListener('mousedown', (e: MouseEvent) => {
 			const hit = (e.target as Element).closest<Element>('[data-corner]');
@@ -152,6 +153,8 @@
 		user-select: none;
 		will-change: transform;
 		z-index: 10;
+		opacity: 0;
+		transition: opacity 0.3s ease;
 	}
 
 	.fd-wrap.dragging {
