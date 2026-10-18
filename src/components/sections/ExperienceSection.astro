@@ -195,6 +195,20 @@ const experiences = [
 		position: relative;
 	}
 
+	.exp-arrow {
+		font-family: var(--font-sans), sans-serif;
+		font-style: normal;
+		color: var(--color-brand-pink);
+		margin-left: 0.6rem;
+		font-size: 15px;
+		display: inline-block;
+		transition: opacity 0.1s ease;
+	}
+
+	.exp-cell-link:hover .exp-arrow {
+		opacity: 0;
+	}
+
 	.exp-role {
 		font-family: 'GT Walsheim Pro', sans-serif;
 		font-size: 15.5px;
@@ -207,24 +221,6 @@ const experiences = [
 
 	:root[data-theme='dark'] .exp-role {
 		color: var(--color-text-primary);
-	}
-
-	@keyframes exp-arrow-in {
-		from { opacity: 0; }
-		to { opacity: 1; }
-	}
-
-	.exp-arrow {
-		font-family: var(--font-sans), sans-serif;
-		font-style: normal;
-		color: var(--color-brand-pink);
-		margin-left: 0.6rem;
-		font-size: 15px;
-		display: inline-block;
-	}
-
-	.exp-cell-link:hover .exp-arrow {
-		animation: exp-arrow-in 0.2s ease 0.03s both;
 	}
 
 	.exp-meta {
