@@ -7,8 +7,9 @@ interface Props {
 }
 
 const { pathname = '/' } = Astro.props;
-const isIndex = pathname === '/';
-const isExtra = pathname === '/extra';
+const normalizedPath = pathname.replace(/\/$/, '') || '/';
+const isIndex = normalizedPath === '/';
+const isExtra = normalizedPath === '/extra';
 const primaryLabel = isIndex ? 'WORK' : 'BACK HOME';
 const primaryHref = isIndex ? '/work/pesa' : '/';
 const secondaryLabel = isExtra ? 'WORK' : 'EXTRA';
@@ -88,7 +89,7 @@ const secondaryHref = isExtra ? '/work/pesa' : '/extra';
 	.nav-link {
 		display: inline-flex;
 		width: fit-content;
-		font-family: 'Azeret Mono', monospace;
+		font-family: var(--font-mono), monospace;
 		font-size: 12px;
 		font-weight: 400;
 		color: #6d6d6d;

@@ -39,9 +39,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
   <PixelBlastBackground slot="background" color="#F7F7F7"/>
 <div class="page">
     <BackButton/>
-
     <PesaHeader />
-
     <div class="showcase-header stagger-in">
       <h2>SHOWCASE</h2>
       <button class="expand-toggle" type="button" data-bounce="0.9" aria-label="Expand showcase width">
@@ -194,6 +192,8 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 
 		let rotation = 0;
 
+		const nav = document.querySelector<HTMLElement>('.site-nav');
+
 		toggle.addEventListener('click', () => {
 			const expanded = page.classList.toggle('expanded');
 			rotation += 90;
@@ -201,6 +201,15 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 			gsap.to(svg, {rotate: rotation, duration: 0.4, ease: 'power2.inOut'});
 			gsap.to(expandIcon, {opacity: expanded ? 0 : 1, duration: 0.3, ease: 'power2.inOut'});
 			gsap.to(collapseIcon, {opacity: expanded ? 1 : 0, duration: 0.3, ease: 'power2.inOut'});
+
+			if (nav) {
+				if (expanded) {
+					gsap.to(nav, {opacity: 0, duration: 0.2, ease: 'power2.inOut', onComplete: () => { nav.style.visibility = 'hidden'; }});
+				} else {
+					nav.style.visibility = 'visible';
+					gsap.to(nav, {opacity: 1, duration: 0.3, ease: 'power2.inOut'});
+				}
+			}
 
 			toggle.setAttribute('aria-label', expanded ? 'Collapse showcase width' : 'Expand showcase width');
 		});
@@ -213,7 +222,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         max-width: 50rem;
         margin: 0 auto;
         padding: 2.5rem 1.5rem 0;
-        transition: max-width 0.3s var(--ease-spring-soft);
+        transition: max-width 0.35s var(--ease-spring-soft);
     }
 
     .page.expanded {
@@ -226,6 +235,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         justify-content: space-between;
         gap: 1rem;
         margin-bottom: 1.5rem;
+        margin-top: 3rem;
     }
 
     .expand-toggle {
@@ -243,7 +253,6 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
     }
 
     .expand-toggle:hover {
-        background: var(--color-gray-faint-hover);
         color: var(--color-brand-pink);
     }
 
@@ -262,7 +271,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         position: relative;
         width: 100%;
         aspect-ratio: 919 / 1396;
-        margin-bottom: 3.5rem;
+        margin-bottom: 5rem;
 
         /* ── Spacing controls ── */
         --gap: 1.9%;        /* vertical gap between rows */
@@ -294,7 +303,6 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         position: absolute;
         background: var(--color-gray-faint-hover);
         border: 1px solid var(--color-border-soft);
-        border-radius: 0.25rem
     }
 
     video.placeholder {
@@ -400,6 +408,32 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         top: 0;
         width: 99.8%;
         height: var(--h-withdraw);
+    }
+
+    :global(:root:not([data-theme='dark']) .card-withdraw) {
+        background-color: #fff;
+        border: 1px solid var(--color-border-harsher);
+    }
+
+    :global(.card-withdraw::before) {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('/images/patterns/dither-clouds.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.08;
+        pointer-events: none;
+        z-index: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    :global(:root[data-theme='dark'] .card-withdraw::before) {
+        opacity: 0;
+    }
+
+    :global(.page.expanded .card-withdraw::before) {
+        opacity: 0.04;
     }
 
     :global(.card-wallet) {
