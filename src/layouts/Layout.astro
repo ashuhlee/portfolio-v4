@@ -180,7 +180,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				const s = exitPool[exitIdx];
 				exitIdx = (exitIdx + 1) % exitPool.length;
 				s.currentTime = 0;
-				s.play().catch(() => {});
+				s.play().catch(console.error);
 				return;
 			}
 
@@ -190,7 +190,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 				const s = selectPool[selectIdx];
 				selectIdx = (selectIdx + 1) % selectPool.length;
 				s.currentTime = 0;
-				s.play().catch(() => {});
+				s.play().catch(console.error);
 			}
 		});
 
