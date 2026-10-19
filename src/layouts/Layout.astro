@@ -152,24 +152,46 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			}
 		});
 
-		const clickSoundPool = Array.from({ length: 4 }, () => {
-			const audio = new Audio('/audio/mouse-click.mp3');
-			audio.preload = 'auto';
-			audio.volume = 0.2;
-			audio.load();
-			return audio;
-		});
-		let clickSoundIndex = 0;
+		function makePool(src: string, volume: number, size = 4) {
+			return Array.from({ length: size }, () => {
+				const audio = new Audio(src);
+				audio.preload = 'auto';
+				audio.volume = volume;
+				audio.load();
+				return audio;
+			});
+		}
+
+		const selectPool = makePool('/audio/select.mp3', 0.35);
+		const exitPool   = makePool('/audio/exit.mp3',   0.35);
+
+		let selectIdx = 0;
+		let exitIdx   = 0;
 
 		document.addEventListener('mouseup', (event) => {
-			const target = (event.target as HTMLElement)?.closest(
-				'.say-hello, .see-work, .card, .back-button, .cursor-fill-btn, .splash-enter-button, .proj-cell-link, .exp-cell-link',
-			);
-			if (!target || !getSetting('soundEffects')) return;
-			const sound = clickSoundPool[clickSoundIndex];
-			clickSoundIndex = (clickSoundIndex + 1) % clickSoundPool.length;
-			sound.currentTime = 0;
-			sound.play().catch(() => {});
+			if (!getSetting('soundEffects')) return;
+			const el = event.target as HTMLElement;
+
+			const backBtn = el?.closest('.back-button');
+			const primaryNavLink = el?.closest<HTMLAnchorElement>('#nav-link-primary');
+			const isExitNav = primaryNavLink && new URL(primaryNavLink.href, location.origin).pathname === '/';
+
+			if (backBtn || isExitNav) {
+				const s = exitPool[exitIdx];
+				exitIdx = (exitIdx + 1) % exitPool.length;
+				s.currentTime = 0;
+				s.play().catch(() => {});
+				return;
+			}
+
+			if (el?.closest('[target="_blank"]')) return;
+
+			if (el?.closest('.say-hello, .see-work, .card, .cursor-fill-btn, .splash-enter-button, .proj-cell-link, .exp-cell-link, .nav-link')) {
+				const s = selectPool[selectIdx];
+				selectIdx = (selectIdx + 1) % selectPool.length;
+				s.currentTime = 0;
+				s.play().catch(() => {});
+			}
 		});
 
 		let pressedBounceEl: HTMLElement | null = null;
@@ -231,7 +253,6 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		to   { opacity: 1; }
 	}
 
-	/* Creates a stacking context above the fixed WebGL backgrounds so page content is clickable */
 	.page-root {
 		position: relative;
 		z-index: 0;
@@ -271,11 +292,6 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		-webkit-user-drag: none;
 		-webkit-user-select: none;
 		user-select: none;
-	}
-
-	::selection {
-		background: #FFCFED;
-		color: #000000;
 	}
 
 </style>
