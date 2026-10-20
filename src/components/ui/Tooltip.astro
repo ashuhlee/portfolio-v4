@@ -1,11 +1,13 @@
 ---
 import externalIconRaw from '@/assets/icons/external-icon.svg?raw';
 import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
+import heartIconRaw from '@/assets/icons/heart-icon.svg?raw';
 ---
 
 <div class="hover-tooltip" id="hover-tooltip"></div>
 <span id="tooltip-external-icon" hidden set:html={externalIconRaw}></span>
 <span id="tooltip-eye-icon" hidden set:html={eyeIconRaw}></span>
+<span id="tooltip-heart-icon" hidden set:html={heartIconRaw}></span>
 
 <script>
 	import { gsap } from 'gsap';
@@ -15,6 +17,7 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 		const tooltip = document.getElementById('hover-tooltip');
 		const externalIconHTML = document.getElementById('tooltip-external-icon')?.innerHTML ?? '';
 		const eyeIconHTML = document.getElementById('tooltip-eye-icon')?.innerHTML ?? '';
+		const heartIconHTML = document.getElementById('tooltip-heart-icon')?.innerHTML ?? '';
 
 		if (!tooltip) return;
 
@@ -27,7 +30,7 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 		document.addEventListener('mouseover', (event) => {
 			const target = (event.target as HTMLElement)?.closest<HTMLElement>('[data-tooltip]');
 			if (!target || target === activeTarget || !getSetting('tooltips')) return;
-			if (target.closest('.showcase-grid')) return;
+			if (target.closest('.showcase-grid') && target.dataset.tooltipColor) return;
 
 			activeTarget = target;
 			document.documentElement.classList.add('tooltip-active');
@@ -56,10 +59,11 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 			const tooltipText = target.dataset.tooltip ?? '';
 			const isExternal = target.getAttribute('target') === '_blank';
 			const isViewDemo = tooltipText === 'view demo';
-			const icon = isViewDemo ? eyeIconHTML : isExternal ? externalIconHTML : '';
+			const isFavorite = tooltipText === 'favorite project';
+			const icon = isViewDemo ? eyeIconHTML : isFavorite ? heartIconHTML : isExternal ? externalIconHTML : '';
 			const displayText = isViewDemo ? `${tooltipText} →` : tooltipText;
 			if (icon) {
-				const iconClass = isViewDemo ? 'tooltip-icon' : 'tooltip-icon tooltip-icon-external';
+				const iconClass = isViewDemo ? 'tooltip-icon' : isFavorite ? 'tooltip-icon tooltip-icon-heart' : 'tooltip-icon tooltip-icon-external';
 				tooltip.innerHTML = `<span class="${iconClass}">${icon}</span><span class="tooltip-text">${displayText}</span>`;
 			} else {
 				tooltip.textContent = tooltipText;
@@ -190,5 +194,15 @@ import eyeIconRaw from '@/assets/icons/eye-icon.svg?raw';
 	:global(.tooltip-icon-external svg) {
 		width: 15px;
 		height: 15px;
+	}
+
+	:global(.tooltip-icon-heart svg) {
+		width: 14px;
+		height: 14px;
+		animation: heart-pulse 1s infinite;
+	}
+
+	@keyframes heart-pulse {
+		10% { transform: scale(1.125); }
 	}
 </style>
