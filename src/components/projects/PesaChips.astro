@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import chipCaretRole from '@/assets/images/svg/chip-caret-role.svg';
-import chipCaretFocus from '@/assets/images/svg/chip-caret-focus.svg';
+import chipCaretFocusRaw from '@/assets/images/svg/chip-caret-focus.svg?raw';
 import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
 ---
 
@@ -11,8 +11,8 @@ import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
 		<p>SWE Intern</p>
 	</div>
 	<div class="chip-group stagger-in">
-		<span class="chip chip-focus"><span class="chip-label">Focus</span> <Image class="chip-icon" src={chipCaretFocus} width={9} height={9} alt="" loading="eager" /></span>
-		<p>Mobile (iOS + Android)</p>
+		<span class="chip chip-focus"><span class="chip-label">Focus</span> <span class="chip-icon chip-icon-inline" set:html={chipCaretFocusRaw} /></span>
+		<p>Mobile<span class="focus-detail"> (iOS + Android)</span></p>
 	</div>
 	<div class="chip-group stagger-in">
 		<span class="chip chip-timeline"><span class="chip-label">Timeline</span> <Image class="chip-icon" src={chipCaretTimeline} width={10} height={10} alt="" loading="eager" /></span>
@@ -90,7 +90,12 @@ import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
 	.chip-focus .chip-icon {
 		display: block;
 		flex-shrink: 0;
-		filter: brightness(10);
+	}
+
+	.chip-icon-inline svg {
+		width: 9px;
+		height: 9px;
+		display: block;
 	}
 
 	.chip-group p {
@@ -121,5 +126,6 @@ import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
 		}
 
 		.chip-group p { text-align: left; }
+		.focus-detail { display: none; }
 	}
 </style>
