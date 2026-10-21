@@ -107,8 +107,19 @@ import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
 	}
 
 	@media (max-width: 45rem) {
-		.chips        { width: 100%; }
-		.chip-group   { align-items: flex-start; }
+		.chips {
+			width: 100%;
+			flex-direction: row;
+			justify-content: space-between;
+			gap: 0;
+		}
+
+		.chip-group {
+			align-items: flex-start;
+			flex-direction: column;
+			width: auto;
+		}
+
 		.chip-group p { text-align: left; }
 	}
 </style>

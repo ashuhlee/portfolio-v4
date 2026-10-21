@@ -224,6 +224,33 @@ const projects = [
 		border-color: #2e2b35;
 	}
 
+	@media (max-width: 44rem) {
+		.section-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.grid-cell:nth-child(odd) {
+			border-right: none;
+		}
+
+		.grid-cell:nth-child(-n+2) {
+			border-bottom: none;
+		}
+
+		.grid-cell:not(:last-child) {
+			border-bottom: 1px solid #e6e6e6;
+		}
+
+		:root[data-theme='dark'] .grid-cell:not(:last-child) {
+			border-color: #2e2b35;
+		}
+
+		.grid-center-plus,
+		.grid-triangle {
+			display: none;
+		}
+	}
+
 	.grid-center-plus {
 		position: absolute;
 		left: 50%;
