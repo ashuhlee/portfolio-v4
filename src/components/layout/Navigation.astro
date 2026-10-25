@@ -221,12 +221,17 @@ const { primary, secondary } = Astro.props;
 
 		// Footer avoidance
 		if (footer) {
+			const navBottomSection = nav.querySelector<HTMLElement>('.nav-bottom');
+			if (!navBottomSection) return;
+
 			const update = () => {
-				nav.style.transform = '';
+				navBottomSection.style.transform = '';
 				const footerTop = footer.getBoundingClientRect().top;
-				const navBottom = nav.getBoundingClientRect().bottom;
-				const overlap = navBottom - footerTop;
-				if (overlap > 0) nav.style.transform = `translateY(${-overlap}px)`;
+				const navBottom = navBottomSection.getBoundingClientRect().bottom;
+
+				const footerGap = Number.parseFloat(getComputedStyle(nav).paddingTop) || 0;
+				const overlap = navBottom - footerTop + footerGap;
+				if (overlap > 0) navBottomSection.style.transform = `translateY(${-overlap}px)`;
 			};
 			gsap.ticker.add(update);
 			document.addEventListener('astro:before-swap', () => gsap.ticker.remove(update), { once: true });
