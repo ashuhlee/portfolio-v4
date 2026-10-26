@@ -1,4 +1,11 @@
 @font-face {
+	font-family: 'Mint Grotesk';
+	src: url('/fonts/MintGrotesk-Medium.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
 	font-family: 'GT Walsheim Pro';
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Regular.ttf') format('truetype');
 	font-weight: 400;

@@ -1,6 +1,6 @@
 import '@/styles/skeleton.css';
 
-const FADE_OUT_MS = 150;
+const FADE_OUT_MS = 75;
 
 function getMedia(el: HTMLElement): HTMLImageElement | HTMLVideoElement | null {
 	if (el instanceof HTMLImageElement || el instanceof HTMLVideoElement) return el;

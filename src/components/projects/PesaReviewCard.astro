@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import ShowcaseCard from '@/components/projects/ShowcaseCard.astro';
+import review1 from '@/assets/images/webp/pesa-review.webp';
+---
+
+<ShowcaseCard
+    variant="review"
+    tooltip="Action-prompted dialogs"
+    tooltipColor="#FFA6D9"
+    tooltipColorStart="#FFDDF8"
+>
+    <div class="review-phone-wrap">
+        <Image
+            class="review-phone"
+            src={review1}
+            inferSize
+            alt="App Store review prompt dialog"
+        />
+        <div class="review-overlay">
+            <button class="review-btn" type="button" aria-label="Leave a review" data-bounce="0.9">
+                <span class="review-btn-label">Leave a review</span>
+                <span class="review-btn-loader" aria-hidden="true"></span>
+            </button>
+            <button class="review-dismiss" type="button">Not now</button>
+        </div>
+    </div>
+</ShowcaseCard>
+
+<style>
+    .review-phone-wrap {
+        position: absolute;
+        width: 66%;
+        left: 18%;
+        top: -124%;
+        pointer-events: none;
+        container-type: inline-size;
+    }
+
+    .review-phone {
+        width: 100%;
+        height: auto;
+        display: block;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    .review-overlay {
+        position: absolute;
+        bottom: 7%;
+        left: 10%;
+        right: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5.5cqw;
+        pointer-events: auto;
+    }
+
+    .review-btn {
+        width: 100%;
+        height: 12cqw;
+        box-sizing: border-box;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mint), sans-serif;
+        font-size: 3.2cqw;
+        font-weight: 500;
+        transition: opacity 0.15s ease;
+    }
+
+    .review-btn:active {
+        opacity: 0.8;
+    }
+
+    .review-btn-label {
+        display: block;
+    }
+
+    .review-btn-loader {
+        display: none;
+        width: 5cqw;
+        height: 5cqw;
+        border: 1px solid rgba(255, 255, 255, 0);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: review-spin 1s linear infinite;
+        flex-shrink: 0;
+    }
+
+    .review-btn.loading .review-btn-label { display: none; }
+    .review-btn.loading .review-btn-loader { display: block; }
+
+    @keyframes review-spin { to { transform: rotate(360deg); } }
+
+    .review-dismiss {
+        background: none;
+        border: none;
+        color: #151515;
+        text-decoration: underline;
+        cursor: pointer;
+        font-family: var(--font-mint), sans-serif;
+        font-size: 3.2cqw;
+        font-weight: 500;
+        transition: opacity 0.1s ease;
+        pointer-events: auto;
+        padding: 0;
+    }
+
+    .review-dismiss.dimmed { opacity: 0.3; }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const btn = document.querySelector<HTMLButtonElement>('.review-btn');
+        const dismiss = document.querySelector<HTMLButtonElement>('.review-dismiss');
+        if (btn && dismiss) {
+            btn.addEventListener('click', () => {
+                const loading = btn.classList.toggle('loading');
+                dismiss.classList.toggle('dimmed', loading);
+            });
+        }
+    });
+</script>

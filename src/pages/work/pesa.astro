@@ -8,6 +8,7 @@ import BackButton from '@/components/layout/BackButton.astro';
 import CrossfadeVideo from '@/components/media/CrossfadeVideo.astro';
 import ShowcaseCard from '@/components/projects/ShowcaseCard.astro';
 import PesaHeader from '@/components/projects/PesaHeader.astro';
+import PesaReviewCard from '@/components/projects/PesaReviewCard.astro';
 
 import withdraw1 from '@/assets/videos/webm/pesa-withdraw-1.webm';
 import withdraw1Mov from '@/assets/videos/mov/pesa-withdraw-1.mov';
@@ -28,7 +29,6 @@ import create1Mov from '@/assets/videos/mov/pesa-create-stash.mov';
 import notificationsWebm from '@/assets/videos/webm/pesa-notifications.webm';
 import notificationsMov from '@/assets/videos/mov/pesa-notifications.mov';
 
-import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 ---
 
 <Layout
@@ -122,23 +122,23 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
           inferSize
           alt="Empty personal stash screen"
         />
-        <CrossfadeVideo
+        <Image
           class="savings-phone savings-phone-2"
+          src={savings2}
+          inferSize
+          alt="Stash created successfully modal"
+        />
+      </ShowcaseCard>
+      <ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#FFA6D9"
+                    tooltipColorStart="#FFDDF8">
+        <CrossfadeVideo
+          class="settings-phone settings-phone-1"
           src={create1}
           srcMov={create1Mov}
           aspectRatio="660 / 1368"
           replayDelay={3000}
           fadeDuration={0.2}
           ariaLabel="Create stash screen"
-        />
-      </ShowcaseCard>
-      <ShowcaseCard variant="settings" tooltip="Savings creation and deletion" tooltipColor="#FFA6D9"
-                    tooltipColorStart="#FFDDF8">
-        <Image
-          class="settings-phone settings-phone-1"
-          src={savings2}
-          inferSize
-          alt="Stash created successfully modal"
         />
         <CrossfadeVideo
           class="settings-phone settings-phone-2"
@@ -150,15 +150,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
           ariaLabel="Stash closed confirmation modal"
         />
       </ShowcaseCard>
-      <ShowcaseCard variant="review" tooltip="Action-prompted dialogs" tooltipColor="#FFA6D9"
-                    tooltipColorStart="#FFDDF8">
-        <Image
-          class="review-phone"
-          src={reviewPlaceholder}
-          inferSize
-          alt="App Store review prompt dialog"
-        />
-      </ShowcaseCard>
+      <PesaReviewCard />
 
       <p class="showcase-note stagger-in">+ a bunch of other cool stuff</p>
     </div>
@@ -212,6 +204,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 
 			toggle.setAttribute('aria-label', expanded ? 'Collapse showcase width' : 'Expand showcase width');
 		});
+
 	});
 
 </script>
@@ -334,7 +327,7 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
 
     .wallet-phone {
         position: absolute;
-        width: 41.04%;
+        width: 38%;
         height: auto;
         pointer-events: none;
         -webkit-user-select: none;
@@ -342,13 +335,13 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
     }
 
     .wallet-phone-1 {
-        left: 6.67%;
-        top: 9.19%;
+        left: 9%;
+        top: 11%;
     }
 
     .wallet-phone-2 {
-        left: 51.25%;
-        top: -36.26%;
+        left: 53%;
+        top: -35%;
     }
 
     :global(.card-savings.showcase-preview) {
@@ -386,18 +379,6 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         -webkit-user-select: none;
         user-select: none;
     }
-
-    .review-phone {
-        position: absolute;
-        width: 66%;
-        height: auto;
-        left: 18%;
-        top: -124%;
-        pointer-events: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-
 
     :global(.card-withdraw) {
         left: 0;
@@ -472,6 +453,10 @@ import reviewPlaceholder from '@/assets/images/webp/pesa-placeholder.webp';
         .expand-toggle {
             display: none;
         }
+    }
+
+    :global(.card-savings .skeleton) {
+        border-radius: 1.25rem;
     }
 
     @media (max-width: 44rem) {
