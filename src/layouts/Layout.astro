@@ -27,6 +27,7 @@ interface Props {
 	showSplash?: boolean;
 	showNav?: boolean;
 	navLinks?: { primary: NavLink; secondary: NavLink };
+	noindex?: boolean;
 }
 
 const {
@@ -38,6 +39,7 @@ const {
 	showSplash = false,
 	showNav = true,
 	navLinks,
+	noindex = false,
 } = Astro.props;
 
 const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -62,6 +64,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<link rel="apple-touch-icon" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
 		<title>{title}</title>
 
 		<script is:inline>
