@@ -10,28 +10,28 @@
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Regular.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
-	font-display: fallback;
+	font-display: block;
 }
 @font-face {
 	font-family: 'GT Walsheim Pro';
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Regular-Oblique.ttf') format('truetype');
 	font-weight: 400;
 	font-style: italic;
-	font-display: fallback;
+	font-display: block;
 }
 @font-face {
 	font-family: 'GT Walsheim Pro';
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
-	font-display: fallback;
+	font-display: block;
 }
 @font-face {
 	font-family: 'GT Walsheim Pro';
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Medium-Oblique.ttf') format('truetype');
 	font-weight: 500;
 	font-style: italic;
-	font-display: fallback;
+	font-display: block;
 }
 @font-face {
 	font-family: 'GT Walsheim Pro';

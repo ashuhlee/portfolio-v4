@@ -31,7 +31,10 @@
 	</div>
 	<div class="hero-right">
 		<div class="hero-top-row">
-			<span class="hero-tag">MAIN.SH</span>
+			<button class="hero-tag" id="color-switcher" type="button" aria-label="Switch brand color">
+				<span class="hero-tag-primary">THEME.CFG</span>
+				<span class="hero-tag-hover">THEME.CFG</span>
+			</button>
 		</div>
 		<p class="hero-name">Hi, I'm Ashley</p>
 		<div class="hero-bio-wrap">
@@ -59,7 +62,7 @@
 
 	.hero-photo-box {
 		width: 172px;
-		height: 192px;
+		height: 186px;
 		border: 1px solid var(--color-brand-pink);
 		overflow: hidden;
 		flex-shrink: 0;
@@ -83,7 +86,7 @@
 	.hero-link {
 		display: inline-flex;
 		font-family: var(--font-mono), monospace;
-		font-size: 12px;
+		font-size: 11px;
 		text-transform: uppercase;
 		color: #272727;
 		text-decoration: none;
@@ -165,7 +168,6 @@
 	.hero-top-row {
 		display: flex;
 		justify-content: flex-end;
-		margin-bottom: 2px;
 	}
 
 	.hero-tag {
@@ -174,6 +176,37 @@
 		text-transform: uppercase;
 		color: var(--color-brand-pink);
 		letter-spacing: 0.01em;
+		position: relative;
+		display: inline-block;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+	}
+
+	.hero-tag-primary {
+		display: block;
+		transition: none;
+	}
+
+	.hero-tag-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-brand-pink);
+		opacity: 0;
+		transition: none;
+		white-space: nowrap;
+	}
+
+	.hero-tag:hover .hero-tag-primary {
+		opacity: 0;
+		transition: none;
+	}
+
+	.hero-tag:hover .hero-tag-hover {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
 	}
 
 	.hero-name {
@@ -253,3 +286,41 @@
 		transition: opacity 0.2s ease 0.03s;
 	}
 </style>
+
+<script>
+	const COLORS = [
+		{ brand: null,      brandDark: null,      trail: null,      gradientStart: null,      gradientEnd: null      },
+		{ brand: '#7A76F2', brandDark: '#A8A6FF', trail: '#C9C7FB', gradientStart: '#E8E7FD', gradientEnd: '#A09DFA' },
+		{ brand: '#5591FF', brandDark: '#80AAFF', trail: '#B8CEFF', gradientStart: '#D6E5FF', gradientEnd: '#89AEFF' },
+	] as const;
+	const STORAGE_KEY = 'brand-color-idx';
+
+	function applyColorByIndex(idx: number) {
+		const color = COLORS[idx] ?? COLORS[0];
+		const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+		const brand = isDark ? (color.brandDark ?? color.brand) : color.brand;
+		if (brand) {
+			document.documentElement.style.setProperty('--color-brand-pink', brand);
+			document.documentElement.style.setProperty('--color-brand-pink-trail', color.trail);
+			document.documentElement.style.setProperty('--color-pink-gradient-start', color.gradientStart);
+			document.documentElement.style.setProperty('--color-pink-gradient-end', color.gradientEnd);
+		} else {
+			document.documentElement.style.removeProperty('--color-brand-pink');
+			document.documentElement.style.removeProperty('--color-brand-pink-trail');
+			document.documentElement.style.removeProperty('--color-pink-gradient-start');
+			document.documentElement.style.removeProperty('--color-pink-gradient-end');
+		}
+	}
+
+	document.addEventListener('astro:page-load', () => {
+		const btn = document.getElementById('color-switcher');
+		if (!btn) return;
+
+		btn.addEventListener('click', () => {
+			const current = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+			const next = (current + 1) % COLORS.length;
+			localStorage.setItem(STORAGE_KEY, String(next));
+			applyColorByIndex(next);
+		});
+	});
+</script>

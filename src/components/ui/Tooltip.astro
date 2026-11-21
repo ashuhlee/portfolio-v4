@@ -42,9 +42,11 @@ import heartIconRaw from '@/assets/icons/heart-icon.svg?raw';
 			const textColor = target.dataset.tooltipTextColor;
 			tooltip.style.color = textColor ?? '#000000';
 
-			const defaultEnd = getComputedStyle(document.documentElement).getPropertyValue('--color-pink-gradient-end').trim();
+			const cs = getComputedStyle(document.documentElement);
+			const defaultEnd = cs.getPropertyValue('--color-pink-gradient-end').trim();
+			const defaultStart = cs.getPropertyValue('--color-pink-gradient-start').trim();
 			tooltip.style.setProperty('--gradient-end', colorEnd ?? defaultEnd);
-			tooltip.style.setProperty('--gradient-start', colorStart ?? '#FFEBFB');
+			tooltip.style.setProperty('--gradient-start', colorStart ?? defaultStart);
 
 			if (colorEnd) {
 				tooltip.style.setProperty('--gradient-size', '55% 90%');
@@ -120,12 +122,12 @@ import heartIconRaw from '@/assets/icons/heart-icon.svg?raw';
 		);
 
 		-webkit-mask-image:
-			linear-gradient(to right,  transparent 0px, black 2px, black calc(100% - 2px), transparent 100%),
-			linear-gradient(to bottom, transparent 0px, black 2px, black calc(100% - 2px), transparent 100%);
+			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 2px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 2px), transparent 100%);
 		-webkit-mask-composite: source-in;
 		mask-image:
-			linear-gradient(to right,  transparent 0px, black 2px, black calc(100% - 2px), transparent 100%),
-			linear-gradient(to bottom, transparent 0px, black 2px, black calc(100% - 2px), transparent 100%);
+			linear-gradient(to right,  transparent 0px, black 3px, black calc(100% - 2px), transparent 100%),
+			linear-gradient(to bottom, transparent 0px, black 3px, black calc(100% - 2px), transparent 100%);
 		mask-composite: intersect;
 
 		display: inline-flex;

@@ -74,6 +74,12 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 					window.__portfolioInitialPath = window.location.pathname;
 				}
 
+				const BRAND_COLORS = [
+					{ brand: null,       brandDark: null,       trail: null,       gradientStart: null,       gradientEnd: null       },
+					{ brand: '#7A76F2',  brandDark: '#A8A6FF',  trail: '#C9C7FB',  gradientStart: '#E8E7FD',  gradientEnd: '#A09DFA'  },
+					{ brand: '#5591FF',  brandDark: '#80AAFF',  trail: '#B8CEFF',  gradientStart: '#D6E5FF',  gradientEnd: '#89AEFF'  },
+				];
+
 				function applyStoredTheme() {
 					try {
 						const stored = localStorage.getItem('theme');
@@ -81,8 +87,36 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 						document.documentElement.setAttribute('data-theme', theme);
 					} catch (e) {}
 				}
+
+				function applyStoredBrandColor() {
+					try {
+						const idx = parseInt(localStorage.getItem('brand-color-idx') ?? '0', 10);
+						const color = BRAND_COLORS[idx] || BRAND_COLORS[0];
+						const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+						const brand = isDark ? (color.brandDark ?? color.brand) : color.brand;
+						if (brand) {
+							document.documentElement.style.setProperty('--color-brand-pink', brand);
+							document.documentElement.style.setProperty('--color-brand-pink-trail', color.trail);
+							document.documentElement.style.setProperty('--color-pink-gradient-start', color.gradientStart);
+							document.documentElement.style.setProperty('--color-pink-gradient-end', color.gradientEnd);
+						} else {
+							document.documentElement.style.removeProperty('--color-brand-pink');
+							document.documentElement.style.removeProperty('--color-brand-pink-trail');
+							document.documentElement.style.removeProperty('--color-pink-gradient-start');
+							document.documentElement.style.removeProperty('--color-pink-gradient-end');
+						}
+					} catch (e) {}
+				}
+
 				applyStoredTheme();
+				applyStoredBrandColor();
 				document.addEventListener('astro:after-swap', applyStoredTheme);
+				document.addEventListener('astro:after-swap', applyStoredBrandColor);
+
+				new MutationObserver(applyStoredBrandColor).observe(
+					document.documentElement,
+					{ attributes: true, attributeFilter: ['data-theme'] }
+				);
 
 				document.addEventListener('astro:before-swap', function (e) {
 					e.newDocument.documentElement.scrollTop = 0;
@@ -91,6 +125,8 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		</script>
 		<link rel="preload" href="/fonts/DrukWideBold.ttf" as="font" type="font/ttf" crossorigin />
 		<link rel="preload" href="/fonts/sofia-pro/SofiaPro-Regular.otf" as="font" type="font/otf" crossorigin />
+		<link rel="preload" href="/fonts/gt-walsheim/GT-Walsheim-Pro-Regular.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/gt-walsheim/GT-Walsheim-Pro-Medium.ttf" as="font" type="font/ttf" crossorigin />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link

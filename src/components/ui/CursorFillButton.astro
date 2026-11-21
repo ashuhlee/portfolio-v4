@@ -78,9 +78,18 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 	}
 
 	const HOVER_COLORS = [
-		{ fill: '#FFB2E0', fg: '#232323' },
+		{ fill: 'brand', fg: '#232323' },
 		{ fill: '#EDEEF0', fg: '#232323' },
 	];
+
+	function resolveFill(fill: string): string {
+		if (fill === 'brand') {
+			const idx = parseInt(localStorage.getItem('brand-color-idx') ?? '0', 10);
+			if (idx === 0) return '#FFB2E0';
+			return getComputedStyle(document.documentElement).getPropertyValue('--color-brand-pink-trail').trim() || '#FFB2E0';
+		}
+		return fill;
+	}
 
 	document.addEventListener('astro:page-load', () => {
 		document.querySelectorAll<HTMLElement>('.cursor-fill-btn').forEach((btn) => {
@@ -96,7 +105,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 
 			let colorIndex = 0;
 			let fillTimer: gsap.core.Tween | null = null;
-			btn.style.setProperty('--btn-fill', colors[colorIndex].fill);
+			btn.style.setProperty('--btn-fill', resolveFill(colors[colorIndex].fill));
 			btn.style.setProperty('--btn-fg', colors[colorIndex].fg);
 
 			gsap.set(fillOld, { xPercent: -50, yPercent: -50, scale: 0 });
@@ -116,7 +125,7 @@ const { href, label, hoverSound, fillColor, external = true, fontSize, labelSpac
 
 			btn.addEventListener('mouseenter', (event) => {
 				btn.classList.add('hovering');
-				btn.style.setProperty('--btn-fill', colors[colorIndex].fill);
+				btn.style.setProperty('--btn-fill', resolveFill(colors[colorIndex].fill));
 				btn.style.setProperty('--btn-fg', colors[colorIndex].fg);
 
 				let nextIndex = Math.floor(Math.random() * colors.length);

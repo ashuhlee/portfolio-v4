@@ -7,7 +7,7 @@ const { title } = Astro.props;
 ---
 
 <div class="section-head">
-	<p class="section-title"><span class="section-arrow">_</span> {title}</p>
+	<p class="section-title">{title}<span class="section-arrow">.</span></p>
 	<slot />
 </div>
 
@@ -23,7 +23,8 @@ const { title } = Astro.props;
 		font-family: var(--font-mono), monospace;
 		font-size: 14px;
 		font-weight: 500;
-		text-transform: lowercase;
+			font-style: italic;
+		text-transform: uppercase;
 		color: var(--color-text-primary);
 		margin: 0;
 		letter-spacing: -0.01em;
