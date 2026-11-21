@@ -21,7 +21,7 @@ import butterflyImg from '@/assets/images/png/butterfly.png';
 	<div class="page-footer-inner">
 		<div class="brand">
 			<p class="wordmark">ASHUHLEE</p>
-			<p class="copyright"><span class="copyright-icon">©</span> 2026 Ashley Oyewole. Made with care</p>
+			<p class="copyright">made with intention, and <a class="playlist-link" href="/extra"><span class="playlist-primary">this playlist <span class="playlist-arrow">↗</span></span><span class="playlist-hover">this playlist <span class="playlist-arrow">↗</span></span></a></p>
 		</div>
 		<nav class="footer-links">
 			<a class="link-linkedin" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
@@ -90,6 +90,47 @@ import butterflyImg from '@/assets/images/png/butterfly.png';
 		font-family: var(--font-mono), monospace;
 		font-size: var(--font-size-12);
 		color: var(--color-text-secondary);
+	}
+
+	.playlist-link {
+		position: relative;
+		display: inline-block;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.playlist-primary {
+		display: block;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		text-decoration-color: rgba(89, 93, 98, 0.4);
+	}
+
+	.playlist-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-brand-pink);
+		opacity: 0;
+		transition: none;
+		white-space: nowrap;
+	}
+
+	.playlist-link:hover .playlist-primary {
+		opacity: 0;
+		transition: none;
+	}
+
+	.playlist-link:hover .playlist-hover {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
+	}
+
+	.playlist-arrow {
+		font-family: var(--font-sans), sans-serif;
+		font-style: normal;
+		font-size: 15px;
+		margin-left: 0.1rem;
 	}
 
 	.copyright-icon {

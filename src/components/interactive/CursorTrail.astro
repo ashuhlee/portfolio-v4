@@ -1,0 +1,161 @@
+<div class="cursor-trail-layer" aria-hidden="true"></div>
+
+<script>
+	const LIFE_MIN = 650;
+	const LIFE_VAR = 250;
+	const MAX_PARTICLES = 8;
+	const MIN_DIST = 18;
+	const MIN_INTERVAL = 40;
+	const GRID = 12;
+
+	type Particle = { el: HTMLElement; time: number; life: number; maxOpacity: number };
+	let particles: Particle[] = [];
+	let lastPointer: { x: number; y: number } | null = null;
+	let lastSpawn = 0;
+	let rafId = 0;
+
+	function init() {
+		const layer = document.querySelector<HTMLElement>('.cursor-trail-layer');
+		if (!layer) return;
+
+		particles = [];
+		lastPointer = null;
+		lastSpawn = 0;
+		layer.innerHTML = '';
+
+		function spawn(x: number, y: number, time: number) {
+			const el = document.createElement('div');
+			const roll = Math.random();
+			let maxOpacity: number;
+
+			if (roll < 0.4) {
+				el.className = 'trail-pixel trail-square';
+				const size = 14 + Math.random() * 14;
+				el.style.width = `${size}px`;
+				el.style.height = `${size}px`;
+				maxOpacity = 0.25;
+			} else if (roll < 0.7) {
+				el.className = 'trail-pixel trail-glyph';
+				el.textContent = '+';
+				maxOpacity = 0.4;
+			} else {
+				el.className = 'trail-pixel trail-glyph';
+				el.textContent = 'A';
+				maxOpacity = 0.4;
+			}
+
+			el.style.left = `${Math.round(x / GRID) * GRID}px`;
+			el.style.top = `${Math.round(y / GRID) * GRID}px`;
+			layer.appendChild(el);
+
+			const life = LIFE_MIN + Math.random() * LIFE_VAR;
+			particles.push({ el, time, life, maxOpacity });
+
+			if (particles.length > MAX_PARTICLES) {
+				particles.shift()!.el.remove();
+			}
+		}
+
+		const onMove = (e: PointerEvent) => {
+			if (e.pointerType !== 'mouse') return;
+			const point = { x: e.clientX, y: e.clientY };
+			const time = performance.now();
+			const dist = lastPointer
+				? Math.hypot(point.x - lastPointer.x, point.y - lastPointer.y)
+				: Infinity;
+			if (dist > MIN_DIST && time - lastSpawn > MIN_INTERVAL) {
+				spawn(point.x, point.y, time);
+				lastSpawn = time;
+				lastPointer = point;
+			}
+		};
+
+		window.addEventListener('pointermove', onMove);
+
+		function tick(now: number) {
+			particles = particles.filter((p) => {
+				const age = now - p.time;
+				if (age > p.life) { p.el.remove(); return false; }
+				const alpha = age < 180 ? 1 : Math.max(0, 1 - (age - 180) / (p.life - 180));
+				const scale = Math.max(0.3, 1 - Math.max(0, age - 300) / 1000);
+				p.el.style.opacity = String(alpha * p.maxOpacity);
+				p.el.style.transform = `scale(${scale})`;
+				return true;
+			});
+			rafId = requestAnimationFrame(tick);
+		}
+
+		rafId = requestAnimationFrame(tick);
+
+		const onLinkOver = (e: MouseEvent) => {
+			if ((e.target as HTMLElement)?.closest('a, button')) {
+				layer.classList.add('trail-hidden');
+			}
+		};
+		const onLinkOut = (e: MouseEvent) => {
+			const related = e.relatedTarget as HTMLElement | null;
+			if (!related?.closest('a, button')) {
+				layer.classList.remove('trail-hidden');
+			}
+		};
+
+		document.addEventListener('mouseover', onLinkOver);
+		document.addEventListener('mouseout', onLinkOut);
+
+		document.addEventListener('astro:before-swap', () => {
+			cancelAnimationFrame(rafId);
+			window.removeEventListener('pointermove', onMove);
+			document.removeEventListener('mouseover', onLinkOver);
+			document.removeEventListener('mouseout', onLinkOut);
+			particles.forEach((p) => p.el.remove());
+			particles = [];
+		}, { once: true });
+	}
+
+	document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+	.cursor-trail-layer {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 9997;
+	}
+
+	:global(.trail-pixel) {
+		position: absolute;
+		transform-origin: center center;
+		will-change: opacity, transform;
+	}
+
+	:global(.trail-square) {
+		background: #fec9e7;
+	}
+	:global(.trail-glyph) {
+		font-family: var(--font-mono), ui-monospace, monospace;
+		font-size: 13px;
+		color: #fec9e7;
+		white-space: nowrap;
+		line-height: 1;
+	}
+	:global(:root[data-theme='dark'] .trail-square) {
+		background: #3E4044;
+	}
+	:global(:root[data-theme='dark'] .trail-glyph) {
+		color: #3E4044;
+	}
+
+	:global(:root.tooltip-active) .cursor-trail-layer,
+	.cursor-trail-layer.trail-hidden {
+		opacity: 0;
+	}
+
+	.cursor-trail-layer {
+		transition: opacity 0.4s ease;
+	}
+
+	@media (hover: none) {
+		.cursor-trail-layer { display: none; }
+	}
+</style>

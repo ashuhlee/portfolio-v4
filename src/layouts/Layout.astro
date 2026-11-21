@@ -10,6 +10,7 @@ import '@/styles/typography.css';
 import '@/styles/easing.css';
 
 import Tooltip from '@/components/ui/Tooltip.astro';
+import CursorTrail from '@/components/interactive/CursorTrail.astro';
 import ClockWidget from '@/components/interactive/ClockWidget.astro';
 import ScrollProgress from '@/components/ui/ScrollProgress.astro';
 import ConfigMenu from '@/components/interactive/ConfigMenu.astro';
@@ -120,6 +121,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			<slot />
 		</div>
 		{showNav && <Navigation primary={resolvedNavLinks.primary} secondary={resolvedNavLinks.secondary} />}
+		<CursorTrail />
 		<Tooltip />
 		{showClock && <ClockWidget />}
 		<ScrollProgress />

@@ -10,10 +10,10 @@ import HeroSection from '@/components/sections/HeroSection.astro';
 import ribbonImg from '@/assets/images/png/ribbon.png';
 ---
 
-<Layout showSplash>
+<Layout title="Hi, I'm Ashley — building with intention">
 	<PixelBlastBackground slot="background" color="#F5F5F5"/>
+	<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
 	<div class="page">
-		<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
 		<div class="layout">
 			<div class="content">
 				<HeroSection/>
@@ -64,9 +64,9 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 	}
 
 	.page-ribbon {
-		position: absolute;
+		position: fixed;
 		top: -5.5rem;
-		right: -25.5rem;
+		right: 1rem;
 		height: 460px;
 		transform: rotate(90deg);
 		opacity: 0.08;

@@ -33,3 +33,4 @@ archive/
 src/pages/projects/
 src/pages/work/hidden.astro
 public/p/
+.vercel
