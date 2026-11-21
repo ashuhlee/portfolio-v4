@@ -22,38 +22,10 @@
 }
 @font-face {
 	font-family: 'GT Walsheim Pro';
-	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Regular-Oblique.ttf') format('truetype');
-	font-weight: 400;
-	font-style: italic;
-	font-display: block;
-}
-@font-face {
-	font-family: 'GT Walsheim Pro';
 	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
 	font-display: block;
-}
-@font-face {
-	font-family: 'GT Walsheim Pro';
-	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Medium-Oblique.ttf') format('truetype');
-	font-weight: 500;
-	font-style: italic;
-	font-display: block;
-}
-@font-face {
-	font-family: 'GT Walsheim Pro';
-	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Bold.ttf') format('truetype');
-	font-weight: 600 700;
-	font-style: normal;
-	font-display: fallback;
-}
-@font-face {
-	font-family: 'GT Walsheim Pro';
-	src: url('/fonts/gt-walsheim/GT-Walsheim-Pro-Bold-Oblique.ttf') format('truetype');
-	font-weight: 600 700;
-	font-style: italic;
-	font-display: fallback;
 }
 
 @font-face {
@@ -79,37 +51,9 @@
 }
 @font-face {
 	font-family: 'Sofia Pro';
-	src: url('/fonts/sofia-pro/SofiaPro-MediumItalic.otf') format('opentype');
-	font-weight: 500;
-	font-style: italic;
-	font-display: fallback;
-}
-@font-face {
-	font-family: 'Sofia Pro';
 	src: url('/fonts/sofia-pro/SofiaPro-SemiBold.otf') format('opentype');
 	font-weight: 600;
 	font-style: normal;
 	font-display: fallback;
 }
-@font-face {
-	font-family: 'Sofia Pro';
-	src: url('/fonts/sofia-pro/SofiaPro-SemiBoldItalic.otf') format('opentype');
-	font-weight: 600;
-	font-style: italic;
-	font-display: fallback;
-}
 
-@font-face {
-	font-family: 'Avenir Next';
-	src: url('/fonts/avenir-next/AvenirNext-Medium.ttf') format('truetype');
-	font-weight: 500;
-	font-style: normal;
-	font-display: fallback;
-}
-@font-face {
-	font-family: 'Avenir Next';
-	src: url('/fonts/avenir-next/AvenirNext-Bold.ttf') format('truetype');
-	font-weight: 700;
-	font-style: normal;
-	font-display: fallback;
-}
