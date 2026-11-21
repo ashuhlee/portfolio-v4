@@ -3,20 +3,38 @@ import { Image } from 'astro:assets';
 import chipCaretRole from '@/assets/images/svg/chip-caret-role.svg';
 import chipCaretFocusRaw from '@/assets/images/svg/chip-caret-focus.svg?raw';
 import chipCaretTimeline from '@/assets/images/svg/chip-caret-timeline.svg';
+
+interface Props {
+	chip1Label?: string;
+	chip1Value?: string;
+	chip2Label?: string;
+	chip2Value?: string;
+	chip3Label?: string;
+	chip3Value?: string;
+}
+
+const {
+	chip1Label = 'Role',
+	chip1Value = 'SWE Intern',
+	chip2Label = 'Focus',
+	chip2Value = 'iOS, Android',
+	chip3Label = 'Timeline',
+	chip3Value = 'Summer 2026',
+} = Astro.props;
 ---
 
 <div class="chips">
 	<div class="chip-group stagger-in">
-		<span class="chip chip-role"><span class="chip-label">Role</span> <Image class="chip-icon" src={chipCaretRole} width={10} height={10} alt="" loading="eager" /></span>
-		<p>SWE Intern</p>
+		<span class="chip chip-role"><span class="chip-label">{chip1Label}</span> <Image class="chip-icon" src={chipCaretRole} width={10} height={10} alt="" loading="eager" /></span>
+		<p>{chip1Value}</p>
 	</div>
 	<div class="chip-group stagger-in">
-		<span class="chip chip-focus"><span class="chip-label">Focus</span> <span class="chip-icon chip-icon-inline" set:html={chipCaretFocusRaw} /></span>
-		<p>iOS, Android</p>
+		<span class="chip chip-focus"><span class="chip-label">{chip2Label}</span> <span class="chip-icon chip-icon-inline" set:html={chipCaretFocusRaw} /></span>
+		<p>{chip2Value}</p>
 	</div>
 	<div class="chip-group stagger-in">
-		<span class="chip chip-timeline"><span class="chip-label">Timeline</span> <Image class="chip-icon" src={chipCaretTimeline} width={10} height={10} alt="" loading="eager" /></span>
-		<p>Summer 2026</p>
+		<span class="chip chip-timeline"><span class="chip-label">{chip3Label}</span> <Image class="chip-icon" src={chipCaretTimeline} width={10} height={10} alt="" loading="eager" /></span>
+		<p>{chip3Value}</p>
 	</div>
 </div>
 
