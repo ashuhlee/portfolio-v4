@@ -238,11 +238,5 @@ const { primary, secondary } = Astro.props;
 			update();
 		}
 
-		// Fade in only on the very first page load (not on SPA navigations)
-		if (!(window as any).__navInited) {
-			(window as any).__navInited = true;
-			gsap.set(nav, { opacity: 0 });
-			gsap.to(nav, { opacity: 1, duration: 0.3, delay: 0.1, ease: 'power2.out' });
-		}
 	});
 </script>
