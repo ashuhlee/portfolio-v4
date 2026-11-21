@@ -8,8 +8,8 @@ import BackButton from '@/components/layout/BackButton.astro';
 	<PixelBlastBackground slot="background" color="#F5F5F5" />
 	<div class="page">
 		<BackButton />
-		<h1 class="stagger-in">TUNES</h1>
-		<p class="description stagger-in">Looks like this page is still finding its rhythm. In the meantime, discover your new favourite song :)</p>
+		<h1 class="stagger-in">music player</h1>
+		<p class="description stagger-in">Looks like this page is still finding its rhythm. In the meantime, discover your new favourite song?</p>
 
 		<div class="spotify-grid" id="spotify-grid"></div>
 		<button class="refresh-btn" id="refresh-btn">
@@ -104,13 +104,12 @@ import BackButton from '@/components/layout/BackButton.astro';
 
 	h1 {
 		font-family: var(--font-display), sans-serif;
-		font-size: var(--font-size-20);
-		margin: 0;
 		color: var(--color-text-primary);
 	}
 
 	.description {
-		font-size: var(--font-size-15);
+		font-family: var(--font-gt), sans-serif;
+		font-size: 15.5px;
 		line-height: 1.5;
 		color: var(--color-text-secondary);
 		margin: 0.75rem 0 0;
