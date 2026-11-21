@@ -2,6 +2,8 @@
 
 	--color-brand-pink: #fe6fc1;
 	--color-pink-gradient-end: #FFA6D9;
+	--color-pink-gradient-start: #FFDDF8;
+	--color-brand-pink-trail: #fec9e7;
 
 	/* text */
 	--color-text-primary: #232323;
@@ -35,6 +37,8 @@
 :root[data-theme='dark'] {
 	--color-brand-pink: #FF94D6;
 	--color-pink-gradient-end: #FF8CCE;
+	--color-pink-gradient-start: #FFD6F5;
+	--color-brand-pink-trail: #FFB8E8;
 
 	--color-text-primary: #f2f2f2;
 	--color-text-primary-alt: #ededed;
