@@ -15,7 +15,7 @@
 	let rafId = 0;
 
 	function init() {
-		const layer = document.querySelector<HTMLElement>('.cursor-trail-layer');
+		const layer: HTMLElement | null = document.querySelector<HTMLElement>('.cursor-trail-layer');
 		if (!layer) return;
 
 		particles = [];
@@ -46,7 +46,7 @@
 
 			el.style.left = `${Math.round(x / GRID) * GRID}px`;
 			el.style.top = `${Math.round(y / GRID) * GRID}px`;
-			layer.appendChild(el);
+			layer?.appendChild(el);
 
 			const life = LIFE_MIN + Math.random() * LIFE_VAR;
 			particles.push({ el, time, life, maxOpacity });
@@ -134,7 +134,7 @@
 	}
 	:global(.trail-glyph) {
 		font-family: var(--font-mono), ui-monospace, monospace;
-		font-size: 13px;
+		font-size: var(--font-size-13);
 		color: var(--color-brand-pink-trail);
 		white-space: nowrap;
 		line-height: 1;
