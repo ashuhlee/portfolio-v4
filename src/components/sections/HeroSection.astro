@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
+import heroImg from '@/assets/images/png/hero.png';
 ---
 
 <div class="hero stagger-in">
 	<div class="hero-left">
 		<div class="hero-photo-box">
-			<img src="/images/hero.png" alt="Ashley" class="hero-photo" draggable="false" />
+			<Image src={heroImg} alt="Ashley" class="hero-photo" draggable="false" loading="eager" />
 		</div>
 		<div class="hero-links-row">
 			<a class="hero-link" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
