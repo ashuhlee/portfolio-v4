@@ -3,56 +3,62 @@ import { Image } from 'astro:assets';
 import heroImg from '@/assets/images/png/hero.png';
 ---
 
-<div class="hero stagger-in">
-	<div class="hero-left">
-		<div class="hero-photo-box">
-			<Image src={heroImg} alt="Ashley" class="hero-photo" draggable="false" loading="eager" />
+<div class="hero-wrapper">
+	<div class="hero stagger-in">
+		<div class="hero-left">
+			<div class="hero-photo-box">
+				<Image src={heroImg} alt="Ashley" class="hero-photo" draggable="false" loading="eager" />
+			</div>
+			<div class="hero-links-row">
+				<a class="hero-link" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
+					<span class="hero-link-arrow-wrap">
+						<span class="hero-link-arrow hero-link-arrow-primary">\</span>
+						<span class="hero-link-arrow hero-link-arrow-hover">\</span>
+					</span>
+					<span class="hero-link-label-wrap">
+						<span class="hero-link-label-primary">linkedin</span>
+						<span class="hero-link-label-hover">linkedin</span>
+					</span>
+				</a>
+				<a class="hero-link" href="mailto:hello@ashuhlee.ca">
+					<span class="hero-link-arrow-wrap">
+						<span class="hero-link-arrow hero-link-arrow-primary">\</span>
+						<span class="hero-link-arrow hero-link-arrow-hover">\</span>
+					</span>
+					<span class="hero-link-label-wrap">
+						<span class="hero-link-label-primary">email</span>
+						<span class="hero-link-label-hover">email</span>
+					</span>
+				</a>
+			</div>
 		</div>
-		<div class="hero-links-row">
-			<a class="hero-link" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
-				<span class="hero-link-arrow-wrap">
-					<span class="hero-link-arrow hero-link-arrow-primary">\</span>
-					<span class="hero-link-arrow hero-link-arrow-hover">\</span>
-				</span>
-				<span class="hero-link-label-wrap">
-					<span class="hero-link-label-primary">linkedin</span>
-					<span class="hero-link-label-hover">linkedin</span>
-				</span>
-			</a>
-			<a class="hero-link" href="mailto:hello@ashuhlee.ca">
-				<span class="hero-link-arrow-wrap">
-					<span class="hero-link-arrow hero-link-arrow-primary">\</span>
-					<span class="hero-link-arrow hero-link-arrow-hover">\</span>
-				</span>
-				<span class="hero-link-label-wrap">
-					<span class="hero-link-label-primary">email</span>
-					<span class="hero-link-label-hover">email</span>
-				</span>
-			</a>
+		<div class="hero-right">
+			<p class="hero-name">ashuhlee</p>
+			<div class="hero-bio-wrap">
+				<p class="hero-bio">I'm a computer science student at Western University who cares about making software feel intuitive, fun and user focused.</p>
+				<p class="hero-bio">I work in mobile, fullstack and frontend engineering, but always open to exploring new things.</p>
+				<p class="hero-bio">Reach me at <a class="hero-bio-link" href="mailto:hello@ashuhlee.ca"><span class="bio-link-primary">hello@ashuhlee.ca</span><span class="bio-link-hover">hello@ashuhlee.ca</span></a> to chat.</p>
+			</div>
 		</div>
 	</div>
-	<div class="hero-right">
-		<div class="hero-top-row">
-			<button class="hero-tag" id="color-switcher" type="button" aria-label="Switch brand color">
-				<span class="hero-tag-primary">THEME.CFG</span>
-				<span class="hero-tag-hover">THEME.CFG</span>
-			</button>
-		</div>
-		<p class="hero-name">ashuhlee</p>
-		<div class="hero-bio-wrap">
-			<p class="hero-bio">I'm a computer science student at Western University who cares about making software feel intuitive, fun and user focused.</p>
-			<p class="hero-bio">I work in mobile, fullstack and frontend engineering, but always open to exploring new things.</p>
-			<p class="hero-bio">Reach me at <a class="hero-bio-link" href="mailto:hello@ashuhlee.ca"><span class="bio-link-primary">hello@ashuhlee.ca</span><span class="bio-link-hover">hello@ashuhlee.ca</span></a> to chat.</p>
-		</div>
+	<div class="hero-top-row">
+		<button class="hero-tag" id="color-switcher" type="button" aria-label="Switch brand color">
+			<span class="hero-tag-primary">THEME.CFG</span>
+			<span class="hero-tag-hover">THEME.CFG</span>
+		</button>
 	</div>
 </div>
 
 <style>
+	.hero-wrapper {
+		position: relative;
+		margin-bottom: 2.5rem;
+	}
+
 	.hero {
 		display: flex;
 		align-items: flex-start;
 		gap: 2rem;
-		margin-bottom: 2.5rem;
 	}
 
 	.hero-left {
@@ -165,13 +171,12 @@ import heroImg from '@/assets/images/png/hero.png';
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-		position: relative;
 		margin-top: -1rem;
 	}
 
 	.hero-top-row {
 		position: absolute;
-		top: 0;
+		top: -1rem;
 		right: 0;
 	}
 

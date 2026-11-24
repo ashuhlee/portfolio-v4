@@ -11,6 +11,11 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 ---
 
 <Layout title="Hi, I'm Ashley — building with intention">
+	<script is:inline>
+		if (!window.__astroWasNavigation) {
+			document.documentElement.setAttribute('data-stagger-init', '');
+		}
+	</script>
 	<PixelBlastBackground slot="background" color="#F5F5F5"/>
 	<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
 	<div class="page">
@@ -36,6 +41,41 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		<Footer/>
 	</div>
 </Layout>
+
+<script>
+	import { gsap } from 'gsap';
+
+	document.addEventListener('astro:page-load', () => {
+		const w = window as any;
+		document.documentElement.removeAttribute('data-stagger-init');
+
+		if (w.__astroWasNavigation) {
+			w.__astroWasNavigation = false;
+			return;
+		}
+
+		const els = document.querySelectorAll('.stagger-in');
+		if (!els.length) return;
+
+		gsap.from(els, {
+			opacity: 0,
+			y: 10,
+			duration: 0.35,
+			stagger: 0.1,
+			ease: 'power2.out',
+		});
+
+		const tagEl = document.querySelector<HTMLElement>('.hero-top-row');
+		if (tagEl) {
+			gsap.from(tagEl, {
+				opacity: 0,
+				duration: 0.3,
+				delay: 0.4,
+				ease: 'power2.out',
+			});
+		}
+	});
+</script>
 
 <style>
 	.page {
@@ -89,5 +129,10 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		.page {
 			padding: 4rem 2rem 0;
 		}
+	}
+
+	:global(html[data-stagger-init] .stagger-in),
+	:global(html[data-stagger-init] .hero-top-row) {
+		opacity: 0;
 	}
 </style>

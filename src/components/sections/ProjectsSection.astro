@@ -37,8 +37,8 @@ const projects = [
 ];
 ---
 
-<section class="section stagger-in">
-	<SectionHeader title="projects">
+<section class="section">
+	<SectionHeader title="projects" class="stagger-in">
 		<div class="proj-scroll-widget" aria-hidden="true">
 			<span class="proj-y-text" id="proj-y-label">y: 0px</span>
 			<div class="proj-circles-wrap">
@@ -56,7 +56,7 @@ const projects = [
 			</div>
 		</div>
 	</SectionHeader>
-	<div class="section-grid">
+	<div class="section-grid stagger-in">
 		{projects.map((proj) => {
 			const Tag = proj.href ? 'a' : 'div';
 			return (

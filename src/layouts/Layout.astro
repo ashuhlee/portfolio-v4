@@ -187,6 +187,10 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 			});
 		});
 
+		document.addEventListener('astro:after-swap', () => {
+			(window as any).__astroWasNavigation = true;
+		});
+
 		document.addEventListener('dragstart', (event) => {
 			if (event.target instanceof HTMLImageElement) {
 				event.preventDefault();

@@ -1,12 +1,13 @@
 ---
 interface Props {
 	title: string;
+	class?: string;
 }
 
-const { title } = Astro.props;
+const { title, class: className } = Astro.props;
 ---
 
-<div class="section-head">
+<div class:list={['section-head', className]}>
 	<p class="section-title">{title}<span class="section-arrow">.</span></p>
 	<slot />
 </div>

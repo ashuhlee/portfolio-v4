@@ -39,11 +39,11 @@ const experiences = [
 ];
 ---
 
-<section class="section stagger-in">
-	<SectionHeader title="experience">
+<section class="section">
+	<SectionHeader title="experience" class="stagger-in">
 		<!--<img src="/images/section-icon.svg" class="section-icon" alt="" aria-hidden="true" width="28" height="28" />-->
 	</SectionHeader>
-	<div class="section-grid">
+	<div class="section-grid stagger-in">
 		{experiences.map((exp) => {
 			const Tag = exp.href ? 'a' : 'div';
 			return (
