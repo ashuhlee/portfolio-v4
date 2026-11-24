@@ -10,7 +10,7 @@ import HeroSection from '@/components/sections/HeroSection.astro';
 import ribbonImg from '@/assets/images/png/ribbon.png';
 ---
 
-<Layout title="Hi, I'm Ashley — building with intention">
+<Layout title="Hi, I'm Ashley">
 	<script is:inline>
 		if (!window.__astroWasNavigation) {
 			document.documentElement.setAttribute('data-stagger-init', '');
@@ -94,7 +94,8 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 3.5rem;
+		padding-left: calc(130px + 2rem);
+		margin-top: 3rem;
 		margin-bottom: 4.5rem;
 		height: 3rem;
 	}
@@ -128,6 +129,10 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 	@media (max-width: 44rem) {
 		.page {
 			padding: 4rem 2rem 0;
+		}
+
+		.view-more-wrap {
+			padding-left: 0;
 		}
 	}
 

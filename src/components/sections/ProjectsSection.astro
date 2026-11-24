@@ -3,38 +3,50 @@ import SectionHeader from './SectionHeader.astro';
 
 const projects = [
 	{
-		lang: 'TypeScript',
-		platform: 'web + desktop',
-		name: 'Count O Rama',
-		description: 'Cross platform arcade game with progressive difficulty and power ups',
-		href: 'https://github.com/ashuhlee/count-or-die',
-		tooltip: 'play the beta',
+		category: 'Terminal app',
+		name: 'starlit',
+		tech: 'Python',
+		description: "A minimal and customizable weather package that matches any terminal theme. Over 4,000 downloads since its release",
+		image: '/images/projects/starlit.webp',
+		links: [
+			{ label: 'download', href: 'https://pypi.org/project/starlit-cli/' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/starlit' },
+		],
 	},
 	{
-		lang: 'Swift',
-		platform: 'ios',
-		name: 'Loggi',
-		description: 'Track and log your daily meals, weight and steps, synced with the health app',
-		href: undefined,
-		tooltip: 'coming soon',
+		category: 'Desktop app',
+		name: 'count o rama',
+		tech: 'React, Electron, TypeScript',
+		description: 'A cross platform arcade game with progressive difficulty, multiple game modes and randomized power ups',
+		image: '/images/projects/count-o-rama.webp',
+		fullBleed: true,
+		links: [
+			{ label: 'play the beta', href: 'https://www.countordie.gg/' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/count-or-die' },
+		],
 	},
 	{
-		lang: 'Python',
-		platform: 'terminal',
-		name: 'Starlit',
-		description: 'Customizable weather package that matches any terminal. 4k+ downloads',
-		href: 'https://github.com/ashuhlee/starlit',
-		tooltip: 'source code',
+		category: 'Mobile app',
+		name: 'Noted',
+		tech: 'Flutter, Supabase',
+		description: 'Lightweight app to create, update and delete personal notes. Syncs in real-time and supports drag to reorder and searching',
+		image: '/images/projects/noted.webp',
+		links: [
+			{ label: 'source code', href: 'https://github.com/ashuhlee/noted' },
+		],
 	},
 	{
-		lang: 'Lua',
-		platform: 'win + mac',
-		name: 'Flappy Kitty',
-		description: 'Flappy Bird-style game with collision detection + physics based movement',
-		href: 'https://github.com/ashuhlee/flappy-kitty',
-		tooltip: 'source code',
+		category: 'Mobile app',
+		name: 'loggi',
+		tech: 'Swift, Firebase',
+		description: 'Log your daily meals, weight and steps, synced with the health app. Create new entries via text, speech or image uploads',
+		links: [
+			{ label: 'beta out soon', href: '#', disabled: true },
+		],
 	},
 ];
+
+const first = projects[0];
 ---
 
 <section class="section">
@@ -56,53 +68,445 @@ const projects = [
 			</div>
 		</div>
 	</SectionHeader>
-	<div class="section-grid stagger-in">
-		{projects.map((proj) => {
-			const Tag = proj.href ? 'a' : 'div';
-			return (
-				<Tag
-					class={`grid-cell proj-cell${proj.href ? ' proj-cell-link' : ''}`}
-					href={proj.href}
-					target={proj.href ? '_blank' : undefined}
-					rel={proj.href ? 'noopener noreferrer' : undefined}
-					data-tooltip={proj.tooltip}
+	<p class="proj-intro stagger-in">Some projects I've built this year. Try them out!</p>
+	<div class="proj-layout stagger-in" data-projects={JSON.stringify(projects)}>
+		<div class="proj-sidebar">
+			{projects.map((proj, i) => (
+				<button
+					class="proj-sidebar-item"
+					data-active={i === 0 ? '' : undefined}
+					aria-pressed={i === 0 ? 'true' : 'false'}
 				>
-					{proj.href && <img src="/images/butterfly.gif" class="cell-butterfly" width="480" height="480" alt="" aria-hidden="true" draggable="false" />}
-					<div data-bounce={proj.href ? '0.95' : undefined} class="cell-content">
-						<div class="proj-lang-wrap">
-							<span class="proj-lang lang-primary">{proj.lang}</span>
-							<span class="proj-lang lang-platform">{proj.platform}</span>
+					<span class="proj-sidebar-name">{proj.name}</span>
+					<span class="proj-sidebar-category">{proj.category}</span>
+				</button>
+			))}
+		</div>
+
+		<div class="proj-panel">
+			<div class="proj-panel-image" aria-hidden="true" data-no-image={first.image ? undefined : ''} data-full={first.fullBleed ? '' : undefined}>
+					<img class="proj-panel-img proj-panel-img--a" src={first.image ?? ''} alt="" draggable="false" data-full={first.fullBleed ? '' : undefined} style={first.image ? '' : 'display:none'} />
+					<img class="proj-panel-img proj-panel-img--b" src="" alt="" draggable="false" style="display:none; opacity:0" />
+				</div>
+
+			<div class="proj-panel-content">
+				<div class="proj-panel-info">
+					<div class="proj-panel-top">
+						<div class="proj-panel-date-row">
+							<span class="proj-panel-date">{first.tech}</span>
 						</div>
-						<p class="proj-name">{proj.name}</p>
-						<p class="proj-desc">{proj.description}</p>
+						<p class="proj-panel-name">{first.name}</p>
 					</div>
-				</Tag>
-			);
-		})}
-		<span class="grid-center-plus" aria-hidden="true">+</span>
+					<p class="proj-panel-desc">{first.description}</p>
+				</div>
+
+				<div class="proj-panel-links">
+					{first.links.map(link => (
+						link.disabled
+							? <span class="proj-panel-link proj-panel-link--disabled">
+									<span class="proj-link-primary">{link.label} <span class="proj-link-arrow">↗</span></span>
+									<span class="proj-link-hover">{link.label} <span class="proj-link-arrow">↗</span></span>
+								</span>
+							: <a class="proj-panel-link" href={link.href} target="_blank" rel="noopener noreferrer">
+									<span class="proj-link-primary">{link.label} <span class="proj-link-arrow">↗</span></span>
+									<span class="proj-link-hover">{link.label} <span class="proj-link-arrow">↗</span></span>
+								</a>
+					))}
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 
 <script>
 	document.addEventListener('astro:page-load', () => {
-		const yLabel = document.getElementById('proj-y-label');
-		if (!yLabel) return;
+		const layout = document.querySelector<HTMLElement>('.proj-layout');
+		if (!layout) return;
 
-		let rafId: number;
-		const updateY = () => {
-			yLabel.textContent = `y: ${Math.round(window.scrollY)}px`;
-		};
-		updateY();
-		window.addEventListener('scroll', () => {
-			cancelAnimationFrame(rafId);
-			rafId = requestAnimationFrame(updateY);
-		}, { passive: true });
+		const projects: Array<{
+			category: string;
+			name: string;
+			tech: string;
+			description: string;
+			image?: string;
+			fullBleed?: boolean;
+			links: Array<{ label: string; href: string; disabled?: boolean }>;
+		}> = JSON.parse(layout.dataset.projects ?? '[]');
+
+		const sidebarItems = layout.querySelectorAll<HTMLButtonElement>('.proj-sidebar-item');
+		const imageEl = layout.querySelector<HTMLElement>('.proj-panel-image');
+		const dateEl = layout.querySelector<HTMLElement>('.proj-panel-date');
+		const nameEl = layout.querySelector<HTMLElement>('.proj-panel-name');
+		const descEl = layout.querySelector<HTMLElement>('.proj-panel-desc');
+		const linksEl = layout.querySelector<HTMLElement>('.proj-panel-links');
+
+		const imgSlots = [
+			layout.querySelector<HTMLImageElement>('.proj-panel-img--a')!,
+			layout.querySelector<HTMLImageElement>('.proj-panel-img--b')!,
+		];
+		let curSlot = 0;
+		let xfadeTimer: ReturnType<typeof setTimeout> | null = null;
+
+		sidebarItems.forEach((item, i) => {
+			item.addEventListener('click', () => {
+				sidebarItems.forEach(el => {
+					el.removeAttribute('data-active');
+					el.setAttribute('aria-pressed', 'false');
+				});
+				item.setAttribute('data-active', '');
+				item.setAttribute('aria-pressed', 'true');
+
+				const proj = projects[i];
+
+				if (dateEl) dateEl.textContent = proj.tech;
+				if (nameEl) nameEl.textContent = proj.name;
+				if (descEl) descEl.textContent = proj.description;
+				if (linksEl) {
+					linksEl.innerHTML = proj.links
+						.map(link =>
+							link.disabled
+								? `<span class="proj-panel-link proj-panel-link--disabled"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></span>`
+								: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
+						)
+						.join('');
+				}
+				if (imageEl) {
+					proj.image ? imageEl.removeAttribute('data-no-image') : imageEl.setAttribute('data-no-image', '');
+					proj.fullBleed ? imageEl.setAttribute('data-full', '') : imageEl.removeAttribute('data-full');
+				}
+
+				if (xfadeTimer) {
+					clearTimeout(xfadeTimer);
+					xfadeTimer = null;
+					imgSlots[curSlot].style.opacity = '';
+					imgSlots[curSlot].style.display = '';
+					imgSlots[1 - curSlot].style.opacity = '0';
+					imgSlots[1 - curSlot].style.display = 'none';
+					imgSlots[1 - curSlot].removeAttribute('data-full');
+				}
+
+				const cur = imgSlots[curSlot];
+				const nxtSlot = 1 - curSlot;
+				const nxt = imgSlots[nxtSlot];
+
+				if (proj.image) {
+					nxt.src = proj.image;
+					proj.fullBleed ? nxt.setAttribute('data-full', '') : nxt.removeAttribute('data-full');
+					nxt.style.display = '';
+					nxt.style.opacity = '0';
+					nxt.getBoundingClientRect();
+					nxt.style.opacity = '1';
+					if (cur.style.display !== 'none') cur.style.opacity = '0';
+					curSlot = nxtSlot;
+					xfadeTimer = setTimeout(() => {
+						cur.style.display = 'none';
+						cur.style.opacity = '';
+						cur.removeAttribute('data-full');
+						xfadeTimer = null;
+					}, 220);
+				} else {
+					if (cur.style.display !== 'none') {
+						cur.style.opacity = '0';
+						xfadeTimer = setTimeout(() => {
+							cur.style.display = 'none';
+							cur.style.opacity = '';
+							cur.removeAttribute('data-full');
+							xfadeTimer = null;
+						}, 220);
+					}
+				}
+			});
+		});
+
+		const yLabel = document.getElementById('proj-y-label');
+		if (yLabel) {
+			let rafId: number;
+			const updateY = () => { yLabel.textContent = `y: ${Math.round(window.scrollY)}px`; };
+			updateY();
+			const ctrl = new AbortController();
+			window.addEventListener('scroll', () => {
+				cancelAnimationFrame(rafId);
+				rafId = requestAnimationFrame(updateY);
+			}, { passive: true, signal: ctrl.signal });
+			document.addEventListener('astro:before-swap', () => ctrl.abort(), { once: true });
+		}
 	});
 </script>
 
 <style>
 	.section {
 		margin-top: 2.5rem;
+	}
+
+	/* ── Layout ── */
+	.proj-intro {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15);
+		line-height: 1.4;
+		color: #505356;
+		margin: -1.5rem 0 2.375rem;
+	}
+
+	:root[data-theme='dark'] .proj-intro {
+		color: var(--color-text-muted);
+	}
+
+	.proj-layout {
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start;
+	}
+
+	/* ── Sidebar ── */
+	.proj-sidebar {
+		flex: 0 0 130px;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.proj-sidebar-item {
+		display: flex;
+		flex-direction: column;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		text-align: left;
+		position: relative;
+	}
+
+	.proj-sidebar-item[data-active]::before {
+		content: '';
+		position: absolute;
+		left: -8px;
+		top: 0;
+		bottom: 0;
+		width: 1.5px;
+		height: 95%;
+		background: var(--color-brand-pink);
+	}
+
+	.proj-sidebar-category {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 24px;
+		color: var(--color-text-secondary);
+		display: block;
+	}
+
+	:root[data-theme='dark'] .proj-sidebar-category {
+		color: var(--color-text-muted);
+	}
+
+	.proj-sidebar-name {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15-5);
+		line-height: 16px;
+		font-weight: 500;
+		text-transform: lowercase;
+		color: var(--color-text-primary-alt);
+		display: block;
+	}
+
+	/* ── Panel ── */
+	.proj-panel-content {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.proj-panel {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.proj-panel-image {
+		width: 100%;
+		aspect-ratio: 9 / 5;
+		border: 1px solid var(--color-gray-mid-light);
+		background: #fff;
+		flex-shrink: 0;
+		position: relative;
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.proj-panel-image::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('/images/patterns/dither-clouds.png');
+		background-size: cover;
+		background-position: center;
+		opacity: 0.11;
+		pointer-events: none;
+		z-index: 0;
+		transition: opacity 180ms ease;
+	}
+
+	.proj-panel-image::after {
+		content: 'coming soon';
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-display);
+		font-size: 40px;
+		font-weight: 400;
+		color: #A9A9A9;
+		letter-spacing: 0.01em;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	:root[data-theme='dark'] .proj-panel-image::after {
+		color: #3a3a3a;
+	}
+
+	:root[data-theme='dark'] .proj-panel-image {
+		background: rgba(255, 255, 255, 0.04);
+		border-color: #3a3a3a;
+	}
+
+	:root[data-theme='dark'] .proj-panel-image::before {
+		opacity: 0.04;
+	}
+
+	.proj-panel-image:not([data-no-image])::after {
+		content: '';
+	}
+
+	.proj-panel-img {
+		position: absolute;
+		inset: 12px;
+		width: calc(100% - 24px);
+		height: calc(100% - 24px);
+		object-fit: contain;
+		object-position: center;
+		z-index: 1;
+		transition: opacity 180ms ease;
+	}
+
+	.proj-panel-img[data-full] {
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.proj-panel-image[data-full]::before {
+		opacity: 0;
+	}
+
+
+	/* ── Info ── */
+	.proj-panel-info {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.proj-panel-top {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.proj-panel-date-row {
+		margin-bottom: 2px;
+	}
+
+	.proj-panel-date {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 24px;
+		text-transform: uppercase;
+		color: var(--color-gray-reg);
+	}
+
+	:root[data-theme='dark'] .proj-panel-date {
+		color: var(--color-text-muted);
+	}
+
+	.proj-panel-name {
+		font-family: var(--font-gt), sans-serif;
+		font-size: 18px;
+		line-height: 16px;
+		font-weight: 500;
+		text-transform: lowercase;
+		color: var(--color-text-primary-alt);
+		margin: 0;
+	}
+
+	.proj-panel-desc {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15);
+		line-height: 1.3;
+		color: #505356;
+		margin: 0;
+	}
+
+	:root[data-theme='dark'] .proj-panel-desc {
+		color: var(--color-text-muted);
+	}
+
+	/* ── Links ── */
+	.proj-panel-links {
+		display: flex;
+		gap: 28px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	:global(.proj-panel-link) {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 16px;
+		text-transform: uppercase;
+		color: var(--color-brand-pink);
+		text-decoration: none;
+		position: relative;
+		display: inline-block;
+	}
+
+	:global(.proj-link-primary) {
+		display: block;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		transition: none;
+	}
+
+	:global(.proj-link-hover) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		white-space: nowrap;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		opacity: 0;
+		transition: none;
+	}
+
+	:global(.proj-panel-link:hover .proj-link-primary) {
+		opacity: 0;
+		transition: none;
+	}
+
+	:global(.proj-panel-link:hover .proj-link-hover) {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
+	}
+
+	:global(.proj-panel-link--disabled) {
+		color: var(--color-brand-pink);
+		cursor: default;
+		pointer-events: none;
+		opacity: 0.45;
 	}
 
 	/* ── Scroll widget ── */
@@ -188,211 +592,20 @@ const projects = [
 		background: #38333b;
 	}
 
-	/* ── Grid ── */
-	.section-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		border: 1px solid #e6e6e6;
-		position: relative;
-	}
-
-	:root[data-theme='dark'] .section-grid {
-		border-color: #2e2b35;
-	}
-
-	.grid-cell {
-		padding: 1rem;
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		overflow: hidden;
-		transition: opacity 0.2s ease;
-	}
-
-	.grid-cell:nth-child(odd) {
-		border-right: 1px solid #e6e6e6;
-	}
-
-	.grid-cell:nth-child(-n+2) {
-		border-bottom: 1px solid #e6e6e6;
-	}
-
-	:root[data-theme='dark'] .grid-cell:nth-child(odd),
-	:root[data-theme='dark'] .grid-cell:nth-child(-n+2) {
-		border-color: #2e2b35;
-	}
-
+	/* ── Mobile ── */
 	@media (max-width: 44rem) {
-		.section-grid {
-			grid-template-columns: 1fr;
+		.proj-layout {
+			flex-direction: column;
+			gap: 1.25rem;
 		}
 
-		.grid-cell:nth-child(odd) {
-			border-right: none;
+		.proj-sidebar {
+			flex: none;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 6px 0;
+			width: 100%;
+			justify-content: space-between;
 		}
-
-		.grid-cell:nth-child(-n+2) {
-			border-bottom: none;
-		}
-
-		.grid-cell:not(:last-child) {
-			border-bottom: 1px solid #e6e6e6;
-		}
-
-		:root[data-theme='dark'] .grid-cell:not(:last-child) {
-			border-color: #2e2b35;
-		}
-
-		.grid-center-plus,
-		.grid-triangle {
-			display: none;
-		}
-	}
-
-	.grid-center-plus {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		font-family: var(--font-mono);
-		font-weight: 300;
-		font-size: var(--font-size-15);
-		line-height: 1;
-		color: #8C8C8C;
-		background: var(--color-bg, #fff);
-		padding: 0 2px;
-		z-index: 1;
-		pointer-events: none;
-		user-select: none;
-	}
-
-	:root[data-theme='dark'] .grid-center-plus {
-		color: #4a4a4a;
-		background: var(--color-bg, #1A1820);
-	}
-
-	.grid-triangle {
-		position: absolute;
-		top: 50%;
-		width: 4px;
-		height: 9px;
-		background: #e6e6e6;
-		z-index: 1;
-		pointer-events: none;
-	}
-
-	:root[data-theme='dark'] .grid-triangle {
-		background: #2e2b35;
-	}
-
-	.grid-triangle-left {
-		left: 0;
-		transform: translateY(-50%);
-		clip-path: polygon(0 0, 100% 50%, 0 100%);
-	}
-
-	.grid-triangle-right {
-		right: 0;
-		transform: translateY(-50%);
-		clip-path: polygon(100% 0, 0 50%, 100% 100%);
-	}
-
-	/* ── Project cells ── */
-	.proj-cell-link {
-		transition: background 0.15s ease, opacity 0.2s ease;
-		cursor: pointer;
-	}
-
-	.proj-cell-link:hover {
-		background: var(--color-bg-page);
-	}
-
-	:root[data-theme='dark'] .proj-cell-link:hover {
-		background: rgba(255, 255, 255, 0.02);
-	}
-
-	.cell-butterfly {
-		position: absolute;
-		bottom: -50px;
-		right: 20px;
-		width: 160px;
-		height: 160px;
-		object-fit: cover;
-		opacity: 0;
-		filter: blur(3px);
-		pointer-events: none;
-		user-select: none;
-		transition: opacity 0.35s ease;
-	}
-
-	.proj-cell-link:hover .cell-butterfly {
-		opacity: 0.075;
-	}
-
-	:root[data-theme='dark'] .proj-cell-link:hover .cell-butterfly {
-		opacity: 0.06;
-	}
-
-	.cell-content {
-		position: relative;
-	}
-
-	.proj-lang-wrap {
-		position: relative;
-		height: 24px;
-		margin: 0 0 0.125rem;
-	}
-
-	.proj-lang {
-		font-family: var(--font-mono), monospace;
-		font-size: var(--font-size-12);
-		text-transform: uppercase;
-		color: var(--color-brand-pink);
-		line-height: 24px;
-		display: block;
-	}
-
-	.lang-primary {
-		transition: none;
-	}
-
-	.lang-platform {
-		position: absolute;
-		top: 0;
-		left: 0;
-		opacity: 0;
-		transition: none;
-	}
-	
-	.proj-cell-link:hover .lang-primary {
-		opacity: 0;
-		transition: none;
-	}
-
-	.proj-cell-link:hover .lang-platform {
-		opacity: 1;
-		transition: opacity 0.2s ease 0.03s;
-	}
-
-	.proj-name {
-		font-family: var(--font-gt), sans-serif;
-		font-size: var(--font-size-15-5);
-		font-weight: 500;
-		text-transform: lowercase;
-		color: var(--color-text-primary-alt);
-		margin: 0 0 0.6rem;
-		line-height: 1.2;
-	}
-
-	.proj-desc {
-		font-family: var(--font-gt), sans-serif;
-		font-size: var(--font-size-15);
-		color: #505356;
-		margin: 0;
-		line-height: 1.3;
-	}
-
-	:root[data-theme='dark'] .proj-desc {
-		color: var(--color-text-muted);
 	}
 </style>
