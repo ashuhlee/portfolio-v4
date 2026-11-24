@@ -3,14 +3,13 @@ import SectionHeader from './SectionHeader.astro';
 
 const projects = [
 	{
-		category: 'Terminal app',
-		name: 'starlit',
-		tech: 'Python',
-		description: "A minimal and customizable weather package that matches any terminal theme. Over 4,000 downloads since its release",
-		image: '/images/projects/starlit.webp',
+		category: 'Mobile app',
+		name: 'Noted',
+		tech: 'Flutter, Supabase',
+		description: 'Lightweight app to create, update and delete personal notes. Syncs in real-time and supports drag to reorder and searching',
+		image: '/images/projects/noted.webp',
 		links: [
-			{ label: 'download', href: 'https://pypi.org/project/starlit-cli/' },
-			{ label: 'source code', href: 'https://github.com/ashuhlee/starlit' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/noted' },
 		],
 	},
 	{
@@ -26,13 +25,14 @@ const projects = [
 		],
 	},
 	{
-		category: 'Mobile app',
-		name: 'Noted',
-		tech: 'Flutter, Supabase',
-		description: 'Lightweight app to create, update and delete personal notes. Syncs in real-time and supports drag to reorder and searching',
-		image: '/images/projects/noted.webp',
+		category: 'Terminal app',
+		name: 'starlit',
+		tech: 'Python',
+		description: "A minimal and customizable weather package that matches any terminal theme. Over 4,000 downloads since its release",
+		image: '/images/projects/starlit.webp',
 		links: [
-			{ label: 'source code', href: 'https://github.com/ashuhlee/noted' },
+			{ label: 'download', href: 'https://pypi.org/project/starlit-cli/' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/starlit' },
 		],
 	},
 	{
@@ -47,6 +47,7 @@ const projects = [
 ];
 
 const first = projects[0];
+const firstPrimaryLink = first.links.find(l => !l.disabled);
 ---
 
 <section class="section">
@@ -87,6 +88,16 @@ const first = projects[0];
 			<div class="proj-panel-image" aria-hidden="true" data-no-image={first.image ? undefined : ''} data-full={first.fullBleed ? '' : undefined}>
 					<img class="proj-panel-img proj-panel-img--a" src={first.image ?? ''} alt="" draggable="false" data-full={first.fullBleed ? '' : undefined} style={first.image ? '' : 'display:none'} />
 					<img class="proj-panel-img proj-panel-img--b" src="" alt="" draggable="false" style="display:none; opacity:0" />
+					<a
+						class="proj-image-link"
+						href={firstPrimaryLink?.href ?? '#'}
+						target="_blank"
+						rel="noopener noreferrer"
+						data-tooltip={firstPrimaryLink?.label ?? ''}
+						tabindex="-1"
+						aria-hidden="true"
+						style={firstPrimaryLink && first.image ? '' : 'display:none'}
+					/>
 				</div>
 
 			<div class="proj-panel-content">
@@ -140,6 +151,7 @@ const first = projects[0];
 		const descEl = layout.querySelector<HTMLElement>('.proj-panel-desc');
 		const linksEl = layout.querySelector<HTMLElement>('.proj-panel-links');
 
+		const imageLinkEl = layout.querySelector<HTMLAnchorElement>('.proj-image-link');
 		const imgSlots = [
 			layout.querySelector<HTMLImageElement>('.proj-panel-img--a')!,
 			layout.querySelector<HTMLImageElement>('.proj-panel-img--b')!,
@@ -169,6 +181,17 @@ const first = projects[0];
 								: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
 						)
 						.join('');
+				}
+
+				if (imageLinkEl) {
+					const primary = proj.links.find(l => !l.disabled);
+					if (primary && proj.image) {
+						imageLinkEl.href = primary.href;
+						imageLinkEl.dataset.tooltip = primary.label;
+						imageLinkEl.style.display = '';
+					} else {
+						imageLinkEl.style.display = 'none';
+					}
 				}
 				if (imageEl) {
 					proj.image ? imageEl.removeAttribute('data-no-image') : imageEl.setAttribute('data-no-image', '');
@@ -235,7 +258,8 @@ const first = projects[0];
 
 <style>
 	.section {
-		margin-top: 2.5rem;
+		margin-top: 3rem;
+		margin-bottom: 4rem;
 	}
 
 	/* ── Layout ── */
@@ -348,6 +372,10 @@ const first = projects[0];
 		transition: opacity 180ms ease;
 	}
 
+	:root[data-theme='dark'] .proj-panel-image::before {
+		background-image: none;
+	}
+
 	.proj-panel-image::after {
 		content: 'coming soon';
 		position: absolute;
@@ -381,9 +409,16 @@ const first = projects[0];
 		content: '';
 	}
 
+	/* ── Image tooltip link ── */
+	.proj-image-link {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+	}
+
 	.proj-panel-img {
 		position: absolute;
-		inset: 12px;
+		inset: 14px;
 		width: calc(100% - 24px);
 		height: calc(100% - 24px);
 		object-fit: contain;
@@ -458,7 +493,7 @@ const first = projects[0];
 	/* ── Links ── */
 	.proj-panel-links {
 		display: flex;
-		gap: 28px;
+		gap: 40px;
 		align-items: center;
 		flex-wrap: wrap;
 	}

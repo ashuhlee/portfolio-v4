@@ -1,0 +1,162 @@
+---
+import CursorFillButton from '@/components/ui/CursorFillButton.astro';
+import GitHubCalendar from '@/components/GitHubCalendar';
+
+const g = globalThis as typeof globalThis & { _ghCount?: string; _ghCountAt?: number };
+let commitCount = g._ghCount ?? '';
+const cacheAge = Date.now() - (g._ghCountAt ?? 0);
+if (!commitCount || cacheAge > 10 * 60 * 1000) {
+	try {
+		const res = await fetch('https://github-contributions-api.jogruber.de/v4/ashuhlee?y=last');
+		const data = await res.json() as { total?: { lastYear?: number } };
+		const n = data?.total?.lastYear;
+		if (n) {
+			commitCount = n.toLocaleString('en-US');
+			g._ghCount = commitCount;
+			g._ghCountAt = Date.now();
+		}
+	} catch {}
+}
+---
+
+<div class="contrib-section stagger-in">
+	<div class="section-head">
+		<div class="section-head-left">
+			<p class="section-title">commit log<span class="section-dot">.</span></p>
+			<p class="section-desc">{commitCount} contributions this year.</p>
+		</div>
+	</div>
+	<div class="contrib-box">
+		<div class="contrib-wrap">
+			<GitHubCalendar client:only="react" />
+		</div>
+	</div>
+	<div class="contrib-below">
+		<a class="gh-handle-link" href="https://github.com/ashuhlee" target="_blank" rel="noopener noreferrer">
+			<span class="gh-handle-primary">@ashuhlee</span>
+			<span class="gh-handle-hover">@ashuhlee</span>
+		</a>
+	</div>
+	<div class="view-more-wrap">
+		<CursorFillButton
+			href="https://github.com/ashuhlee"
+			label="View more on GitHub"
+			hoverSound="/audio/scribble.mp3"
+			magnet={false}
+		/>
+	</div>
+</div>
+
+<style>
+	.contrib-section {
+			margin-bottom: 3rem;
+	}
+
+	.section-head {
+		display: flex;
+		align-items: flex-end;
+		margin-bottom: 1.5rem;
+	}
+
+	.contrib-below {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 0.5rem;
+	}
+
+	.section-head-left {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.gh-handle-link {
+		position: relative;
+		display: inline-block;
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		color: var(--color-gray-reg);
+		text-decoration: none;
+		line-height: 1;
+	}
+
+	.gh-handle-primary,
+	.gh-handle-hover {
+		display: block;
+	}
+
+	.gh-handle-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		color: var(--color-brand-pink);
+	}
+
+	.gh-handle-link:hover .gh-handle-primary {
+		opacity: 0;
+	}
+
+	.gh-handle-link:hover .gh-handle-hover {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
+	}
+
+	.section-title {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-14);
+		font-weight: 500;
+		text-transform: uppercase;
+		color: var(--color-text-primary);
+		margin: 0;
+		letter-spacing: -0.01em;
+	}
+
+	.section-dot {
+		color: var(--color-gray-mid-light);
+	}
+
+	.section-desc {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	.contrib-box {
+		border: 1px solid #e6e6e6;
+		padding: 1.25rem 1.25rem;
+		overflow: hidden;
+	}
+
+:root[data-theme='dark'] .contrib-box {
+		border-color: #2e2b35;
+	}
+
+	.contrib-wrap :global(.react-activity-calendar) {
+		width: 100%;
+	}
+
+	.contrib-wrap :global(.react-activity-calendar svg text) {
+		font-family: var(--font-mono), monospace !important;
+		fill: var(--color-text-primary-alt);
+	}
+
+	:global(.cal-scroll::-webkit-scrollbar) {
+		display: none;
+	}
+
+	.view-more-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 2rem;
+		height: 3rem;
+	}
+
+	@media (max-width: 44rem) {
+		.view-more-wrap {
+			padding-left: 0;
+		}
+	}
+</style>

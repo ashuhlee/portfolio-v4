@@ -2,11 +2,12 @@
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Footer from '@/components/layout/Footer.astro';
-import CursorFillButton from '@/components/ui/CursorFillButton.astro';
 import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackground.astro';
 import ExperienceSection from '@/components/sections/ExperienceSection.astro';
 import ProjectsSection from '@/components/sections/ProjectsSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
+import CommitLogSection from '@/components/sections/CommitLogSection.astro';
+import ContactSection from '@/components/sections/ContactSection.astro';
 import ribbonImg from '@/assets/images/png/ribbon.png';
 ---
 
@@ -26,16 +27,9 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 				<ProjectsSection/>
 			</div>
 		</div>
-
-		<div class="view-more-wrap stagger-in">
-					<CursorFillButton
-						href="https://github.com/ashuhlee"
-						label="View more on GitHub"
-						hoverSound="/audio/scribble.mp3"
-						magnet={false}
-					/>
-		</div>
-
+		<CommitLogSection />
+		<hr class="section-divider" />
+		<ContactSection />
 	</div>
 	<div class="footer-wrap stagger-in">
 		<Footer/>
@@ -90,16 +84,6 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		display: block;
 	}
 
-	.view-more-wrap {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding-left: calc(130px + 2rem);
-		margin-top: 3rem;
-		margin-bottom: 4.5rem;
-		height: 3rem;
-	}
-
 	.content {
 		min-width: 0;
 	}
@@ -121,6 +105,13 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		opacity: 0;
 	}
 
+	.section-divider {
+		border: none;
+		border-top: 1px solid var(--color-border-harsher);
+		margin: 0;
+	}
+
+
 	.footer-wrap {
 		position: relative;
 		z-index: 1;
@@ -130,10 +121,6 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		.page {
 			padding: 4rem 2rem 0;
 		}
-
-		.view-more-wrap {
-			padding-left: 0;
-		}
 	}
 
 	:global(html[data-stagger-init] .stagger-in),
@@ -141,3 +128,4 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		opacity: 0;
 	}
 </style>
+

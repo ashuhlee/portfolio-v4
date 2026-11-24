@@ -15,5 +15,8 @@ export default defineConfig({
     build: {
       chunkSizeWarningLimit: 900,
     },
+    optimizeDeps: {
+      exclude: ['react-activity-calendar'],
+    },
   },
 });

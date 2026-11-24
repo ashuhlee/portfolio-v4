@@ -25,6 +25,8 @@ h3, h4, h5, h6 {
 	--font-size-15:   0.9375rem;    /* 15px */
 	--font-size-15-5: 0.96875rem;   /* 15.5px */
 	--font-size-16:   1rem;         /* 16px */
+	--font-size-17:   1.0625rem;    /* 17px */
+	--font-size-18:   1.125rem;     /* 18px */
 	--font-size-48:   3rem;         /* 48px */
 	--font-size-56:   3.5rem;       /* 56px */
 }
