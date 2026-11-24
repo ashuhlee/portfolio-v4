@@ -25,6 +25,14 @@ const themes: ThemePalette[] = [
 type Activity = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
 type TooltipState = { text: string; x: number; y: number } | null;
 
+const calStart = new Date();
+calStart.setFullYear(calStart.getFullYear() - 1);
+
+function getWeekIndex(dateStr: string) {
+	const d = new Date(dateStr + 'T12:00:00');
+	return Math.max(0, Math.floor((d.getTime() - calStart.getTime()) / (7 * 24 * 60 * 60 * 1000)));
+}
+
 export default function GitHubContributions() {
 	const [isDark, setIsDark] = useState(false);
 	const [brandIdx, setBrandIdx] = useState(() => {
@@ -34,6 +42,7 @@ export default function GitHubContributions() {
 		} catch { return 0; }
 	});
 	const [tip, setTip] = useState<TooltipState>(null);
+	const [inView, setInView] = useState(false);
 	const wrapRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -45,9 +54,34 @@ export default function GitHubContributions() {
 			} catch {}
 		};
 		check();
-		const observer = new MutationObserver(check);
-		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'style'] });
-		return () => observer.disconnect();
+		const mutObs = new MutationObserver(check);
+		mutObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'style'] });
+		return () => mutObs.disconnect();
+	}, []);
+
+	useEffect(() => {
+		if (!document.getElementById('cal-block-in-kf')) {
+			const s = document.createElement('style');
+			s.id = 'cal-block-in-kf';
+			s.textContent = '@keyframes cal-block-in { from { opacity: 0 } to { opacity: 1 } }';
+			document.head.appendChild(s);
+		}
+	}, []);
+
+	useEffect(() => {
+		const el = wrapRef.current;
+		if (!el) return;
+		const intObs = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					setInView(true);
+					intObs.disconnect();
+				}
+			},
+			{ threshold: 0.1 },
+		);
+		intObs.observe(el);
+		return () => intObs.disconnect();
 	}, []);
 
 	const activeTheme = themes[brandIdx] ?? themes[0];
@@ -63,7 +97,17 @@ export default function GitHubContributions() {
 	}
 
 	function renderBlock(block: ReactElement, activity: Activity) {
+		const weekIndex = getWeekIndex(activity.date);
+		const animStyle: React.CSSProperties = {
+			...(block.props.style ?? {}),
+			animationName: 'cal-block-in',
+			animationDuration: '0.4s',
+			animationDelay: `${250 + weekIndex * 12}ms`,
+			animationFillMode: 'both',
+			animationPlayState: inView ? 'running' : 'paused',
+		};
 		return cloneElement(block, {
+			style: animStyle,
 			onMouseEnter: (e: MouseEvent) => {
 				if (activity.count === 0) return;
 				const rect = (e.currentTarget as Element).getBoundingClientRect();
