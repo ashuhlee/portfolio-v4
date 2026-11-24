@@ -32,6 +32,8 @@ import heartIconRaw from '@/assets/icons/heart-icon.svg?raw';
 			if (!target || target === activeTarget || !getSetting('tooltips')) return;
 			if (target.closest('.showcase-grid') && target.dataset.tooltipColor) return;
 
+			gsap.set(tooltip, { x: event.clientX, y: event.clientY });
+
 			activeTarget = target;
 			document.documentElement.classList.add('tooltip-active');
 
