@@ -64,13 +64,7 @@ const { primary, secondary } = Astro.props;
 		padding-bottom: clamp(2rem, 7.5vh, 5.25rem);
 		will-change: transform;
 	}
-
-	@media (max-width: 1000px) {
-		.site-nav {
-			display: none;
-		}
-	}
-
+	
 	/* ── Nav links ── */
 	.nav-links {
 		display: flex;
@@ -209,6 +203,29 @@ const { primary, secondary } = Astro.props;
 		const nav = document.querySelector<HTMLElement>('.site-nav');
 		const footer = document.querySelector<HTMLElement>('.page-footer');
 		if (!nav) return;
+
+		const bp = Number(document.body.dataset.navBreakpoint) || 1000;
+		const mqNav = window.matchMedia(`(max-width: ${bp}px)`);
+
+		const setNavVisible = (hidden: boolean, animate: boolean) => {
+			gsap.killTweensOf(nav);
+			if (hidden) {
+				if (animate) {
+					gsap.to(nav, { x: '-100%', duration: 0.2, ease: 'power2.in' });
+				} else {
+					gsap.set(nav, { x: '-100%' });
+				}
+			} else {
+				if (animate) {
+					gsap.to(nav, { x: '0%', duration: 0.22, ease: 'power2.out' });
+				} else {
+					gsap.set(nav, { x: '0%' });
+				}
+			}
+		};
+
+		setNavVisible(mqNav.matches, false);
+		mqNav.addEventListener('change', (e) => setNavVisible(e.matches, true));
 
 		// Prevent navigating to the current page
 		nav.querySelectorAll<HTMLAnchorElement>('.nav-link').forEach((link) => {

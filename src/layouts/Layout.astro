@@ -28,6 +28,7 @@ interface Props {
 	showSplash?: boolean;
 	showNav?: boolean;
 	navLinks?: { primary: NavLink; secondary: NavLink };
+	navBreakpoint?: number;
 	noindex?: boolean;
 }
 
@@ -40,6 +41,7 @@ const {
 	showSplash = false,
 	showNav = true,
 	navLinks,
+	navBreakpoint,
 	noindex = false,
 } = Astro.props;
 
@@ -150,7 +152,7 @@ const ogImage = new URL('/og-image.png', Astro.url).toString();
 		<ClientRouter />
 		<Analytics/>
 	</head>
-	<body style={starColor ? `--star-color: ${starColor};` : undefined}>
+	<body style={starColor ? `--star-color: ${starColor};` : undefined} data-nav-breakpoint={navBreakpoint ?? undefined}>
 		{showSplash && <Splash />}
 		<slot name="background" />
 		<div class="page-root">
