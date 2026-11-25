@@ -23,7 +23,7 @@ const themes: ThemePalette[] = [
 ];
 
 type Activity = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
-type TooltipState = { text: string; x: number; y: number } | null;
+type TooltipState = { count: string; date: string; x: number; y: number } | null;
 
 const calStart = new Date();
 calStart.setFullYear(calStart.getFullYear() - 1);
@@ -113,7 +113,8 @@ export default function GitHubContributions() {
 				const rect = (e.currentTarget as Element).getBoundingClientRect();
 				const wrap = wrapRef.current?.getBoundingClientRect();
 				setTip({
-					text: `${activity.count} contribution${activity.count !== 1 ? 's' : ''} · ${formatDate(activity.date)}`,
+					count: `${activity.count} contribution${activity.count !== 1 ? 's' : ''}`,
+					date: formatDate(activity.date),
 					x: rect.left - (wrap?.left ?? 0) + rect.width / 2,
 					y: rect.top - (wrap?.top ?? 0),
 				});
@@ -148,7 +149,7 @@ export default function GitHubContributions() {
 
 	return (
 		<div ref={wrapRef} style={{ position: 'relative' }}>
-			{tip && <div style={tooltipStyle}>{tip.text}</div>}
+			{tip && <div style={tooltipStyle}>{tip.count} <span style={{ fontSize: '14px', lineHeight: 1 }}>✦</span> {tip.date}</div>}
 			<div className="cal-scroll" style={scrollStyle}>
 				<GitHubCalendar
 					username="ashuhlee"
