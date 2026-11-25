@@ -7,14 +7,13 @@ type Project = {
 	tech: string;
 	description: string;
 	image?: string;
-	fullBleed?: boolean;
 	links: Array<{
 		label: string;
 		href: string;
 		disabled?: boolean;
 		tooltipColor?: string;
 		tooltipColorStart?: string;
-		tooltipTextColor?: string
+		tooltipTextColor?: string;
 	}>;
 };
 
@@ -26,7 +25,7 @@ const projects: Project[] = [
 		description: 'Lightweight app to create, update and delete personal notes. Syncs in real-time and supports drag to reorder and searching',
 		image: '/images/projects/noted.webp',
 		links: [
-			{label: 'source code', href: 'https://github.com/ashuhlee/noted'},
+			{ label: 'source code', href: 'https://github.com/ashuhlee/noted' },
 		],
 	},
 	{
@@ -35,27 +34,20 @@ const projects: Project[] = [
 		tech: 'React, Electron, TypeScript',
 		description: 'A cross platform arcade game with progressive difficulty, multiple game modes and randomized power ups',
 		image: '/images/projects/count-o-rama.webp',
-		fullBleed: true,
 		links: [
-			{
-				label: 'play the beta',
-				href: 'https://www.countordie.gg/',
-				tooltipColor: '#dedede',
-				tooltipColorStart: '#ffffff',
-				tooltipTextColor: '#000000'
-			},
-			{label: 'source code', href: 'https://github.com/ashuhlee/count-or-die'},
+			{ label: 'play the beta', href: 'https://www.countordie.gg/', tooltipColor: '#dedede', tooltipColorStart: '#ffffff', tooltipTextColor: '#000000' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/count-or-die' },
 		],
 	},
 	{
 		category: 'Terminal app',
 		name: 'starlit',
 		tech: 'Python',
-		description: "A minimal and customizable weather package that matches any terminal theme. Over 4,000 downloads since its release",
+		description: 'A minimal and customizable weather package that matches any terminal theme. Over 4,000 downloads since its release',
 		image: '/images/projects/starlit.webp',
 		links: [
-			{label: 'download', href: 'https://pypi.org/project/starlit-cli/'},
-			{label: 'source code', href: 'https://github.com/ashuhlee/starlit'},
+			{ label: 'download', href: 'https://pypi.org/project/starlit-cli/' },
+			{ label: 'source code', href: 'https://github.com/ashuhlee/starlit' },
 		],
 	},
 	{
@@ -64,7 +56,7 @@ const projects: Project[] = [
 		tech: 'Swift, Firebase',
 		description: 'Log your daily meals, weight and steps, synced with the health app. Create new entries via text, speech or image uploads',
 		links: [
-			{label: 'beta out soon', href: '#', disabled: true},
+			{ label: 'beta out soon', href: '#', disabled: true },
 		],
 	},
 ];
@@ -74,69 +66,68 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 ---
 
 <section class="section">
-  <SectionHeader title="projects" class="stagger-in">
-    <div class="proj-scroll-widget" aria-hidden="true">
-      <span class="proj-y-text" id="proj-y-label">y: 0px</span>
-      <div class="proj-circles-wrap">
-        <svg class="proj-circle proj-circle-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
-        </svg>
-        <svg class="proj-circle proj-circle-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="11.75" fill="#F1F1F1" stroke="#A6A6A6" stroke-width="0.5"/>
-        </svg>
-        <svg class="proj-circle proj-circle-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
-        </svg>
-        <div class="proj-line-h"></div>
-        <div class="proj-line-v"></div>
-      </div>
-    </div>
-  </SectionHeader>
-  <p class="proj-intro stagger-in">Some projects I've built this year. Try them out!</p>
-  <div class="proj-layout stagger-in" data-projects={JSON.stringify(projects)}>
-    <div class="proj-sidebar">
+	<SectionHeader title="projects" class="stagger-in">
+		<div class="proj-scroll-widget" aria-hidden="true">
+			<span class="proj-y-text" id="proj-y-label">y: 0px</span>
+			<div class="proj-circles-wrap">
+				<svg class="proj-circle proj-circle-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<svg class="proj-circle proj-circle-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" fill="#F1F1F1" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<svg class="proj-circle proj-circle-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="11.75" stroke="#A6A6A6" stroke-width="0.5"/>
+				</svg>
+				<div class="proj-line-h"></div>
+				<div class="proj-line-v"></div>
+			</div>
+		</div>
+	</SectionHeader>
+	<p class="proj-intro stagger-in">Some projects I've built this year. Try them out!</p>
+	<div class="proj-layout stagger-in" data-projects={JSON.stringify(projects)}>
+		<div class="proj-sidebar">
+			<div class="proj-indicator" aria-hidden="true"></div>
 			{projects.map((proj, i) => (
-        <button
-          class="proj-sidebar-item"
-          data-active={i === 0 ? '' : undefined}
-          aria-pressed={i === 0 ? 'true' : 'false'}
-        >
-          <span class="proj-sidebar-name">{proj.name}</span>
-          <span class="proj-sidebar-category">{proj.category}</span>
-        </button>
+				<button
+					class="proj-sidebar-item"
+					data-active={i === 0 ? '' : undefined}
+					aria-pressed={i === 0 ? 'true' : 'false'}
+				>
+					<span class="proj-sidebar-name">{proj.name}</span>
+					<span class="proj-sidebar-category">{proj.category}</span>
+				</button>
 			))}
-    </div>
+		</div>
 
-    <div class="proj-panel">
-      <div class="proj-panel-image" aria-hidden="true" data-no-image={first.image ? undefined : ''}
-           data-full={first.fullBleed ? '' : undefined}>
-        <img class="proj-panel-img proj-panel-img--a" src={first.image ?? ''} alt="" draggable="false"
-             data-full={first.fullBleed ? '' : undefined} style={first.image ? '' : 'display:none'}/>
-        <img class="proj-panel-img proj-panel-img--b" src="" alt="" draggable="false" style="display:none; opacity:0"/>
-        <a
-          class="proj-image-link"
-          href={firstPrimaryLink?.href ?? '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-tooltip={firstPrimaryLink?.label ?? ''}
-          tabindex="-1"
-          aria-hidden="true"
-          style={firstPrimaryLink && first.image ? '' : 'display:none'}
-        />
-      </div>
+		<div class="proj-panel">
+			<div class="proj-panel-image" aria-hidden="true" data-no-image={first.image ? undefined : ''}>
+				<img class="proj-panel-img proj-panel-img--a" src={first.image ?? ''} alt="" draggable="false" style={first.image ? '' : 'display:none'} />
+				<img class="proj-panel-img proj-panel-img--b" src="" alt="" draggable="false" style="display:none;opacity:0" />
+				<a
+					class="proj-image-link"
+					href={firstPrimaryLink?.href ?? '#'}
+					target="_blank"
+					rel="noopener noreferrer"
+					data-tooltip={firstPrimaryLink?.label ?? ''}
+					tabindex="-1"
+					aria-hidden="true"
+					style={firstPrimaryLink && first.image ? '' : 'display:none'}
+				/>
+			</div>
 
-      <div class="proj-panel-content">
-        <div class="proj-panel-info">
-          <div class="proj-panel-top">
-            <div class="proj-panel-date-row">
-              <span class="proj-panel-date">{first.tech}</span>
-            </div>
-            <p class="proj-panel-name">{first.name}</p>
-          </div>
-          <p class="proj-panel-desc">{first.description}</p>
-        </div>
+			<div class="proj-panel-content">
+				<div class="proj-panel-info">
+					<div class="proj-panel-top">
+						<div class="proj-panel-date-row">
+							<span class="proj-panel-date">{first.tech}</span>
+						</div>
+						<p class="proj-panel-name">{first.name}</p>
+					</div>
+					<p class="proj-panel-desc">{first.description}</p>
+				</div>
 
-        <div class="proj-panel-links">
+				<div class="proj-panel-links">
 					{first.links.map(link => (
 						link.disabled
 							? <span class="proj-panel-link proj-panel-link--disabled">
@@ -144,17 +135,19 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 									<span class="proj-link-hover">{link.label} <span class="proj-link-arrow">↗</span></span>
 								</span>
 							: <a class="proj-panel-link" href={link.href} target="_blank" rel="noopener noreferrer">
-                <span class="proj-link-primary">{link.label} <span class="proj-link-arrow">↗</span></span>
-                <span class="proj-link-hover">{link.label} <span class="proj-link-arrow">↗</span></span>
-              </a>
+									<span class="proj-link-primary">{link.label} <span class="proj-link-arrow">↗</span></span>
+									<span class="proj-link-hover">{link.label} <span class="proj-link-arrow">↗</span></span>
+								</a>
 					))}
-        </div>
-      </div>
-    </div>
-  </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <script>
+	import gsap from 'gsap';
+
 	document.addEventListener('astro:page-load', () => {
 		const layout = document.querySelector<HTMLElement>('.proj-layout');
 		if (!layout) return;
@@ -165,9 +158,8 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 			tech: string;
 			description: string;
 			image?: string;
-			fullBleed?: boolean;
 			links: Array<{ label: string; href: string; disabled?: boolean; tooltipColor?: string; tooltipColorStart?: string; tooltipTextColor?: string }>;
-			}> = JSON.parse(layout.dataset.projects ?? '[]');
+		}> = JSON.parse(layout.dataset.projects ?? '[]');
 
 		const sidebarItems = layout.querySelectorAll<HTMLButtonElement>('.proj-sidebar-item');
 		const imageEl = layout.querySelector<HTMLElement>('.proj-panel-image');
@@ -175,101 +167,116 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		const nameEl = layout.querySelector<HTMLElement>('.proj-panel-name');
 		const descEl = layout.querySelector<HTMLElement>('.proj-panel-desc');
 		const linksEl = layout.querySelector<HTMLElement>('.proj-panel-links');
-
 		const imageLinkEl = layout.querySelector<HTMLAnchorElement>('.proj-image-link');
-		const imgSlots = [
+
+		const indicator = layout.querySelector<HTMLElement>('.proj-indicator');
+
+		function moveIndicator(item: HTMLElement) {
+			if (!indicator) return;
+			gsap.to(indicator, { top: item.offsetTop, height: item.offsetHeight, duration: 0.3, ease: 'power3.inOut', overwrite: true });
+		}
+
+		const firstActive = layout.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
+		if (firstActive && indicator) {
+			gsap.set(indicator, { top: firstActive.offsetTop, height: firstActive.offsetHeight });
+		}
+
+		const slots = [
 			layout.querySelector<HTMLImageElement>('.proj-panel-img--a')!,
 			layout.querySelector<HTMLImageElement>('.proj-panel-img--b')!,
-			];
+		];
 		let curSlot = 0;
-		let xfadeTimer: ReturnType<typeof setTimeout> | null = null;
+		const FADE = 0.15;
+
+		function crossfade(newSrc: string) {
+			if (!imageEl) return;
+			imageEl.removeAttribute('data-no-image');
+			const cur = slots[curSlot];
+			const nxt = slots[1 - curSlot];
+
+			gsap.killTweensOf([cur, nxt]);
+			nxt.src = newSrc;
+			nxt.style.display = '';
+			gsap.set(nxt, { opacity: 0 });
+
+			const doFade = () => {
+				gsap.to(nxt, { opacity: 1, duration: FADE, ease: 'power1.inOut' });
+				if (cur.style.display !== 'none') {
+					gsap.to(cur, { opacity: 0, duration: FADE, ease: 'power1.inOut', onComplete: () => {
+						cur.style.display = 'none';
+						gsap.set(cur, { opacity: 1 });
+					}});
+				}
+				curSlot = 1 - curSlot;
+			};
+
+			if (nxt.complete && nxt.naturalWidth > 0) {
+				doFade();
+			} else {
+				nxt.onload = doFade;
+			}
+		}
+
+		function hideImage() {
+			if (!imageEl) return;
+			imageEl.setAttribute('data-no-image', '');
+			const cur = slots[curSlot];
+			if (cur.style.display !== 'none') {
+				gsap.killTweensOf(cur);
+				gsap.to(cur, { opacity: 0, duration: FADE, ease: 'power1.inOut', onComplete: () => {
+					cur.style.display = 'none';
+					gsap.set(cur, { opacity: 1 });
+				}});
+			}
+		}
 
 		sidebarItems.forEach((item, i) => {
 			item.addEventListener('click', () => {
 				sidebarItems.forEach(el => {
 					el.removeAttribute('data-active');
 					el.setAttribute('aria-pressed', 'false');
-					});
+				});
 				item.setAttribute('data-active', '');
 				item.setAttribute('aria-pressed', 'true');
+				moveIndicator(item);
 
 				const proj = projects[i];
 
 				if (dateEl) dateEl.textContent = proj.tech;
 				if (nameEl) nameEl.textContent = proj.name;
 				if (descEl) descEl.textContent = proj.description;
+
 				if (linksEl) {
 					linksEl.innerHTML = proj.links
 						.map(link =>
-						link.disabled
-							? `<span class="proj-panel-link proj-panel-link--disabled"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></span>`
-							: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
+							link.disabled
+								? `<span class="proj-panel-link proj-panel-link--disabled"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></span>`
+								: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
 						)
 						.join('');
-					}
+				}
+
+				if (proj.image) {
+					crossfade(proj.image);
+				} else {
+					hideImage();
+				}
 
 				if (imageLinkEl) {
 					const primary = proj.links.find(l => !l.disabled);
 					if (primary && proj.image) {
 						imageLinkEl.href = primary.href;
 						imageLinkEl.dataset.tooltip = primary.label;
-
 						primary.tooltipColor ? imageLinkEl.dataset.tooltipColor = primary.tooltipColor : delete imageLinkEl.dataset.tooltipColor;
 						primary.tooltipColorStart ? imageLinkEl.dataset.tooltipColorStart = primary.tooltipColorStart : delete imageLinkEl.dataset.tooltipColorStart;
 						primary.tooltipTextColor ? imageLinkEl.dataset.tooltipTextColor = primary.tooltipTextColor : delete imageLinkEl.dataset.tooltipTextColor;
-
 						imageLinkEl.style.display = '';
-						} else {
-						imageLinkEl.style.display = 'none';
-						}
-					}
-				if (imageEl) {
-					proj.image ? imageEl.removeAttribute('data-no-image') : imageEl.setAttribute('data-no-image', '');
-					proj.fullBleed ? imageEl.setAttribute('data-full', '') : imageEl.removeAttribute('data-full');
-					}
-
-				if (xfadeTimer) {
-					clearTimeout(xfadeTimer);
-					xfadeTimer = null;
-					imgSlots[curSlot].style.opacity = '';
-					imgSlots[curSlot].style.display = '';
-					imgSlots[1 - curSlot].style.opacity = '0';
-					imgSlots[1 - curSlot].style.display = 'none';
-					imgSlots[1 - curSlot].removeAttribute('data-full');
-					}
-
-				const cur = imgSlots[curSlot];
-				const nxtSlot = 1 - curSlot;
-				const nxt = imgSlots[nxtSlot];
-
-				if (proj.image) {
-					nxt.src = proj.image;
-					proj.fullBleed ? nxt.setAttribute('data-full', '') : nxt.removeAttribute('data-full');
-					nxt.style.display = '';
-					nxt.style.opacity = '0';
-					nxt.getBoundingClientRect();
-					nxt.style.opacity = '1';
-					if (cur.style.display !== 'none') cur.style.opacity = '0';
-					curSlot = nxtSlot;
-					xfadeTimer = setTimeout(() => {
-						cur.style.display = 'none';
-						cur.style.opacity = '';
-						cur.removeAttribute('data-full');
-						xfadeTimer = null;
-						}, 220);
 					} else {
-					if (cur.style.display !== 'none') {
-						cur.style.opacity = '0';
-						xfadeTimer = setTimeout(() => {
-							cur.style.display = 'none';
-							cur.style.opacity = '';
-							cur.removeAttribute('data-full');
-							xfadeTimer = null;
-							}, 220);
-						}
+						imageLinkEl.style.display = 'none';
 					}
-				});
+				}
 			});
+		});
 
 		const yLabel = document.getElementById('proj-y-label');
 		if (yLabel) {
@@ -280,404 +287,358 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 			window.addEventListener('scroll', () => {
 				cancelAnimationFrame(rafId);
 				rafId = requestAnimationFrame(updateY);
-				}, { passive: true, signal: ctrl.signal });
+			}, { passive: true, signal: ctrl.signal });
 			document.addEventListener('astro:before-swap', () => ctrl.abort(), { once: true });
-			}
-		});
+		}
+	});
 </script>
 
 <style>
-    .section {
-        margin-top: 3rem;
-        margin-bottom: 4rem;
-    }
+	.section {
+		margin-top: 3rem;
+		margin-bottom: 4rem;
+	}
 
-    /* ── Layout ── */
-    .proj-intro {
-        font-family: var(--font-gt), sans-serif;
-        font-size: var(--font-size-15);
-        line-height: 1.4;
-        color: #505356;
-        margin: -1.5rem 0 2.375rem;
-    }
+	.proj-intro {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15);
+		line-height: 1.4;
+		color: #505356;
+		margin: -1.5rem 0 2.375rem;
+	}
 
-    :root[data-theme='dark'] .proj-intro {
-        color: var(--color-text-muted);
-    }
+	:root[data-theme='dark'] .proj-intro {
+		color: var(--color-text-muted);
+	}
 
-    .proj-layout {
-        display: flex;
-        gap: 2rem;
-        align-items: flex-start;
-    }
+	.proj-layout {
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start;
+	}
 
-    /* ── Sidebar ── */
-    .proj-sidebar {
-        flex: 0 0 130px;
-        display: flex;
-        flex-direction: column;
-        gap: 22px;
-    }
+	/* ── Sidebar ── */
+	.proj-sidebar {
+		flex: 0 0 130px;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+		position: relative;
+	}
 
-    .proj-sidebar-item {
-        display: flex;
-        flex-direction: column;
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        text-align: left;
-        position: relative;
-    }
+	.proj-indicator {
+		position: absolute;
+		left: -8px;
+		top: 0;
+		width: 1.5px;
+		height: 0;
+		background: var(--color-brand-pink);
+		pointer-events: none;
+	}
 
-    .proj-sidebar-item[data-active]::before {
-        content: '';
-        position: absolute;
-        left: -8px;
-        top: 0;
-        bottom: 0;
-        width: 1.5px;
-        background: var(--color-brand-pink);
-    }
+	.proj-sidebar-item {
+		display: flex;
+		flex-direction: column;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		text-align: left;
+	}
 
-    .proj-sidebar-category {
-        font-family: var(--font-mono), monospace;
-        font-size: var(--font-size-12);
-        line-height: 24px;
-        color: var(--color-text-secondary);
-        display: block;
-    }
+	.proj-sidebar-category {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 24px;
+		color: var(--color-text-secondary);
+		display: block;
+	}
 
-    :root[data-theme='dark'] .proj-sidebar-category {
-        color: var(--color-text-muted);
-    }
+	:root[data-theme='dark'] .proj-sidebar-category {
+		color: var(--color-text-muted);
+	}
 
-    .proj-sidebar-name {
-        font-family: var(--font-gt), sans-serif;
-        font-size: var(--font-size-15-5);
-        line-height: 16px;
-        font-weight: 500;
-        text-transform: lowercase;
-        color: var(--color-text-primary-alt);
-        display: block;
-    }
+	.proj-sidebar-name {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15-5);
+		line-height: 16px;
+		font-weight: 500;
+		text-transform: lowercase;
+		color: var(--color-text-primary-alt);
+		display: block;
+	}
 
-    /* ── Panel ── */
-    .proj-panel-content {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-    }
+	/* ── Panel ── */
+	.proj-panel {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
 
-    .proj-panel {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
+	.proj-panel-image {
+		width: 100%;
+		aspect-ratio: 9 / 5;
+		border: 1px solid var(--color-gray-mid-light);
+		background: #fff;
+		flex-shrink: 0;
+		position: relative;
+		overflow: hidden;
+	}
 
-    .proj-panel-image {
-        width: 100%;
-        aspect-ratio: 9 / 5;
-        border: 1px solid var(--color-gray-mid-light);
-        background: #fff;
-        flex-shrink: 0;
-        position: relative;
-        overflow: hidden;
-        isolation: isolate;
-    }
+	:root[data-theme='dark'] .proj-panel-image {
+		background: rgba(255, 255, 255, 0.04);
+		border-color: #3a3a3a;
+	}
 
-    .proj-panel-image::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: url('/images/patterns/dither-clouds.png');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.11;
-        pointer-events: none;
-        z-index: 0;
-        transition: opacity 180ms ease;
-    }
+	.proj-panel-image::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('/images/patterns/dither-clouds.png');
+		background-size: cover;
+		background-position: center;
+		opacity: 0.11;
+		pointer-events: none;
+		z-index: 0;
+	}
 
-    :root[data-theme='dark'] .proj-panel-image::before {
-        background-image: none;
-    }
+	:root[data-theme='dark'] .proj-panel-image::before {
+		background-image: none;
+	}
 
-    .proj-panel-image::after {
-        content: 'coming soon';
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display), cursive;
-        font-size: 40px;
-        font-weight: 400;
-        color: #a9a9a9;
-        letter-spacing: 0.01em;
-        pointer-events: none;
-        z-index: 1;
-    }
+	.proj-panel-image[data-no-image]::after {
+		content: 'coming soon';
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-display), cursive;
+		font-size: 40px;
+		font-weight: 400;
+		color: #a9a9a9;
+		letter-spacing: 0.01em;
+		pointer-events: none;
+		z-index: 1;
+	}
 
-    :root[data-theme='dark'] .proj-panel-image::after {
-        color: #3a3a3a;
-    }
+	:root[data-theme='dark'] .proj-panel-image[data-no-image]::after {
+		color: #3a3a3a;
+	}
 
-    :root[data-theme='dark'] .proj-panel-image {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: #3a3a3a;
-    }
+	.proj-panel-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: fill;
+		z-index: 1;
+	}
 
-    :root[data-theme='dark'] .proj-panel-image::before {
-        opacity: 0.04;
-    }
+	/* ── Image tooltip link ── */
+	.proj-image-link {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+	}
 
-    .proj-panel-image:not([data-no-image])::after {
-        content: '';
-    }
+	/* ── Info ── */
+	.proj-panel-content {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
 
-    /* ── Image tooltip link ── */
-    .proj-image-link {
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-    }
+	.proj-panel-info {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
 
-    .proj-panel-img {
-        position: absolute;
-        inset: 14px;
-        width: calc(100% - 24px);
-        height: calc(100% - 24px);
-        object-fit: contain;
-        object-position: center;
-        z-index: 1;
-        transition: opacity 180ms ease;
-    }
+	.proj-panel-top {
+		display: flex;
+		flex-direction: column;
+	}
 
-    .proj-panel-img[data-full] {
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
+	.proj-panel-date-row {
+		margin-bottom: 2px;
+	}
 
-    .proj-panel-image[data-full]::before {
-        opacity: 0;
-    }
+	.proj-panel-date {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 24px;
+		text-transform: uppercase;
+		color: var(--color-gray-reg);
+	}
 
+	:root[data-theme='dark'] .proj-panel-date {
+		color: var(--color-text-muted);
+	}
 
-    /* ── Info ── */
-    .proj-panel-info {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
+	.proj-panel-name {
+		font-family: var(--font-gt), sans-serif;
+		font-size: 18px;
+		line-height: 16px;
+		font-weight: 500;
+		text-transform: lowercase;
+		color: var(--color-text-primary-alt);
+		margin: 0;
+	}
 
-    .proj-panel-top {
-        display: flex;
-        flex-direction: column;
-    }
+	.proj-panel-desc {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15);
+		line-height: 1.3;
+		color: #505356;
+		margin: 0;
+	}
 
-    .proj-panel-date-row {
-        margin-bottom: 2px;
-    }
+	:root[data-theme='dark'] .proj-panel-desc {
+		color: var(--color-text-muted);
+	}
 
-    .proj-panel-date {
-        font-family: var(--font-mono), monospace;
-        font-size: var(--font-size-12);
-        line-height: 24px;
-        text-transform: uppercase;
-        color: var(--color-gray-reg);
-    }
+	/* ── Links ── */
+	.proj-panel-links {
+		display: flex;
+		gap: 40px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 
-    :root[data-theme='dark'] .proj-panel-date {
-        color: var(--color-text-muted);
-    }
+	:global(.proj-panel-link) {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		line-height: 16px;
+		text-transform: uppercase;
+		color: var(--color-brand-pink);
+		text-decoration: none;
+		position: relative;
+		display: inline-block;
+	}
 
-    .proj-panel-name {
-        font-family: var(--font-gt), sans-serif;
-        font-size: 18px;
-        line-height: 16px;
-        font-weight: 500;
-        text-transform: lowercase;
-        color: var(--color-text-primary-alt);
-        margin: 0;
-    }
+	:global(.proj-link-primary) {
+		display: block;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		transition: none;
+	}
 
-    .proj-panel-desc {
-        font-family: var(--font-gt), sans-serif;
-        font-size: var(--font-size-15);
-        line-height: 1.3;
-        color: #505356;
-        margin: 0;
-    }
+	:global(.proj-link-hover) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		white-space: nowrap;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		opacity: 0;
+		transition: none;
+	}
 
-    :root[data-theme='dark'] .proj-panel-desc {
-        color: var(--color-text-muted);
-    }
+	:global(.proj-panel-link:hover .proj-link-primary) {
+		opacity: 0;
+		transition: none;
+	}
 
-    /* ── Links ── */
-    .proj-panel-links {
-        display: flex;
-        gap: 40px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
+	:global(.proj-panel-link:hover .proj-link-hover) {
+		opacity: 1;
+		transition: opacity 0.2s ease 0.03s;
+	}
 
-    :global(.proj-panel-link) {
-        font-family: var(--font-mono), monospace;
-        font-size: var(--font-size-12);
-        line-height: 16px;
-        text-transform: uppercase;
-        color: var(--color-brand-pink);
-        text-decoration: none;
-        position: relative;
-        display: inline-block;
-    }
+	:global(.proj-panel-link--disabled) {
+		color: var(--color-brand-pink);
+		cursor: default;
+		pointer-events: none;
+		opacity: 0.45;
+	}
 
-    :global(.proj-link-primary) {
-        display: block;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        transition: none;
-    }
+	/* ── Scroll widget ── */
+	.proj-scroll-widget {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		flex-shrink: 0;
+	}
 
-    :global(.proj-link-hover) {
-        position: absolute;
-        top: 0;
-        left: 0;
-        white-space: nowrap;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        opacity: 0;
-        transition: none;
-    }
+	.proj-y-text {
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-11);
+		color: var(--color-gray-reg);
+		white-space: nowrap;
+		line-height: 1;
+		margin-right: 0.75rem;
+	}
 
-    :global(.proj-panel-link:hover .proj-link-primary) {
-        opacity: 0;
-        transition: none;
-    }
+	.proj-circles-wrap {
+		position: relative;
+		width: 56px;
+		height: 28px;
+		flex-shrink: 0;
+	}
 
-    :global(.proj-panel-link:hover .proj-link-hover) {
-        opacity: 1;
-        transition: opacity 0.2s ease 0.03s;
-    }
+	.proj-circle {
+		position: absolute;
+		width: 28px;
+		height: 28px;
+		top: 0;
+	}
 
-    :global(.proj-panel-link--disabled) {
-        color: var(--color-brand-pink);
-        cursor: default;
-        pointer-events: none;
-        opacity: 0.45;
-    }
+	.proj-circle-1 { left: 0; }
+	.proj-circle-2 { left: 14px; }
+	.proj-circle-3 { left: 28px; }
 
-    /* ── Scroll widget ── */
-    .proj-scroll-widget {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex-shrink: 0;
-    }
+	.proj-line-h {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: calc(50% - 0.25px);
+		height: 0.5px;
+		background: repeating-linear-gradient(
+			to right,
+			var(--color-gray-reg) 0, var(--color-gray-reg) 2px,
+			transparent 2px, transparent 4px
+		);
+		pointer-events: none;
+	}
 
-    .proj-y-text {
-        font-family: var(--font-mono), monospace;
-        font-size: var(--font-size-11);
-        color: var(--color-gray-reg);
-        white-space: nowrap;
-        line-height: 1;
-        margin-right: 0.75rem;
-    }
+	.proj-line-v {
+		position: absolute;
+		left: calc(42px - 0.25px);
+		top: 0;
+		bottom: 0;
+		width: 0.5px;
+		background: var(--color-gray-reg);
+		pointer-events: none;
+	}
 
-    .proj-circles-wrap {
-        position: relative;
-        width: 56px;
-        height: 28px;
-        flex-shrink: 0;
-    }
+	:root[data-theme='dark'] .proj-circle-2 circle { fill: #1c1a21; }
+	:root[data-theme='dark'] .proj-y-text { color: #38333b; }
+	:root[data-theme='dark'] .proj-circle circle { stroke: #38333b; }
+	:root[data-theme='dark'] .proj-line-h {
+		background: repeating-linear-gradient(
+			to right,
+			#38333b 0, #38333b 2px,
+			transparent 2px, transparent 4px
+		);
+	}
+	:root[data-theme='dark'] .proj-line-v { background: #38333b; }
 
-    .proj-circle {
-        position: absolute;
-        width: 28px;
-        height: 28px;
-        top: 0;
-    }
+	/* ── Mobile ── */
+	@media (max-width: 44rem) {
+		.proj-layout {
+			flex-direction: column;
+			gap: 1.25rem;
+		}
 
-    .proj-circle-1 {
-        left: 0;
-    }
-
-    .proj-circle-2 {
-        left: 14px;
-    }
-
-    .proj-circle-3 {
-        left: 28px;
-    }
-
-    .proj-line-h {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: calc(50% - 0.25px);
-        height: 0.5px;
-        background: repeating-linear-gradient(
-                to right,
-                var(--color-gray-reg) 0, var(--color-gray-reg) 2px,
-                transparent 2px, transparent 4px
-        );
-        pointer-events: none;
-    }
-
-    .proj-line-v {
-        position: absolute;
-        left: calc(42px - 0.25px);
-        top: 0;
-        bottom: 0;
-        width: 0.5px;
-        background: var(--color-gray-reg);
-        pointer-events: none;
-    }
-
-    :root[data-theme='dark'] .proj-circle-2 circle {
-        fill: #1c1a21;
-    }
-
-    :root[data-theme='dark'] .proj-y-text {
-        color: #38333b;
-    }
-
-    :root[data-theme='dark'] .proj-circle circle {
-        stroke: #38333b;
-    }
-
-    :root[data-theme='dark'] .proj-line-h {
-        background: repeating-linear-gradient(
-                to right,
-                #38333b 0, #38333b 2px,
-                transparent 2px, transparent 4px
-        );
-    }
-
-    :root[data-theme='dark'] .proj-line-v {
-        background: #38333b;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 44rem) {
-        .proj-layout {
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .proj-sidebar {
-            flex: none;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 6px 0;
-            width: 100%;
-            justify-content: space-between;
-        }
-    }
+		.proj-sidebar {
+			flex: none;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 6px 0;
+			width: 100%;
+			justify-content: space-between;
+		}
+	}
 </style>
