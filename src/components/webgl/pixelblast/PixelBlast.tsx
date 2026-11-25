@@ -457,6 +457,7 @@ export default function PixelBlast({
 			scene.add(quad);
 			const clock = new THREE.Clock();
 			const applySize = () => {
+				if (!threeRef.current) return;
 				const w = container.clientWidth || 1;
 				const h = container.clientHeight || 1;
 				renderer.setSize(w, h, false);
@@ -623,7 +624,6 @@ export default function PixelBlast({
 		return () => {
 			if (threeRef.current && mustReinit) return;
 			if (!threeRef.current) return;
-			clearTimeout(resizeTimer);
 			const t = threeRef.current;
 			t.resizeObserver?.disconnect();
 			cancelAnimationFrame(t.raf);
