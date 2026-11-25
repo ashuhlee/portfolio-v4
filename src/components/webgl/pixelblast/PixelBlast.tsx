@@ -456,7 +456,7 @@ export default function PixelBlast({
 			const quad = new THREE.Mesh(quadGeom, material);
 			scene.add(quad);
 			const clock = new THREE.Clock();
-			const setSize = () => {
+			const applySize = () => {
 				const w = container.clientWidth || 1;
 				const h = container.clientHeight || 1;
 				renderer.setSize(w, h, false);
@@ -465,7 +465,9 @@ export default function PixelBlast({
 					threeRef.current.composer.setSize(renderer.domElement.width, renderer.domElement.height);
 				uniforms.uPixelSize.value = pixelSize * renderer.getPixelRatio();
 			};
-			setSize();
+			applySize();
+			let resizeTimer: ReturnType<typeof setTimeout>;
+			const setSize = () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(applySize, 100); };
 			const ro = new ResizeObserver(setSize);
 			ro.observe(container);
 			const randomFloat = () => {
@@ -621,6 +623,7 @@ export default function PixelBlast({
 		return () => {
 			if (threeRef.current && mustReinit) return;
 			if (!threeRef.current) return;
+			clearTimeout(resizeTimer);
 			const t = threeRef.current;
 			t.resizeObserver?.disconnect();
 			cancelAnimationFrame(t.raf);
