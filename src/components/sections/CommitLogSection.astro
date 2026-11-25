@@ -1,6 +1,6 @@
 ---
 import CursorFillButton from '@/components/ui/CursorFillButton.astro';
-import GitHubCalendar from '@/components/GitHubCalendar';
+import GitHubCalendar from '@/components/interactive/GitHubCalendar';
 
 const g = globalThis as typeof globalThis & { _ghCount?: string; _ghCountAt?: number };
 let commitCount = g._ghCount ?? '';
