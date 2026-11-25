@@ -170,16 +170,32 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		const imageLinkEl = layout.querySelector<HTMLAnchorElement>('.proj-image-link');
 
 		const indicator = layout.querySelector<HTMLElement>('.proj-indicator');
+		const mq = window.matchMedia('(max-width: 44rem)');
 
 		function moveIndicator(item: HTMLElement) {
 			if (!indicator) return;
-			gsap.to(indicator, { top: item.offsetTop, height: item.offsetHeight, duration: 0.3, ease: 'power3.inOut', overwrite: true });
+			if (mq.matches) {
+				gsap.to(indicator, { left: item.offsetLeft, width: item.offsetWidth, duration: 0.2, ease: 'cubic-bezier(0.175, 0.885, 0.32, 1)', overwrite: true });
+			} else {
+				gsap.to(indicator, { top: item.offsetTop, height: item.offsetHeight, duration: 0.2, ease: 'cubic-bezier(0.175, 0.885, 0.32, 1)', overwrite: true });
+			}
 		}
 
-		const firstActive = layout.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
-		if (firstActive && indicator) {
-			gsap.set(indicator, { top: firstActive.offsetTop, height: firstActive.offsetHeight });
+		function initIndicator() {
+			if (!indicator) return;
+			const active = layout?.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
+			if (!active) return;
+			gsap.killTweensOf(indicator);
+			gsap.set(indicator, { clearProps: 'all' });
+			if (mq.matches) {
+				gsap.set(indicator, { left: active.offsetLeft, width: active.offsetWidth });
+			} else {
+				gsap.set(indicator, { top: active.offsetTop, height: active.offsetHeight });
+			}
 		}
+
+		initIndicator();
+		mq.addEventListener('change', initIndicator);
 
 		const slots = [
 			layout.querySelector<HTMLImageElement>('.proj-panel-img--a')!,
@@ -349,7 +365,7 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 	.proj-sidebar-category {
 		font-family: var(--font-mono), monospace;
 		font-size: var(--font-size-12);
-		line-height: 24px;
+		line-height: 22px;
 		color: var(--color-text-secondary);
 		display: block;
 	}
@@ -639,6 +655,14 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 			gap: 6px 0;
 			width: 100%;
 			justify-content: space-between;
+		}
+
+		.proj-indicator {
+			left: 0;
+			bottom: -4px;
+			top: auto;
+			width: 0;
+			height: 1.5px;
 		}
 	}
 </style>
