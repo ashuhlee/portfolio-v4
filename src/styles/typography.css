@@ -1,6 +1,3 @@
-html {
-	font-size: clamp(13px, 1.1vw, 16px);
-}
 
 h1, h2 {
 	font-weight: 400;
