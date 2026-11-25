@@ -1,40 +1,47 @@
 ---
-import { Image } from 'astro:assets';
+import {Image} from 'astro:assets';
 import butterflyImg from '@/assets/images/png/butterfly.png';
+import AnimatedArrow from '@/components/AnimatedArrow.astro';
 ---
 
 <footer class="page-footer">
-	<div class="butterfly butterfly-large" aria-hidden="true">
-		<div class="butterfly-transform butterfly-transform-large">
-			<div class="butterfly-wrap butterfly-wrap-large">
-				<Image src={butterflyImg} alt="" class="butterfly-img" />
-			</div>
-		</div>
-	</div>
-	<div class="butterfly butterfly-small" aria-hidden="true">
-		<div class="butterfly-transform butterfly-transform-small">
-			<div class="butterfly-wrap butterfly-wrap-small">
-				<Image src={butterflyImg} alt="" class="butterfly-img" />
-			</div>
-		</div>
-	</div>
-	<div class="page-footer-inner">
-		<div class="brand">
-			<p class="wordmark">ashuhlee</p>
-			<p class="copyright">Made with intention, and <a class="playlist-link" href="/extra"><span class="playlist-primary">great music too <span class="playlist-arrow">↗</span></span><span class="playlist-hover">great music too <span class="playlist-arrow">↗</span></span></a></p>
-		</div>
-		<nav class="footer-links">
-			<a class="link-linkedin" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
-				<span class="foot-label-wrap"><span class="foot-primary">LinkedIn</span><span class="foot-hover">&gt;LinkedIn</span></span>
-			</a>
-			<a class="link-github" href="https://github.com/ashuhlee" target="_blank" rel="noopener noreferrer">
-				<span class="foot-label-wrap"><span class="foot-primary">GitHub</span><span class="foot-hover">GitHub</span></span>
-			</a>
-			<a class="link-email" href="mailto:hello@ashuhlee.ca">
-				<span class="foot-label-wrap"><span class="foot-primary">Email</span><span class="foot-hover">@Email</span></span>
-			</a>
-		</nav>
-	</div>
+  <div class="butterfly butterfly-large" aria-hidden="true">
+    <div class="butterfly-transform butterfly-transform-large">
+      <div class="butterfly-wrap butterfly-wrap-large">
+        <Image src={butterflyImg} alt="" class="butterfly-img"/>
+      </div>
+    </div>
+  </div>
+  <div class="butterfly butterfly-small" aria-hidden="true">
+    <div class="butterfly-transform butterfly-transform-small">
+      <div class="butterfly-wrap butterfly-wrap-small">
+        <Image src={butterflyImg} alt="" class="butterfly-img"/>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-inner">
+    <div class="brand">
+      <p class="wordmark">ashuhlee</p>
+      <p class="copyright">Made with intention, and <a class="playlist-link" href="/extra">
+				<span class="playlist-text-wrap"><span class="playlist-primary">great music too</span><span class="playlist-hover">great music too</span></span>
+        <AnimatedArrow class="playlist-arrow" animate={false} hoverShift={3} hoverColor="var(--color-brand-pink)"/>
+      </a></p>
+    </div>
+    <nav class="footer-links">
+      <a class="link-linkedin" href="https://www.linkedin.com/in/ashuhlee" target="_blank" rel="noopener noreferrer">
+        <span class="foot-label-wrap"><span class="foot-primary">LinkedIn</span><span
+          class="foot-hover">&gt;LinkedIn</span></span>
+      </a>
+      <a class="link-github" href="https://github.com/ashuhlee" target="_blank" rel="noopener noreferrer">
+        <span class="foot-label-wrap"><span class="foot-primary">GitHub</span><span
+          class="foot-hover">GitHub</span></span>
+      </a>
+      <a class="link-email" href="mailto:hello@ashuhlee.ca">
+        <span class="foot-label-wrap"><span class="foot-primary">Email</span><span
+          class="foot-hover">@Email</span></span>
+      </a>
+    </nav>
+  </div>
 </footer>
 
 <script>
@@ -51,252 +58,258 @@ import butterflyImg from '@/assets/images/png/butterfly.png';
 </script>
 
 <style>
-	.page-footer {
-		width: 100%;
-		position: relative;
-		background: var(--color-bg-page);
-		border-top: 1px solid var(--color-border);
-		overflow: hidden;
-	}
+    .page-footer {
+        width: 100%;
+        position: relative;
+        background: var(--color-bg-page);
+        border-top: 1px solid var(--color-border);
+        overflow: hidden;
+    }
 
-	.page-footer-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		max-width: calc(var(--page-max-width, 50rem) * 1.2);
-		margin: 0 auto;
-		padding: 0.5rem 1.5rem 2rem;
-	}
+    .page-footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: calc(var(--page-max-width, 50rem) * 1.2);
+        margin: 0 auto;
+        padding: 0.5rem 1.5rem 2rem;
+    }
 
-	.brand {
-		display: flex;
-		flex-direction: column;
-	}
+    .brand {
+        display: flex;
+        flex-direction: column;
+    }
 
-	.wordmark {
-		margin: 0;
-		font-family: var(--font-display), serif;
-		font-size: var(--font-size-48);
-		font-weight: 400;
-		color: var(--color-text-primary-alt);
-		-webkit-user-select: none;
-		user-select: none;
-	}
+    .wordmark {
+        margin: 0;
+        font-family: var(--font-display), serif;
+        font-size: var(--font-size-48);
+        font-weight: 400;
+        color: var(--color-text-primary-alt);
+        -webkit-user-select: none;
+        user-select: none;
+    }
 
-	.copyright {
-		margin: 0;
-		font-family: var(--font-mono), monospace;
-		font-size: var(--font-size-12);
-		color: var(--color-text-secondary);
-	}
+    .copyright {
+        margin: 0;
+        font-family: var(--font-mono), monospace;
+        font-size: var(--font-size-12);
+        color: var(--color-text-secondary);
+    }
 
-	.playlist-link {
-		position: relative;
-		display: inline-block;
-		color: inherit;
-		text-decoration: none;
-	}
+    .playlist-link {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.625rem;
+        color: inherit;
+        text-decoration: none;
+    }
 
-	.playlist-primary {
-		display: block;
-		text-decoration: underline;
-		text-underline-offset: 2px;
-		text-decoration-color: rgba(89, 93, 98, 0.4);
-	}
+    .playlist-text-wrap {
+        position: relative;
+        display: inline-block;
+    }
 
-	.playlist-hover {
-		position: absolute;
-		top: 0;
-		left: 0;
-		color: var(--color-brand-pink);
-		opacity: 0;
-		transition: none;
-		white-space: nowrap;
-	}
+    .playlist-primary {
+        display: block;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-color: rgba(89, 93, 98, 0.4);
+    }
 
-	.playlist-link:hover .playlist-primary {
-		opacity: 0;
-		transition: none;
-	}
+    .playlist-hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--color-brand-pink);
+        opacity: 0;
+        transition: none;
+        white-space: nowrap;
+    }
 
-	.playlist-link:hover .playlist-hover {
-		opacity: 1;
-		transition: opacity 0.2s ease 0.03s;
-	}
+    .playlist-link:hover .playlist-primary {
+        opacity: 0;
+        transition: none;
+    }
 
-	.playlist-arrow {
-		font-family: var(--font-sans), sans-serif;
-		font-style: normal;
-		font-size: var(--font-size-15);
-		margin-left: 0.1rem;
-	}
+    .playlist-link:hover .playlist-hover {
+        opacity: 1;
+        transition: opacity 0.2s ease 0.03s;
+    }
 
-	.copyright-icon {
-		color: var(--color-brand-pink);
-		font-family: var(--font-sofia), sans-serif;
-		font-size: var(--font-size-15);
-	}
+    .playlist-arrow {
+        font-family: var(--font-sans), sans-serif;
+        font-style: normal;
+        font-size: var(--font-size-15);
+        margin-left: 0.1rem;
+    }
 
-	.footer-links {
-		display: flex;
-		align-self: flex-end;
-		gap: 0.125rem;
-	}
+    .copyright-icon {
+        color: var(--color-brand-pink);
+        font-family: var(--font-sofia), sans-serif;
+        font-size: var(--font-size-15);
+    }
 
-	.footer-links a {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		padding: 0.375rem 0.75rem;
-		font-family: var(--font-mono), monospace;
-		text-transform: uppercase;
-		font-size: var(--font-size-12);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-	}
+    .footer-links {
+        display: flex;
+        align-self: flex-end;
+        gap: 0.125rem;
+    }
+
+    .footer-links a {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        font-family: var(--font-mono), monospace;
+        text-transform: uppercase;
+        font-size: var(--font-size-12);
+        color: var(--color-text-secondary);
+        text-decoration: none;
+    }
 
 
-	.foot-label-wrap {
-		position: relative;
-		display: inline-block;
-	}
+    .foot-label-wrap {
+        position: relative;
+        display: inline-block;
+    }
 
-	.foot-primary {
-		display: block;
-		color: var(--color-text-secondary);
-		transition: none;
-	}
+    .foot-primary {
+        display: block;
+        color: var(--color-text-secondary);
+        transition: none;
+    }
 
-	.foot-hover {
-		position: absolute;
-		top: 0;
-		left: 0;
-		color: var(--color-brand-pink);
-		opacity: 0;
-		transition: none;
-		white-space: nowrap;
-	}
+    .foot-hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--color-brand-pink);
+        opacity: 0;
+        transition: none;
+        white-space: nowrap;
+    }
 
-	.link-linkedin .foot-hover,
-	.link-email .foot-hover {
-		left: -1ch;
-	}
+    .link-linkedin .foot-hover,
+    .link-email .foot-hover {
+        left: -1ch;
+    }
 
-	.footer-links a.hovering .foot-primary {
-		opacity: 0;
-		transition: none;
-	}
+    .footer-links a.hovering .foot-primary {
+        opacity: 0;
+        transition: none;
+    }
 
-	.footer-links a.hovering .foot-hover {
-		opacity: 1;
-		transition: opacity 0.3s ease 0.03s;
-	}
+    .footer-links a.hovering .foot-hover {
+        opacity: 1;
+        transition: opacity 0.3s ease 0.03s;
+    }
 
-	.footer-links a.hovering {
-		color: var(--color-brand-pink);
-	}
+    .footer-links a.hovering {
+        color: var(--color-brand-pink);
+    }
 
-	.foot-label-wrap::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: -0.1px;
-		height: 1px;
-		background: currentColor;
-		opacity: 0.4;
-		transition: opacity 0.2s ease, transform 0.4s ease;
-	}
+    .foot-label-wrap::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.1px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.4;
+        transition: opacity 0.2s ease, transform 0.4s ease;
+    }
 
-	.footer-links a.hovering .foot-label-wrap::after {
-		opacity: 0;
-		height: 0;
-	}
+    .footer-links a.hovering .foot-label-wrap::after {
+        opacity: 0;
+        height: 0;
+    }
 
-	.foot-label-wrap {
-		z-index: 1;
-	}
+    .foot-label-wrap {
+        z-index: 1;
+    }
 
-	.butterfly {
-		position: absolute;
-		pointer-events: none;
-		mix-blend-mode: difference;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+    .butterfly {
+        position: absolute;
+        pointer-events: none;
+        mix-blend-mode: difference;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-	.butterfly-large {
-		width: 320px;
-		height: auto;
-		right: 30px;
-		top: -80px;
-	}
+    .butterfly-large {
+        width: 320px;
+        height: auto;
+        right: 30px;
+        top: -80px;
+    }
 
-	.butterfly-small {
-		width: 150px;
-		height: auto;
-		right: 370px;
-		top: -30px;
-	}
+    .butterfly-small {
+        width: 150px;
+        height: auto;
+        right: 370px;
+        top: -30px;
+    }
 
-	.butterfly-transform {
-		flex: none;
-	}
+    .butterfly-transform {
+        flex: none;
+    }
 
-	.butterfly-transform-large {
-		transform: rotate(-175deg) scaleY(-1) scaleX(-1);
-	}
+    .butterfly-transform-large {
+        transform: rotate(-175deg) scaleY(-1) scaleX(-1);
+    }
 
-	.butterfly-transform-small {
-		transform: rotate(-7deg) scaleX(-1);
-	}
+    .butterfly-transform-small {
+        transform: rotate(-7deg) scaleX(-1);
+    }
 
-	.butterfly-wrap {
-		position: relative;
-	}
+    .butterfly-wrap {
+        position: relative;
+    }
 
-	.butterfly-wrap-large {
-		width: 348px;
-		height: auto;
-		filter: blur(2px);
-		opacity: 0.1;
-	}
+    .butterfly-wrap-large {
+        width: 348px;
+        height: auto;
+        filter: blur(2px);
+        opacity: 0.1;
+    }
 
-	.butterfly-wrap-small {
-		width: 161px;
-		height: auto;
-		filter: blur(3px);
-		opacity: 0.08;
-	}
+    .butterfly-wrap-small {
+        width: 161px;
+        height: auto;
+        filter: blur(3px);
+        opacity: 0.08;
+    }
 
-	.butterfly-img {
-		display: block;
-		width: 100%;
-		height: auto;
-		max-width: none;
-		pointer-events: none;
-	}
+    .butterfly-img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: none;
+        pointer-events: none;
+    }
 
-	:global(:root[data-theme='dark']) .butterfly {
-		mix-blend-mode: lighten;
-		opacity: 0.6;
-	}
+    :global(:root[data-theme='dark']) .butterfly {
+        mix-blend-mode: lighten;
+        opacity: 0.6;
+    }
 
-	@media (max-width: 45rem) {
-		.page-footer-inner {
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
-			gap: 0.75rem;
-		}
+    @media (max-width: 45rem) {
+        .page-footer-inner {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.75rem;
+        }
 
-		.brand {
-			align-items: center;
-		}
+        .brand {
+            align-items: center;
+        }
 
-		.footer-links {
-			align-self: center;
-		}
-	}
+        .footer-links {
+            align-self: center;
+        }
+    }
 </style>

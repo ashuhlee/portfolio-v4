@@ -1,4 +1,5 @@
 ---
+import AnimatedArrow from '@/components/AnimatedArrow.astro';
 ---
 
 <div class="contact-section stagger-in">
@@ -12,7 +13,7 @@
 				<span class="contact-email-primary">hello@ashuhlee.ca</span>
 				<span class="contact-email-hover">hello@ashuhlee.ca</span>
 			</span>
-			<span class="contact-email-arrow">↗</span>
+			<AnimatedArrow class="contact-email-arrow" delay={500} hoverShift={3} color="var(--color-brand-pink)" />
 		</a>
 	</div>
 	<p class="contact-desc">I'm open to new internship opportunities and projects. Reach out at any time!</p>
@@ -89,14 +90,6 @@
 		background: var(--color-brand-pink);
 		opacity: 1;
 		transition: background 0.2s ease 0.03s, opacity 0.2s ease 0.03s;
-	}
-
-	.contact-email-arrow {
-		font-family: var(--font-sans), sans-serif;
-		font-style: normal;
-		color: var(--color-brand-pink);
-		font-size: var(--font-size-15);
-		display: inline-block;
 	}
 
 	.contact-email-primary,

@@ -1,0 +1,80 @@
+---
+interface Props {
+	delay?: number;
+	hoverShift?: number;
+	color?: string;
+	hoverColor?: string;
+	animate?: boolean;
+	class?: string;
+}
+const { delay = 500, hoverShift = 4, color = 'currentColor', hoverColor, animate = true, class: className } = Astro.props;
+---
+
+<span
+	class:list={['anim-arrow', { 'anim-arrow--static': !animate }, className]}
+	style={`--anim-delay:${delay}ms;--hover-shift:${hoverShift}px;color:${color};--arrow-hover-color:${hoverColor ?? color}`}
+>↗</span>
+
+<style>
+	.anim-arrow {
+		display: inline-block;
+		font-family: var(--font-sans), sans-serif;
+		font-style: normal;
+		font-size: var(--font-size-15);
+		opacity: 0;
+		transform: translateX(-6px);
+		transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+	}
+
+	.anim-arrow--static {
+		opacity: 1;
+		transform: none;
+		transition: transform 0.15s ease, color 0.2s ease 0.03s;
+	}
+
+	.anim-arrow.in-view {
+		opacity: 1;
+		transform: translateX(0);
+		transition: opacity 0.15s ease-out var(--anim-delay, 500ms), transform 0.15s ease-out var(--anim-delay, 500ms);
+	}
+
+	.anim-arrow.arrow-ready {
+		opacity: 1;
+		transform: translateX(0);
+		transition: transform 0.15s ease, color 0.2s ease 0.03s;
+	}
+
+	.anim-arrow.arrow-ready.hovering,
+	.anim-arrow--static.hovering {
+		transform: translateX(var(--hover-shift, 4px));
+		color: var(--arrow-hover-color);
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLElement>('.anim-arrow').forEach(el => {
+			if (!el.classList.contains('anim-arrow--static')) {
+				const obs = new IntersectionObserver(
+					([entry]) => {
+						if (entry.isIntersecting) {
+							el.classList.add('in-view');
+							obs.disconnect();
+							el.addEventListener('transitionend', () => {
+								el.classList.add('arrow-ready');
+							}, { once: true });
+						}
+					},
+					{ threshold: 0.1 },
+				);
+				obs.observe(el);
+			}
+
+			const parent = el.closest('a');
+			if (parent) {
+				parent.addEventListener('mouseenter', () => el.classList.add('hovering'));
+				parent.addEventListener('mouseleave', () => el.classList.remove('hovering'));
+			}
+		});
+	});
+</script>
