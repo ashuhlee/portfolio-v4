@@ -118,9 +118,7 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 			<div class="proj-panel-content">
 				<div class="proj-panel-info">
 					<div class="proj-panel-top">
-						<div class="proj-panel-date-row">
-							<span class="proj-panel-date">{first.tech}</span>
-						</div>
+						<span class="proj-panel-date">{first.tech}</span>
 						<p class="proj-panel-name">{first.name}</p>
 					</div>
 					<p class="proj-panel-desc">{first.description}</p>
@@ -171,26 +169,20 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		const indicator = layout.querySelector<HTMLElement>('.proj-indicator');
 		const mq = window.matchMedia('(max-width: 44rem)');
 
+		const indicatorProps = (item: HTMLElement) => mq.matches
+			? { left: item.offsetLeft, width: item.offsetWidth }
+			: { top: item.offsetTop, height: item.offsetHeight };
+
 		function moveIndicator(item: HTMLElement) {
 			if (!indicator) return;
-			if (mq.matches) {
-				gsap.to(indicator, { left: item.offsetLeft, width: item.offsetWidth, duration: 0.2, ease: 'cubic-bezier(0.175, 0.885, 0.32, 1)', overwrite: true });
-			} else {
-				gsap.to(indicator, { top: item.offsetTop, height: item.offsetHeight, duration: 0.2, ease: 'cubic-bezier(0.175, 0.885, 0.32, 1)', overwrite: true });
-			}
+			gsap.to(indicator, { ...indicatorProps(item), duration: 0.2, ease: 'cubic-bezier(0.175, 0.885, 0.32, 1)', overwrite: true });
 		}
 
 		function initIndicator() {
-			if (!indicator) return;
-			const active = layout?.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
-			if (!active) return;
+			const active = layout!.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
+			if (!active || !indicator) return;
 			gsap.killTweensOf(indicator);
-			gsap.set(indicator, { clearProps: 'all' });
-			if (mq.matches) {
-				gsap.set(indicator, { left: active.offsetLeft, width: active.offsetWidth });
-			} else {
-				gsap.set(indicator, { top: active.offsetTop, height: active.offsetHeight });
-			}
+			gsap.set(indicator, { clearProps: 'all', ...indicatorProps(active) });
 		}
 
 		initIndicator();
@@ -248,9 +240,10 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 							if (primary && proj.image) {
 								imageLinkEl.href = primary.href;
 								imageLinkEl.dataset.tooltip = primary.label;
-								primary.tooltipColor ? imageLinkEl.dataset.tooltipColor = primary.tooltipColor : delete imageLinkEl.dataset.tooltipColor;
-								primary.tooltipColorStart ? imageLinkEl.dataset.tooltipColorStart = primary.tooltipColorStart : delete imageLinkEl.dataset.tooltipColorStart;
-								primary.tooltipTextColor ? imageLinkEl.dataset.tooltipTextColor = primary.tooltipTextColor : delete imageLinkEl.dataset.tooltipTextColor;
+								for (const key of ['tooltipColor', 'tooltipColorStart', 'tooltipTextColor'] as const) {
+									const v = primary[key];
+									v ? (imageLinkEl.dataset[key] = v) : delete imageLinkEl.dataset[key];
+								}
 								imageLinkEl.style.display = '';
 							} else {
 								imageLinkEl.style.display = 'none';
@@ -450,11 +443,8 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		flex-direction: column;
 	}
 
-	.proj-panel-date-row {
-		margin-bottom: 2px;
-	}
-
 	.proj-panel-date {
+		margin-bottom: 2px;
 		font-family: var(--font-mono), monospace;
 		font-size: var(--font-size-12);
 		line-height: 24px;
