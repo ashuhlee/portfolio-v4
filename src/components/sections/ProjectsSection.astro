@@ -212,21 +212,6 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 					ease: 'power2.in',
 					overwrite: true,
 					onComplete: () => {
-						if (dateEl) dateEl.textContent = proj.tech;
-						if (nameEl) nameEl.textContent = proj.name;
-						if (descEl) descEl.textContent = proj.description;
-
-						if (imgEl) {
-							if (proj.image) {
-								imgEl.src = proj.image;
-								imgEl.style.display = '';
-								imageEl?.removeAttribute('data-no-image');
-							} else {
-								imgEl.style.display = 'none';
-								imageEl?.setAttribute('data-no-image', '');
-							}
-						}
-
 						if (linksEl) {
 							linksEl.innerHTML = proj.links
 								.map(link =>
@@ -252,10 +237,30 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 							}
 						}
 
-						gsap.fromTo(panel,
+						if (dateEl) dateEl.textContent = proj.tech;
+						if (nameEl) nameEl.textContent = proj.name;
+						if (descEl) descEl.textContent = proj.description;
+
+						const fadeIn = () => gsap.fromTo(panel,
 							{ opacity: 0, y: 10 },
 							{ opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }
 						);
+
+						if (imgEl && proj.image) {
+							imgEl.style.display = '';
+							imageEl?.removeAttribute('data-no-image');
+							if (imgEl.src.endsWith(proj.image) && imgEl.complete) {
+								fadeIn();
+							} else {
+								imgEl.onload = () => { imgEl.onload = null; imgEl.onerror = null; fadeIn(); };
+								imgEl.onerror = () => { imgEl.onload = null; imgEl.onerror = null; fadeIn(); };
+								imgEl.src = proj.image;
+							}
+						} else {
+							if (imgEl) { imgEl.style.display = 'none'; imgEl.onload = null; imgEl.onerror = null; }
+							imageEl?.setAttribute('data-no-image', '');
+							fadeIn();
+						}
 					},
 				});
 			});
