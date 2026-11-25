@@ -102,8 +102,7 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 
 		<div class="proj-panel">
 			<div class="proj-panel-image" aria-hidden="true" data-no-image={first.image ? undefined : ''}>
-				<img class="proj-panel-img proj-panel-img--a" src={first.image ?? ''} alt="" draggable="false" style={first.image ? '' : 'display:none'} />
-				<img class="proj-panel-img proj-panel-img--b" src="" alt="" draggable="false" style="display:none;opacity:0" />
+				<img class="proj-panel-img" src={first.image ?? ''} alt="" draggable="false" style={first.image ? '' : 'display:none'} />
 				<a
 					class="proj-image-link"
 					href={firstPrimaryLink?.href ?? '#'}
@@ -197,54 +196,8 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		initIndicator();
 		mq.addEventListener('change', initIndicator);
 
-		const slots = [
-			layout.querySelector<HTMLImageElement>('.proj-panel-img--a')!,
-			layout.querySelector<HTMLImageElement>('.proj-panel-img--b')!,
-		];
-		let curSlot = 0;
-		const FADE = 0.15;
-
-		function crossfade(newSrc: string) {
-			if (!imageEl) return;
-			imageEl.removeAttribute('data-no-image');
-			const cur = slots[curSlot];
-			const nxt = slots[1 - curSlot];
-
-			gsap.killTweensOf([cur, nxt]);
-			nxt.src = newSrc;
-			nxt.style.display = '';
-			gsap.set(nxt, { opacity: 0 });
-
-			const doFade = () => {
-				gsap.to(nxt, { opacity: 1, duration: FADE, ease: 'power1.inOut' });
-				if (cur.style.display !== 'none') {
-					gsap.to(cur, { opacity: 0, duration: FADE, ease: 'power1.inOut', onComplete: () => {
-						cur.style.display = 'none';
-						gsap.set(cur, { opacity: 1 });
-					}});
-				}
-				curSlot = 1 - curSlot;
-			};
-
-			if (nxt.complete && nxt.naturalWidth > 0) {
-				doFade();
-			} else {
-				nxt.onload = doFade;
-			}
-		}
-
-		function hideImage() {
-			if (!imageEl) return;
-			imageEl.setAttribute('data-no-image', '');
-			const cur = slots[curSlot];
-			if (cur.style.display !== 'none') {
-				gsap.killTweensOf(cur);
-				gsap.to(cur, { opacity: 0, duration: FADE, ease: 'power1.inOut', onComplete: () => {
-					cur.style.display = 'none';
-					gsap.set(cur, { opacity: 1 });
-				}});
-			}
-		}
+		const panel = layout.querySelector<HTMLElement>('.proj-panel');
+		const imgEl = layout.querySelector<HTMLImageElement>('.proj-panel-img');
 
 		sidebarItems.forEach((item, i) => {
 			item.addEventListener('click', () => {
@@ -258,39 +211,58 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 
 				const proj = projects[i];
 
-				if (dateEl) dateEl.textContent = proj.tech;
-				if (nameEl) nameEl.textContent = proj.name;
-				if (descEl) descEl.textContent = proj.description;
+				gsap.to(panel, {
+					opacity: 0,
+					y: -10,
+					duration: 0.15,
+					ease: 'power2.in',
+					overwrite: true,
+					onComplete: () => {
+						if (dateEl) dateEl.textContent = proj.tech;
+						if (nameEl) nameEl.textContent = proj.name;
+						if (descEl) descEl.textContent = proj.description;
 
-				if (linksEl) {
-					linksEl.innerHTML = proj.links
-						.map(link =>
-							link.disabled
-								? `<span class="proj-panel-link proj-panel-link--disabled"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></span>`
-								: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
-						)
-						.join('');
-				}
+						if (imgEl) {
+							if (proj.image) {
+								imgEl.src = proj.image;
+								imgEl.style.display = '';
+								imageEl?.removeAttribute('data-no-image');
+							} else {
+								imgEl.style.display = 'none';
+								imageEl?.setAttribute('data-no-image', '');
+							}
+						}
 
-				if (proj.image) {
-					crossfade(proj.image);
-				} else {
-					hideImage();
-				}
+						if (linksEl) {
+							linksEl.innerHTML = proj.links
+								.map(link =>
+									link.disabled
+										? `<span class="proj-panel-link proj-panel-link--disabled"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></span>`
+										: `<a class="proj-panel-link" href="${link.href}" target="_blank" rel="noopener noreferrer"><span class="proj-link-primary">${link.label} <span class="proj-link-arrow">↗</span></span><span class="proj-link-hover">${link.label} <span class="proj-link-arrow">↗</span></span></a>`
+								)
+								.join('');
+						}
 
-				if (imageLinkEl) {
-					const primary = proj.links.find(l => !l.disabled);
-					if (primary && proj.image) {
-						imageLinkEl.href = primary.href;
-						imageLinkEl.dataset.tooltip = primary.label;
-						primary.tooltipColor ? imageLinkEl.dataset.tooltipColor = primary.tooltipColor : delete imageLinkEl.dataset.tooltipColor;
-						primary.tooltipColorStart ? imageLinkEl.dataset.tooltipColorStart = primary.tooltipColorStart : delete imageLinkEl.dataset.tooltipColorStart;
-						primary.tooltipTextColor ? imageLinkEl.dataset.tooltipTextColor = primary.tooltipTextColor : delete imageLinkEl.dataset.tooltipTextColor;
-						imageLinkEl.style.display = '';
-					} else {
-						imageLinkEl.style.display = 'none';
-					}
-				}
+						if (imageLinkEl) {
+							const primary = proj.links.find(l => !l.disabled);
+							if (primary && proj.image) {
+								imageLinkEl.href = primary.href;
+								imageLinkEl.dataset.tooltip = primary.label;
+								primary.tooltipColor ? imageLinkEl.dataset.tooltipColor = primary.tooltipColor : delete imageLinkEl.dataset.tooltipColor;
+								primary.tooltipColorStart ? imageLinkEl.dataset.tooltipColorStart = primary.tooltipColorStart : delete imageLinkEl.dataset.tooltipColorStart;
+								primary.tooltipTextColor ? imageLinkEl.dataset.tooltipTextColor = primary.tooltipTextColor : delete imageLinkEl.dataset.tooltipTextColor;
+								imageLinkEl.style.display = '';
+							} else {
+								imageLinkEl.style.display = 'none';
+							}
+						}
+
+						gsap.fromTo(panel,
+							{ opacity: 0, y: 10 },
+							{ opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }
+						);
+					},
+				});
 			});
 		});
 
