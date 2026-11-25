@@ -182,10 +182,11 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 			const active = layout!.querySelector<HTMLElement>('.proj-sidebar-item[data-active]');
 			if (!active || !indicator) return;
 			gsap.killTweensOf(indicator);
-			gsap.set(indicator, { clearProps: 'all', ...indicatorProps(active) });
+			gsap.set(indicator, { clearProps: 'all' });
+			gsap.set(indicator, indicatorProps(active));
 		}
 
-		initIndicator();
+		requestAnimationFrame(initIndicator);
 		mq.addEventListener('change', initIndicator);
 
 		const panel = layout.querySelector<HTMLElement>('.proj-panel');
@@ -193,6 +194,7 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 
 		sidebarItems.forEach((item, i) => {
 			item.addEventListener('click', () => {
+				if (item.hasAttribute('data-active')) return;
 				sidebarItems.forEach(el => {
 					el.removeAttribute('data-active');
 					el.setAttribute('aria-pressed', 'false');
@@ -613,15 +615,26 @@ const firstPrimaryLink = first.links.find(l => !l.disabled);
 		.proj-sidebar {
 			flex: none;
 			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 6px 0;
+			flex-wrap: nowrap;
 			width: 100%;
-			justify-content: space-between;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+			gap: 2.5rem;
+			padding-bottom: 8px;
+		}
+
+		.proj-sidebar::-webkit-scrollbar {
+			display: none;
+		}
+
+		.proj-sidebar-item {
+			flex-shrink: 0;
 		}
 
 		.proj-indicator {
 			left: 0;
-			bottom: -4px;
+			bottom: 0;
 			top: auto;
 			width: 0;
 			height: 1.5px;
