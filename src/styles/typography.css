@@ -11,7 +11,7 @@ h3, h4, h5, h6 {
 }
 
 :root {
-	--font-sans: 'Sofia Pro', system-ui, sans-serif;
+	--font-sans: 'GT Walsheim Pro', system-ui, sans-serif;
 	--font-sofia: 'Sofia Pro', var(--font-sans);
 	--font-display: 'Retrogression', system-ui, sans-serif;
 	--font-gt: 'GT Walsheim Pro', system-ui, sans-serif;

@@ -187,6 +187,10 @@ const { primary, secondary } = Astro.props;
 		-webkit-user-select: none;
 	}
 
+	:root[data-theme='dark'] .nav-link {
+		color: var(--color-text-secondary);
+	}
+
 	:root[data-theme='dark'] .nav-flower {
 		opacity: 0.3;
 	}
