@@ -5,7 +5,6 @@ import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackgr
 import ExperienceSection from '@/components/sections/ExperienceSection.astro';
 import ProjectsSection from '@/components/sections/ProjectsSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
-import CommitLogSection from '@/components/sections/CommitLogSection.astro';
 import ContactSection from '@/components/sections/ContactSection.astro';
 import PhotoGallery from '@/components/PhotoGallery.astro';
 import { Image } from 'astro:assets';
@@ -30,7 +29,7 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 					<ProjectsSection/>
 				</div>
 			</div>
-			<CommitLogSection />
+			<!--<CommitLogSection />-->
 			<hr class="section-divider" />
 			<ContactSection />
 		</div>
@@ -87,8 +86,12 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 
 	.section-divider {
 		border: none;
-		border-top: 1px solid var(--color-border-harsher);
+		border-top: 1px solid #e6e6e6;
 		margin: 0;
+	}
+
+	:root[data-theme='dark'] .section-divider {
+		border-top-color: #2e2b35;
 	}
 
 	.footer-wrap {

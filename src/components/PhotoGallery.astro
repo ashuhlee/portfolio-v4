@@ -24,14 +24,15 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 
 <div id="photo-panel" style="display:none">
 	<div class="photo-page">
-		<h1 class="stagger-in">photographs</h1>
-		<div class="photo-grid">
+		<h1 class="stagger-in">polaroids</h1>
+		<p class="photo-desc stagger-in">Little snapshots of my life outside of school and work.</p>
+		<div class="photo-grid stagger-in">
 			{images.slice(0, 23).map((img, i) => (
-				<div class="polaroid stagger-in" style={`--rot: ${rotations[i % rotations.length]}deg`} data-lightbox>
+				<div class="polaroid" style={`--rot: ${rotations[i % rotations.length]}deg`} data-lightbox>
 					<Image src={img.default} alt="" class="polaroid-photo" width={400} height={400} />
 				</div>
 			))}
-			<div class="tbc stagger-in">to be continued <span class="dot" style="--d:0s">.</span><span class="dot" style="--d:0.2s">.</span><span class="dot" style="--d:0.4s">.</span></div>
+			<div class="tbc">to be continued <span class="dot" style="--d:0s">.</span><span class="dot" style="--d:0.2s">.</span><span class="dot" style="--d:0.4s">.</span></div>
 		</div>
 	</div>
 	<div id="lb-overlay"></div>
@@ -41,7 +42,7 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 	</div>
 </div>
 
-<button id="photo-trigger" aria-label="Open photographs" aria-expanded="false">
+<button id="photo-trigger" aria-label="Photographs" aria-expanded="false">
 	<span class="trigger-camera trigger-normal" set:html={pNormalSvg} />
 	<span class="trigger-camera trigger-alt" set:html={pAltSvg} />
 </button>
@@ -81,7 +82,7 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 
 			lbImg.src = img.src;
 
-			const targetW = Math.min(420, window.innerWidth * 0.85);
+			const targetW = Math.min(360, window.innerWidth * 0.75);
 			const tsPad = Math.round(targetW * 0.048);
 			const botPad = Math.round(targetW * 0.24);
 			const imgW = targetW - 2 * tsPad - 2;
@@ -90,6 +91,17 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 			const targetY = (window.innerHeight - targetH) / 2;
 
 			gsap.set(flyCard, {
+				left: origin.x,
+				top: origin.y,
+				width: origin.w,
+				paddingTop: 10,
+				paddingLeft: 10,
+				paddingRight: 10,
+				paddingBottom: 40,
+				rotation: origin.rot,
+				display: 'block',
+			});
+			gsap.to(flyCard, {
 				left: targetX,
 				top: targetY,
 				width: targetW,
@@ -98,22 +110,32 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 				paddingRight: tsPad,
 				paddingBottom: botPad,
 				rotation: 0,
-				display: 'block',
+				duration: 0.25,
+				ease: 'cubic-bezier(0, 0, 0.2, 1)',
 			});
 
+			gsap.set(lbImg, { filter: 'grayscale(0)' });
+			const closeLabel = document.getElementById('lb-close-label');
+			if (closeLabel) gsap.set(closeLabel, { opacity: 1 });
 			gsap.set(polaroid, { opacity: 0 });
 			overlay.style.display = 'block';
-			gsap.set(overlay, { opacity: 0.97 });
+			gsap.set(overlay, { opacity: 0.87 });
 			if (nav) gsap.to(nav, { opacity: 0, duration: 0.2, ease: 'power2.out', pointerEvents: 'none' });
-			if (bottomRight) gsap.set(bottomRight, { zIndex: 51, color: 'white' });
+			if (bottomRight) gsap.set(bottomRight, { opacity: 0 });
 		};
 
 		const close = () => {
 			if (!origin || !isOpen) return;
 
-			gsap.to(overlay, { opacity: 0, duration: 0.2, ease: 'power2.in' });
+			const closeLabel = document.getElementById('lb-close-label');
+			if (closeLabel) gsap.set(closeLabel, { opacity: 0 });
+
+			gsap.to(overlay, { opacity: 0, duration: 0.15, ease: 'power2.in' });
+			gsap.to(lbImg, { filter: 'grayscale(1)', duration: 0.25, ease: 'cubic-bezier(0, 0, 0.2, 1)' });
+
 			if (nav) gsap.to(nav, { opacity: 1, duration: 0.25, ease: 'power2.out', pointerEvents: 'auto' });
-			if (bottomRight) gsap.set(bottomRight, { color: '', zIndex: '' });
+			if (bottomRight) gsap.to(bottomRight, { opacity: 1, duration: 0.1, ease: 'power2.out' });
+
 			gsap.to(flyCard, {
 				left: origin.x,
 				top: origin.y,
@@ -124,7 +146,7 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 				paddingBottom: 40,
 				rotation: origin.rot,
 				duration: 0.25,
-				ease: 'power2.out',
+				ease: 'cubic-bezier(0, 0, 0.2, 1)',
 				onComplete: () => {
 					flyCard.style.display = 'none';
 					overlay.style.display = 'none';
@@ -141,6 +163,8 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 			if (!isOpen) return;
 			gsap.killTweensOf(flyCard);
 			gsap.killTweensOf(overlay);
+			gsap.killTweensOf(lbImg);
+			gsap.set(lbImg, { filter: 'grayscale(0)' });
 			flyCard.style.display = 'none';
 			overlay.style.display = 'none';
 			if (activePolaroid) {
@@ -148,7 +172,7 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 				activePolaroid = null;
 			}
 			if (nav) gsap.set(nav, { opacity: 1, pointerEvents: 'auto' });
-			if (bottomRight) gsap.set(bottomRight, { color: '', zIndex: '' });
+			if (bottomRight) gsap.set(bottomRight, { opacity: 1 });
 			isOpen = false;
 			origin = null;
 		};
@@ -158,7 +182,12 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		});
 		overlay.addEventListener('click', close);
 		flyCard.addEventListener('click', close);
-		document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' || e.key === ' ') {
+				if (e.key === ' ') e.preventDefault();
+				close();
+			}
+		});
 
 		// ── Photos toggle ─────────────────────────────────────────────────
 		const photoTrigger = document.getElementById('photo-trigger') as HTMLElement | null;
@@ -167,12 +196,18 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		if (!photoTrigger || !mainContent || !photoPanel) return;
 
 		let photosActive = false;
+		let savedScrollY = 0;
 
 		photoTrigger.addEventListener('click', () => {
 			photosActive = !photosActive;
 			photoTrigger.setAttribute('aria-expanded', String(photosActive));
+			photoTrigger.setAttribute('aria-label', photosActive ? 'Close photographs' : 'Photographs');
 
 			if (photosActive) {
+				savedScrollY = window.scrollY;
+				const shutter = new Audio('/audio/shutter.mp3');
+				shutter.volume = 0.35;
+				shutter.play().catch(() => {});
 				gsap.to(mainContent, { opacity: 0, duration: 0.15, ease: 'power2.inOut', onComplete: () => {
 					mainContent.style.display = 'none';
 					photoPanel.style.display = 'block';
@@ -181,14 +216,16 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 
 					const all = Array.from(photoPanel.querySelectorAll<HTMLElement>('.stagger-in'));
 					gsap.set(all, { opacity: 0, y: 14 });
-					gsap.to(all, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', clearProps: 'transform' });
+					gsap.to(all, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out', clearProps: 'transform' });
 				}});
 			} else {
 				cleanupLightbox();
 				gsap.to(photoPanel, { opacity: 0, duration: 0.15, ease: 'power2.inOut', onComplete: () => {
 					photoPanel.style.display = 'none';
+					gsap.set(photoPanel, { opacity: 1 });
 					mainContent.style.display = 'block';
-					window.scrollTo(0, 0);
+					gsap.set(mainContent, { clearProps: 'opacity' });
+					window.scrollTo(0, savedScrollY);
 					gsap.fromTo(mainContent, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: 'power2.out' });
 				}});
 			}
@@ -201,28 +238,37 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 	.photo-page {
 		max-width: 50rem;
 		margin: 0 auto;
-		padding: 8rem 1.5rem 5rem;
+		padding: 7rem 1.5rem 5rem;
 	}
 
 	#photo-panel h1 {
 		font-family: var(--font-display), sans-serif;
 		color: var(--color-text-primary);
-		margin-bottom: 2rem;
+		margin-bottom: 0;
+	}
+
+	.photo-desc {
+		font-family: var(--font-gt), sans-serif;
+		font-size: var(--font-size-15-5);
+		line-height: 1.5;
+		color: var(--color-text-secondary);
+		margin: 0.75rem 0 0;
+		max-width: 31.875rem;
 	}
 
 	.photo-grid {
 		margin-top: 2.5rem;
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 1.75rem;
+		gap: 1.875rem;
 	}
 
 	.polaroid {
-		background: #fff;
+		background: var(--color-gray-faint-hover);
 		border: 1px solid var(--color-text-primary);
 		padding: 10px 10px 40px;
 		transform: rotate(var(--rot, 0deg));
-		transition: box-shadow 0.3s ease, transform 0.1s ease;
+		transition: box-shadow 0.3s ease, transform 0.075s ease;
 		position: relative;
 		cursor: pointer;
 	}
@@ -274,7 +320,11 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		aspect-ratio: 1;
 		object-fit: cover;
 		display: block;
+		border: 1px solid var(--color-text-primary);
 	}
+
+	:root[data-theme='dark'] #lb-overlay { background: var(--color-bg-page); }
+	:root[data-theme='dark'] #lb-fly { background: var(--color-gray-lighter); }
 
 	#lb-close-label {
 		position: absolute;
@@ -283,13 +333,12 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		font-family: var(--font-mono), monospace;
 		font-size: 12px;
 		text-transform: uppercase;
-		color: var(--color-white);
+		color: var(--color-text-primary);
 		pointer-events: none;
 		user-select: none;
 		-webkit-user-select: none;
 	}
 
-	/* ── Dots ──────────────────────────────────────────────────────────── */
 	@keyframes dot-bounce {
 		0%, 15%, 100% { transform: translateY(0); }
 		7%             { transform: translateY(-2px); }
@@ -320,11 +369,15 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		}
 	}
 
+	@media (max-width: 1000px) {
+		#photo-trigger { display: none; }
+	}
+
 	/* ── Trigger ───────────────────────────────────────────────────────── */
 	#photo-trigger {
 		position: fixed;
 		right: 11rem;
-		bottom: 8rem;
+		bottom: 7rem;
 		cursor: pointer;
 		border: none;
 		background: none;
@@ -332,8 +385,7 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		z-index: 6;
 		width: 60px;
 		height: 60px;
-		opacity: 0.5;
-		color: var(--color-text-primary);
+		color: var(--color-text-muted);
 	}
 
 	.trigger-camera {
@@ -343,7 +395,6 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 		width: 60px;
 		height: 60px;
 		display: flex;
-		transition: opacity 0.15s ease;
 	}
 
 	:global(.trigger-camera svg) {
@@ -353,13 +404,12 @@ const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 
 
 	.trigger-alt { opacity: 0; }
 
-	#photo-trigger:hover { opacity: 1; color: #fe6fc1; transform: rotate(-10deg); }
+	#photo-trigger:hover { opacity: 1; color: var(--color-brand-pink); transform: rotate(-10deg) scale(1.05); }
 	#photo-trigger:hover .trigger-normal { opacity: 0; }
 	#photo-trigger:hover .trigger-alt { opacity: 1; }
 
-	#photo-trigger[aria-expanded='true'] { opacity: 1; color: #fe6fc1; }
+	#photo-trigger[aria-expanded='true'] { opacity: 1; color: var(--color-brand-pink); }
 	#photo-trigger[aria-expanded='true'] .trigger-normal { opacity: 0; }
 	#photo-trigger[aria-expanded='true'] .trigger-alt { opacity: 1; }
 
-	:root[data-theme='dark'] #photo-trigger:not([aria-expanded='true']) { color: #ffffff; }
 </style>
