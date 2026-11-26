@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Footer from '@/components/layout/Footer.astro';
 import PixelBlastBackground from '@/components/webgl/pixelblast/PixelBlastBackground.astro';
@@ -8,6 +7,8 @@ import ProjectsSection from '@/components/sections/ProjectsSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
 import CommitLogSection from '@/components/sections/CommitLogSection.astro';
 import ContactSection from '@/components/sections/ContactSection.astro';
+import PhotoGallery from '@/components/PhotoGallery.astro';
+import { Image } from 'astro:assets';
 import ribbonImg from '@/assets/images/png/ribbon.png';
 ---
 
@@ -18,19 +19,23 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		}
 	</script>
 	<PixelBlastBackground slot="background" color="#F5F5F5"/>
-	<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
-	<div class="page">
-		<div class="layout">
-			<div class="content">
-				<HeroSection/>
-				<ExperienceSection/>
-				<ProjectsSection/>
+
+	<div id="main-content">
+		<Image src={ribbonImg} class="page-ribbon" alt="" aria-hidden="true" draggable="false" />
+		<div class="page">
+			<div class="layout">
+				<div class="content">
+					<HeroSection/>
+					<ExperienceSection/>
+					<ProjectsSection/>
+				</div>
 			</div>
+			<CommitLogSection />
+			<hr class="section-divider" />
+			<ContactSection />
 		</div>
-		<CommitLogSection />
-		<hr class="section-divider" />
-		<ContactSection />
 	</div>
+	<PhotoGallery />
 	<div class="footer-wrap stagger-in">
 		<Footer/>
 	</div>
@@ -86,7 +91,6 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		margin: 0;
 	}
 
-
 	.footer-wrap {
 		position: relative;
 		z-index: 1;
@@ -103,4 +107,3 @@ import ribbonImg from '@/assets/images/png/ribbon.png';
 		opacity: 0;
 	}
 </style>
-

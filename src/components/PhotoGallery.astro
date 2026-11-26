@@ -1,0 +1,365 @@
+---
+import { Image } from 'astro:assets';
+import pNormalSvg from '@/assets/images/svg/p-open.svg?raw';
+import pAltSvg from '@/assets/images/svg/p-close.svg?raw';
+
+const imageImports = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/gallery/*.webp');
+const images = await Promise.all(
+	Object.entries(imageImports)
+		.sort(([a], [b]) => {
+			const numA = parseInt(a.match(/(\d+)\.webp$/)?.[1] ?? '0');
+			const numB = parseInt(b.match(/(\d+)\.webp$/)?.[1] ?? '0');
+			return numA - numB;
+		})
+		.map(([, importFn]) => importFn())
+);
+
+for (let i = images.length - 1; i > 0; i--) {
+	const j = Math.floor(Math.random() * (i + 1));
+	[images[i], images[j]] = [images[j], images[i]];
+}
+
+const rotations = [-2.1, 1.3, -0.8, 1.8, -1.5, 0.7, -2.1, 1.1, -0.4, 1.5, -1.7, 0.9, -1.9, 1.6, -0.6, 2.2, -1.2, 0.5, -2.3, 1.8, -0.3, 1.7, -1.9, 0.6];
+---
+
+<div id="photo-panel" style="display:none">
+	<div class="photo-page">
+		<h1 class="stagger-in">photographs</h1>
+		<div class="photo-grid">
+			{images.slice(0, 23).map((img, i) => (
+				<div class="polaroid stagger-in" style={`--rot: ${rotations[i % rotations.length]}deg`} data-lightbox>
+					<Image src={img.default} alt="" class="polaroid-photo" width={400} height={400} />
+				</div>
+			))}
+			<div class="tbc stagger-in">to be continued <span class="dot" style="--d:0s">.</span><span class="dot" style="--d:0.2s">.</span><span class="dot" style="--d:0.4s">.</span></div>
+		</div>
+	</div>
+	<div id="lb-overlay"></div>
+	<div id="lb-fly">
+		<span id="lb-close-label">close</span>
+		<img id="lb-img" src="" alt="" />
+	</div>
+</div>
+
+<button id="photo-trigger" aria-label="Open photographs" aria-expanded="false">
+	<span class="trigger-camera trigger-normal" set:html={pNormalSvg} />
+	<span class="trigger-camera trigger-alt" set:html={pAltSvg} />
+</button>
+
+<script>
+	import { gsap } from 'gsap';
+
+	document.addEventListener('astro:page-load', () => {
+		// ── Lightbox ─────────────────────────────────────────────────────
+		const overlay = document.getElementById('lb-overlay') as HTMLElement | null;
+		const flyCard = document.getElementById('lb-fly') as HTMLElement | null;
+		const lbImg = document.getElementById('lb-img') as HTMLImageElement | null;
+		if (!overlay || !flyCard || !lbImg) return;
+
+		const nav = document.querySelector<HTMLElement>('.site-nav');
+		const bottomRight = document.querySelector<HTMLElement>('.bottom-right-stack');
+
+		let origin: { x: number; y: number; w: number; rot: number } | null = null;
+		let activePolaroid: HTMLElement | null = null;
+		let isOpen = false;
+
+		const open = (polaroid: HTMLElement) => {
+			if (isOpen) return;
+			isOpen = true;
+			activePolaroid = polaroid;
+
+			const img = polaroid.querySelector<HTMLImageElement>('img');
+			if (!img) return;
+
+			const rect = polaroid.getBoundingClientRect();
+			const pw = polaroid.offsetWidth;
+			const rot = parseFloat(polaroid.style.getPropertyValue('--rot')) || 0;
+			const cx = rect.left + rect.width / 2;
+			const cy = rect.top + rect.height / 2;
+
+			origin = { x: cx - pw / 2, y: cy - polaroid.offsetHeight / 2, w: pw, rot };
+
+			lbImg.src = img.src;
+
+			const targetW = Math.min(420, window.innerWidth * 0.85);
+			const tsPad = Math.round(targetW * 0.048);
+			const botPad = Math.round(targetW * 0.24);
+			const imgW = targetW - 2 * tsPad - 2;
+			const targetH = tsPad + imgW + botPad + 2;
+			const targetX = (window.innerWidth - targetW) / 2;
+			const targetY = (window.innerHeight - targetH) / 2;
+
+			gsap.set(flyCard, {
+				left: targetX,
+				top: targetY,
+				width: targetW,
+				paddingTop: tsPad,
+				paddingLeft: tsPad,
+				paddingRight: tsPad,
+				paddingBottom: botPad,
+				rotation: 0,
+				display: 'block',
+			});
+
+			gsap.set(polaroid, { opacity: 0 });
+			overlay.style.display = 'block';
+			gsap.set(overlay, { opacity: 0.97 });
+			if (nav) gsap.to(nav, { opacity: 0, duration: 0.2, ease: 'power2.out', pointerEvents: 'none' });
+			if (bottomRight) gsap.set(bottomRight, { zIndex: 51, color: 'white' });
+		};
+
+		const close = () => {
+			if (!origin || !isOpen) return;
+
+			gsap.to(overlay, { opacity: 0, duration: 0.2, ease: 'power2.in' });
+			if (nav) gsap.to(nav, { opacity: 1, duration: 0.25, ease: 'power2.out', pointerEvents: 'auto' });
+			if (bottomRight) gsap.set(bottomRight, { color: '', zIndex: '' });
+			gsap.to(flyCard, {
+				left: origin.x,
+				top: origin.y,
+				width: origin.w,
+				paddingTop: 10,
+				paddingLeft: 10,
+				paddingRight: 10,
+				paddingBottom: 40,
+				rotation: origin.rot,
+				duration: 0.25,
+				ease: 'power2.out',
+				onComplete: () => {
+					flyCard.style.display = 'none';
+					overlay.style.display = 'none';
+					isOpen = false;
+					if (activePolaroid) {
+						gsap.set(activePolaroid, { opacity: 1 });
+						activePolaroid = null;
+					}
+				},
+			});
+		};
+
+		const cleanupLightbox = () => {
+			if (!isOpen) return;
+			gsap.killTweensOf(flyCard);
+			gsap.killTweensOf(overlay);
+			flyCard.style.display = 'none';
+			overlay.style.display = 'none';
+			if (activePolaroid) {
+				gsap.set(activePolaroid, { opacity: 1 });
+				activePolaroid = null;
+			}
+			if (nav) gsap.set(nav, { opacity: 1, pointerEvents: 'auto' });
+			if (bottomRight) gsap.set(bottomRight, { color: '', zIndex: '' });
+			isOpen = false;
+			origin = null;
+		};
+
+		document.querySelectorAll<HTMLElement>('[data-lightbox]').forEach((polaroid) => {
+			polaroid.addEventListener('click', () => open(polaroid));
+		});
+		overlay.addEventListener('click', close);
+		flyCard.addEventListener('click', close);
+		document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+		// ── Photos toggle ─────────────────────────────────────────────────
+		const photoTrigger = document.getElementById('photo-trigger') as HTMLElement | null;
+		const mainContent = document.getElementById('main-content') as HTMLElement | null;
+		const photoPanel = document.getElementById('photo-panel') as HTMLElement | null;
+		if (!photoTrigger || !mainContent || !photoPanel) return;
+
+		let photosActive = false;
+
+		photoTrigger.addEventListener('click', () => {
+			photosActive = !photosActive;
+			photoTrigger.setAttribute('aria-expanded', String(photosActive));
+
+			if (photosActive) {
+				gsap.to(mainContent, { opacity: 0, duration: 0.15, ease: 'power2.inOut', onComplete: () => {
+					mainContent.style.display = 'none';
+					photoPanel.style.display = 'block';
+					gsap.set(photoPanel, { opacity: 1 });
+					window.scrollTo(0, 0);
+
+					const all = Array.from(photoPanel.querySelectorAll<HTMLElement>('.stagger-in'));
+					gsap.set(all, { opacity: 0, y: 14 });
+					gsap.to(all, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', clearProps: 'transform' });
+				}});
+			} else {
+				cleanupLightbox();
+				gsap.to(photoPanel, { opacity: 0, duration: 0.15, ease: 'power2.inOut', onComplete: () => {
+					photoPanel.style.display = 'none';
+					mainContent.style.display = 'block';
+					window.scrollTo(0, 0);
+					gsap.fromTo(mainContent, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: 'power2.out' });
+				}});
+			}
+		});
+	});
+</script>
+
+<style>
+	/* ── Photo panel ───────────────────────────────────────────────────── */
+	.photo-page {
+		max-width: 50rem;
+		margin: 0 auto;
+		padding: 8rem 1.5rem 5rem;
+	}
+
+	#photo-panel h1 {
+		font-family: var(--font-display), sans-serif;
+		color: var(--color-text-primary);
+		margin-bottom: 2rem;
+	}
+
+	.photo-grid {
+		margin-top: 2.5rem;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1.75rem;
+	}
+
+	.polaroid {
+		background: #fff;
+		border: 1px solid var(--color-text-primary);
+		padding: 10px 10px 40px;
+		transform: rotate(var(--rot, 0deg));
+		transition: box-shadow 0.3s ease, transform 0.1s ease;
+		position: relative;
+		cursor: pointer;
+	}
+
+	.polaroid:hover {
+		transform: rotate(0deg);
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+		z-index: 2;
+	}
+
+	.polaroid-photo {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		object-fit: cover;
+		display: block;
+		filter: grayscale(100%);
+		transition: filter 0.3s ease;
+		border: 1px solid var(--color-text-primary);
+	}
+
+	.polaroid:hover .polaroid-photo {
+		filter: grayscale(0%);
+	}
+
+	/* ── Lightbox ──────────────────────────────────────────────────────── */
+	#lb-overlay {
+		position: fixed;
+		inset: 0;
+		background: var(--color-brand-pink);
+		z-index: 48;
+		display: none;
+		cursor: pointer;
+	}
+
+	#lb-fly {
+		position: fixed;
+		z-index: 49;
+		background: #fff;
+		border: 1px solid var(--color-text-primary);
+		padding: 10px 10px 40px;
+		display: none;
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+
+	#lb-fly img {
+		width: 100%;
+		aspect-ratio: 1;
+		object-fit: cover;
+		display: block;
+	}
+
+	#lb-close-label {
+		position: absolute;
+		top: -20px;
+		right: 0;
+		font-family: var(--font-mono), monospace;
+		font-size: 12px;
+		text-transform: uppercase;
+		color: var(--color-white);
+		pointer-events: none;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	/* ── Dots ──────────────────────────────────────────────────────────── */
+	@keyframes dot-bounce {
+		0%, 15%, 100% { transform: translateY(0); }
+		7%             { transform: translateY(-2px); }
+	}
+
+	.dot {
+		display: inline-block;
+		animation: dot-bounce 3s steps(1) var(--d, 0s) infinite;
+	}
+
+	.tbc {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-mono), monospace;
+		font-size: var(--font-size-12);
+		color: var(--color-brand-pink);
+	}
+
+	@media (max-width: 44rem) {
+		.photo-page {
+			padding-left: 2rem;
+			padding-right: 2rem;
+		}
+
+		.photo-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	/* ── Trigger ───────────────────────────────────────────────────────── */
+	#photo-trigger {
+		position: fixed;
+		right: 11rem;
+		bottom: 8rem;
+		cursor: pointer;
+		border: none;
+		background: none;
+		padding: 0;
+		z-index: 6;
+		width: 60px;
+		height: 60px;
+		opacity: 0.5;
+		color: var(--color-text-primary);
+	}
+
+	.trigger-camera {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 60px;
+		height: 60px;
+		display: flex;
+		transition: opacity 0.15s ease;
+	}
+
+	:global(.trigger-camera svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.trigger-alt { opacity: 0; }
+
+	#photo-trigger:hover { opacity: 1; color: #fe6fc1; transform: rotate(-10deg); }
+	#photo-trigger:hover .trigger-normal { opacity: 0; }
+	#photo-trigger:hover .trigger-alt { opacity: 1; }
+
+	#photo-trigger[aria-expanded='true'] { opacity: 1; color: #fe6fc1; }
+	#photo-trigger[aria-expanded='true'] .trigger-normal { opacity: 0; }
+	#photo-trigger[aria-expanded='true'] .trigger-alt { opacity: 1; }
+
+	:root[data-theme='dark'] #photo-trigger:not([aria-expanded='true']) { color: #ffffff; }
+</style>
